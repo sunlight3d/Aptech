@@ -1,0 +1,41 @@
+#include<stdio.h>
+int main()
+{
+    int marks;
+    printf("enter your marks:");
+    scanf("%d", &marks);
+    printf(" ");
+    if(marks<0 || marks > 100)
+    {
+        printf("wrong entry");
+    }
+    else if( marks >= 91 && marks<= 100)
+    {
+        printf("your grade is A+");
+    }
+    else if(marks >= 81 && marks <= 90)
+    {
+        printf("your grade is A");
+    }
+        else if(marks >= 71 && marks <= 80)
+    {
+        printf("your grade is B+");
+    }
+    else if(marks >= 61 && marks <= 70)
+    {
+        printf("your grade is B");
+    }
+    else if(marks >= 51 && marks <= 60)
+    {
+        printf("your grade is C");
+    }
+        else if(marks >= 41 && marks <= 50)
+    {
+        printf(" your grade is D");
+    }
+            else if(marks <= 40)
+    {
+        printf("FAIL");
+    }
+    return 0;
+}
