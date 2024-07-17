@@ -37,8 +37,10 @@
         <?php
         require_once 'crud_functions.php';
         //$currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 0;
-        $currentPage = $_GET['page'] ?? 0;
-        $itemsPerPage = 5;
+        $currentPage = $_GET['page'] ?? 0; //nil coalescing / elvis operator
+        echo 'haha';
+        echo $currentPage;
+        $itemsPerPage = 11;
         $totalItems = getTotalItemCount();
         $totalPages = ceil($totalItems / $itemsPerPage);//lam tron len
         
@@ -53,7 +55,7 @@
     </table>
     <ul class="pagination">
         <?php
-        for ($i = 1; $i <= $totalPages; $i++) {
+        for ($i = 0; $i < $totalPages; $i++) {
             $class = ($currentPage == $i) ? "active" : "";
             echo "<li class='$class'><a href='?page=$i'>$i</a></li>";
         }
