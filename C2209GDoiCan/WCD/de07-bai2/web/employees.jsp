@@ -29,6 +29,7 @@
             <th>Name</th>
             <th>Place of Work</th>
             <th>Phone Number</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -42,6 +43,14 @@
                         <td><%= employee.getEmployeeName() %></td>
                         <td><%= employee.getPlaceOfWork() %></td>
                         <td><%= employee.getPhoneNo() %></td>
+                        <td>
+                            <form action="EmployeeServlet" method="post">
+                                <input type="hidden" name="employeeNo" 
+                                       value="<%= employee.getEmployeeNo() %>" />
+                                <input type="submit" value="Delete" />
+                                <input type="hidden" name="action" value="delete" />
+                            </form>
+                        </td>
                     </tr>
         <% 
                 }

@@ -40,5 +40,33 @@ public class EmployeeServlet extends HttpServlet{
         }
         super.doGet(req, resp); // Typically, you wouldn't call super.doGet() here
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
+        throws ServletException, IOException {
+        String action = req.getParameter("action");
+        if ("delete".equals(action)) {
+            String employeeNo = req.getParameter("employeeNo");
+            deleteEmployee(employeeNo); // Assume this method exists to handle deletion
+            doGet(req, resp);
+        }
+
+    }
+    private void deleteEmployee(String employeeNo) {
+ 
+        EntityManager em = emf.createEntityManager();
+        try {
+            Employee employee = em.find(Employee.class, employeeNo);
+            if (employee != null) {
+                em.getTransaction().begin();
+                em.remove(employee);
+                em.getTransaction().commit();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            em.close();
+        }
+    }
     
 }
