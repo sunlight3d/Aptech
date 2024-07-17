@@ -26,7 +26,6 @@ dotnet dev-certs https --trust
 
 dotnet tool install --global dotnet-ef
 dotnet build
-dotnet ef database update
 dotnet ef migrations add AddSomeEntities --context DataContext
 dotnet ef database update --context DataContext
 

@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -29,7 +32,7 @@ namespace UserHub.Controllers
             var user = new User
             {
                 Email = userDto.Email,
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userDto.Password)),
+                PasswordHash = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(userDto.Password))),
                 FullName = userDto.FullName
             };
 
@@ -60,7 +63,7 @@ namespace UserHub.Controllers
 
             // JWT token creation
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_config["Jwt:Key"]);
+            var key = Encoding.ASCII.GetBytes(s: _config["Jwt:Key"]);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
