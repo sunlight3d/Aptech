@@ -2,7 +2,7 @@
 namespace UserHub.DTOs
 {
 
-    public class UserDto
+    public class RegisterUserDto
     {
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "A valid email is required")]

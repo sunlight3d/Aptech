@@ -1,0 +1,17 @@
+services:
+  mysql:
+    image: mysql:8.4.1  # Specifies which image to use
+    container_name: mysql8_container  # Names the container
+    ports:
+      - "3307:3306"  # Maps port 3306 on the host to port 3306 in the container
+    environment:
+      MYSQL_ROOT_PASSWORD: Abc123456789  # Sets the root password
+      MYSQL_DATABASE: c2312l  # Optional: Creates a database on startup
+    restart: always  # Ensures the container restarts automatically if it stops
+    volumes:
+      - mysql-data:/var/lib/mysql  # Mounts the volume for persistence
+
+volumes:
+  mysql-data:  # Defines the volume to persist database data
+
+#docker-compose -f ./mysql_composer.yml up -d

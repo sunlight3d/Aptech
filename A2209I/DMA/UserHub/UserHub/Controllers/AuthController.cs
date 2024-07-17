@@ -25,7 +25,7 @@ namespace UserHub.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(UserDto userDto)
+        public async Task<ActionResult<User>> Register(RegisterUserDto userDto)
         {
             // Create hash and salt for the password
             using var hmac = new HMACSHA512();
@@ -43,7 +43,7 @@ namespace UserHub.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(UserDto userDto)
+        public async Task<ActionResult<string>> Login(LoginUserDto userDto)
         {
             var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == userDto.Email);
 
