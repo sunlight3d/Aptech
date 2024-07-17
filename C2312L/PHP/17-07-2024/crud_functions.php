@@ -23,7 +23,7 @@ function createItem($name) {
 function readItems($page_number, $page_size) {
     global $pdo;
 
-    $sql = "SELECT * FROM tblItem LIMIT ".$page_size." OFFSET ".$page_number;
+    $sql = "SELECT * FROM tblItem LIMIT ".$page_size." OFFSET ".$page_number * $page_size;
     $stmt = $pdo->query($sql);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -44,4 +44,14 @@ function deleteItem($id) {
     $stmt = $pdo->prepare($sql);
     $stmt->execute(['id' => $id]);
     return $stmt->rowCount();
+}
+
+function getTotalItemCount()
+{
+    global $pdo;
+    $sql = "SELECT COUNT(*) FROM tblitem";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    $totalItems = $stmt->fetchColumn();
+    return $totalItems;
 }
