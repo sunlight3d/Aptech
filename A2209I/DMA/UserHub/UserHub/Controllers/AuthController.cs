@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -17,34 +18,42 @@ namespace UserHub.Controllers
     {
         private IConfiguration _config;
         private readonly DataContext _context;
+        private HMACSHA512 hmac;
 
         public AuthController(IConfiguration config, DataContext context)
         {
             _config = config;
             _context = context;
+            this.hmac = new HMACSHA512(Encoding.ASCII.GetBytes(_config["Jwt:Key"] ?? ""));
         }
 
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register(RegisterUserDto userDto)
         {
             // Create hash and salt for the password
-            using var hmac = new HMACSHA512();
-            var user = new User
+            try
             {
-                Email = userDto.Email,
-                PasswordHash = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(userDto.Password))),
-                FullName = userDto.FullName
-            };
+                var user = new User
+                {
+                    Email = userDto.Email,
+                    PasswordHash = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(userDto.Password))),
+                    FullName = userDto.FullName
+                };
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
 
-            return user;
+                return user;
+            }
+            catch (Exception e) {
+                return BadRequest(e.ToString());
+            }
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login(LoginUserDto userDto)
         {
+            //hoang12@gmail.com / 123456
             var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == userDto.Email);
 
             if (user == null)
@@ -52,18 +61,14 @@ namespace UserHub.Controllers
                 return Unauthorized("Invalid email");
             }
 
-            using var hmac = new HMACSHA512();
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userDto.Password));
-
-            for (int i = 0; i < computedHash.Length; i++)
-            {
-                if (computedHash[i] != user.PasswordHash[i])
-                    return Unauthorized("Invalid password");
+            var computedHash = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(userDto.Password)));
+            if (!computedHash.Equals(user.PasswordHash)) {
+                return Unauthorized("Invalid password");
             }
-
+            
             // JWT token creation
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(s: _config["Jwt:Key"]);
+            var key = Encoding.ASCII.GetBytes(s: _config["Jwt:Key"] ?? "");
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]

@@ -1,11 +1,31 @@
-﻿namespace UserHub.Models
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+
+namespace UserHub.Models
 {
     public class User
     {
+        [Key]
         public int UserId { get; set; }
+        [Required]
+        [StringLength(200, ErrorMessage = "Email must be at least 200 characters")]
         public string Email { get; set; }
+        [Required]
+
+        [StringLength(255)]
         public string PasswordHash { get; set; }
+        [Required]
+        [StringLength(255)]
         public string FullName { get; set; }
+
+        /*
+        ALTER TABLE Users ALTER COLUMN Email VARCHAR (200) NOT NULL;
+        ALTER TABLE Users ADD CONSTRAINT UC_User UNIQUE(Email);
+
+        ALTER TABLE Users ALTER COLUMN PasswordHash VARCHAR (255) NOT NULL;
+        ALTER TABLE Users ALTER COLUMN FullName VARCHAR (255) NOT NULL;
+
+         */
     }
 
 }

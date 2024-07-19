@@ -7,9 +7,11 @@ using UserHub.Models;
 install Microsoft.EntityFrameworkCore.Design first !
 dotnet tool install --global dotnet-ef
 dotnet build
-dotnet ef database update
+
 dotnet ef migrations add AddSomeEntities --context DataContext
 dotnet ef database update --context DataContext
+
+if you run this app using Docker container, you cannot access Db in Host
  */
 var builder = WebApplication.CreateBuilder(args);
 
