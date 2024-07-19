@@ -23,7 +23,7 @@ function createItem($name) {
 function readItems($page_number, $page_size) {
     global $pdo;
 
-    $sql = "SELECT * FROM tblItem LIMIT ".$page_size." OFFSET ".$page_number * $page_size;
+    $sql = "SELECT * FROM tblItem LIMIT ".$page_size." OFFSET ".($page_number * $page_size);
     $stmt = $pdo->query($sql);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
