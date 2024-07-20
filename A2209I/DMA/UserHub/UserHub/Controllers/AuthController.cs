@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +8,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using UserHub.DTOs;
+using UserHub.DTOs.Requests;
+using UserHub.DTOs.Responses;
 using UserHub.Models;
 
 namespace UserHub.Controllers
@@ -24,44 +26,53 @@ namespace UserHub.Controllers
         {
             _config = config;
             _context = context;
-            this.hmac = new HMACSHA512(Encoding.ASCII.GetBytes(_config["Jwt:Key"] ?? ""));
+            this.hmac = new HMACSHA512(Encoding.ASCII.GetBytes(_config["HashPassword:Key"] ?? ""));
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(RegisterUserDto userDto)
+        public async Task<ActionResult<UserResponse>> Register(RegisterUserRequest request)
         {
             // Create hash and salt for the password
             try
             {
-                var user = new User
+                var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == request.Email);
+
+                if (user != null)
                 {
-                    Email = userDto.Email,
-                    PasswordHash = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(userDto.Password))),
-                    FullName = userDto.FullName
+                    return BadRequest("User has already exists");
+                }
+
+                user = new User
+                {
+                    Email = request.Email,
+                    PasswordHash = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(request.Password))),
+                    FullName = request.FullName
                 };
 
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
 
-                return user;
+                return UserResponse.FromUser(user);
             }
             catch (Exception e) {
-                return BadRequest(e.ToString());
+
+                //e is DbUpdateException, ((DbUpdateException)e).Entries
+                return BadRequest(e?.InnerException?.Message ?? "");
             }
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<string>> Login(LoginUserDto userDto)
+        public async Task<ActionResult<string>> Login(LoginUserRequest request)
         {
             //hoang12@gmail.com / 123456
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == userDto.Email);
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == request.Email);
 
             if (user == null)
             {
                 return Unauthorized("Invalid email");
             }
 
-            var computedHash = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(userDto.Password)));
+            var computedHash = Convert.ToBase64String(hmac.ComputeHash(Encoding.UTF8.GetBytes(request.Password)));
             if (!computedHash.Equals(user.PasswordHash)) {
                 return Unauthorized("Invalid password");
             }
@@ -74,7 +85,8 @@ namespace UserHub.Controllers
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                 new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-                new Claim(ClaimTypes.Email, user.Email)
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.Role)
                 }),
                 Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)

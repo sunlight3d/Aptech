@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
-namespace UserHub.DTOs
+namespace UserHub.DTOs.Requests
 {
-    public class LoginUserDto
+
+    public class RegisterUserRequest
     {
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "A valid email is required")]
@@ -12,5 +12,9 @@ namespace UserHub.DTOs
         [StringLength(100, ErrorMessage = "Password must be at least 6 characters long.", MinimumLength = 6)]
         public string Password { get; set; }
 
+        [Required(ErrorMessage = "Full name is required")]
+        [StringLength(100, ErrorMessage = "Full name must not exceed 100 characters")]
+        public string FullName { get; set; }
     }
+
 }

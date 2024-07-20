@@ -18,6 +18,11 @@ namespace UserHub.Models
         [StringLength(255)]
         public string FullName { get; set; }
 
+
+        public string Role { get; set; } = "user";
+        // Navigation property for the one-to-many relationship with Post
+        public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
+
         /*
         ALTER TABLE Users ALTER COLUMN Email VARCHAR (200) NOT NULL;
         ALTER TABLE Users ADD CONSTRAINT UC_User UNIQUE(Email);

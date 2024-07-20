@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using System.Text;
 using UserHub.Models;
 /*
@@ -36,9 +38,27 @@ builder.Services.AddAuthentication(options =>
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                builder.Configuration["Jwt:Key"]))
+                builder?.Configuration["Jwt:Key"] ?? ""))
         };
     });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("admin"));
+    options.AddPolicy("RequireUserRole", policy => policy.RequireRole("user"));
+
+    options.AddPolicy("EditOwnPost", policy =>
+        policy.RequireClaim("UserId") // Ensure user's ID is in the claim
+              .RequireAssertion(context =>
+                  context.User.HasClaim(ClaimTypes.Role, "user") &&
+                  context.Resource is Post post &&
+                  post.UserId == int.Parse(context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value)));
+
+    options.AddPolicy("EditAnyPost", policy =>
+        policy.RequireRole("Admin"));
+});
+
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
