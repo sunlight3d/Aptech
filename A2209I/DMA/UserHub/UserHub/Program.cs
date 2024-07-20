@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
 using UserHub.Models;
+using UserHub.Services;
 /*
 install Microsoft.EntityFrameworkCore.Design first !
 dotnet tool install --global dotnet-ef
@@ -12,6 +13,8 @@ dotnet build
 
 dotnet ef migrations add AddSomeEntities --context DataContext
 dotnet ef database update --context DataContext
+
+
 
 if you run this app using Docker container, you cannot access Db in Host
  */
@@ -44,15 +47,28 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("admin"));
-    options.AddPolicy("RequireUserRole", policy => policy.RequireRole("user"));
+    options.AddPolicy("RequireAdministratorRole", policy => {
+        policy.RequireRole("admin");
+    });
+    options.AddPolicy("RequireUserRole", policy =>
+    {
+        policy.RequireRole("user");
+    });
 
     options.AddPolicy("EditOwnPost", policy =>
         policy.RequireClaim("UserId") // Ensure user's ID is in the claim
               .RequireAssertion(context =>
-                  context.User.HasClaim(ClaimTypes.Role, "user") &&
-                  context.Resource is Post post &&
-                  post.UserId == int.Parse(context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value)));
+              {
+                  // Place breakpoint here
+                  var userIdClaim = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                  bool hasValidRole = context.User.HasClaim(ClaimTypes.Role, "user");
+                  if (context.Resource is Post post)
+                  {
+                      return post.UserId == int.Parse(userIdClaim);
+                  }
+                  return false;
+              }));
+
 
     options.AddPolicy("EditAnyPost", policy =>
         policy.RequireRole("Admin"));
@@ -60,6 +76,8 @@ builder.Services.AddAuthorization(options =>
 
 
 builder.Services.AddControllers();
+builder.Services.AddScoped<IPostService, PostService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

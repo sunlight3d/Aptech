@@ -46,11 +46,11 @@ namespace UserHub.Controllers
             }
 
             if (User.IsInRole("Admin") || 
-                post.UserId == int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value))
+                post.UserId == int.Parse(User?.FindFirst(ClaimTypes.NameIdentifier)?.Value))
             {
                 post.Title = postDto.Title;
                 post.Content = postDto.Content;
-                _postService.UpdatePost(post);
+                await _postService.UpdatePost(post);
                 return NoContent();
             }
             else
@@ -70,9 +70,9 @@ namespace UserHub.Controllers
                 return NotFound();
             }
 
-            if (User.IsInRole("Admin") || post.UserId == userId
+            if (User.IsInRole("Admin") || post.UserId == userId)
             {
-                _postService.DeletePost(post);
+                await _postService.DeletePost(post);
                 return NoContent();
             }
             else
