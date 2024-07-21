@@ -63,7 +63,7 @@ namespace UserHub.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, user.Role)
                 }),
@@ -74,6 +74,12 @@ namespace UserHub.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+        public async Task<UserResponse> GetUserById(int id)
+        {
+            User user = await _context.Users.FindAsync(id);
+            return UserResponse.FromUser(user);
+        }
+
     }
 
 

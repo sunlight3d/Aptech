@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
+using UserHub.Middlewares;
 using UserHub.Models;
 using UserHub.Services;
 /*
@@ -17,6 +18,13 @@ dotnet ef database update --context DataContext
 
 
 if you run this app using Docker container, you cannot access Db in Host
+
+How to generate "private key" for JWT: Open Windows Powershell and type:
+[Byte[]] $key = New-Object Byte[] 64  # 64 bytes for 512 bits
+[Security.Cryptography.RNGCryptoServiceProvider]::Create().GetBytes($key)
+[Convert]::ToBase64String($key)
+
+
  */
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +33,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(connectionString));
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -96,5 +105,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.Run();

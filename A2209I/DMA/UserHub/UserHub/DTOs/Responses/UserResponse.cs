@@ -8,14 +8,14 @@ namespace UserHub.DTOs.Responses
     {
 
         //convert User to UserResponse
-        public int UserId { get; set; }
+        public int Id { get; set; }
         public string Email { get; set; }
         public string FullName { get; set; }
         public static UserResponse FromUser(User user) {
             //Auto Mapper / Object Mapper
             return new UserResponse
             {
-                UserId = user.UserId,
+                Id = user.Id,
                 Email = user.Email,
                 FullName = user.FullName,
             };

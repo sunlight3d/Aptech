@@ -1,10 +1,10 @@
 ﻿using UserHub.Models;
 using System.ComponentModel.DataAnnotations;
-namespace UserHub.DTOs.Responses
+using System.Text.Json.Serialization;
+namespace UserHub.DTOs.Requests.Post
 {
-    public class PostRequest
+    public class InsertPostRequest
     {
-        public int Id { get; set; }  // Assuming Id is provided during updates
 
         [Required(ErrorMessage = "Title is required.")]
         [StringLength(100, ErrorMessage = "Title must not exceed 100 characters.")]
@@ -13,6 +13,10 @@ namespace UserHub.DTOs.Responses
         [Required(ErrorMessage = "Content is required.")]
         [StringLength(1000, ErrorMessage = "Content must not exceed 1000 characters.")]
         public string Content { get; set; }
+
+        [Required(ErrorMessage = "User ID is required.")]
+        [JsonPropertyName("user_id")]
+        public int UserId { get; set; }
     }
 
 }

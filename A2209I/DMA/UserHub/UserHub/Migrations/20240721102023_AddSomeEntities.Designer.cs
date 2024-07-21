@@ -11,7 +11,7 @@ using UserHub.Models;
 namespace UserHub.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240720151255_AddSomeEntities")]
+    [Migration("20240721102023_AddSomeEntities")]
     partial class AddSomeEntities
     {
         /// <inheritdoc />
@@ -54,11 +54,11 @@ namespace UserHub.Migrations
 
             modelBuilder.Entity("UserHub.Models.User", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -76,10 +76,9 @@ namespace UserHub.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Role")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
                     b.ToTable("Users");
                 });

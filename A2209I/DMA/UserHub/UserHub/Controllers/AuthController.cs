@@ -8,7 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using UserHub.DTOs.Requests;
+using UserHub.DTOs.Requests.User;
 using UserHub.DTOs.Responses;
 using UserHub.Models;
 using UserHub.Services;
@@ -23,18 +23,18 @@ namespace UserHub.Controllers
 
         public AuthController(IAuthService authService)
         {
-            _authService = authService;
+            _authService = authService ?? throw new ArgumentNullException(nameof(authService));
         }
 
         [HttpPost("register")]
         public async Task<ActionResult<UserResponse>> Register(RegisterUserRequest request)
         {
-            var user = await _authService.RegisterUser(request.Email, request.Password, request.FullName);
-            if (user == null)
+            var userResponse = await _authService.RegisterUser(request.Email, request.Password, request.FullName);
+            if (userResponse == null)
             {
                 return BadRequest("User already exists or other error.");
             }
-            return UserResponse.FromUser(user);
+            return userResponse;
         }
         
 
@@ -48,6 +48,26 @@ namespace UserHub.Controllers
             }
             return token;
         }
+        [HttpGet("user/{id}")]
+        public async Task<ActionResult<UserResponse>> GetUser(int id)
+        {
+            var user = await _authService.GetUserById(id);
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            // Assuming UserResponse is a DTO that contains user details
+            UserResponse userResponse = new UserResponse
+            {
+                Id = user.Id,
+                Email = user.Email,
+                FullName = user.FullName
+            };
+
+            return Ok(userResponse);
+        }
+
     }
 
 }

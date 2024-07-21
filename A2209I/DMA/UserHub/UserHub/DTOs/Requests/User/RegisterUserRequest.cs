@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace UserHub.DTOs.Requests
+namespace UserHub.DTOs.Requests.User
 {
 
     public class RegisterUserRequest

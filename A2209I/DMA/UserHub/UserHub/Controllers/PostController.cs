@@ -2,14 +2,14 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using UserHub.DTOs.Responses;
+using UserHub.DTOs.Requests.Post;
 using UserHub.Models;
 using UserHub.Services;
 
 namespace UserHub.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]s")]
     public class PostController : ControllerBase
     {
         private readonly IPostService _postService; // Assume dependency injection is set up
@@ -17,29 +17,36 @@ namespace UserHub.Controllers
 
         public PostController(IPostService postService)
         {
-            _postService = postService;
+            _postService = postService ?? throw new ArgumentNullException(nameof(postService));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllPosts(int pageNumber = 1, int pageSize = 10)
+            
+        {
+            var posts = await _postService.GetAllPosts(pageNumber, pageSize);
+            if (posts == null || !posts.Any())
+            {
+                return NotFound("No posts found.");
+            }
+            return Ok(posts);
         }
 
         [HttpPost]
         [Authorize] // Ensure the user is logged in
-        public IActionResult Create(PostRequest request)
+        public async Task<IActionResult> Create(InsertPostRequest request)
         {
             var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-            var post = new Post
-            {
-                Title = request.Title,
-                Content = request.Content,
-                UserId = userId
-            };
-            _postService.AddPost(post);
-            return CreatedAtAction(nameof(Get), new { id = post.Id }, post);
+           
+            int postId = await _postService.AddPost(request);
+            return CreatedAtAction(nameof(Get), new { id = postId });
         }
 
         [HttpPut("{id}")]
         [Authorize(Policy = "EditAnyPost")] // Admins can edit any post
-        public async Task<IActionResult> Update(int id, PostRequest postDto)
+        public async Task<IActionResult> Update(UpdatePostRequest request)
         {
-            Post post = await _postService.GetPostById(id);
+            Post post = await _postService.GetPostById(request.Id);
             if (post == null)
             {
                 return NotFound();
@@ -48,9 +55,8 @@ namespace UserHub.Controllers
             if (User.IsInRole("Admin") || 
                 post.UserId == int.Parse(User?.FindFirst(ClaimTypes.NameIdentifier)?.Value))
             {
-                post.Title = postDto.Title;
-                post.Content = postDto.Content;
-                await _postService.UpdatePost(post);
+               
+                await _postService.UpdatePost(request);
                 return NoContent();
             }
             else

@@ -8,7 +8,7 @@ namespace UserHub.Models
     public class User
     {
         [Key]
-        public int UserId { get; set; }
+        public int Id { get; set; }
         [Required]
         [StringLength(200, ErrorMessage = "Email must be at least 200 characters")]
         public string Email { get; set; }
