@@ -20,10 +20,12 @@ namespace UserHub.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
+        private readonly ITokenService _tokenService;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, ITokenService tokenService)
         {
             _authService = authService ?? throw new ArgumentNullException(nameof(authService));
+            _tokenService = tokenService;
         }
 
         [HttpPost("register")]
@@ -48,26 +50,18 @@ namespace UserHub.Controllers
             }
             return token;
         }
-        [HttpGet("user/{id}")]
-        public async Task<ActionResult<UserResponse>> GetUser(int id)
+        [HttpPost("me")]
+        public async Task<IActionResult> GetCurrentUser()
         {
-            var user = await _authService.GetUserById(id);
-            if (user == null)
+            
+            UserResponse? userResponse = _tokenService.GetUserFromTokenHeaders(this.HttpContext);
+
+            if (userResponse == null)
             {
-                return NotFound("User not found.");
+                return Unauthorized("Invalid token or User not found");
             }
-
-            // Assuming UserResponse is a DTO that contains user details
-            UserResponse userResponse = new UserResponse
-            {
-                Id = user.Id,
-                Email = user.Email,
-                FullName = user.FullName
-            };
-
             return Ok(userResponse);
         }
-
     }
 
 }

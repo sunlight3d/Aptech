@@ -18,26 +18,26 @@ namespace UserHub.Services
         {
             return await _context.Posts.FindAsync(id);
         }
-        public async Task<IEnumerable<Post>> GetAllPosts(int pageNumber = 1, int pageSize = 10)
+        public async Task<IEnumerable<Post>> GetAllPosts(PostQueryRequest request)
         {
-            if (pageNumber <= 0)
+         
+
+            int skip = (request.PageNumber - 1) * request.PageSize;
+
+            IQueryable<Post> query = _context.Set<Post>();
+
+            if (request.UserId.HasValue)
             {
-                throw new ArgumentException("Page number must be greater than zero.");
+                query = query.Where(p => p.UserId == request.UserId.Value);
             }
 
-            if (pageSize <= 0)
-            {
-                throw new ArgumentException("Page size must be greater than zero.");
-            }
-
-            int skip = (pageNumber - 1) * pageSize;
-
-            return await _context.Set<Post>()
-                                 .OrderBy(p => p.Id)
-                                 .Skip(skip)
-                                 .Take(pageSize)
-                                 .ToListAsync();
+            return await query
+                         .OrderBy(p => p.Id)
+                         .Skip(skip)
+                         .Take(request.PageSize)
+                         .ToListAsync();
         }
+
 
 
         public async Task<int> AddPost(InsertPostRequest request)

@@ -6,7 +6,7 @@ namespace UserHub.Services
     public interface IPostService
     {
         Task<Post?> GetPostById(int id);
-        Task<IEnumerable<Post>> GetAllPosts(int pageNumber = 1, int pageSize = 10);
+        Task<IEnumerable<Post>> GetAllPosts(PostQueryRequest request);
         Task<int> AddPost(InsertPostRequest request);
         Task UpdatePost(UpdatePostRequest request);
         Task DeletePost(Post post);

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using UserHub.DTOs.Requests.Post;
+using UserHub.DTOs.Responses;
 using UserHub.Models;
 using UserHub.Services;
 
@@ -13,39 +14,53 @@ namespace UserHub.Controllers
     public class PostController : ControllerBase
     {
         private readonly IPostService _postService; // Assume dependency injection is set up
+        private readonly ITokenService _tokenService;
 
-
-        public PostController(IPostService postService)
+        public PostController(IPostService postService, ITokenService tokenService)
         {
             _postService = postService ?? throw new ArgumentNullException(nameof(postService));
+            _tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllPosts(int pageNumber = 1, int pageSize = 10)
-            
+        public async Task<IActionResult> GetAllPosts([FromQuery] PostQueryRequest request)
         {
-            var posts = await _postService.GetAllPosts(pageNumber, pageSize);
-            if (posts == null || !posts.Any())
+            if (!ModelState.IsValid)
             {
-                return NotFound("No posts found.");
+                return BadRequest(ModelState);  // Returns detailed validation errors
             }
+
+            var posts = await _postService.GetAllPosts(request);
             return Ok(posts);
         }
+
 
         [HttpPost]
         [Authorize] // Ensure the user is logged in
         public async Task<IActionResult> Create(InsertPostRequest request)
         {
-            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-           
+            // Retrieve user information from the token in the HTTP context.
+            UserResponse? userResponse = _tokenService.GetUserFromTokenHeaders(this.HttpContext);
+
+            // Check if user information is properly retrieved and matches the request's UserId.
+            if (userResponse == null || userResponse.Id != request.UserId)
+            {
+                // If there is no userResponse or the IDs don't match, return an unauthorized access error.
+                return Unauthorized("Only the owner can create your post.");
+            }
+
+            // Proceed to add the post if the user is verified.
             int postId = await _postService.AddPost(request);
-            return CreatedAtAction(nameof(Get), new { id = postId });
+
+            // Return a created response with a route to the newly created post.
+            return CreatedAtAction(nameof(Get), new { id = postId }, request);
         }
 
         [HttpPut("{id}")]
         [Authorize(Policy = "EditAnyPost")] // Admins can edit any post
         public async Task<IActionResult> Update(UpdatePostRequest request)
         {
+            var authorizationHeader = HttpContext.Request.Headers.Authorization.ToString();
             Post post = await _postService.GetPostById(request.Id);
             if (post == null)
             {

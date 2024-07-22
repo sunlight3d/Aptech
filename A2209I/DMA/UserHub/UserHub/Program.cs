@@ -87,6 +87,7 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddControllers();
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
