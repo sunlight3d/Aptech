@@ -15,6 +15,7 @@ namespace UserHub.DTOs.Requests.Post
         public string Content { get; set; }
 
         [Required(ErrorMessage = "User ID is required.")]
+        
         [JsonPropertyName("user_id")]
         public int UserId { get; set; }
     }

@@ -21,7 +21,16 @@ namespace UserHub.Models
         public string FullName { get; set; }
 
 
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^\(?([0-9]{3})\)?([-\. ])?([0-9]{3})([-\. ])?([0-9]{4,10})$",
+            ErrorMessage = "Not a valid phone number")]
+        [StringLength(100)]
+        public string PhoneNumber { get; set; }
+
+        
+        [StringLength(50)]
         public string Role { get; set; } = "user";
+
         // Navigation property for the one-to-many relationship with Post
         public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
 

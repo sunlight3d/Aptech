@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 namespace UserHub.DTOs.Requests.User
 {
 
@@ -14,7 +15,14 @@ namespace UserHub.DTOs.Requests.User
 
         [Required(ErrorMessage = "Full name is required")]
         [StringLength(100, ErrorMessage = "Full name must not exceed 100 characters")]
+        [JsonPropertyName("fullname")]
         public string FullName { get; set; }
+
+        [Required(ErrorMessage = "You must provide a phone number")]
+        [DataType(DataType.PhoneNumber)]
+        [StringLength(100)]
+        [JsonPropertyName("phone_number")]
+        public string PhoneNumber { get; set; }
     }
 
 }

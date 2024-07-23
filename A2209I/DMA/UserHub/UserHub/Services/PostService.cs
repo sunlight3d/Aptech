@@ -38,8 +38,6 @@ namespace UserHub.Services
                          .ToListAsync();
         }
 
-
-
         public async Task<int> AddPost(InsertPostRequest request)
         {
             // Check if the User ID exists in the database

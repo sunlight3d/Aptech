@@ -11,8 +11,8 @@ using UserHub.Models;
 namespace UserHub.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240721102023_AddSomeEntities")]
-    partial class AddSomeEntities
+    [Migration("20240723074311_Changesomething")]
+    partial class Changesomething
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -75,8 +75,13 @@ namespace UserHub.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<string>("Role")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 

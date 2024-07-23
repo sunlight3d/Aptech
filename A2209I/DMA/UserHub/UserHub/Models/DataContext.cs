@@ -10,6 +10,9 @@ namespace UserHub.Models
         
         public DbSet<User> Users { get; set; }
         public DbSet<Post> Posts { get; set; }
+        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        {
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,9 +24,7 @@ namespace UserHub.Models
                 .WithOne(p => p.User)
                 .HasForeignKey(p => p.UserId);
         }
-        public DataContext(DbContextOptions<DataContext> options) : base(options)
-        {
-        }
+       
 
     }
 

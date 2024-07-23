@@ -12,14 +12,14 @@ namespace UserHub.Services
     public class AuthService : IAuthService
     {
         private readonly DataContext _context;
-        private readonly IConfiguration _config;
+        private readonly IConfiguration _configuration;
         private readonly HMACSHA512 _hmac;
 
-        public AuthService(DataContext context, IConfiguration config)
+        public AuthService(DataContext context, IConfiguration configuration)
         {
             _context = context;
-            _config = config;
-            _hmac = new HMACSHA512(Encoding.ASCII.GetBytes(_config["HashPassword:Key"] ?? ""));
+            _configuration = configuration;
+            _hmac = new HMACSHA512(Encoding.ASCII.GetBytes(_configuration["HashPassword:Key"] ?? ""));
         }
 
         public async Task<UserResponse> RegisterUser(string email, string password, string fullName)
@@ -58,7 +58,7 @@ namespace UserHub.Services
 
             // Generate JWT token
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_config["Jwt:Key"] ?? "");
+            var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"] ?? "");
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
