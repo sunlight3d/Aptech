@@ -44,7 +44,7 @@ namespace UserHub.Services
 
         public async Task<string> AuthenticateUser(string email, string password)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.Email == email);
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
             if (user == null)
             {
                 return null; // User not found
@@ -55,10 +55,11 @@ namespace UserHub.Services
             {
                 return null; // Password does not match
             }
-
+            //password matched
             // Generate JWT token
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"] ?? "");
+            int expirationSeconds = int.Parse(_configuration["Jwt:ExpirationSeconds"]);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
@@ -67,7 +68,7 @@ namespace UserHub.Services
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, user.Role)
                 }),
-                Expires = DateTime.UtcNow.AddDays(1),
+                Expires = DateTime.UtcNow.AddSeconds(expirationSeconds),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha512Signature)
             };
 
