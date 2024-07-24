@@ -24,4 +24,7 @@ return Application::configure(basePath: dirname(__DIR__))
     php artisan make:model Post -m
     php artisan migrate
 
+    php artisan make:controller PostController --resource
+
+
      */
