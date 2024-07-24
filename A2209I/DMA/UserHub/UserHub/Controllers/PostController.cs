@@ -10,7 +10,7 @@ using UserHub.Services;
 namespace UserHub.Controllers
 {
     [ApiController]
-    [Route("[controller]s")]
+    [Route("api/[controller]s")]
     public class PostController : ControllerBase
     {
         private readonly IPostService _postService; // Assume dependency injection is set up
@@ -23,6 +23,7 @@ namespace UserHub.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllPosts([FromQuery] PostQueryRequest request)
         {
             if (!ModelState.IsValid)
@@ -35,7 +36,8 @@ namespace UserHub.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost()]
+        
         [Authorize] // Ensure the user is logged in
         public async Task<IActionResult> Create(InsertPostRequest request)
         {

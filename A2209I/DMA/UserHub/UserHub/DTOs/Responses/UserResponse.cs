@@ -11,6 +11,7 @@ namespace UserHub.DTOs.Responses
         public int Id { get; set; }
         public string Email { get; set; }
         public string FullName { get; set; }
+        public string PhoneNumber { get; set; }
         public static UserResponse FromUser(User user) {
             //Auto Mapper / Object Mapper
             return new UserResponse
@@ -18,6 +19,7 @@ namespace UserHub.DTOs.Responses
                 Id = user.Id,
                 Email = user.Email,
                 FullName = user.FullName,
+                PhoneNumber = user.PhoneNumber
             };
         }
     }

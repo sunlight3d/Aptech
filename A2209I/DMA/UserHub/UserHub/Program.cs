@@ -107,5 +107,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.UseMiddleware<ErrorHandlingMiddleware>();
+app.UseMiddleware<JwtMiddleware>();
 
 app.Run();
