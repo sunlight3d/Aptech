@@ -16,3 +16,12 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();
+
+    /**
+    php artisan make:model User -m
+    php artisan migrate
+
+    php artisan make:model Post -m
+    php artisan migrate
+
+     */
