@@ -37,12 +37,13 @@ namespace UserHub.Controllers
 
 
         [HttpPost()]
-        
-        [Authorize] // Ensure the user is logged in
+
+        //[Authorize] // Ensure the user is logged in
+        //[Authorize(Policy = "LoginRequire")]
         public async Task<IActionResult> Create(InsertPostRequest request)
         {
             // Retrieve user information from the token in the HTTP context.
-            UserResponse? userResponse = _tokenService.GetUserFromTokenHeaders(this.HttpContext);
+            UserResponse? userResponse = (UserResponse)HttpContext.Items["UserId"];
 
             // Check if user information is properly retrieved and matches the request's UserId.
             if (userResponse == null || userResponse.Id != request.UserId)
@@ -59,10 +60,9 @@ namespace UserHub.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Policy = "EditAnyPost")] // Admins can edit any post
+        //[Authorize(Policy = "EditAnyPost")] // Admins can edit any post
         public async Task<IActionResult> Update(UpdatePostRequest request)
         {
-            var authorizationHeader = HttpContext.Request.Headers.Authorization.ToString();
             Post post = await _postService.GetPostById(request.Id);
             if (post == null)
             {

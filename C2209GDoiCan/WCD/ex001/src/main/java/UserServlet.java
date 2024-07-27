@@ -32,22 +32,22 @@ public class UserServlet extends HttpServlet {
         if(username.isEmpty()) {
             errors.put("username", "username cannot be empty");
             request.setAttribute("errors", errors);
-            return;
         }
         if(password.isEmpty()) {
             errors.put("password", "Password cannot be empty");
             request.setAttribute("errors", errors);
-            return;
+        }
+        if(retypedPassword.isEmpty()) {
+            errors.put("retypedPassword", "retypedPassword cannot be empty");
+            request.setAttribute("errors", errors);
         }
         if(email.isEmpty()) {
             errors.put("email", "email cannot be empty");
             request.setAttribute("errors", errors);
-            return;
         }
         if(phoneNumber.isEmpty()) {
             errors.put("phoneNumber", "phoneNumber cannot be empty");
             request.setAttribute("errors", errors);
-            return;
         }
         //validate email        
         Matcher matcher = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", 
@@ -56,13 +56,11 @@ public class UserServlet extends HttpServlet {
         if(!matcher.matches()) {
             errors.put("email", "Email must be in correct format");
             request.setAttribute("errors", errors);
-            return;
         }                    
         if(!password.equals(retypedPassword)){
             errors.put("retypedPassword", "Password and retype password must be the same");
             request.setAttribute("errors", errors);
-            return;
         }        
-        request.getRequestDispatcher("/register.jsp").forward(request, response);        
+        request.getRequestDispatcher(errors.isEmpty() ? "/success.jsp":"/register.jsp").forward(request, response);        
     }
 }

@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
+using UserHub.Authorization;
 using UserHub.Middlewares;
 using UserHub.Models;
 using UserHub.Services;
@@ -30,10 +32,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-
+/*
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(connectionString));
+*/
+builder.Services.AddSingleton<DataContext>(provider =>
+{
+    var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
+    optionsBuilder.UseSqlServer(connectionString);
 
+    return new DataContext(optionsBuilder.Options);
+});
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -54,43 +63,28 @@ builder.Services.AddAuthentication(options =>
         };
     });
 
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("RequireAdministratorRole", policy => {
-        policy.RequireRole("admin");
-    });
-    options.AddPolicy("RequireUserRole", policy =>
-    {
-        policy.RequireRole("user");
-    });
-
-    options.AddPolicy("EditOwnPost", policy =>
-        policy.RequireClaim("UserId") // Ensure user's ID is in the claim
-              .RequireAssertion(context =>
-              {
-                  // Place breakpoint here
-                  var userIdClaim = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                  bool hasValidRole = context.User.HasClaim(ClaimTypes.Role, "user");
-                  if (context.Resource is Post post)
-                  {
-                      return post.UserId == int.Parse(userIdClaim);
-                  }
-                  return false;
-              }));
 
 
-    options.AddPolicy("EditAnyPost", policy =>
-        policy.RequireRole("Admin"));
-});
 
 
-builder.Services.AddControllers();
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<ITokenService, TokenService>();
+//builder.Services.AddSingleton<ITokenService, TokenService>();
+builder.Services.AddSingleton<ITokenService, TokenService>();
+
+builder.Services.AddSingleton<IAuthorizationHandler, LoginRequirementHandler>();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("LoginRequire", policy =>
+            policy.Requirements.Add(new LoginRequirement()));
+
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
