@@ -39,7 +39,7 @@ namespace UserHub.Controllers
         [HttpPost()]
 
         //[Authorize] // Ensure the user is logged in
-        //[Authorize(Policy = "LoginRequire")]
+        [Authorize(Policy = "LoginRequire")]
         public async Task<IActionResult> Create(InsertPostRequest request)
         {
             // Retrieve user information from the token in the HTTP context.

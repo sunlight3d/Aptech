@@ -12,6 +12,7 @@ class User extends Model
     protected $fillable = [
         'email', 
         'fullname', 
-        'role'
+        'role',
+        'hashed_password'
     ];
 }
