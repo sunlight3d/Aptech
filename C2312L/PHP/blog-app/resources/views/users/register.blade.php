@@ -21,14 +21,14 @@
                 <label for="fullname">Full Name:</label>
                 <input type="text" class="form-control" 
                     id="fullname" name="fullname">
-            </div>
-            <div class="form-group">
-                <label for="role">Role:</label>
-                <input type="text" class="form-control" id="role" name="role" >
-            </div>
+            </div>  
             <div class="form-group">
                 <label for="password">Password:</label>
                 <input type="password" class="form-control" id="password" name="password" >
+            </div>
+            <div class="form-group">
+                <label for="password_confirmation">Confirm Password:</label>
+                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
             </div>
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
@@ -39,6 +39,11 @@
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>
+            </div>
+        @endif
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
             </div>
         @endif
     </div>

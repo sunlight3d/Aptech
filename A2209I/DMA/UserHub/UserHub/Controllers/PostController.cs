@@ -36,14 +36,12 @@ namespace UserHub.Controllers
         }
 
 
-        [HttpPost()]
-
-        //[Authorize] // Ensure the user is logged in
+        [HttpPost()]        
         [Authorize(Policy = "LoginRequire")]
         public async Task<IActionResult> Create(InsertPostRequest request)
         {
             // Retrieve user information from the token in the HTTP context.
-            UserResponse? userResponse = (UserResponse)HttpContext.Items["UserId"];
+            UserResponse userResponse = (UserResponse)HttpContext.Items["user"];
 
             // Check if user information is properly retrieved and matches the request's UserId.
             if (userResponse == null || userResponse.Id != request.UserId)
@@ -61,19 +59,20 @@ namespace UserHub.Controllers
 
         [HttpPut("{id}")]
         //[Authorize(Policy = "EditAnyPost")] // Admins can edit any post
-        public async Task<IActionResult> Update(UpdatePostRequest request)
+        [Authorize(Policy = "LoginRequire")]
+        public async Task<IActionResult> Update(int id, UpdatePostRequest request)
         {
-            Post post = await _postService.GetPostById(request.Id);
+            UserResponse userResponse = (UserResponse)HttpContext.Items["user"];
+            Post post = await _postService.GetPostById(id);
             if (post == null)
             {
                 return NotFound();
             }
-
-            if (User.IsInRole("Admin") || 
-                post.UserId == int.Parse(User?.FindFirst(ClaimTypes.NameIdentifier)?.Value))
-            {
-               
-                await _postService.UpdatePost(request);
+            bool isAdminOrOwner = userResponse.Role.ToLower().Trim().Equals("admin") || post.UserId == userResponse.Id;
+            if (isAdminOrOwner)
+            {               
+                await _postService.UpdatePost(id, request);
+                
                 return NoContent();
             }
             else
@@ -83,25 +82,16 @@ namespace UserHub.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Policy = "EditAnyPost")] // Admins can edit any post
+        [Authorize(Policy = "AdminRequire")]
         public async Task<IActionResult> Delete(int id)
         {
-            var post = await _postService.GetPostById(id);
-            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            var post = await _postService.GetPostById(id);            
             if (post == null)
             {
                 return NotFound();
             }
-
-            if (User.IsInRole("Admin") || post.UserId == userId)
-            {
-                await _postService.DeletePost(post);
-                return NoContent();
-            }
-            else
-            {
-                return Forbid();
-            }
+            await _postService.DeletePost(post);
+            return NoContent();            
         }
 
         [HttpGet("{id}")]

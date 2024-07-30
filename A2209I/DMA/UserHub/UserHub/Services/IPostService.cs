@@ -8,7 +8,7 @@ namespace UserHub.Services
         Task<Post?> GetPostById(int id);
         Task<IEnumerable<Post>> GetAllPosts(PostQueryRequest request);
         Task<int> AddPost(InsertPostRequest request);
-        Task UpdatePost(UpdatePostRequest request);
+        Task UpdatePost(int id, UpdatePostRequest request);
         Task DeletePost(Post post);
     }
 

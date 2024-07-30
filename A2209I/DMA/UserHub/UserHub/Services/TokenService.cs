@@ -55,8 +55,8 @@ namespace UserHub.Services
                 return null; // User ID is not in the correct format
             }
 
-            var user = _context.Users.Find(userId); // Find the user in the database
-
+            User user = _context.Users.Find(userId); // Find the user in the database
+            //check if user is locked
             if (user == null)
             {
                 return null; // No user found with this ID

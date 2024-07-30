@@ -57,9 +57,9 @@ namespace UserHub.Services
             return await _context.SaveChangesAsync();
         }
         
-        public async Task UpdatePost(UpdatePostRequest request)
+        public async Task UpdatePost(int id, UpdatePostRequest request)
         {
-            var post = await _context.Posts.FirstOrDefaultAsync(p => p.Id == request.Id);
+            var post = await _context.Posts.FirstOrDefaultAsync(p => p.Id == id);
             if (post == null)
             {
                 throw new KeyNotFoundException("Post not found.");
@@ -75,7 +75,7 @@ namespace UserHub.Services
             {
                 post.Content = request.Content;
             }
-
+            post.UpdatedAt = DateTime.Now;
             // Mark the entity as modified
             _context.Entry(post).State = EntityState.Modified;
 

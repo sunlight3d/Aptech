@@ -41,6 +41,7 @@ namespace UserHub.Controllers
         
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<ActionResult<string>> Login(LoginUserRequest request)
         {
             var token = await _authService.AuthenticateUser(request.Email, request.Password);
@@ -51,6 +52,7 @@ namespace UserHub.Controllers
             return token;
         }
         [HttpPost("me")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetCurrentUser()
         {
             

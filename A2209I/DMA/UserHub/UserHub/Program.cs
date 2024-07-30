@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
@@ -17,6 +19,9 @@ dotnet build
 dotnet ef migrations add AddSomeEntities --context DataContext
 dotnet ef database update --context DataContext
 
+dotnet ef migrations add AddUniqueConstraintToPostTitle --context DataContext
+dotnet ef database update --context DataContext
+
 
 
 if you run this app using Docker container, you cannot access Db in Host
@@ -29,6 +34,8 @@ How to generate "private key" for JWT: Open Windows Powershell and type:
 
  */
 var builder = WebApplication.CreateBuilder(args);
+
+
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -43,6 +50,8 @@ builder.Services.AddSingleton<DataContext>(provider =>
 
     return new DataContext(optionsBuilder.Options);
 });
+
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -63,10 +72,6 @@ builder.Services.AddAuthentication(options =>
         };
     });
 
-
-
-
-
 builder.Services.AddScoped<IPostService, PostService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 //builder.Services.AddSingleton<ITokenService, TokenService>();
@@ -77,7 +82,9 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("LoginRequire", policy =>
-            policy.Requirements.Add(new LoginRequirement()));
+            policy.Requirements.Add(new LoginRequirement()));    
+    options.AddPolicy("AdminRequire", policy =>
+            policy.Requirements.Add(new AdminRequirement()));
 
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -87,6 +94,25 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 
 var app = builder.Build();
+/*
+dotnet add package Microsoft.Extensions.Diagnostics.HealthChecks
+dotnet add package AspNetCore.HealthChecks.SqlServer
+dotnet add package Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore
+ */
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new InvalidOperationException(
+                       "Could not find a connection string named 'DefaultConnection'.");
+}
+builder.Services.AddHealthChecks()
+           .AddSqlServer(connectionString)
+           .AddDbContextCheck<DataContext>();
+
+app.MapHealthChecks("/healthz", new HealthCheckOptions
+{
+    AllowCachingResponses = true
+}).RequireHost("*:*");
+//.RequireAuthorization();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -101,6 +127,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.UseMiddleware<ErrorHandlingMiddleware>();
-app.UseMiddleware<JwtMiddleware>();
 
 app.Run();

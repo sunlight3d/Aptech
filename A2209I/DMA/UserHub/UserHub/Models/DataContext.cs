@@ -32,6 +32,9 @@ namespace UserHub.Models
                 .WithOne(i => i.Post)       // Each Image is associated with one Post
                 .HasForeignKey(i => i.BlogId)  // The foreign key in the Image table is BlogId
                 .OnDelete(DeleteBehavior.Cascade);  // Cascade delete images when post is deleted
+            modelBuilder.Entity<Post>()
+               .HasIndex(p => p.Title)
+               .IsUnique();
         }
 
 

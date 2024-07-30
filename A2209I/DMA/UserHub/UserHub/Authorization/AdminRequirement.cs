@@ -4,16 +4,16 @@ using UserHub.Services;
 
 namespace UserHub.Authorization
 {
-    public class LoginRequirement: IAuthorizationRequirement
+    public class AdminRequirement : IAuthorizationRequirement
     {
 
     }
-    public class LoginRequirementHandler : AuthorizationHandler<LoginRequirement>
+    public class AdminRequirementHandler : AuthorizationHandler<LoginRequirement>
     {
         private readonly ITokenService _tokenService;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public LoginRequirementHandler(ITokenService tokenService, IHttpContextAccessor httpContextAccessor)
+        public AdminRequirementHandler(ITokenService tokenService, IHttpContextAccessor httpContextAccessor)
         {
             _tokenService = tokenService;
             _httpContextAccessor = httpContextAccessor;
@@ -22,19 +22,16 @@ namespace UserHub.Authorization
         protected override Task HandleRequirementAsync(
             AuthorizationHandlerContext context, LoginRequirement requirement)
         {
-            //can I inject TokenService here, then get jwttoken from http context
-            //or can I get httpcontext here 
-            //Console.WriteLine("aa");
             HttpContext httpContext = _httpContextAccessor.HttpContext;
-            UserResponse userResponse = _tokenService.GetUserFromTokenHeaders(httpContext);
-            httpContext.Items["user"] = userResponse;
-            if (userResponse != null)
+            UserResponse userResponse =  _tokenService.GetUserFromTokenHeaders(httpContext);
+            httpContext.Items["UserId"] = userResponse.Id;
+            if (userResponse != null && userResponse.Role.Trim().ToLower().Equals("admin"))
             {
                 context.Succeed(requirement);
             }
 
             return Task.CompletedTask;
         }
-        
+
     }
 }
