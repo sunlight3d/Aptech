@@ -8,7 +8,7 @@ namespace UserHub.Authorization
     {
 
     }
-    public class AdminRequirementHandler : AuthorizationHandler<LoginRequirement>
+    public class AdminRequirementHandler : AuthorizationHandler<AdminRequirement>
     {
         private readonly ITokenService _tokenService;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -20,7 +20,7 @@ namespace UserHub.Authorization
         }
 
         protected override Task HandleRequirementAsync(
-            AuthorizationHandlerContext context, LoginRequirement requirement)
+            AuthorizationHandlerContext context, AdminRequirement requirement)
         {
             HttpContext httpContext = _httpContextAccessor.HttpContext;
             UserResponse userResponse =  _tokenService.GetUserFromTokenHeaders(httpContext);

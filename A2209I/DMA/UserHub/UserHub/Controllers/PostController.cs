@@ -82,6 +82,7 @@ namespace UserHub.Controllers
         }
 
         [HttpDelete("{id}")]
+        //[Authorize(Policy = "AdminRequire")]
         [Authorize(Policy = "AdminRequire")]
         public async Task<IActionResult> Delete(int id)
         {

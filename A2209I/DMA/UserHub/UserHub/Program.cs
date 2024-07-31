@@ -79,6 +79,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddSingleton<ITokenService, TokenService>();
 
 builder.Services.AddSingleton<IAuthorizationHandler, LoginRequirementHandler>();
+builder.Services.AddSingleton<IAuthorizationHandler, AdminRequirementHandler>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddAuthorization(options =>
 {
@@ -98,7 +99,6 @@ builder.Services.AddHealthChecks()
            .AddDbContextCheck<DataContext>();
 
 var app = builder.Build();
-
 
 
 app.MapHealthChecks("/healthz", new HealthCheckOptions
