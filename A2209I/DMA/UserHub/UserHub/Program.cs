@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
 using UserHub.Authorization;
+using UserHub.Helpers;
 using UserHub.Middlewares;
 using UserHub.Models;
 using UserHub.Services;
@@ -92,25 +93,18 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddControllers();
+//dotnet add package Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore
+builder.Services.AddHealthChecks()           
+           .AddDbContextCheck<DataContext>();
 
 var app = builder.Build();
-/*
-dotnet add package Microsoft.Extensions.Diagnostics.HealthChecks
-dotnet add package AspNetCore.HealthChecks.SqlServer
-dotnet add package Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore
- */
-if (string.IsNullOrEmpty(connectionString))
-{
-    throw new InvalidOperationException(
-                       "Could not find a connection string named 'DefaultConnection'.");
-}
-builder.Services.AddHealthChecks()
-           .AddSqlServer(connectionString)
-           .AddDbContextCheck<DataContext>();
+
+
 
 app.MapHealthChecks("/healthz", new HealthCheckOptions
 {
-    AllowCachingResponses = true
+    AllowCachingResponses = true,
+    ResponseWriter = HealthCheckResponseWriter.WriteResponse
 }).RequireHost("*:*");
 //.RequireAuthorization();
 
