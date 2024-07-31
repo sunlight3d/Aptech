@@ -4,17 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function login()
-    {
-        
-    }
-
+    
     /**
      * Show the form for creating a new resource.
      */
@@ -41,8 +35,33 @@ class UserController extends Controller
         ]);
 
         // Redirect to a success page
-        return redirect()->route('register')->with('success', 'User registered successfully!');
+        return redirect()->route('users.register')->with('success', 'User registered successfully!');
+    }
+    public function login() {//giao dien login
+        return view('users.login');
     }
 
+    public function signin(Request $request)
+    {        
+        // Validate the incoming request data
+        $request->validate([
+            'email' => 'required|email'            
+        ]);
 
+        // Attempt to authenticate the user
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            // Authentication passed, save user data to session
+            $request->session()->regenerate();
+
+            // Redirect to a success page
+            return redirect()->route('users.login')->with('success', 'Login user successfully!');
+        }
+
+        // Authentication failed, redirect back with error
+        return redirect()->route('users.login')->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->withInput($request->except('password'));
+    }
 }
