@@ -3,7 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-
+use \App\Http\Middleware\CheckSession;
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
@@ -11,7 +11,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->append(CheckSession::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
@@ -29,6 +29,15 @@ return Application::configure(basePath: dirname(__DIR__))
     php artisan make:controller PostController --resource
 
     php artisan session:table
+
+    php artisan make:migration rename_hashed_password_to_password_in_users_table
+
+    then config up() of the migration file
+
+    php artisan migrate
+
+    php artisan make:middleware CheckSession
+    
 
    INSERT INTO posts (title, content, user_id, url, created_at, updated_at) VALUES 
 ('Learning Laravel Basics', 'This post covers the basics of Laravel, including installation and setup...', 1, 'https://example.com/learning-laravel-basics', NOW(), NOW()),
