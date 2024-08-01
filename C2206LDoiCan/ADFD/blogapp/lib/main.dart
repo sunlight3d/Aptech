@@ -1,4 +1,4 @@
-import 'package:blogapp/screens/welcome/index.dart';
+import 'package:blogapp/views/screens/welcome/index.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -12,13 +12,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: Welcome(),
+      title: 'This is Blog app',
+      home: Welcome(x: 3, y: 4,),
     );
   }
 }
+
 
