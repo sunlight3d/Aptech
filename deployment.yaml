@@ -33,7 +33,7 @@ services:
       MYSQL_ROOT_PASSWORD: "${MYSQL_PASSWORD}"
       MYSQL_DATABASE: ShopApp
     ports:
-      - 3309:3306
+      - 3306:3306
     networks:
       - learning
     volumes:
