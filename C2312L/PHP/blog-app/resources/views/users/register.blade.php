@@ -1,39 +1,38 @@
-<!-- resources/views/users/register.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    @vite('resources/css/app.css')
 </head>
-<body>
-    <div class="container mt-5">
-        <h2>Register</h2>
-        <form action="{{ route('users.store') }}" method="POST">
+<body class="bg-blue-500 flex items-center justify-center min-h-screen"> <!-- Assuming the login page has a blue background -->
+    <div class="w-full max-w-md p-8 space-y-4 bg-white rounded-lg shadow-lg" > <!-- Matched the card style from the login page -->
+        <h2 class="text-2xl font-semibold text-center">Register</h2>
+        <form action="{{ route('users.store') }}" method="POST" class="space-y-6">
             @csrf
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" class="form-control" 
-                id="email" name="email">
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
+                <input type="email" id="email" name="email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
             </div>
-            <div class="form-group">
-                <label for="fullname">Full Name:</label>
-                <input type="text" class="form-control" 
-                    id="fullname" name="fullname">
+            <div>
+                <label for="fullname" class="block text-sm font-medium text-gray-700">Full Name:</label>
+                <input type="text" id="fullname" name="fullname" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
             </div>  
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" class="form-control" id="password" name="password" >
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700">Password:</label>
+                <input type="password" id="password" name="password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
             </div>
-            <div class="form-group">
-                <label for="password_confirmation">Confirm Password:</label>
-                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
+            <div>
+                <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm Password:</label>
+                <input type="password" id="password_confirmation" name="password_confirmation" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"> <!-- Matching the button style from the login page -->
+                Register
+            </button>
         </form>
         @if ($errors->any())
-            <div class="alert alert-danger">
+            <div class="p-4 mt-4 rounded-md bg-red-50 border border-red-400 text-red-700">
                 <ul>
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -42,7 +41,7 @@
             </div>
         @endif
         @if (session('success'))
-            <div class="alert alert-success">
+            <div class="p-4 mt-4 rounded-md bg-green-50 border border-green-400 text-green-700">
                 {{ session('success') }}
             </div>
         @endif

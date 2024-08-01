@@ -61,7 +61,7 @@ class UserController extends Controller
 
         // Authentication failed, redirect back with error
         return redirect()->route('users.login')->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+            'email' => 'Email and password not correct.',
         ])->withInput($request->except('password'));
     }
 }

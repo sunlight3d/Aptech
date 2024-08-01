@@ -21,6 +21,8 @@ return Application::configure(basePath: dirname(__DIR__))
     })->create();
 
     /**
+    composer create-project laravel/laravel my-project
+    
     php artisan make:model User -m
     php artisan migrate
 
@@ -40,6 +42,8 @@ return Application::configure(basePath: dirname(__DIR__))
     php artisan migrate
 
     php artisan make:middleware CheckSession
+
+    php artisan make:controller HomeController
     
 
    INSERT INTO posts (title, content, user_id, url, created_at, updated_at) VALUES 
