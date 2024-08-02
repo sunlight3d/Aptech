@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 
+
+
 class UserController extends Controller
 {
     
@@ -26,17 +28,17 @@ class UserController extends Controller
             'fullname' => 'required|max:200',
             'password' => 'required|min:8|confirmed',
         ]);
-        
         // Create a new user
         User::create([
             'email' => $request->email,
             'fullname' => $request->fullname,
             'role' => 'user',
-            'hashed_password' => bcrypt($request->password),
-        ]);
+            'password' => $request->password,
+        ]);        
 
         // Redirect to a success page
-        return redirect()->route('users.register')->with('success', 'User registered successfully!');
+        //return redirect()->route('users.register')->with('success', 'User registered successfully!');
+        return redirect()->route('users.login')->with('success', 'User registered successfully!');
     }
     public function login() {//giao dien login
         return view('users.login');
@@ -46,12 +48,12 @@ class UserController extends Controller
     {        
         // Validate the incoming request data
         $request->validate([
-            'email' => 'required|email'            
+            'email' => 'required|email',
+            'password' => 'required'               
         ]);
 
         // Attempt to authenticate the user
         $credentials = $request->only('email', 'password');
-
         if (Auth::attempt($credentials)) {
             // Authentication passed, save user data to session
             $request->session()->regenerate();

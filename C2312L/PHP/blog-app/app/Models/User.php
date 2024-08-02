@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\Hash;
 class User extends Model implements AuthenticatableContract
 {
     use Authenticatable;
@@ -18,7 +18,7 @@ class User extends Model implements AuthenticatableContract
         parent::boot();
 
         static::creating(function ($user) {
-            $user->password = bcrypt($user->password);
+            $user->password = Hash::make($user->password);
         });
     }
     protected $fillable = [
