@@ -2,12 +2,11 @@
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/users/register', [UserController::class, 'register'])//hien ra form dang ky
             ->name('users.register');

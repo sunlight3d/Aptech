@@ -43,7 +43,7 @@
         @if (session('success'))
             <div class="mt-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative">
                 {{ session('success') }}
-            </div>
+            </div>            
         @endif
 
         <div class="mt-6 text-center">

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
+
 class UserController extends Controller
 {
     
@@ -56,7 +57,7 @@ class UserController extends Controller
             $request->session()->regenerate();
 
             // Redirect to a success page
-            return redirect()->route('users.login')->with('success', 'Login user successfully!');
+            return redirect()->route('home')->with('success', 'Login user successfully!');
         }
 
         // Authentication failed, redirect back with error
