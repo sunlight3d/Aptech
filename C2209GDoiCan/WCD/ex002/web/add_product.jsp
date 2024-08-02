@@ -12,6 +12,16 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Insert product</h1>
+        <form action="ProductServlet" method="POST">
+            <input type="hidden" name="action" value="add"> 
+            <label for="name">Product's name:</label> <input type="text" name="name">    
+            <br>
+            <label for="price">Price:</label> <input type="text" name="price">         
+            <br>
+            <label for="quantity">Quantity:</label> <input type="text" name="quantity">         
+            <br>
+            <input type="submit" value="Add">
+        </form>
     </body>
 </html>

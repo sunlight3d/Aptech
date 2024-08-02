@@ -29,6 +29,7 @@
                     <td><%= product.getQuantity() %></td>
                     <td>
                         <a href="ProductServlet?action=edit&id=<%= product.getId() %>">Edit</a>
+                        <a href="ProductServlet?action=delete&id=<%= product.getId() %>">Delete</a>
                     </td>
                 </tr>
             <%

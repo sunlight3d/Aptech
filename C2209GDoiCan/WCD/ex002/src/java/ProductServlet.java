@@ -7,27 +7,47 @@ import entities.*;
 import java.io.IOException;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
+import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 public class ProductServlet extends HttpServlet {
     private EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("ex002PU");
-    
+    private EntityManager entityManager;
     
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        //get product list from db
+        String action = request.getParameter("action");
+        action = action == null ? "query" : action;
+        /*
+        Collections.list(request.getParameterNames()).forEach(key -> {
+            String value = request.getParameter(key);
+            System.out.println("key = "+key+", value = "+value);
+        });
+        */
         try {
             entityManagerFactory = Persistence.createEntityManagerFactory("ex002PU");
-            EntityManager entityManager = entityManagerFactory.createEntityManager();
-            List<Product> products = entityManager.createNamedQuery("Product.findAll", Product.class).getResultList();
-            //send list to jsp(view)
-            //display objects in view
-            request.setAttribute("products", products);//ViewBag
-            request.getRequestDispatcher("products.jsp").forward(request, response);
+            entityManager = entityManagerFactory.createEntityManager();
+            if(action.equals("edit")) {
+                int productId = Integer.parseInt(request.getParameter("id"));
+                Product existingProduct = entityManager.find(Product.class, productId);
+                //send data to edit_product.jsp
+                request.setAttribute("product", existingProduct);
+                request.getRequestDispatcher("edit_product.jsp").forward(request, response);
+            } else {
+                
+                List<Product> products = entityManager.createNamedQuery("Product.findAll", Product.class).getResultList();
+                //send list to jsp(view)
+                //display objects in view
+                request.setAttribute("products", products);//ViewBag
+                request.getRequestDispatcher("products.jsp").forward(request, response);
+            }
         }catch(ServletException | IOException e) {
             this.entityManagerFactory.close();
         }
@@ -35,8 +55,49 @@ public class ProductServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp); 
+    protected void doPost(
+            HttpServletRequest request, 
+            HttpServletResponse response
+    ) 
+            throws ServletException, IOException {        
+        String action = request.getParameter("action");
+        action = action == null ? "":action;
+        String name = request.getParameter("name");
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        float price = Float.parseFloat(request.getParameter("price"));
+        entityManagerFactory = Persistence.createEntityManagerFactory("ex002PU");
+        entityManager = entityManagerFactory.createEntityManager();
+        
+        if(action.equals("add")) {
+            try {            
+                EntityTransaction entityTransaction = entityManager.getTransaction();
+                entityTransaction.begin();
+                Product newProduct = new Product();
+                newProduct.setName(name);
+                newProduct.setQuantity(quantity);
+                newProduct.setPrice(BigDecimal.valueOf(price));
+                entityManager.persist(newProduct);
+                entityTransaction.commit();
+                response.sendRedirect(String.format("%s/ProductServlet", request.getContextPath()));
+            }catch(IOException e) {
+               e.printStackTrace();
+            }
+        } else if(action.equals("update")) {
+            try {            
+                int productId = Integer.parseInt(request.getParameter("productId"));
+                EntityTransaction entityTransaction = entityManager.getTransaction();
+                entityTransaction.begin();
+                Product product = entityManager.find(Product.class, productId);
+                product.setName(name == null ? product.getName() : name);
+                product.setQuantity(quantity);
+                product.setPrice(BigDecimal.valueOf(price));
+                entityManager.persist(product);
+                entityTransaction.commit();
+                response.sendRedirect(String.format("%s/ProductServlet", request.getContextPath()));
+            }catch(IOException e) {
+               e.printStackTrace();
+            }
+        }
     }
     
 }
