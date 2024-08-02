@@ -4,6 +4,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using UserHub.DTOs.Requests.User;
 using UserHub.DTOs.Responses;
 using UserHub.Models;
 
@@ -22,9 +23,9 @@ namespace UserHub.Services
             _hmac = new HMACSHA512(Encoding.ASCII.GetBytes(_configuration["HashPassword:Key"] ?? ""));
         }
 
-        public async Task<UserResponse> RegisterUser(string email, string password, string fullName)
+        public async Task<UserResponse> RegisterUser(RegisterUserRequest request)
         {
-            var existingUser = await _context.Users.SingleOrDefaultAsync(x => x.Email == email);
+            var existingUser = await _context.Users.SingleOrDefaultAsync(x => x.Email == request.Email);
             if (existingUser != null)
             {
                 return null; // User already exists
@@ -32,9 +33,10 @@ namespace UserHub.Services
 
             var user = new User
             {
-                Email = email,
-                PasswordHash = Convert.ToBase64String(_hmac.ComputeHash(Encoding.UTF8.GetBytes(password))),
-                FullName = fullName
+                Email = request.Email,
+                PasswordHash = Convert.ToBase64String(_hmac.ComputeHash(Encoding.UTF8.GetBytes(request.Password))),
+                FullName = request.FullName,
+                PhoneNumber = request.PhoneNumber
             };
 
             _context.Users.Add(user);
@@ -42,15 +44,15 @@ namespace UserHub.Services
             return UserResponse.FromUser(user);
         }
 
-        public async Task<string> AuthenticateUser(string email, string password)
+        public async Task<string> AuthenticateUser(LoginUserRequest request)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == email);
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == request.Email);
             if (user == null)
             {
                 return null; // User not found
             }
 
-            var computedHash = Convert.ToBase64String(_hmac.ComputeHash(Encoding.UTF8.GetBytes(password)));
+            var computedHash = Convert.ToBase64String(_hmac.ComputeHash(Encoding.UTF8.GetBytes(request.Password)));
             if (!computedHash.Equals(user.PasswordHash))
             {
                 return null; // Password does not match

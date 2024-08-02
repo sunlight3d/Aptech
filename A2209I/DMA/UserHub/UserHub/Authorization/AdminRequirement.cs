@@ -19,19 +19,27 @@ namespace UserHub.Authorization
             _httpContextAccessor = httpContextAccessor;
         }
 
-        protected override Task HandleRequirementAsync(
+        protected override async Task HandleRequirementAsync(
             AuthorizationHandlerContext context, AdminRequirement requirement)
         {
             HttpContext httpContext = _httpContextAccessor.HttpContext;
-            UserResponse userResponse =  _tokenService.GetUserFromTokenHeaders(httpContext);
-            httpContext.Items["UserId"] = userResponse.Id;
-            if (userResponse != null && userResponse.Role.Trim().ToLower().Equals("admin"))
-            {
-                context.Succeed(requirement);
-            }
 
-            return Task.CompletedTask;
+            // Use await to asynchronously get the UserResponse
+            UserResponse? userResponse = await _tokenService.GetUserFromTokenHeaders(httpContext);
+
+            // Check if userResponse is not null before accessing its properties
+            if (userResponse != null)
+            {
+                httpContext.Items["UserId"] = userResponse.Id;
+
+                // Check if the role is admin
+                if (userResponse.Role.Trim().ToLower().Equals("admin"))
+                {
+                    context.Succeed(requirement);
+                }
+            }
         }
+
 
     }
 }

@@ -31,7 +31,7 @@ namespace UserHub.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserResponse>> Register(RegisterUserRequest request)
         {
-            var userResponse = await _authService.RegisterUser(request.Email, request.Password, request.FullName);
+            var userResponse = await _authService.RegisterUser(request);
             if (userResponse == null)
             {
                 return BadRequest("User already exists or other error.");
@@ -44,7 +44,7 @@ namespace UserHub.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<string>> Login(LoginUserRequest request)
         {
-            var token = await _authService.AuthenticateUser(request.Email, request.Password);
+            var token = await _authService.AuthenticateUser(request);
             if (token == null)
             {
                 return Unauthorized("Invalid email or password.");
@@ -56,7 +56,7 @@ namespace UserHub.Controllers
         public async Task<IActionResult> GetCurrentUser()
         {
             
-            UserResponse? userResponse = _tokenService.GetUserFromTokenHeaders(this.HttpContext);
+            UserResponse? userResponse = await _tokenService.GetUserFromTokenHeaders(this.HttpContext);
 
             if (userResponse == null)
             {

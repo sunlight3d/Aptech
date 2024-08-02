@@ -46,17 +46,29 @@ namespace UserHub.Services
             {
                 throw new KeyNotFoundException("No user found with the provided User ID.");
             }
-            //you must check if userId exist in _context.Set<Post>
+
+            // Check if a post with the same title already exists
+            var titleExists = await _context.Posts.AnyAsync(p => p.Title == request.Title);
+            if (titleExists)
+            {
+                throw new ArgumentException("Duplicate title, cannot insert");
+            }
+
+            // If all checks pass, create and add the new post
             var post = new Post
             {
                 Title = request.Title,
                 Content = request.Content,
                 UserId = request.UserId
             };
+
             _context.Set<Post>().Add(post);
+
+            // Save the changes and return the number of state entries written to the database
             return await _context.SaveChangesAsync();
         }
-        
+
+
         public async Task UpdatePost(int id, UpdatePostRequest request)
         {
             var post = await _context.Posts.FirstOrDefaultAsync(p => p.Id == id);

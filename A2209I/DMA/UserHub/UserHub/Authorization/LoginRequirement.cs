@@ -19,22 +19,26 @@ namespace UserHub.Authorization
             _httpContextAccessor = httpContextAccessor;
         }
 
-        protected override Task HandleRequirementAsync(
+        protected override async Task HandleRequirementAsync(
             AuthorizationHandlerContext context, LoginRequirement requirement)
         {
-            //can I inject TokenService here, then get jwttoken from http context
-            //or can I get httpcontext here 
-            //Console.WriteLine("aa");
             HttpContext httpContext = _httpContextAccessor.HttpContext;
-            UserResponse userResponse = _tokenService.GetUserFromTokenHeaders(httpContext);
+
+            // Use await to asynchronously get the UserResponse
+            UserResponse? userResponse = await _tokenService.GetUserFromTokenHeaders(httpContext);
+
+            // Store the user response in HttpContext items
             httpContext.Items["user"] = userResponse;
+
+            // Check if userResponse is not null to decide if the requirement is met
             if (userResponse != null)
             {
                 context.Succeed(requirement);
             }
 
-            return Task.CompletedTask;
+            // No need to return anything; async Task methods complete upon reaching the end
         }
-        
+
+
     }
 }

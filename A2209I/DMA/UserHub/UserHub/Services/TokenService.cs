@@ -20,7 +20,7 @@ namespace UserHub.Services
             _context = context;
         }
 
-        public UserResponse? GetUserFromTokenHeaders(HttpContext httpContext)
+        public async Task<UserResponse?> GetUserFromTokenHeaders(HttpContext httpContext)
         {
             // Extract token from the Authorization header
             string authorizationHeader = httpContext.Request.Headers["Authorization"].ToString();
@@ -43,7 +43,8 @@ namespace UserHub.Services
                 ClockSkew = TimeSpan.Zero
             };
 
-            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var validatedToken);
+            SecurityToken validatedToken;
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out validatedToken);
             var userIdClaim = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userIdClaim == null)
             {
@@ -55,8 +56,9 @@ namespace UserHub.Services
                 return null; // User ID is not in the correct format
             }
 
-            User user = _context.Users.Find(userId); // Find the user in the database
-            //check if user is locked
+            // Using async method to find the user in the database
+            User user = await _context.Users.FindAsync(userId);
+            // Check if user is locked
             if (user == null)
             {
                 return null; // No user found with this ID
@@ -65,6 +67,7 @@ namespace UserHub.Services
             // Assuming you have a UserResponse class that you want to fill with user data
             return UserResponse.FromUser(user);
         }
+
     }
 
 }

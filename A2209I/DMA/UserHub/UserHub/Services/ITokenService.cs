@@ -4,7 +4,7 @@ namespace UserHub.Services
 {
     public interface ITokenService
     {
-        UserResponse? GetUserFromTokenHeaders(HttpContext httpContext);
+        Task<UserResponse?> GetUserFromTokenHeaders(HttpContext httpContext);
     }
 
 }
