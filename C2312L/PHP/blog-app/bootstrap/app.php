@@ -46,6 +46,8 @@ return Application::configure(basePath: dirname(__DIR__))
     php artisan make:controller HomeController
 
     php artisan vendor:publish --tag=laravel-pagination
+
+    Install Laravel Vite: https://tailwindcss.com/docs/guides/laravel#vite
     
 
    INSERT INTO posts (title, content, user_id, url, created_at, updated_at) VALUES 
@@ -70,7 +72,4 @@ return Application::configure(basePath: dirname(__DIR__))
 ('Laravel Horizon', 'Laravel Horizon provides a beautiful dashboard and code-driven configuration for your Redis queues...', 8, 'https://example.com/laravel-horizon', NOW(), NOW()),
 ('Building a RESTful API with Laravel Passport', 'Laravel Passport is an OAuth2 server implementation for API authentication using Laravel...', 8, 'https://example.com/laravel-passport', NOW(), NOW());
 
-
-
-
-     */
+*/

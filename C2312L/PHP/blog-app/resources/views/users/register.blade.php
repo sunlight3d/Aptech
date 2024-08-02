@@ -6,7 +6,7 @@
     <title>Register</title>
     @vite('resources/css/app.css')
 </head>
-<body class="bg-blue-500 flex items-center justify-center min-h-screen"> <!-- Assuming the login page has a blue background -->
+<body class="bg-blue-500 flex items-center justify-center min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-blue-500"> <!-- Assuming the login page has a blue background -->
     <div class="w-full max-w-md p-8 space-y-4 bg-white rounded-lg shadow-lg" > <!-- Matched the card style from the login page -->
         <h2 class="text-2xl font-semibold text-center">Register</h2>
         <form action="{{ route('users.store') }}" method="POST" class="space-y-6">
@@ -27,7 +27,7 @@
                 <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm Password:</label>
                 <input type="password" id="password_confirmation" name="password_confirmation" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
             </div>
-            <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"> <!-- Matching the button style from the login page -->
+            <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-purple-400 via-pink-500 to-blue-500 text-white rounded-md hover:bg-gradient-to-l"> <!-- Matching the button style from the login page -->
                 Register
             </button>
         </form>
