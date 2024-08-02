@@ -29,3 +29,7 @@ Route::post('/logout', function () {
     Auth::logout();
     return redirect('/'); // Redirect to homepage or login page after logout
 })->name('logout');
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+});
