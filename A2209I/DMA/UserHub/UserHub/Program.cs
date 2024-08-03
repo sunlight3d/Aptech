@@ -35,8 +35,7 @@ How to generate "private key" for JWT: Open Windows Powershell and type:
 
  */
 var builder = WebApplication.CreateBuilder(args);
-
-
+builder.Services.AddCors();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -99,7 +98,7 @@ builder.Services.AddHealthChecks()
            .AddDbContextCheck<DataContext>();
 
 var app = builder.Build();
-
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:5173"));
 
 app.MapHealthChecks("/healthz", new HealthCheckOptions
 {
