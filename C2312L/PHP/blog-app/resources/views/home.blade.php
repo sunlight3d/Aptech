@@ -13,7 +13,11 @@
 
     <!-- Search Bar -->
     <div class="text-center py-6">
-        <input type="text" placeholder="Search posts..." class="px-4 py-2 border border-gray-300 rounded-md shadow-sm max-w-md">
+        <form action="{{ route('home') }}" method="GET">
+            <input type="text" name="query" placeholder="Search posts..."
+                class="px-4 py-2 border border-gray-300 rounded-md shadow-sm max-w-md">
+            <button type="submit" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Search</button>
+        </form>
     </div>
 
     <!-- Hero Section -->
