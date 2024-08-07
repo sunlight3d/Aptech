@@ -33,19 +33,16 @@ function AddPost(props) {
                     'Accept' : 'application/json',
                     'Content-Type': 'application/json'
                 }
-                
-                axios.post('https://localhost:7169/api/posts', {
-                    title,
-                    content,
-                    user_id: localStorage.getItem("user_id")
-                  }, {headers})
-                  .then(function (response) {
-                    debugger  
-                  })
-                  .catch(function (error) {
-                    debugger
-                    console.log(error);
-                  });
+                sendRequest({
+                    url: `${BASE_URL}/api/posts`,
+                    data: {
+                        title,
+                        content,
+                        user_id: localStorage.getItem("user_id")
+                    },
+                    headers,
+                    httpMethod: HttpMethod.POST
+                });
             }}>Add Post</button>
         </div>
     </div>

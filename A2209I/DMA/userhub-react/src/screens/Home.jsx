@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { sendRequest, BASE_URL, HttpMethod } from "../apis/api";
 function Home() {
     //call after Home load => useEffect
     const [posts, setPosts] = useState([])
     const [currentPage, setCurrentPage] = useState(1);
     const [limit] = useState(5); 
     useEffect(() => {
-        //call api whenever currentPage changed
-        axios.get(`https://localhost:7169/api/Posts?page_number=${currentPage}&page_size=${limit}`, {})
-          .then(function (response) {
+        sendRequest({
+            url: `${BASE_URL}/api/Posts?page_number=${currentPage}&page_size=${limit}`,
+            data: {},
+            httpMethod: HttpMethod.GET
+        }).then(function (response) {
             //debugger
             setPosts(response?.data ?? [])
             console.log(response);
@@ -16,9 +18,6 @@ function Home() {
           .catch(function (error) {
             //debugger
             console.log(error);
-          })
-          .finally(function () {
-            // always executed
           });
     }, [currentPage])
     return <div>

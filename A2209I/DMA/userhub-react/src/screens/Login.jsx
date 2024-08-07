@@ -15,39 +15,35 @@ function Login(){
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}/>
         </div>
-        <button onClick={(event) => {
+        <button onClick={async (event) => {
             //alert(`Email = ${email}, password = ${password}`)
-            axios.post('https://localhost:7169/api/Auth/login', {
+            const reponseLogin = await sendRequest({
+              url: `${BASE_URL}/api/Auth/login`,
+              data: {
                 email: email,
                 password: password
-              })
-              .then(function (response) {
-                const jwtToken = response?.data ?? '';
-                localStorage.setItem('token', jwtToken)
-                debugger
-                //get user's detail from token
-                const headers =  {
-                    'authorization': `Bearer ${jwtToken}`,
-                    'Accept' : 'application/json',
-                    'Content-Type': 'application/json'
-                }
-                axios.post('https://localhost:7169/api/Auth/me', {
-     
-                  }, {headers})
-                  .then(function (response) {
-                    localStorage.setItem('user_id', response?.data.id)
-                    debugger
-                  })
-                  .catch(function (error) {
-                    debugger
-                    console.log(error);
-                  });
-              })
-              .catch(function (error) {
-                debugger
-                console.log(error);
-              });
-            console.log('haha');  
+              },
+              httpMethod: HttpMethod.POST
+            });
+            const jwtToken = reponseLogin?.data ?? '';
+            localStorage.setItem('token', jwtToken)
+            debugger
+            //get user's detail from token
+            const headers = {
+              'authorization': `Bearer ${jwtToken}`,
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            }
+            await sendRequest({
+              url: `${BASE_URL}/api/Auth/login`,
+              data: {
+                email: email,
+                password: password
+              },
+              httpMethod: HttpMethod.POST
+            });      
+            const responseDetail = await axios.post('https://localhost:7169/api/Auth/me', {}, headers);
+            localStorage.setItem('user_id', responseDetail?.data.id)
         }}>Login to your account</button>
     </div>
 }

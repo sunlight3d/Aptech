@@ -2,11 +2,11 @@ import axios from "axios";
 export const HttpMethod = {
     GET, POST, PUT, DELETE
 }
-const BASE_URL = "https://localhost:7169/api"
-export const sendRequest = async ({url, data, headers, type}) => {
+export const BASE_URL = "https://localhost:7169/api"
+export const sendRequest = async ({url, data, headers, httpMethod}) => {
     let response = {};
     try {
-        switch (type) {
+        switch (httpMethod) {
             case HttpMethod.GET:
                 response = await axios.get(url, data);
                 break;

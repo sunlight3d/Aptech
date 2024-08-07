@@ -58,7 +58,8 @@ function EditPost({id}) {
                     content,
                     user_id: localStorage.getItem("user_id")
                   },
-                  headers
+                  headers,
+                  httpMethod: HttpMethod.PUT
                 });
             }}>Save Post</button>
         </div>
