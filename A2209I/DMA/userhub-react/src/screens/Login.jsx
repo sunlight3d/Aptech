@@ -24,6 +24,24 @@ function Login(){
               .then(function (response) {
                 const jwtToken = response?.data ?? '';
                 localStorage.setItem('token', jwtToken)
+                debugger
+                //get user's detail from token
+                const headers =  {
+                    'authorization': `Bearer ${jwtToken}`,
+                    'Accept' : 'application/json',
+                    'Content-Type': 'application/json'
+                }
+                axios.post('https://localhost:7169/api/Auth/me', {
+     
+                  }, {headers})
+                  .then(function (response) {
+                    localStorage.setItem('user_id', response?.data.id)
+                    debugger
+                  })
+                  .catch(function (error) {
+                    debugger
+                    console.log(error);
+                  });
               })
               .catch(function (error) {
                 debugger

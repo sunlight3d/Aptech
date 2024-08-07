@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using static System.Net.Mime.MediaTypeNames;
 namespace UserHub.Models
 {
@@ -29,6 +30,7 @@ namespace UserHub.Models
         public int UserId { get; set; }
 
         // Navigation property
+        [JsonIgnore]
         public virtual User User { get; set; }
         // Collection to hold related images
         public virtual ICollection<BlogImage> BlogImages { get; set; } = new List<BlogImage>();

@@ -8,9 +8,7 @@ import java.io.IOException;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -24,7 +22,8 @@ public class ProductServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         String action = request.getParameter("action");
-        action = action == null ? "query" : action;
+        action = (action == null) ? "query" : action;
+        String searchText = request.getParameter("searchText");
         /*
         Collections.list(request.getParameterNames()).forEach(key -> {
             String value = request.getParameter(key);
@@ -41,10 +40,38 @@ public class ProductServlet extends HttpServlet {
                 request.setAttribute("product", existingProduct);
                 request.getRequestDispatcher("edit_product.jsp").forward(request, response);
             } else {
-                
-                List<Product> products = entityManager.createNamedQuery("Product.findAll", Product.class).getResultList();
-                //send list to jsp(view)
-                //display objects in view
+                List<Product> products;
+                int currentPage = request.getParameter("page") != null ? Integer.parseInt(request.getParameter("page")) : 1;
+                int recordsPerPage = 5; // You can adjust this value
+                /*
+                if (searchText != null && !searchText.trim().isEmpty()) {
+                    products = entityManager.createNamedQuery("Product.findByText", Product.class)
+                                             .setParameter("searchText", "%" + searchText + "%")
+                                             .getResultList();
+                } else {
+                    products = entityManager.createNamedQuery("Product.findAll", Product.class).getResultList();
+                }
+                */
+                int totalRecords;
+
+                if (searchText != null && !searchText.trim().isEmpty()) {
+                    products = entityManager.createNamedQuery("Product.findByText", Product.class)
+                                            .setParameter("searchText", "%" + searchText + "%")
+                                            .setFirstResult((currentPage - 1) * recordsPerPage)
+                                            .setMaxResults(recordsPerPage)
+                                            .getResultList();
+                    totalRecords = ((Number) entityManager.createNamedQuery("Product.countBySearchText")
+                                                           .setParameter("searchText", "%" + searchText + "%")
+                                                           .getSingleResult()).intValue();
+                } else {
+                    products = entityManager.createNamedQuery("Product.findAll", Product.class)
+                                            .setFirstResult((currentPage - 1) * recordsPerPage)
+                                            .setMaxResults(recordsPerPage)
+                                            .getResultList();
+                    totalRecords = ((Number) entityManager.createNamedQuery("Product.countAll")
+                                                           .getSingleResult()).intValue();
+                }
+                            int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
                 request.setAttribute("products", products);//ViewBag
                 request.getRequestDispatcher("products.jsp").forward(request, response);
             }

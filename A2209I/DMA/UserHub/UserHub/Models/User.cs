@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace UserHub.Models
 {
@@ -33,6 +34,7 @@ namespace UserHub.Models
         public string Role { get; set; } = "user";
 
         // Navigation property for the one-to-many relationship with Post
+        [JsonIgnore]
         public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
 
         /*

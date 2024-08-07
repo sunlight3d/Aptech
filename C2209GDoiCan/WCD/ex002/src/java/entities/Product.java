@@ -24,6 +24,9 @@ import javax.persistence.Table;
 @Table(name = "products", catalog = "c2209g", schema = "")
 @NamedQueries({
     @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
+    @NamedQuery(name = "Product.findByText", query = "SELECT p FROM Product p WHERE p.name LIKE :searchText"),
+    @NamedQuery(name="Product.countAll", query="SELECT COUNT(p) FROM Product p"),
+    @NamedQuery(name="Product.countBySearchText", query="SELECT COUNT(p) FROM Product p WHERE p.name LIKE :searchText"),
     @NamedQuery(name = "Product.findById", query = "SELECT p FROM Product p WHERE p.id = :id"),
     @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
     @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price"),

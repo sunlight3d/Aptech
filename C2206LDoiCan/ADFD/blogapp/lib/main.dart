@@ -1,3 +1,4 @@
+import 'package:blogapp/views/screens/login/index.dart';
 import 'package:blogapp/views/screens/welcome/index.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'This is Blog app',
-      home: Welcome(x: 3, y: 4,),
+      //home: Welcome(x: 3, y: 4,),
+      home: Login()
     );
   }
 }

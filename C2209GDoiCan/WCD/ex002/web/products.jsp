@@ -9,6 +9,10 @@
     </head>
     <body>
         <h1>Product List</h1>
+        <form action="ProductServlet" method="GET">
+            <input type="text" name="searchText" placeholder="Search products...">
+            <button type="submit">Search</button>
+        </form>
         <table border="1">
         <tr>
             <th>ID</th>
@@ -36,8 +40,23 @@
                 }
             }
             %>
-
     </table>
+    <br>
+    <%
+        int currentPage = (Integer) request.getAttribute("currentPage");
+        int totalPages = (Integer) request.getAttribute("totalPages");
+        for (int i = 1; i <= totalPages; i++) {
+            if (i == currentPage) {
+    %>
+        <b><%= i %></b>
+    <%
+            } else {
+    %>
+        <a href="ProductServlet?page=<%= i %>&searchText=<%= request.getParameter("searchText") %>"><%= i %></a>
+    <%
+            }
+        }
+    %>
     <br>
     <a href="add_product.jsp">Add New Product</a>
     </body>

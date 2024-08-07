@@ -38,7 +38,9 @@ function Home() {
                 </tr>))}
             </tbody>
         </table>
-        
+        <button onClick={() => {
+            alert('press Add')
+        }}>Add new post</button>
     </div>
 }
 export default Home;
