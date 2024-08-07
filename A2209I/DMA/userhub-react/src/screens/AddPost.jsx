@@ -1,5 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
+import { sendRequest, BASE_URL, HttpMethod } from "../apis/api";
+
 function AddPost(props) {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -32,6 +33,7 @@ function AddPost(props) {
                     'Accept' : 'application/json',
                     'Content-Type': 'application/json'
                 }
+                
                 axios.post('https://localhost:7169/api/posts', {
                     title,
                     content,

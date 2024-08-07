@@ -1,5 +1,5 @@
 import { useState } from "react"
-import axios from "axios";
+import { sendRequest, BASE_URL, HttpMethod } from "../apis/api";
 function Login(){
     const [email, setEmail] = useState('hoang12@gmail.com');//react hook
     const [password, setPassword] = useState('123456');

@@ -24,6 +24,7 @@ public class ProductServlet extends HttpServlet {
         String action = request.getParameter("action");
         action = (action == null) ? "query" : action;
         String searchText = request.getParameter("searchText");
+        searchText = searchText.equalsIgnoreCase("null") ? "":searchText;
         /*
         Collections.list(request.getParameterNames()).forEach(key -> {
             String value = request.getParameter(key);
@@ -71,7 +72,9 @@ public class ProductServlet extends HttpServlet {
                     totalRecords = ((Number) entityManager.createNamedQuery("Product.countAll")
                                                            .getSingleResult()).intValue();
                 }
-                            int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+                int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+                request.setAttribute("totalPages", totalPages);
+                request.setAttribute("currentPage", currentPage);
                 request.setAttribute("products", products);//ViewBag
                 request.getRequestDispatcher("products.jsp").forward(request, response);
             }

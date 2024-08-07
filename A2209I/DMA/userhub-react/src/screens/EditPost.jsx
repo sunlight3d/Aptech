@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { sendRequest, BASE_URL, HttpMethod } from "../apis/api";
 function EditPost({id}) {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -51,18 +51,15 @@ function EditPost({id}) {
                     'Accept' : 'application/json',
                     'Content-Type': 'application/json'
                 }
-                axios.put(`https://localhost:7169/api/posts/${id}`, {
+                sendRequest({
+                  url: `${BASE_URL}/${id}`,
+                  data: {
                     title,
                     content,
                     user_id: localStorage.getItem("user_id")
-                  }, {headers})
-                  .then(function (response) {
-                    debugger  
-                  })
-                  .catch(function (error) {
-                    debugger
-                    console.log(error);
-                  });
+                  },
+                  headers
+                });
             }}>Save Post</button>
         </div>
     </div>
