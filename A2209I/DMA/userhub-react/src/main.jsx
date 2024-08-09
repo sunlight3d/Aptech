@@ -1,49 +1,45 @@
-import React from 'react'
+import React from 'react';
 import * as ReactDOM from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import Login from './screens/Login'
-import Home from './screens/Home'
-import AddPost from './screens/AddPost'
-import EditPost from './screens/EditPost'
+import Login from './screens/Login';
+import Home from './screens/Home';
+import AddPost from './screens/AddPost';
+import EditPost from './screens/EditPost';
 
-//import './index.css'
+// Since you commented out the CSS import, ensure you handle global styles accordingly.
+// import './index.css';
+
 /**
- npm create vite@latest userhub-react -- --template react
- npm run dev
- npm install react-router-dom
+ * Setup commands noted for reference:
+ * npm create vite@latest userhub-react -- --template react
+ * npm run dev
+ * npm install react-router-dom
  */
- const router = createBrowserRouter([
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+  },
   {
     path: "/login",
     element: <Login />,
   },
   {
-    path: "posts/:id",
+    path: "/posts/new", // Changed for clarity: distinct path for adding a new post.
+    element: <AddPost />,
+  },
+  {
+    path: "/posts/:id", // Assuming dynamic ID for editing posts.
     element: <EditPost />,
   },
-  {
-    path: "posts",
-    element: <AddPost />,
-  },
-  {
-    path: "addPost",
-    element: <AddPost />,
-  },
-  {
-    path: "/",
-    element: <Home />,
-  },
 ]);
-ReactDOM.createRoot(document.getElementById('root')).render(
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
   <React.StrictMode>
-    {/* <Login /> */}
-    {/* <Home /> */}
-    {/* <AddPost />  */}
-    {/* <EditPost id = {6}/> */}
     <RouterProvider router={router} />
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);
+
