@@ -6,7 +6,7 @@ function EditPost({id}) {
     
     useEffect(()=>{
         //get post's detail from id
-        axios.get(`https://localhost:7169/api/posts/${id}`, {})
+        axios.get(`https://localhost:7169/posts/${id}`, {})
           .then(function (response) {
             debugger
             //destructuring

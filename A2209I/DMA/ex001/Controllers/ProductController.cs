@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ex001.Models;
+using ex001.DTOs.Requests;
 
 namespace ex001.Controllers
 {
@@ -75,8 +76,15 @@ namespace ex001.Controllers
         // POST: api/Product
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        public async Task<ActionResult<Product>> PostProduct(ProductRequest request)
         {
+            Product product = new Product
+            {
+                Name = request.Name,
+                Description = request.Description,
+                Price  = request.Price,
+                Stock = request.Stock,
+            };
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 

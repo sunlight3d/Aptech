@@ -36,3 +36,17 @@ function findUserByUsername($username){
     var_dump($user);
     return $user;
 }
+function login($username, $password) {
+    global $pdo;
+    $user = findUserByUsername($username);
+    if (!$user) {
+        return null;
+    }
+    
+    // Assuming $user['password'] contains the hashed password stored in the database.
+    if (password_verify($password, $user['password_hash'])) {
+        return $user;
+    }
+    return null;
+}
+

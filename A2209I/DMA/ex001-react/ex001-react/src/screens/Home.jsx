@@ -2,32 +2,32 @@ import { useEffect, useState } from "react";
 import { sendRequest, BASE_URL, HttpMethod } from "../apis/api";
 function Home() {
     //call after Home load => useEffect
-    const [posts, setPosts] = useState([])
-    const [currentPage, setCurrentPage] = useState(1);
-    const [limit] = useState(5); 
+    const [products, setProducts] = useState([])
     useEffect(() => {
         sendRequest({
-            url: `${BASE_URL}/Posts?page_number=${currentPage}&page_size=${limit}`,
+            url: `${BASE_URL}/product`,
             data: {},
             httpMethod: HttpMethod.GET
         }).then(function (response) {
-            //debugger
-            setPosts(response?.data ?? [])
+            debugger
+            setProducts(response?.data ?? [])
             console.log(response);
           })
           .catch(function (error) {
-            //debugger
+            debugger
             console.log(error);
           });
-    }, [currentPage])
+    }, [])
     return <div>
-        <h1>Post list</h1>
+        <h1>Product list</h1>
         <table>
             <tbody>
-                {posts.map((post) => (<tr key={post.title}>
-                    <td>{post.id}</td>
-                    <td>{post.title}</td>
-                    <td>{post.content}</td>
+                {products.map((product) => (<tr key={product.id}>
+                    <td>{product.id}</td>
+                    <td>{product.name}</td>
+                    <td>{product.description}</td>
+                    <td>{product.price}</td>
+                    <td>{product.stock}</td>
                     <td><button onClick={() => {
                         alert('Edit')
                     }}>Edit</button></td>
@@ -39,7 +39,7 @@ function Home() {
         </table>
         <button onClick={() => {
             alert('press Add')
-        }}>Add new post</button>
+        }}>Add new product</button>
     </div>
 }
 export default Home;

@@ -5,7 +5,7 @@ export const HttpMethod = {
     PUT: 3, 
     DELETE: 4
 }
-export const BASE_URL = "https://localhost:7169/api"
+export const BASE_URL = "https://localhost:7136/api"
 export const sendRequest = async ({url, data, headers, httpMethod}) => {
     let response = {};
     try {

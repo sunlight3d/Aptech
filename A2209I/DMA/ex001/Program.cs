@@ -3,7 +3,17 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors();
+/*
+ install Microsoft.EntityFrameworkCore.Design first !
+dotnet tool install --global dotnet-ef
+dotnet build
 
+dotnet ef migrations add AddSomeEntities --context DataContext
+dotnet ef database update --context DataContext
+
+dotnet ef migrations add AddUniqueConstraintToPostTitle --context DataContext
+dotnet ef database update --context DataContext
+ */
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 // Add services to the container.
