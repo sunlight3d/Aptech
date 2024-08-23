@@ -11,7 +11,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none  # T? ??ng c?p nh?t schema database, có th? là create, create-drop, update, ho?c validate
+      ddl-auto: create-drop  # T? ??ng c?p nh?t schema database, có th? là create, create-drop, update, ho?c validate
     show-sql: true  # Hi?n th? câu l?nh SQL ???c th?c thi trong console
     properties:
       hibernate:
