@@ -1,0 +1,22 @@
+server:
+  port: 8082  # C?ng mà ?ng d?ng s? ch?y
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/c2209gdoican?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true  # URL k?t n?i ??n MySQL database
+    username: root  # Tên ng??i dùng MySQL
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver  # MySQL JDBC driver
+    initialization-mode: always  # Tùy ch?n, có th? kh?i t?o database v?i các script SQL
+
+  jpa:
+    hibernate:
+      ddl-auto: none  # T? ??ng c?p nh?t schema database, có th? là create, create-drop, update, ho?c validate
+    show-sql: true  # Hi?n th? câu l?nh SQL ???c th?c thi trong console
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+
+  thymeleaf:
+    cache: false  # T?t cache c?a Thymeleaf ?? th?y thay ??i ngay l?p t?c trong ch? ?? phát tri?n
