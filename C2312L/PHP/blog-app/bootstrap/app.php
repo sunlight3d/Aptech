@@ -49,6 +49,8 @@ return Application::configure(basePath: dirname(__DIR__))
 
     Install Laravel Vite: https://tailwindcss.com/docs/guides/laravel#vite
     
+    php artisan make:controller AdminController
+
 
    INSERT INTO posts (title, content, user_id, url, created_at, updated_at) VALUES 
 ('Learning Laravel Basics', 'This post covers the basics of Laravel, including installation and setup...', 8, 'https://example.com/learning-laravel-basics', NOW(), NOW()),
