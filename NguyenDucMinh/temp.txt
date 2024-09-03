@@ -1,7 +1,0 @@
-Go east => sang phải
-Go west => sang trái
-Go North => đi lên
-Go South => đi xuống
-
-No change => ra 1 hình tam giác ko có màu sắc
-
