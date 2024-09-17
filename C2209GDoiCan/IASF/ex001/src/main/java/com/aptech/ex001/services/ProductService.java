@@ -1,27 +1,25 @@
 package com.aptech.ex001.services;
 import com.aptech.ex001.models.Product;
 import com.aptech.ex001.repositories.ProductRepository;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
+//service, repository are called "components"
 @Service
+@Getter
 public class ProductService {
     @Autowired
     private ProductRepository productRepository;
-    public Page<Product> getProducts(String searchQuery, Pageable pageable)
-    {
-        return productRepository.findByNameContainingIgnoreCase(searchQuery, pageable);
-        /*
+    public Page<Product> getProducts(String searchQuery, Pageable pageable) {
         if (searchQuery == null || searchQuery.isEmpty()) {
-            return productRepository.findAll(pageable); // Return all products if searchQuery is empty
+            return productRepository.findAll(pageable);  // Return all products if search query is empty
         } else {
-            return productRepository.findByNameContainingIgnoreCase(searchQuery, pageable);
+            return productRepository.findByNameContainingIgnoreCase(searchQuery, pageable);  // Filter by name
         }
-         */
     }
     // Method to find a product by its ID
     public Product findById(Long id) {

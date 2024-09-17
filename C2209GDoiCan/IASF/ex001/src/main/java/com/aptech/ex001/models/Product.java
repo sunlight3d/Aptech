@@ -2,18 +2,19 @@ package com.aptech.ex001.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
+import lombok.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Getter
+@Setter
 @Table(name = "products")  // Đặt tên bảng là "products"
 public class Product {
 
