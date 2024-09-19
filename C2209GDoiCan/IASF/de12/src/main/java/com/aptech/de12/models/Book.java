@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 @Setter
 @Entity
 @Table(name = "books")  // Đặt tên bảng là "products"
+@Builder
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

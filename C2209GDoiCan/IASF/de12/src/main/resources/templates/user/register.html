@@ -6,20 +6,20 @@
 <body>
 <h1>Register</h1>
 
-<form th:action="@{/users/register}" th:object="${user}" method="post">
+<form th:action="@{/users/register}" method="post">
     <div>
         <label for="email">Email:</label>
-        <input type="text" id="email" th:field="*{username}" required />
+        <input type="email" id="email" name="email" placeholder="Enter email" required />
     </div>
 
     <div>
         <label for="password">Password:</label>
-        <input type="password" id="password" th:field="*{password}" required />
+        <input type="password" id="password" name="password" placeholder="Enter password" required />
     </div>
 
     <div>
         <label for="retypePassword">Retype Password:</label>
-        <input type="password" id="retypePassword" th:field="*{retypePassword}" required />
+        <input type="password" id="retypePassword" name="retypePassword" placeholder="Retype password" required />
     </div>
 
     <div>

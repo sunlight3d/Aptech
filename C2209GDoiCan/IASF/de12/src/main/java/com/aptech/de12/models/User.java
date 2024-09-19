@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Entity
+@Builder
 @Table(name = "users")  // Đặt tên bảng là "users"
 public class User {
     @Id
