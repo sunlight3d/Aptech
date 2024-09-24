@@ -15,7 +15,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+/*
+curl -X 'GET' \
+  'http://localhost:5016/api/products' \
+headers Authorixation Bearer token 
+  -H 'accept: text/plain'
+ */
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
