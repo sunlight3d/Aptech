@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
-
+using ex001.Utilities;
 namespace ex001.Models
 {
     [Table("users")] // Chỉ định tên bảng trong DB là "users"
@@ -21,26 +21,27 @@ namespace ex001.Models
         public string FullName { get; set; }
         //tên cột trong db lại là full_name
 
-        //Hai trường Password và RetypePassword có thể null, nếu khác null thì mới check độ dài và check nội dung
-        [MinLength(6, ErrorMessage = "Password must be at least 6 characters long")]
-        public string Password { get; set; }
+        //Mật khẩu chưa mã hoá yêu cầu ít nhất 6 ký tự, tuy nhiên đây là mật khẩu đã mã hoá
+        private string _passwordHash;
 
-        /*
-        private int _age;
-
-        // Public property with getter and setter
-        public int Age
+        // Automatically hash the password with a fixed salt when it's set
+        public string Password
         {
-            get { return _age; }
+            get => _passwordHash;
             set
             {
-                if (value < 0 || value > 150)
-                {
-                    throw new ArgumentOutOfRangeException("Age must be between 0 and 150.");
-                }
-                _age = value;
+                // Hash the password with the fixed salt
+                _passwordHash = PasswordHasher.HashPassword(value);
             }
         }
-        */
+        // Method to verify if a raw password matches the stored hashed password
+        public bool IsMatch(string rawPassword)
+        {
+            // Hash the raw password with the fixed salt
+            var hash = PasswordHasher.HashPassword(rawPassword);
+            // Check if the hash matches the stored hash
+            return hash == _passwordHash;
+        }
+
     }
 }

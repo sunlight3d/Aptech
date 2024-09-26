@@ -1,8 +1,9 @@
 ﻿using ex001.Dtos.Requests.User;
 using ex001.Dtos.Responses;
+using ex001.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using ex001.Models;
 
 namespace ex001.Controllers
 {
@@ -29,6 +30,18 @@ namespace ex001.Controllers
             };
 
             return Ok(response); // Return success response
+        }
+        [HttpGet("doSomething")]
+        public IActionResult doSomething()
+        {
+            //string hashedPasswod = _passwordHasher.HashPassword("1234567");
+            User testUser = new User() { 
+                Id = 1,
+                Email = "aaa@gmail.com",
+            };
+            testUser.Password = "123456";
+            testUser.IsMatch("123456");
+            return Ok(testUser.Password); // Return success response
         }
     }
 }

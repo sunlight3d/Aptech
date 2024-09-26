@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace ex001.Dtos.Requests.User
 {
+    
     public class RegisterUserRequest : IValidatableObject
     {
         [Required]
