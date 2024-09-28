@@ -12,6 +12,7 @@ namespace ex001.Models
         public int Id { get; set; }
         [Required]
         [EmailAddress(ErrorMessage = "Type must be a valid email")]
+        [Column("email")]
         public string Email { get; set; }
 
         [Required]
@@ -25,6 +26,7 @@ namespace ex001.Models
         private string _passwordHash;
 
         // Automatically hash the password with a fixed salt when it's set
+        [Column("password")]
         public string Password
         {
             get => _passwordHash;

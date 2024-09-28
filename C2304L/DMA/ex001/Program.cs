@@ -1,4 +1,7 @@
+using ex001.Models;
 using ex001.Utilities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +14,15 @@ else {
     Console.WriteLine(appSalt);
 }
 // Add services to the container.
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "";
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new InvalidOperationException("Connection string is null");
+}
+
+
+builder.Services.AddDbContext<DataContext>(options =>
+            options.UseSqlServer(connectionString));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
