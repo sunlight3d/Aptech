@@ -15,6 +15,7 @@ else {
 }
 // Add services to the container.
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "";
+
 if (string.IsNullOrEmpty(connectionString))
 {
     throw new InvalidOperationException("Connection string is null");
@@ -23,7 +24,8 @@ if (string.IsNullOrEmpty(connectionString))
 
 builder.Services.AddDbContext<DataContext>(options =>
             options.UseSqlServer(connectionString));
-
+builder.Services.AddHealthChecks()
+            .AddSqlServer(connectionString, name: "SQL Server");
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -50,5 +52,19 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHealthChecks("/health", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions()
+{
+    ResponseWriter = async (context, report) =>
+    {
+        context.Response.ContentType = "application/json";
+        var response = new
+        {
+            status = report.Status.ToString(),
+            errors = report.Entries.Select(e => new { key = e.Key, value = e.Value.Status.ToString() })
+        };
+        //await context.Response.WriteAsync(JsonConvert.SerializeObject(response));
+        await context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(response));
+    }
+}); 
 
 app.Run();

@@ -11,6 +11,20 @@ services:
       - sql2019_data:/var/opt/mssql # Volume for data persistence
     networks:
       - c2304l
+  dotnetcoreapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dotnetcoreapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver2019,1433;Database=master;User Id=sa;Password=Abc123456789;
+    ports:
+      - "8088:8080" # Map port 8080 of container to 8080 on the host
+    depends_on:
+      - sqlserver2019
+    networks:
+      - c2304l
 
   sqlserver2022:
     image: mcr.microsoft.com/mssql/server:2022-latest

@@ -12,6 +12,10 @@ WORKDIR /src
 COPY ["ex001.csproj", "."]
 RUN dotnet restore "./ex001.csproj"
 COPY . .
+
+# Copy the launchSettings.json file to the container
+COPY ["Properties/launchSettings.json", "/app/Properties/launchSettings.json"]
+
 WORKDIR "/src/."
 RUN dotnet build "./ex001.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
