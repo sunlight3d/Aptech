@@ -4,6 +4,10 @@ using ex001.Utilities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ex001.Models;
+using ex001.Services.Auth;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using ex001.Services.Token;
 
 namespace ex001.Controllers
 {
@@ -11,8 +15,15 @@ namespace ex001.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        private readonly IAuthService _authService;
+        private readonly ITokenService _tokenService;
+        public UserController(IAuthService authService, ITokenService tokenService) {
+            _authService = authService;
+            _tokenService = tokenService;
+        }
         [HttpPost("register")]
-        public IActionResult Register([FromBody] RegisterUserRequest request)
+        [AllowAnonymous]
+        public async Task<ActionResult<UserResponse>>  Register([FromBody] RegisterUserRequest request)
         {
             // Check if the model is valid
             if (!ModelState.IsValid)
@@ -22,26 +33,37 @@ namespace ex001.Controllers
             //call services: Servicename.ServiceFunction(request)
             // convert from Model to Response, eg: User => UserResponse
             //khi nao dung data mapper
-            UserResponse response = new UserResponse
+            var userResponse = await _authService.RegisterUser(request);
+            if (userResponse == null)
             {
-                Email = request.Email,
-                FullName = request.FullName,//duoi client gui len la full_name
-                Id = 123 // Assign a proper ID
-            };
-
-            return Ok(response); // Return success response
+                return BadRequest("User already exists or other error.");
+            }
+            return Ok(userResponse); // Return success response
         }
-        [HttpGet("doSomething")]
-        public IActionResult doSomething()
+
+        [HttpPost("login")]
+        [AllowAnonymous]
+        public async Task<ActionResult<string>> Login(LoginUserRequest request)
         {
-            //string hashedPasswod = _passwordHasher.HashPassword("1234567");
-            User testUser = new User() { 
-                Id = 1,
-                Email = "aaa@gmail.com",
-            };
-            testUser.Password = "123456";
-            testUser.IsMatch("123456");
-            return Ok(testUser.Password); // Return success response
+            var token = await _authService.AuthenticateUser(request);
+            if (token == null)
+            {
+                return Unauthorized("Invalid email or password.");
+            }
+            return token;
+        }
+        [HttpPost("me")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+
+            UserResponse? userResponse = await _tokenService.GetUserFromTokenHeaders(this.HttpContext);
+
+            if (userResponse == null)
+            {
+                return Unauthorized("Invalid token or User not found");
+            }
+            return Ok(userResponse);
         }
     }
 }
