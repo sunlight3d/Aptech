@@ -10,7 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- *
+http://localhost:8089/project01-war/StudentServlet
  * @author nguye
  */
 @Stateless
