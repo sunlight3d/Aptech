@@ -15,6 +15,9 @@ namespace ex001.Models
         [Column("email")]
         public string Email { get; set; }
 
+        [Column("role")]
+        public string Role { get; set; }
+
         [Required]
         [MinLength(5, ErrorMessage = "FullName must be at least 5 characters long")]
  
@@ -22,28 +25,11 @@ namespace ex001.Models
         public string FullName { get; set; }
         //tên cột trong db lại là full_name
 
-        //Mật khẩu chưa mã hoá yêu cầu ít nhất 6 ký tự, tuy nhiên đây là mật khẩu đã mã hoá
-        private string _passwordHash;
-
         // Automatically hash the password with a fixed salt when it's set
         [Column("password")]
-        public string Password
-        {
-            get => _passwordHash;
-            set
-            {
-                // Hash the password with the fixed salt
-                _passwordHash = PasswordHasher.HashPassword(value);
-            }
-        }
+        public string Password { get; set; }
         // Method to verify if a raw password matches the stored hashed password
-        public bool IsMatch(string rawPassword)
-        {
-            // Hash the raw password with the fixed salt
-            var hash = PasswordHasher.HashPassword(rawPassword);
-            // Check if the hash matches the stored hash
-            return hash == _passwordHash;
-        }
+      
 
     }
 }

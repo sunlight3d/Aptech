@@ -1,6 +1,9 @@
+using ex001.Authorization;
 using ex001.Models;
 using ex001.Services.Auth;
+using ex001.Services.Token;
 using ex001.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -33,7 +36,19 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddSingleton<IAuthorizationHandler, AdminRequirementHandler>();
 
+builder.Services.AddAuthorization(options =>
+{
+    /*
+    options.AddPolicy("LoginRequire", policy =>
+            policy.Requirements.Add(new LoginRequirement()));
+    */
+    options.AddPolicy("AdminRequire", policy =>
+            policy.Requirements.Add(new AdminRequirement()));
+
+});
 //builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
 
 var app = builder.Build();

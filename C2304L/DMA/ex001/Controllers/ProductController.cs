@@ -1,4 +1,5 @@
 ﻿using ex001.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
@@ -25,10 +26,13 @@ namespace ex001.Controllers
         };
 
         [HttpGet("")]
+        [AllowAnonymous]
         public async  Task<IEnumerable<Product>> GetProducts() {
             return ProductController.products;
         }
+
         [HttpPost("insert")]
+        [Authorize(Policy = "AdminRequire")]
         public IActionResult InsertProduct([FromBody] Product product)
         {
             if (product == null)
