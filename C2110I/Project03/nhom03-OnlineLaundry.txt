@@ -1,0 +1,54 @@
+Thiết kế cơ sở dữ liệu cho ứng dụng Online Laundry có các chức năng sau:
+
+Online Laundry System has modules to manage Customer Invoices for Pisces, weight, Package,
+Delivery of Pisces, weight, Package wise, and Barcode Generations many more. It has a fully-fledged
+Human Resource module to manage the payroll and pay slips.
+The modules included in the Online Landry System are as follows:
+1. Customer Registration: This Module Created and Registered new Customer in an application
+with their necessary and Basic information. Admin has Rights to create, Edit View and Delete all
+customer information. Search Customer also included in this.
+
+2. Invoice Generation: After Registered customer, Admin can create Invoice for Customers.
+Customer Have three option
+1) He/She can choose Pieces wise Invoice: He/She can give clothes by piece wise.
+2) He can choose Weight wise Invoice: He/She can a bunch of cloth weight wise.
+3) He can choose Package wise Invoice: .He/She can select a package for a month, in that
+no of Pisces are fixed.
+In one screen admin can able to create an invoice and also he can see a last all invoices for a
+particular customer.
+Bar Code Generation: Admin can generate a Bar Code for all selected items for a particular
+invoice for a customer. After generation, he can able to print barcode on label printer and tag on
+clothes.
+
+Online laundry
+3.Bar Code Generation: Admin can generate a Bar Code for all selected items for a particular
+invoice for a customer. After generation, he can able to print barcode on label printer and tag on
+clothes.
+4. Delivery: Admin can Deliver cloths depend on their status-(Ready, Pending, Delivered), Different
+Color show Different status, He can also take Remaining payment from and generate an invoice
+for taking payment.
+Reports: Different Report are a presence in a system like
+ Customer List,
+ Due Payment,
+ Daily Collection,
+ Garment-wise Collection,
+ Cash Book,
+ Customer Total Business etc
+
+6. Dash Board– User-Friendly Dashboard available. Graphical Representation is also available.
+which shows
+ Total Business
+ Financial Collection.
+7. SMS Integration –This system also includes SMS sending on all action and transaction
+performed for a customer like a Customer Registration, Invoice generation, Payment given
+etc.
+
+Thiết kế cơ sở dữ liệu(SQL Server) cho ứng dụng trên:
+- Database convention.eg: NumberOfStudents
+- Bao gồm cả câu lệnh sql cho từng bảng
+- Chức năng đăng nhập yêu cầu mã hóa mật khẩu
+- Tên thực thể, trường bằng tiếng Anh, có comment giải thích bằng song ngữ Anh-Việt
+
+
+
+Viết các procedure, function, views cần thiết cho app:

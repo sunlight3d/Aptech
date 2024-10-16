@@ -1,0 +1,12 @@
+server:
+  port: 8088
+spring:
+  kafka:
+    bootstrap-servers: ubuntu-server-01.local:9092
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      #transaction-id-prefix: tx.
+      properties:
+        "[spring.json.type.mapping]": product:com.demo.kafka.demo.models.Product
+    consumer:
+      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer

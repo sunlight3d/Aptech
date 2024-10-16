@@ -1,0 +1,6 @@
+3 containterer or more:
+-php
+-mysql
+-php myadmin
+
+compose many containers => Docker composer(configuration: .yaml/yml)

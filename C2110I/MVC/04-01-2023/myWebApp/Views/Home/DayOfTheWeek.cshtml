@@ -1,0 +1,12 @@
+﻿<div>
+    <form method="get">
+        <h1>Enter day of the week</h1>
+        <input type="text" name="day" />    
+        <div>
+            <button asp-controller="Home" asp-action="DayOfTheWeek">
+                Go
+            </button>
+        </div>  
+        <h2>@ViewBag.message</h2>
+    </form>    
+</div>

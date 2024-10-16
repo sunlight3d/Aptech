@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  mongo-container:
+    ports:
+      - "27018:27017"
+    volumes:
+      - ./mongodb:/data/db
+    image: mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=hoangnd
+      - MONGO_INITDB_ROOT_PASSWORD=123456
+  mongo-express-container:
+    ports:
+      - "3001:8081"
+    image: mongo-express
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=hoangnd
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=123456
+      - ME_CONFIG_MONGODB_SERVER=mongo-container

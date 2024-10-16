@@ -1,0 +1,47 @@
+﻿
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link type="text/css" rel="stylesheet"
+          href="@Url.Content("~/Content/themes/base/jquery-ui.css")" />
+    <link type="text/css" rel="stylesheet" href="~/content/Site.css" />
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-1.12.4.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-ui-1.12.1.js")"></script>
+</head>
+<body>
+    <div> 
+        <h1>Operas I Have Seen</h1>
+        <div class="topmenu">
+            @Html.MvcSiteMap().Menu(false, true, true)
+        </div>
+        <div class="clear-floats" />
+        <div class="breadcrumb">
+            Breadcrumb Trail: @Html.MvcSiteMap().SiteMapPath()
+        </div>
+        <div>
+            @RenderBody()
+        </div>
+        <div class="login-controls">
+            @if (Request.IsAuthenticated)
+            {
+                <div>
+                    Hello, @System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(User.Identity.Name).
+                    @Html.ActionLink("Log Off", "LogOff", "Account")
+                    @Html.ActionLink("Reset Password", "ResetPassword", "Account")
+                </div>
+            }
+            else
+            {
+                <div>
+                    @Html.ActionLink("Log In", "Login", "Account")
+                    @Html.ActionLink("Register", "Register", "Account")
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>

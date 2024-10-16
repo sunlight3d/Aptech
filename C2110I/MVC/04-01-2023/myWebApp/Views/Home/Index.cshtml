@@ -1,0 +1,10 @@
+﻿@using myWebApp.ViewModels;
+@model StudentViewModel;
+
+<form method="get" >
+    <h1>Please input your name</h1>
+    <input type="text" name="StudentName" />
+    <button asp-controller="Home" asp-action="Index">Click Me</button>
+    <h2>Hello @Model.StudentName</h2>
+</form>
+

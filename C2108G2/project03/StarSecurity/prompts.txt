@@ -1,0 +1,102 @@
+Hãy thiết kế database sql server từ yêu cầu sau:
+Viết cụ thể các câu lệnh SQL tạo bảng và comment vào từng trường và nêu mục đích của từng trường 
+We are a professional agency providing customized security arrangements to
+the industrial, commercial, and business houses
+
+Star securities has been one of the pioneers in the Private Security Industry.
+Set up in 2000, the company has been a thought and knowledge leader since
+its inception. Through the decade of its existence, Star has endeavored to
+provide the best security solutions to its customers through innovation,
+commitment to quality, training and strict compliance to international
+standards.
+
+Setup as Investigation firm almost 10 years ago, today the company has
+grown into a &quot;Total Security Solutions Provider&quot; offering manned guarding
+(MG), investigations (C&amp;I), electronic security systems (ESS) and cash
+services (CS) to over 250 corporate customers across 24 states.
+
+Star is an ISO 9001:2000 certified public limited company. Backed by a
+trained workforce of over 2800 men &amp; supervisors and 100 banded
+managers, Star delivers premium services with high quality and absolute
+integrity.
+
+Star believes in continuously upgrading the quality of our resources and
+infrastructure to support the ever-changing customer requirements. In
+pursuance to this, Star wants the security business to implement a state-of-
+the-art ERP Solution to manage the day-to-day operations of the company.
+
+Objectives
+To provide a team of well-trained personnel so as to relieve our clients of all
+vexations and bothers appertaining to their safety, security and
+management.
+REQUIREMENTS
+Functional Requirements.
+A web-site incorporating all the information about the Star security services
+is required with following functionality
+There should be a menu categorizing the various aspects of the Star. The
+detailed menu options are as mentioned below.
+1. About us:
+o History : When the organization started , how, where etc
+o Chairman&#39;s Profile : Details about the chairman
+o Board Of Directors  : Details about the board members
+2. Our Business:
+o Manned guarding: The service portfolio of this division includes
+guarding, fire squad, dog squad, bodyguards etc. for industries,
+banks, retail outlets, residential colonies, hotels and institutions
+o Cash Services: The service range of the Cash Services division
+includes secured transfer of cash and valuables, ATM
+replenishment, Vaulting and Processing Services, multi-point
+cash collection and Caretaker Services
+o Recruitment and training: This division works in close alignment
+with multiple division of Star with an objective of recruiting
+training and delivering suitable manpower to meet their
+requirements.
+Electronic security systems: This division works in close
+association with SIS&#39;s strategic partners i.e. reputed system
+integrators &amp; installers. The primary area of activity for this
+division is design, installation and maintenance of Access control
+systems, CCTVs, fire alarm systems, fire suppression systems,
+intruder/burglar alarms, perimeter protection systems, etc. The
+division aims at marketing its products to the existing customer
+base.
+3. Our network:
+o North region
+o West region
+o East region
+o South region
+It should provide the details of Star branches (address /contact
+details/ contact person in the various regions as above
+4. Careers with us: The website should also display the various
+vacancies available with Star along with the complete details of it. It
+should also remove the vacancy once filled
+Clients:
+o Name of client
+o Services availed
+o Staff assigned
+6. Login:
+o Website should provide login only for the employees. No
+outsider can create login or register
+o The employees will have the restricted access to the website
+content as per their role. E.g. the normal staff can see the
+personal details of the other staff, where all have posted etc.
+But they cannot access the areas like editing the services
+offered, staff details, vacancy posting etc.
+Testimonials
+8. Site map
+9. Contact us
+10. Following details of employees should be displayed :
+ Employee Name
+ Employee address
+ Employee contact number
+ Educational Qualification
+ Employee code
+ Department
+ Role
+ Grade
+ Client
+ Achievements(if any)
+11. Users with admin privileges can
+o Add/update/delete/edit the details of the employees.
+o Add/update/delete/edit vacancies
+o Add/update/delete/edit services offered
+o Add/update/delete/edit clients details

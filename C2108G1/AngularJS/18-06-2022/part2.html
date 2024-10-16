@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div ng-app="myApp" ng-controller="AppController">
+        <h1>Temperature Monitor</h1>
+        <span>Add temperature </span><input type="text" ng-model="temperature">
+        <button ng-click="addTemperature()">Add Temperature</button>
+        <p name="message">{{ message }}</p>
+        <button ng-click="getMedianTemperature()">Get median temperature</button>
+        <p name="currentMedian">{{ currentMedian }}</p>
+        <script>
+            const app = angular.module('myApp', [
+                //list of modules                
+            ])             
+            app.controller('AppController', function($scope){                
+                var temperatures = []
+                //angular code here...
+                $scope.addTemperature = function() {
+                    //alert('addTemperature')                    
+                    
+                    const isEmpty = isNaN($scope.temperature) 
+                        || $scope.temperature.trim().length == 0
+                    const isDuplicate = temperatures
+                                           .filter(item => item == $scope.temperature)
+                                          .length > 0    
+                     
+                    if(isEmpty || isDuplicate) {
+                        //is not a number
+                        $scope.temperature = ''
+                        return
+                    }                    
+                    temperatures.push($scope.temperature)
+                    //convert array to string 
+                    $scope.message = `Current state of the list: 
+                                ${temperatures.join(' ')}`
+                    $scope.temperature = ''
+                }
+                $scope.getMedianTemperature = function() {
+                    
+                    let total = 0
+                    for(let i = 0; i < temperatures.length; i++) {
+                        total += parseInt(temperatures[i])
+                    }
+                    //debugger
+                    let average = temperatures.length == 0 ? 0 :
+                                        total / temperatures.length
+                    $scope.currentMedian = `Current Median: ${average}`                   
+                }
+            })            
+        </script>
+    </div>
+</body>
+</html>

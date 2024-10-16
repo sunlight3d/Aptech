@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="./part3.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div ng-app="myApp" ng-controller="AppController">
+        <center>
+            <h1>Welcome to GA camping store</h1>        
+            <div>
+                <span>Filtering input: </span><input type="text" 
+                ng-change="filterCategory()"
+                ng-model="typedText">
+            </div>
+            <table style="width: 60%;">
+                <th>
+                  <td>Category</td>
+                  <td>Desription</td>
+                  <td>Price</td>
+                  <td>Qty</td>
+                  <td>Total</td>
+                  <td></td>
+                </th>                
+                <!-- foreach($categories as $item) in php -->
+                <tr ng-repeat="category in categories">                 
+                    <td></td>
+                  <td>{{ category.name }}</td>
+                  <td>{{ category.description }}</td>
+                  <td>{{ category.price }}</td>
+                  <td>{{ category.quantity }}</td>
+                  <td>{{ getTotal(category.price, category.quantity) }}</td>
+                  <td><button>Add to Cart</button></td>
+                </tr>                
+            </table>    
+            <!-- {{ categories }}           -->
+            <!-- <p>You typed: {{ typedText }}</p> -->
+        </center>        
+    </div>
+</body>
+</html>

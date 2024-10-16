@@ -1,0 +1,24 @@
+{
+  "name": "myapp",
+  "version": "1.0.0",
+  "description": "this is tutorial",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --watch index.js",
+    "debug": "node inspect index.js",
+    "start:dev": "npm install && nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@faker-js/faker": "^7.6.0",
+    "chalk": "4.1.2",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mysql2": "^3.2.0",
+    "nodemon": "^2.0.21",
+    "sequelize": "^6.29.3",
+    "sqlite3": "^5.1.6"
+  }
+}

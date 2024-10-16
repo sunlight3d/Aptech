@@ -1,0 +1,9 @@
+.bd-example {
+    padding: 1.5rem;
+    margin-right: 0;
+    margin-left: 0;
+    margin-top: 10px;
+    border-width: 1px;
+    border-radius: .25rem;    
+    background-color: lightgrey;
+}

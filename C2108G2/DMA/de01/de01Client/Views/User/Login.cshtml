@@ -1,0 +1,34 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login Form</title>
+</head>
+<body>
+    <div style="text-align:center;">
+        <h2>Login</h2>
+    </div>
+    <br />
+    <form asp-controller="User" asp-action="Login" method="post">
+        <div style="text-align:center;">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" /><br /><br />
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" /><br /><br />
+            <button type="submit">Sign in</button>
+        </div>
+        <div style="text-align:center;">
+            <a href="#">Lost your password?</a>
+        </div>
+        <div style="text-align:center;">
+            Don't have an account? <a href="#">Register</a>
+        </div>
+    </form>
+</body>
+</html>
+

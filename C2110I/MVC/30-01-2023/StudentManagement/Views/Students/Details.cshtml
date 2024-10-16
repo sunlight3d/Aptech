@@ -1,0 +1,64 @@
+﻿@model StudentManagement.Models.Student
+
+@{
+    ViewData["Title"] = "Details";
+    var enrollments = Model.Enrollments.ToList();
+    var firstEnrollment = enrollments.Count > 0 ? enrollments[0] : null;
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Student</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StudentName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StudentName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DOB)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DOB)
+        </dd>
+    </dl>
+</div>
+@if (firstEnrollment != null)
+{
+    <table class="table enrollmentList">
+        <tr>
+            <th>@Html.DisplayNameFor(model => firstEnrollment.Course.CourseName)</th>
+            <th>@Html.DisplayNameFor(model => firstEnrollment.Student.StudentName)</th>
+            <th>@Html.DisplayNameFor(model => firstEnrollment.Grade)</th>
+            <th>@Html.DisplayNameFor(model => firstEnrollment.Remarks)</th>
+        </tr>
+        @foreach (var enrollment in enrollments)
+        {
+            <tr>
+                <td>@Html.DisplayFor(model => enrollment.Course.CourseName)</td>
+                <td>@Html.DisplayFor(model => enrollment.Student.StudentName)</td>
+                <td>@Html.DisplayFor(model => enrollment.Grade)</td>
+                <td>@Html.DisplayFor(model => enrollment.Remarks)</td>
+            </tr>            
+        }
+    </table>
+}
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.StudentID">Edit</a> |
+    <a asp-action="Index">Back to List11</a>
+</div>

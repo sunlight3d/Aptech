@@ -1,0 +1,34 @@
+version: '3.9'
+services:
+  sql-server-2017-c2002l:
+    container_name: sql-server-2017-c2002l
+    image: mcr.microsoft.com/mssql/server:2017-CU24-ubuntu-16.04
+    ports:
+      - "1444:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Abc123456789
+    networks:
+      - c2002l-docker-network
+
+  sql-server-2019-c2002l:
+    container_name: sql-server-2019-c2002l
+    image: mcr.microsoft.com/mssql/server:2019-CU11-ubuntu-20.04
+    ports:
+      - "1445:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Abc123456789
+    networks:
+      - c2002l-docker-network
+  ubuntu20-c2002l:
+    container_name: ubuntu20-c2002l
+    image: ubuntu        
+    networks:
+      - c2002l-docker-network
+
+networks:
+  c2002l-docker-network:
+    name: c2002l-docker-network  
+
+

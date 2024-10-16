@@ -1,0 +1,21 @@
+Distro:
+- Debian: Ubuntu, Kali Linux, SUSE 
+- RedHat Enterprise Linux(RHEL): Fedora, CentOS,...
+Practice:
+- Cai may ao(VirtualBox && vmware) => mat cong ton dung luong => dung Docker(download ubuntu/centos image ve, start container tren cac image nay, tham nhap vao container de chay cac lenh)
+-Thu chay cac lenh lien quan file, network, service
+-cai dat package
+- noi network 2 containers
+Cu the:
+1-Pull image ubuntu va CentOS
+2-compose 2 container nay vao 1 network
+
+docker network create docker-network-c1908iLTN
+docker network ls
+
+docker rm ubuntu-c1908iLTN
+docker run -it --name ubuntu-c1908iLTN --net docker-network-c1908iLTN ubuntu:latest 
+
+
+docker rm centos-c1908iLTN
+docker run -it --name centos-c1908iLTN --net docker-network-c1908iLTN centos:latest 

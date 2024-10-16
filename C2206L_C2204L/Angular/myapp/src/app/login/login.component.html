@@ -1,0 +1,26 @@
+<div class="container">
+  <h2>Login</h2>
+  <form (ngSubmit)="login()">
+    <div class="mb-3 col-4">
+      <label for="email" class="form-label">Email:</label>
+      <input type="email" id="email" 
+        [(ngModel)]="email" required
+        [ngModelOptions]="{standalone: true}"
+        class="form-control" >        
+      <span>You typed: {{email}}</span>  
+      <div *ngIf="!isValidEmail()" class="alert alert-danger">
+          Invalid email address
+      </div>
+      <div *ngIf="isValidEmail()" class="alert alert-primary">
+        Good email
+    </div>
+    </div>
+    <div class="mb-3 col-4">
+      <label for="password" class="form-label">Password:</label>
+      <input type="password" id="password" class="form-control" 
+      [ngModelOptions]="{standalone: true}"
+      [(ngModel)]="password">
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+  </form>
+</div>

@@ -1,0 +1,23 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ShowCities</title>
+    <link rel="stylesheet" type="text/css" href="~/css/style.css" />
+</head>
+<body>
+    <h1>Select City</h1>
+    @foreach (var item in ViewBag.Cities)
+    {
+        <h2>
+            <a asp-action="ShowDataForCity" asp-route-cityname="@item.Key">@item.Key</a>
+        </h2>
+    }
+</body>
+</html>

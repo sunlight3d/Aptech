@@ -1,0 +1,6 @@
+servlets/ProductServlet.class
+com/aptech/de05/de05/resources/JakartaEE10Resource.class
+com/aptech/de05/de05/providers/EntityManagerFactoryProvider.class
+com/aptech/de05/de05/JakartaRestConfiguration.class
+servlets/UserServlet.class
+com/aptech/de05/de05/models/Product.class

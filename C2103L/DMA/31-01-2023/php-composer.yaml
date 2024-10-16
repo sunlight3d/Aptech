@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  php-service:
+    image: php:7.0-cli
+    container_name: php7-c2103l-container
+    volumes:
+      - '.:/app'
+  mysql-service:
+    image: mysql:8.0
+    container_name: mysql-c2103l-container
+    restart: always
+    ports:
+      - '3310:3306'
+    volumes:
+      - './mysqlDb:/var/lib/mysql'
+    environment:
+      - MYSQL_DATABASE=testdb
+      - MYSQL_ROOT_PASSWORD=Abc123456789
+#docker-compose -f php-composer.yaml up --detach
+#docker exec -it mysql-c2103l-container bash

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>
+    Do you really want to assign product:
+    <span th:text="${selectedProduct.productName}"></span>
+</h1>
+<form action="#" th:action="@{/products/assign}" th:method="post" >
+    <input type="hidden" name="productId" th:value="${selectedProduct.productId}" />
+  <select name="categoryId">
+    <option th:each="category : ${categories}"
+            th:value="${category.categoryId}"
+            th:text="${category.categoryName}">
+    </option>
+  </select>
+  <button type="submit">Assign</button>
+</form>
+
+</body>
+</html>

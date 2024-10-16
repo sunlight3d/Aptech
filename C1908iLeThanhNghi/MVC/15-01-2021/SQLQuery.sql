@@ -1,0 +1,16 @@
+USE C1908iLTN;
+CREATE TABLE Category(
+	CategoryId INT PRIMARY KEY IDENTITY(1,1),
+	CategoryName NVARCHAR(500) NOT NULL
+)
+CREATE TABLE Product(
+	ProductId INT PRIMARY KEY IDENTITY(1,1),
+	Name NVARCHAR(500) NOT NULL,
+	Price FLOAT DEFAULT 0.0,
+	Quantity INT DEFAULT 0,
+	ReleaseDate DATETIME,
+	CategoryId INT
+);
+ALTER TABLE Product
+ADD CONSTRAINT FK_CategoryProduct
+FOREIGN KEY (CategoryId) REFERENCES Category(CategoryId); 

@@ -1,0 +1,59 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<WAD_C2009i_NguyenVanA.Models.Exam>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@using (Html.BeginForm("Index", "Exams", FormMethod.Get))
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Last Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            SubjectName
+        </th>
+        <th>
+            Mark
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student.StudentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject.SubjectName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mark)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.StudentId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.StudentId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.StudentId })
+            </td>
+        </tr>
+    }
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

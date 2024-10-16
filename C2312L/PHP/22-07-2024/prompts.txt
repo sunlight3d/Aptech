@@ -1,0 +1,9 @@
+Give me an exercise of PHP Laravel MVC with these functionalities:
+-Mysql Db must have at least 2 tables, at least 1 1-N relation
+-Views must have CRUD functionalities
+-Views can use Tailwind CSS
+-Login/register functionalities, save sessions
+-Deploy app in Linux Server
+-Authorization and Authentication, user'table must have role(admin, user). Admin can block user
+-Some UI screens for this app
+

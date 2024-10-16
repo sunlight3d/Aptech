@@ -1,0 +1,5 @@
+#Run container
+docker run --env MYSQL_ROOT_PASSWORD="123456" \
+-d c0cdc95609f1
+#-d: deamon/service/background mode
+

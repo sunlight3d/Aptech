@@ -1,0 +1,45 @@
+version: '3.9'
+
+services:
+  sqlserver2022:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver2022
+    environment:
+      SA_PASSWORD: Abc123456789@
+      ACCEPT_EULA: Y
+    ports:
+      - "1440:1433"
+    networks:
+      - mynetwork
+    volumes:
+      - ./sql_server_2022_data:/var/opt/mssql/data
+  testapp-container:
+    image: testapp-dotnet7:1.0
+    container_name: testapp-container    
+    ports:
+      - "6000:5000"
+    networks:
+      - mynetwork    
+    command: ["sh", "-c", "dotnet dev-certs https --trust && dotnet testapp.dll"] 
+
+  sqlserver2017:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    container_name: sqlserver2017
+    environment:
+      SA_PASSWORD: Abc123456789@
+      ACCEPT_EULA: Y
+    ports:
+        #host's port:container's port
+      - "1441:1433"  # Map host port 1434 to container port 1433
+    networks:
+      - mynetwork
+    volumes:
+      - ./sql_server_2017_data:/var/opt/mssql/data
+
+networks:
+  mynetwork:
+    name: mynetwork
+
+#-d = detach = background
+#docker-compose -f ./deployment.yml up -d
+#docker-compose -f ./deployment.yml down

@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/c2103l?useSSL=false&serverTimezone=UTC
+    username: root
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: none
+      show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+  application:
+    name: bookapp
+
+server:
+  port: 8088
+

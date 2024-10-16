@@ -1,0 +1,85 @@
+﻿@model PagedList.IPagedList<WAD_C2203L_NguyenVanA.Employee>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@using (Html.BeginForm("Index", "Employees", FormMethod.Get))
+{
+    <p>
+        Find by employee name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Employee name",
+                "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            Address
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Date of join
+        </th>
+        <th>
+            Gender
+        </th>
+        <th>
+            Year of birth
+        </th>
+        <th>
+            Department's name
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmpName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DOJ)
+            </td>
+            <td>
+                @((item.Gender == true) ? "Male": "Female")
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.YearOfBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Department.DeptName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.EmpID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.EmpID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.EmpID })
+            </td>
+        </tr>
+    }
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

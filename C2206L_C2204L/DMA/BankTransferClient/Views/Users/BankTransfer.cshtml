@@ -1,0 +1,58 @@
+﻿
+<h1>Bank Transfer</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <!-- Thông tin người gửi -->
+        <h2>Sender Information</h2>
+        <dl>
+            <dt>User ID:</dt>
+            <dd>@ViewBag.Sender.UserId</dd>
+            <dt>User Name:</dt>
+            <dd>@ViewBag.Sender.UserName</dd>
+            <dt>Full Name:</dt>
+            <dd>@ViewBag.Sender.FullName</dd>
+            <dt>Address:</dt>
+            <dd>@ViewBag.Sender.Address</dd>
+            <dt>Phone:</dt>
+            <dd>@ViewBag.Sender.Phone</dd>
+            <dt>Email:</dt>
+            <dd>@ViewBag.Sender.Email</dd>
+        </dl>
+    </div>
+    <div class="col-md-6">
+        <!-- Thông tin người nhận -->
+        <h2>Receiver Information</h2>
+        <dl>
+            <dt>User ID:</dt>
+            <dd>@ViewBag.Receiver.UserId</dd>
+            <dt>User Name:</dt>
+            <dd>@ViewBag.Receiver.UserName</dd>
+            <dt>Full Name:</dt>
+            <dd>@ViewBag.Receiver.FullName</dd>
+            <dt>Address:</dt>
+            <dd>@ViewBag.Receiver.Address</dd>
+            <dt>Phone:</dt>
+            <dd>@ViewBag.Receiver.Phone</dd>
+            <dt>Email:</dt>
+            <dd>@ViewBag.Receiver.Email</dd>
+        </dl>
+    </div>
+</div>
+
+<hr />
+
+<!-- Form để nhập amount và reason -->
+<form asp-action="Transfer" method="post">
+    <div class="form-group">
+        <label for="amount">Amount:</label>
+        <input type="number" class="form-control" id="amount" name="amount" required>
+    </div>
+    <div class="form-group">
+        <label for="reason">Reason:</label>
+        <input type="text" class="form-control" id="reason" name="reason" required>
+    </div>
+    <input type="hidden" name="requestId" value="@Model.RequestId">
+    <input type="hidden" name="receiverId" value="@Model.Receiver.UserId">
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>

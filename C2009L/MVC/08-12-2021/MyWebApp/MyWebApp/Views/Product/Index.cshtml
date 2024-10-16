@@ -1,0 +1,42 @@
+﻿@using MyWebApp.Models;
+//@model IEnumerable<MyWebApp.Models.Product>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Display some products</h2>
+<div class="table-container">
+    <table class="table is-bordered is-striped is-narrow is-hoverable">
+        <tr>
+            <th>ProductName</th>
+            <th>Year</th>
+            <th>Price</th>
+        </tr>
+        @foreach (Product product in ViewBag.products)
+        {
+            <tr>
+                <td>@product.ProductName</td>
+                <td>@product.Year</td>
+                <td>@product.Price</td>
+
+            </tr>
+
+        }
+    </table>
+    @using (Html.BeginForm("Index", "Product", FormMethod.Post))
+    {   
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+                <th colspan="2" align="center">Enter product's detail:</th>
+            </tr>
+            <tr>    
+                <td>ProductName: </td>
+                <td>
+                    @Html.TextBoxFor(m => ViewBag.newProduct.ProductName)
+                </td>
+            </tr>   
+            <input type="submit" value="Insert Product" />
+        </table>    
+    }   
+</div>
+

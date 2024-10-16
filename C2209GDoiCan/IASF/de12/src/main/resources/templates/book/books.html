@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Book List</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Price</th>
+        <th>Actions</th> <!-- Added column for action buttons -->
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.id}">1</td>
+        <td th:text="${book.title}"></td>
+        <td th:text="${book.author}"></td>
+        <td th:text="${book.price}">100.00</td>
+        <td>
+            <!-- Edit Button -->
+            <a th:href="@{/books/edit/{id}(id=${book.id})}" class="btn btn-primary">Edit</a>
+            <form th:action="@{/books/delete/{id}(id=${book.id})}" method="post" style="display:inline">
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

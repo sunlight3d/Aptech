@@ -1,0 +1,110 @@
+﻿@model PagedList.IPagedList<ProjectAppMVC.Models.ProjectEmployee>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@* Create New link *@
+@{
+    var createLink = Html.ActionLink("Create New", "Create");
+}
+
+<p>
+    @createLink
+</p>
+
+<table class="table table-success table-striped">
+    <thead>
+        <tr class="thead-primary text-white">
+            <th>
+                Employee's Name
+            </th>
+            <th>
+                Project's Name
+            </th>
+            <th>
+                Tasks
+            </th>
+            <th>
+                SalaryFactor
+            </th>
+            <th>
+                ActualSalary
+            </th>
+            <th>
+                @{
+                    string dateSortParm = ViewData["DateSortParm"]?.ToString();
+                    string currentFilter = ViewData["CurrentFilter"]?.ToString();
+                    var sortingLink = new TagBuilder("a");
+                    sortingLink.MergeAttribute("href", Url.Action("Index", new { sortOrder = dateSortParm, currentFilter }));
+                    sortingLink.AddCssClass("text-decoration-none");
+
+                    MvcHtmlString sortingText = new MvcHtmlString("Project's Start date");
+                    //sortingLink.InnerHtml.Append(sortingText);
+
+                    if (dateSortParm == "Date")
+                    {
+                        var caretDown = new TagBuilder("i");
+                        caretDown.AddCssClass("fa-solid fa-caret-down fa-lg");
+                        //  sortingLink.InnerHtml.AppendHtml(caretDown);
+                    }
+                    else
+                    {
+                        var caretUp = new TagBuilder("i");
+                        caretUp.AddCssClass("fa-solid fa-caret-up fa-lg");
+                        //sortingLink.InnerHtml.AppendHtml(caretUp);
+                    }
+                }
+                @Html.Raw(sortingLink.ToString())
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Employee.EmployeeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Project.ProjectName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tasks)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SalaryFactor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActualSalary)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Project.ProjectStartDate)
+            </td>
+
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+
+        </tr>
+        }
+    </tbody>
+</table>
+<p>Total tasks: @ViewBag.totalTasks</p>
+
+
+
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

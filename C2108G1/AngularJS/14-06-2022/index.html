@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- import angularJS CDN - Content Delivery Network -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div ng-app="myApp" ng-controller="UserController">
+        <input type="text" name="email" 
+            ng-model="email" placeholder="Enter email">
+        <script>
+            //app is an object
+            const app = angular.module('myApp', [
+                //list of modules                
+            ])                
+            if(3>2) {
+                //this is a block
+                var x = 120                
+                let y = 100
+            }
+            console.log(`x = ${x}`)
+            let name = "Hoang"
+            let email = "ddd@ff.copm"            
+            console.log("mr A'name \" is:  "+name + ", email = "+email)//concatenate string
+            console.log(`name: ${name} , email = ${email}`) //string template
+                        //alert("haha")
+            const userControllerEvent = ($scope) => {
+                //$scope.email = ""
+                console.log(`your email : ${$scope.email}`)
+                let names = ['John', 'Anna', "Tom", "Heny"]
+                //debugger
+                /*
+                for(let i = 0; i < names.length; i++) {
+                    console.log(names[i])
+                }
+                */
+               /*
+                names.forEach(name => {
+                    console.log(`name is : ${name}`)
+                });
+                */
+               names.push("Hoang")
+                for(let name of names) {
+                    console.log(`name is : ${name}`)
+                }
+                //traditional
+                /*for(let name of names) {
+                    if(name == "Anna") {
+                        console.log(`name is : ${name}`)
+                    }
+                    
+                }
+                */
+               //select names where value's length >= 4
+               //let filteredNames = names.filter(name => name.length >= 4)
+               const filterFunction = function() {
+                    return name.length >= 4
+               }
+               let filteredNames = names.filter(filterFunction)
+               console.log(`Result: ${filteredNames}`)
+                //alert('Welcome')
+                //list of objects
+                let persons = [
+                    {
+                        name: 'John',
+                        email: 'john@example.com',
+                        age: 18
+                    },
+                    {
+                        name: 'Joewewehn',
+                        email: 'john@example.com',
+                        age: 22
+                    },
+                    {
+                        name: 'Jdsdsohn',
+                        email: 'johewen@example.com',
+                        age: 19
+                    },
+                    {
+                        name: 'Jsdsohn',
+                        email: 'ew@example.com',
+                        age: 33
+                    }
+                ]
+                /*
+                let filteredPersons = persons.filter(eachPerson => {
+                    return eachPerson.age == 18 
+                        || eachPerson.age == 19
+                })
+                */
+                let filteredPersons = persons.filter(eachPerson => 
+                                            eachPerson.age == 18 
+                                                || eachPerson.age == 19)
+                console.log(filteredPersons)
+                //optional values
+                let student = {
+                    name:'nguyen van a',
+                    age: 18,
+                    //property as a function => method
+                    playGame: function(name) {
+                        console.log(`I play ${name}`)
+                    }
+                }
+                console.log(student?.playGame('abc'))
+                //default value
+                let yy = 111
+                //let z = yy == undefined ? 0 : yy//ternary
+                let z = yy ?? 0 //nil coalescing
+                //let z = yy || 0 //nil coalescing
+                console.log("z = "+z)
+                console.log("hahahaha333333")
+                
+            }            
+            console.log("hahahaha4444")
+            
+            app.controller('UserController', userControllerEvent)
+        </script>
+    </div>
+</body>
+</html>

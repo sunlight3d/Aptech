@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Product</title>
+</head>
+<body>
+<h1>Product list</h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Description</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.id}"></td>
+        <td th:text="${product.productName}"></td>
+        <td th:text="'$' + ${product.price}"></td>
+        <td th:text="${product.description}"></td>
+        <td>
+            <a th:href="@{/products/assign/{productId}(productId=${product.id})}">
+                Assign this product to other category
+            </a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

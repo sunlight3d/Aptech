@@ -1,0 +1,15 @@
+docker pull mcr.microsoft.com/mssql/server:2019-CU11-ubuntu-20.04  
+
+docker run -it --name=sql-server-container-c1908i \
+-e 'ACCEPT_EULA=Y' \
+-e 'SA_PASSWORD=Abc123456789' \
+-p 1444:1433 \
+mcr.microsoft.com/mssql/server:2019-CU11-ubuntu-20.04
+
+mssql -s localhost -o 1444 -u sa -p Abc123456789 
+
+SELECT * FROM db_test.INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE';
+
+Tao 1 project dotnet core mvc (terminal)
+dotnet new mvc -o MyProject
+dotnet dev-certs https --trust

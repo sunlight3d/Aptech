@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Book list</h1>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th>Expensive</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="bookResponse : ${bookResponses}">
+        <td th:text="${bookResponse.id}"></td>
+        <td th:text="${bookResponse.title}"></td>
+        <td th:text="${bookResponse.price}"></td>
+        <td th:text="${bookResponse.category}"></td>
+        <td th:text="${bookResponse.isExpensive() ? 'Yes' : 'No'}"></td>
+        <td>
+            <form th:action="@{/books/{bookId}(bookId=${bookResponse.id})}"
+                  method="post" style="display: inline;">
+                <input type="hidden" name="_method" value="delete" />
+                <button type="submit"
+                        onclick="return confirm('Are you sure you want to delete this book?')">
+                    Delete</button>
+            </form>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

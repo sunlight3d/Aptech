@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Product List</title>
+    <script type="text/javascript">
+        function confirmDelete(productId) {
+            console.log("Product ID to delete: " + productId);
+            // Display confirmation alert
+            if (confirm("Are you sure you want to delete this product?")) {
+                // If user confirms, submit the delete form
+                document.getElementById("deleteForm-" + productId).submit();
+            }
+        }
+    </script>
+</head>
+<body>
+<h1>Product List</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.id}">1</td>
+        <td th:text="${product.name}">Product Name</td>
+        <td th:text="${product.price}">100.00</td>
+        <td><a th:href="@{/products/edit/{id}(id=${product.id})}">Edit</a></td>
+        <td>
+            <form th:id="'deleteForm-' + ${product.id}"
+                  th:action="@{/products/delete/{id}(id=${product.id})}" method="post">
+                <!-- Escape the Thymeleaf expression to pass productId correctly -->
+                <button type="button" th:onclick="'confirmDelete(' + ${product.id} + ')'">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<!-- Pagination controls -->
+<div>
+    <ul>
+        <li th:if="${currentPage > 0}">
+            <a th:href="@{/products(page=${currentPage - 1}, search=${search})}">Previous</a>
+        </li>
+
+        <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+            <a th:href="@{/products(page=${i}, search=${search})}"
+               th:text="${i + 1}"
+               th:class="${i == currentPage} ? 'active' : ''"></a>
+        </li>
+
+        <li th:if="${currentPage < totalPages - 1}">
+            <a th:href="@{/products(page=${currentPage + 1}, search=${search})}">Next</a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

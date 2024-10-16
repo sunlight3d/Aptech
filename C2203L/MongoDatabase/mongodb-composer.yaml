@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:4.2.23-bionic
+    container_name: mongo-container
+    restart: always
+    ports:
+      - 27018:27017
+    volumes:
+      - './mongodb:/data/db'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: Abc123456789
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express-container
+    restart: always
+    ports:
+      - 8084:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: Abc123456789
+      ME_CONFIG_MONGODB_URL: mongodb://root:Abc123456789@mongo:27017/
+
+#docker-compose -f ./mongodb-composer.yaml up
+#Connect from Host(laptop, PC):
+#mongosh "mongodb://root:Abc123456789@localhost:27018" --username root --authenticationDatabase admin
+#docker exec -it mongo-container bash
+#Connect inside container:
+#mongo "mongodb://root:Abc123456789@localhost:27017" --username root --authenticationDatabase admin
+#Download and restore data
+#curl https://atlas-education.s3.amazonaws.com/sampledata.archive -o sampledata.archive
+#mongorestore --username root --password Abc123456789 --authenticationDatabase admin --archive=./sampledata.archive

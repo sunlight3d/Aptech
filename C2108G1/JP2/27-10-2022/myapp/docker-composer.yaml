@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  mysql-c2108g1:
+    image: mysql:8.0.31
+    container_name: mysql-c2108g1
+    restart: always
+    ports:
+      - 3309:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: Abc123456789
+      MYSQL_DATABASE: testdb
+  adminer:
+    image: adminer #Connect mysql through
+    restart: always
+    ports:
+      - 8088:8080
+#docker-compose -f docker-composer.yaml up
+#Access terminal in mysql-c2108g1:
+#docker exec -it mysql-c2108g1 bash

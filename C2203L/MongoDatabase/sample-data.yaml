@@ -1,0 +1,96 @@
+- 1 user has N sessions
+- 1 movies has N comments
+
+
+sample_mflix:
+    users:
+        -name
+        -email
+        -password
+    sessions:
+        -user_id
+        -jwt
+    comments:
+        -name
+        -email
+        -movie_id
+        -text
+        -date
+    movies:
+        -plot
+        -genres[]
+        -runtime
+        -cast[]
+        -num_mflix_comments
+        -title
+        -fullplot
+        -released
+        -directors[]
+        -rated
+        -awards[]
+        -year
+        -imdb {}
+        -type
+        -tomatoes {}
+    theaters:    
+        -theaterId
+        -location:
+            -address {}
+            -geo:
+                -type
+                -coordinates[]
+db.movies.find({
+    $and: [
+            {
+                year: {
+                    $gte: 2015
+                },
+            },
+            {
+                year: {
+                    $lte: 2023
+                },
+            }
+        ]        
+},{
+    _id: 0,
+    year: 1,
+    title: 1
+}).pretty().length()
+
+db.movies.find({
+    "tomatoes.viewer.rating": 1
+}, {
+    _id: 0,
+    title: 1,
+    year: 1,
+    "imdb.votes": 1,
+}).pretty()
+
+sample_analytics
+    accounts:
+        -account_id
+        -limit
+        -products[]
+    customers:
+        -username
+        -name
+        -address
+        -birthdate
+        -email
+        -active
+        -accounts[]
+        -tier_and_details: {}
+    transactions:        
+        -account_id
+        -transaction_count
+        -bucket_start_date
+        -bucket_end_date
+        -transactions[]:
+            -date
+            -amount
+            -transaction_code
+            -symbol
+            -price
+            -total
+

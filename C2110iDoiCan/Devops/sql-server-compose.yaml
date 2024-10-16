@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  sql-server-2022:
+    #image: mcr.microsoft.com/mssql/server:2022-latest
+    image: mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04
+    container_name: sql-server-2022
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Abc123456789@
+    ports:
+      - 1435:1433    
+    networks:
+      - C2110iDoiCan
+  sql-server-2017:
+    #image: mcr.microsoft.com/mssql/server:2022-latest
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    container_name: sql-server-2017
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Abc123456789@
+    ports:
+      - 1436:1433    
+    networks:
+      - C2110iDoiCan
+
+volumes:
+  sql-server-data:
+
+networks:
+  C2110iDoiCan:
+    driver: bridge

@@ -1,0 +1,13 @@
+- Tao tk github,tao repository
+- cai gitbash
+git clone https://github.com/nestjs/nest.git
+
+docker run ^
+--name mongodb-container ^
+-d ^
+--network mongodb-netapi-network ^
+-e MONGO_INITDB_ROOT_USERNAME=root ^
+-e MONGO_INITDB_ROOT_PASSWORD=123456 ^
+-p 27019:27017 ^
+-v BooksData:/data/db ^
+mongo:5.0.6

@@ -1,0 +1,82 @@
+﻿@using de01.Utilities;
+@model PaginatedList<Customer>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Fullname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Birthday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Username)
+            </th>            
+            <th>
+                @Html.DisplayNameFor(model => model[0].Klass)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fullname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Birthday)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Username)
+            </td>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.ConfirmPassword)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Klass.ClassName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<div>
+    Page @(Model.PageIndex) of @(Model.TotalPages)
+
+    @if (Model.HasPreviousPage)
+    {
+        <a asp-action="Index" asp-route-page="@(Model.PageIndex - 1)" class="btn btn-default">Previous</a>
+    }
+    @if (Model.HasNextPage)
+    {
+        <a asp-action="Index" asp-route-page="@(Model.PageIndex + 1)" class="btn btn-default">Next</a>
+    }
+</div>

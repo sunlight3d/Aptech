@@ -1,0 +1,17 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model myapp.Models.Student;
+<h1>This is Index(User)aaa</h1>
+<h2>@ViewBag.Title, x = @ViewBag.X</h2>
+<ul>
+    @foreach (var klass in ViewBag.Klasses)
+    {
+        <li>@klass.Name, Start date: @klass.StartDate</li>
+    }
+</ul>
+<h1>Detail student:@Model.Name, dob: @Model.DOB</h1>
+
+

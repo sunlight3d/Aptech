@@ -1,0 +1,59 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model myapp.ViewModels.AddEmployeeViewModel;
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @foreach (var error in ViewData.ModelState.Values.SelectMany(x => x.Errors))
+        {
+            <span>@error.ErrorMessage</span>
+
+            <br />
+        }
+    </div>
+}
+<form method="post" asp-controller="Employee" asp-action="AddEmployee">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="employeeNo">Employee Number</label>
+            <input type="text" class="form-control" id="employeeNo" name="employeeNo">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="employeeName">Employee Name</label>
+            <input type="text" class="form-control" id="employeeName" name="employeeName">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="Age">Age</label>
+            <input type="text" class="form-control" id="Age" name="Age">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="Sex">Sex</label>
+            <input type="text" class="form-control" id="Sex" name="Sex">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="DepartmentId">DepartmentId</label>
+            <input type="text" class="form-control" id="DepartmentId" name="DepartmentId">
+        </div>        
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <button type="submit" class="btn btn-primary">Save</button>
+</form>
+    <form>
+        <button asp-action="Index" asp-controller="Employee"
+                class="btn btn-secondary">
+            Back to List
+        </button>
+    </form>
+    </div>
+
+            
+    </div>
+

@@ -1,0 +1,44 @@
+version: '3.9'
+
+networks:
+  sql_network:
+    driver: bridge
+
+services:
+  sql_server_2019:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sql_server_2019
+    environment:
+      SA_PASSWORD: Abc123456789@
+      ACCEPT_EULA: Y
+    ports:
+      - "1437:1433"
+    volumes:
+      - ./sql_server_2019_data:/var/opt/mssql/data
+    networks:
+      - sql_network
+
+  sql_server_2022:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql_server_2022
+    environment:
+      SA_PASSWORD: Abc123456789@
+      ACCEPT_EULA: Y
+    ports:
+      - "1438:1433"
+    volumes:
+      - ./sql_server_2020_data:/var/opt/mssql/data
+    networks:
+      - sql_network
+  
+  console-app:
+    image: mcr.microsoft.com/dotnet/sdk:7.0
+    container_name: console-app
+    command: bash -c "dotnet new console -n MyApp && cd MyApp && dotnet run"
+    volumes:
+      - ./Owin_C2110i_NguyenVanA:/app
+    networks:
+      - sql_network
+#docker-compose -f docker-compose.yml up -d
+#docker exec console-app /bin/bash
+#docker-compose -f docker-compose.yml down

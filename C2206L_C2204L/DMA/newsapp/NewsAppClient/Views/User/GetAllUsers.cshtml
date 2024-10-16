@@ -1,0 +1,59 @@
+﻿@model IEnumerable<NewsAppClient.Models.User>
+
+@{
+    ViewData["Title"] = "GetAllUsers";
+}
+
+<h1>GetAllUsers</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.UserID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.UserID">Details</a> |
+                    <form asp-action="Delete"
+                          asp-route-id="@item.UserID"
+                          method="post"
+                          onsubmit="return confirm('Are you sure you want to delete this user?');">
+                        <button type="submit" class="btn btn-link">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

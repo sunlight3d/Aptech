@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <h1>Insert books</h1>
+  <form action="/books/insert-book" method="post">
+      <div>
+          <label for="title">Title:</label>
+          <input type="text" id="title" name="title" required>
+      </div>
+      <div>
+          <label for="category">Category:</label>
+          <select id="category" name="category" required>
+              <option value="electronics">Electronics</option>
+              <option value="clothing">Clothing</option>
+              <option value="books">Books</option>
+              <!-- Add more options as needed -->
+          </select>
+      </div>
+      <div>
+          <label for="price">Price:</label>
+          <input type="text" id="price" name="price" required>
+      </div>
+      <div>
+          <button type="submit">Insert</button>
+      </div>
+  </form>
+</body>
+
+</html>

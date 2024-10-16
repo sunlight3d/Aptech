@@ -1,0 +1,31 @@
+version: '3.8'
+#docker compose -f ./mysql-compose.yaml up -d
+#docker compose -f ./mysql-compose.yaml down
+#docker exec -it mysql-container mysql -u root -p
+services:
+  mysql-container:
+    image: mysql:8.0
+    container_name: mysql-container
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - 3311:3306
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Abc123456789
+
+  adminer-container:
+    image: adminer
+    container_name: adminer-container
+    restart: always
+    ports:
+      - 8088:8080
+  phpmyadmin-container:
+    image: phpmyadmin
+    container_name: phpmyadmin-container
+    restart: always
+    ports:
+      - 8089:80
+    environment:
+      - PMA_HOST=mysql-container

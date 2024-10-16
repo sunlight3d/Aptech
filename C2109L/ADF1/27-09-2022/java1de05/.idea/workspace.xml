@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="de9684eb-5fab-4ea6-9e80-5495d0a01cf5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../../../C2108G1/ADF1/27-09-2022/documentapp/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2108G1/ADF1/27-09-2022/documentapp/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#ib_16384_0.dblwr" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#ib_16384_0.dblwr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_redo/#ib_redo10" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_redo/#ib_redo10" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_1.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_1.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_10.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_10.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_2.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_2.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_3.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_3.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_4.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_4.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_5.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_5.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_6.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_6.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_7.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_7.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_8.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_8.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_9.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_9.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/binlog.000071" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/binlog.000071" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/binlog.index" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/binlog.index" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/ibdata1" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/ibdata1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/ibtmp1" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/ibtmp1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/mysql.ibd" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/mysql.ibd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/undo_001" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/undo_001" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/undo_002" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/undo_002" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2FC5nDUg5JjzpjmPXAqllVdZcME" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "/Users/hoangnd/Documents/code/Aptech/C2109L/ADF1/27-09-2022/java1de05",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.aptech.com.aptech.Test" />
+      <module name="java1de05" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.aptech.com.aptech.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Test" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="de9684eb-5fab-4ea6-9e80-5495d0a01cf5" name="Changes" comment="" />
+      <created>1663983390428</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1663983390428</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/aptech/data/manager/DocumentManager.java</url>
+          <line>119</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/aptech/data/manager/DocumentManager.java</url>
+          <line>97</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

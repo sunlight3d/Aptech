@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/code/Aptech/C2009i/WS/31-08-2022-Android/app/src/main/res/drawable/ic_baseline_accessibility_new_24.xml" value="0.1595" />
+        <entry key="..\:/code/Aptech/C2009i/WS/31-08-2022-Android/app/src/main/res/layout/login_activity.xml" value="0.14322916666666666" />
+        <entry key="..\:/code/Aptech/C2009i/WS/31-08-2022-Android/app/src/main/res/layout/main_activity.xml" value="0.268" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
+</project>

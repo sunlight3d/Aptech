@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI (https://github.com/eclipse-ee4j/metro-jax-ws). RI's version is Metro/2.4.4 (RELEASE-2.4.4-ce05bec; 2020-04-17T12:44:48+0000) JAXWS-RI/2.3.3 JAXWS-API/2.3.3 JAXB-RI/2.3.3 JAXB-API/2.3.3 git-revision#unknown. --><xs:schema xmlns:tns="http://services/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://services/">
+
+<xs:element name="deleteEmployee" type="tns:deleteEmployee"/>
+
+<xs:element name="deleteEmployeeResponse" type="tns:deleteEmployeeResponse"/>
+
+<xs:element name="employee" type="tns:employee"/>
+
+<xs:element name="findAll" type="tns:findAll"/>
+
+<xs:element name="findAllResponse" type="tns:findAllResponse"/>
+
+<xs:element name="hello" type="tns:hello"/>
+
+<xs:element name="helloResponse" type="tns:helloResponse"/>
+
+<xs:element name="insertEmployee" type="tns:insertEmployee"/>
+
+<xs:element name="insertEmployeeResponse" type="tns:insertEmployeeResponse"/>
+
+<xs:element name="updateEmployee" type="tns:updateEmployee"/>
+
+<xs:element name="updateEmployeeResponse" type="tns:updateEmployeeResponse"/>
+
+<xs:complexType name="updateEmployee">
+<xs:sequence>
+<xs:element name="employeeNo" type="xs:string" minOccurs="0"/>
+<xs:element name="employeeName" type="xs:string" minOccurs="0"/>
+<xs:element name="placeOfWork" type="xs:string" minOccurs="0"/>
+<xs:element name="phoneNo" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="updateEmployeeResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:employee" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="employee">
+<xs:sequence>
+<xs:element name="employeeName" type="xs:string" minOccurs="0"/>
+<xs:element name="employeeNo" type="xs:string" minOccurs="0"/>
+<xs:element name="phoneNo" type="xs:string" minOccurs="0"/>
+<xs:element name="placeOfWork" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="insertEmployee">
+<xs:sequence>
+<xs:element name="employeeNo" type="xs:string" minOccurs="0"/>
+<xs:element name="employeeName" type="xs:string" minOccurs="0"/>
+<xs:element name="placeOfWork" type="xs:string" minOccurs="0"/>
+<xs:element name="phoneNo" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="insertEmployeeResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:employee" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="hello">
+<xs:sequence>
+<xs:element name="name" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="helloResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="findAll">
+<xs:sequence/>
+</xs:complexType>
+
+<xs:complexType name="findAllResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:employee" minOccurs="0" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteEmployee">
+<xs:sequence>
+<xs:element name="employeeNo" type="xs:string" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="deleteEmployeeResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>

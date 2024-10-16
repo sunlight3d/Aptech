@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Operas I Have Seen";
+
+}
+<p>
+    Choose a background color:
+</p>
+@Html.ActionLink("Pink", "SetBackground", new { color = "#dc9797" })
+@Html.ActionLink("Blue", "SetBackground", new { color = "#82bbf2" })
+<p>
+    Welcome! On this site I'm going to discuss my hobby: listening
+    to opera. Start by looking at the
+    @Html.ActionLink("operas I've seen.", "Index", "Opera")
+</p>

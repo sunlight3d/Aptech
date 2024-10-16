@@ -1,0 +1,41 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@{
+    List<Product> products = ViewBag.products;
+}
+
+<h1>Value of x is : @ViewBag.x</h1>
+<h1>Value of y is : @ViewData["y"]</h1>
+<h2>Product'name : @ViewBag.productA.Name</h2>
+<h2>Product'price : @ViewBag.productA.Price</h2>
+<h2>Product'Description : @ViewBag?.productA?.Description</h2>
+<!--<h1>List of products:@ViewBag?.products</h1>-->
+
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in products)
+            {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.Description</td>
+                    <td>@product.Price</td>
+                    <td>@product.Count</td>
+                </tr>
+            }
+        </tbody>
+        <h2>@products.Count</h2>
+    </table>
+</div>
+

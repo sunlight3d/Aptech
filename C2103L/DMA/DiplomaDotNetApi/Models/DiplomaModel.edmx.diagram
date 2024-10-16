@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4d354ffc9bd54fedbb7707501320e604" Name="Diagram1">
+        <EntityTypeShape EntityType="DLMMSModel.DIPLOMA" Width="1.5" PointX="5.25" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="DLMMSModel.DIPLOMA_TYPE" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DLMMSModel.RANK" Width="1.5" PointX="3" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="DLMMSModel.SEX" Width="1.5" PointX="3" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DLMMSModel.TRAINING_PROGRAM" Width="1.5" PointX="3" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="DLMMSModel.TRAINING_TYPE" Width="1.5" PointX="0.75" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DLMMSModel.USER" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="DLMMSModel.FK_DIPLOMA_DIPLOMA_TYPE" ManuallyRouted="false" />
+        <AssociationConnector Association="DLMMSModel.FK_DIPLOMA_RANK" ManuallyRouted="false" />
+        <AssociationConnector Association="DLMMSModel.FK_DIPLOMA_SEX" ManuallyRouted="false" />
+        <AssociationConnector Association="DLMMSModel.FK_DIPLOMA_TRAINING_PROGRAM" ManuallyRouted="false" />
+        <AssociationConnector Association="DLMMSModel.FK_DIPLOMA_TRAINING_TYPE" ManuallyRouted="false" />
+        <AssociationConnector Association="DLMMSModel.FK_TRAINING_PROGRAM_TRAINING_TYPE" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

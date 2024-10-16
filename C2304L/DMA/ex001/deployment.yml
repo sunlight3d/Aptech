@@ -1,0 +1,50 @@
+services:
+  sqlserver2019:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver2019
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Abc123456789
+    ports:
+      - "1438:1433" # Map port 1433 of container to 1438 on the host
+    volumes:
+      - sql2019_data:/var/opt/mssql # Volume for data persistence
+    networks:
+      - c2304l
+  dotnetcoreapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dotnetcoreapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver2019,1433;Database=master;User Id=sa;Password=Abc123456789;
+    ports:
+      - "8088:8080" # Map port 8080 of container to 8080 on the host
+    depends_on:
+      - sqlserver2019
+    networks:
+      - c2304l
+
+  sqlserver2022:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver2022
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Abc123456789
+    ports:
+      - "1439:1433" # Map port 1433 of container to 1439 on the host
+    volumes:
+      - sql2022_data:/var/opt/mssql # Volume for data persistence
+    networks:
+      - c2304l
+
+networks:
+  c2304l:
+    driver: bridge
+
+volumes:
+  sql2019_data:
+    driver: local
+  sql2022_data:
+    driver: local

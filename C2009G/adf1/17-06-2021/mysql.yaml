@@ -1,0 +1,14 @@
+version: '3'
+services:
+  mysql-c2009g:
+    image: mysql:5.7.31
+    container_name: mysql-c2009g
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    ports:
+      - "3309:3306"
+    volumes:
+      - mysql-data-c2009g:/var/lib/minesql      
+volumes:
+  mysql-data-c2009g:
+#docker run -d -e MYSQL_ROOT_PASSWORD=123456 --name mysql-c2009g -p 3309:3306 mysql:5.7.31

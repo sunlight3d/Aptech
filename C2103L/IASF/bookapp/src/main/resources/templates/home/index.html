@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Book Management</title>
+</head>
+<body>
+<h1>Book Management</h1>
+
+<div>
+    <!-- Link to list all books -->
+    <a th:href="@{/books/listBooks}">List all books</a>
+</div>
+
+<div>
+    <!-- Link to insert a new book -->
+    <a th:href="@{/books/insertBook}">Insert book</a>
+</div>
+
+<div>
+    <!-- Link to logout -->
+    <a th:href="@{/logout}">Logout</a>
+</div>
+</body>
+</html>

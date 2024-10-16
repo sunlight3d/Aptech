@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<h2>Index</h2>
+@foreach (KeyValuePair<string, int> productPrices in ViewBag.ProductPrices)
+{
+    <p>
+        <div>
+            Product name: @productPrices.Key
+        </div>
+        <div>
+            Product price including tax: @(productPrices.Value * 1.2)
+        </div>
+    </p>
+}
+

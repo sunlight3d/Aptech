@@ -1,0 +1,18 @@
+body {
+    background-color: blue;
+    height: 100vh;
+}
+.rectangle {
+    background-color: white;
+    height: 200px;
+    width: 300px;
+    border: 2px solid black;    
+}
+.rectangle-outside {
+    display: flex;
+    background-color: white;
+    height: 210px;
+    width: 310px;    
+    justify-content: center;
+    align-items: center;
+}

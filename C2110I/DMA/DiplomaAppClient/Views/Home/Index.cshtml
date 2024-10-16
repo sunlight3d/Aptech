@@ -1,0 +1,74 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!DOCTYPE html>
+<head>
+    <title>Login Form</title>
+    <style>
+        #outer-square {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            background-color: aquamarine;
+        }
+
+        #inner-square {
+            position: relative;
+            margin: 25px;
+            width: 150px;
+            height: 150px;
+            background-color: white;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+            margin: 5px;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: royalblue;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <form method="post" asp-controller="Users" asp-action="Create">
+    <div id="outer-square">
+        <div id="inner-square">
+            
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" value="bachvt" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" value="123456" required>                
+            
+        </div>
+        <button type="submit">Sign In</button>
+        <a href="#">Lost Sign In?</a>
+        <a href="#">Sign Up Here</a>
+    </div>
+    </form>            
+</body>

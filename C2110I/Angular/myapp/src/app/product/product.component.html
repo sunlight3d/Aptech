@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Product Table</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Bootstrap 5 CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.1/css/bootstrap.min.css" integrity="sha512-LZbGie+9oTFPThU6BfUOyOwe6wScU2jV7WeE5vDNLRVWyGVkLSXQlhW7BYA5D+bElbnGRXXOGaPrhPjKPyadRg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+	<div class="container">
+		<h1>Product Table</h1>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Name</th>
+					<th>Description</th>
+					<th>Producer</th>
+					<th>Price</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let product of products">
+					<td>{{ product.id }}</td>
+					<td>{{ product.name }}</td>
+					<td>{{ product.description }}</td>
+					<td>{{product.producer}}</td>
+					<td>{{ product.price }}</td>
+				</tr>				
+			</tbody>
+		</table>
+		<h2>Add New Product</h2>
+		<form>
+			<div class="mb-3">
+				<label for="productId" class="form-label">Id</label>
+				<input type="text" class="form-control" id="productId" name="productId">
+			</div>
+			<div class="mb-3">
+				<label for="productName" class="form-label">Name</label>
+				<input type="text" class="form-control" id="productName" name="productName">
+			</div>
+			<div class="mb-3">
+				<label for="productDescription" class="form-label">Description</label>
+				<textarea class="form-control" id="productDescription" name="productDescription"></textarea>
+			</div>
+			<div class="mb-3">
+				<label for="productProducer" class="form-label">Producer</label>
+				<input type="text" class="form-control" id="productProducer" name="productProducer">
+			</div>
+			<div class="mb-3">
+				<label for="productPrice" class="form-label">Price</label>
+				<input type="text" class="form-control" id="productPrice" name="productPrice">
+			</div>
+			<button type="submit" class="btn btn-primary">Add Product</button>
+		</form>
+	</div>
+

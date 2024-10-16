@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script 
+        src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js" 
+        integrity="sha512-7oYXeK0OxTFxndh0erL8FsjGvrl2VMDor6fVqzlLGfwOQQqTbYsGPv4ZZ15QHfSk80doyaM0ZJdvkyDcVO7KFA==" 
+        crossorigin="anonymous" 
+        referrerpolicy="no-referrer">
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
+</head>
+    
+<body>
+    
+    <div ng-app="myApp" ng-controller="HomeController" ng-init="languages=['English', 'France', 'Vietnamese']">
+        <div>
+            <!-- ng-model => 2-way data-binding -->
+            <input type="text" placeholder="Enter your name" ng-model="name"/>
+            <p>You typed: {{name}}</p>
+            <h1>Sum 2 numbers example: </h1>
+            <input type="text" placeholder="Enter x" ng-model="x"/>
+            <br />
+            <input type="text" placeholder="Enter y" ng-model="y"/>
+            <button ng-click="sum2Numbers()">Sum</button>
+            <br />
+            <!-- <p>Sum = {{sum}}</p> -->
+            <p>REALLL sum = {{sum2Numbers()}}</p>  
+            <p>Price = {{price | currency}}</p>
+            <p>Firstname = {{firstName | convertToBubbleString }}</p>
+            <a href="#login">Go to Login</a>
+            <a href="#products">Go to Products</a>
+        </div>
+        <div ng-include="'child.html'"></div>            
+        <script>
+            var app = angular.module("myApp", ["ngRoute"])
+            //const app = angular.module('myApp', [])            
+            app.controller('HomeController', function($scope) {
+                $scope.name = ""
+                $scope.x = "0"
+                $scope.y = "0"
+                $scope.sum = 0 //state
+                $scope.price = 123
+                $scope.sum2Numbers = function () {                    
+                    return parseInt($scope.x) + parseInt($scope.y)
+                    debugger
+                }
+                //let = local variable inside a block
+                //priority : 1.const, 2.let, 3.var
+                const x = 10   
+                //reference to a function
+                const multiply2Numbers = (a, b) => {
+                    return a * b;
+                }                                
+                
+                console.log(`Tich 2 so la : ${multiply2Numbers(4, 5)}`)                 
+                for(let i = 0; i < 10; i++) {
+                    console.log('i = '+i);
+                }                 
+                const firstName = "Nguyen"
+                $scope.firstName = firstName
+                const lastName = "Duc Hoang"
+                //const fullName = firstName + " "+ lastName //string concatenation
+                const fullName = `${firstName} ${lastName}` //string concatenation                                
+                //console.log(fullName)
+                //alert(fullName)                                
+            })
+            // app.filter('stringToLength', function () {
+            //     return function (inputString) {
+            //         return inputString.length
+            //     }
+            // })
+            app.filter('convertToBubbleString', function () {
+                return function (inputString) {
+                    let outputString = ""
+                    for(let i = 0; i < inputString.length; i++){                        
+                        outputString = `${outputString}
+                            ${i % 2 == 0 ? inputString[i].toUpperCase() 
+                                : inputString[i].toLowerCase()}`                        
+                    }
+                    return outputString
+                }
+            })
+            // for(let language in languages) {
+            //     console.log(`language = ${languages}`)
+            // }      
+            //map = anh xa.VD: danh sach cac nam sinh(year of birth) => map => danh sach tuoi
+            // app.config(function ($routeProvider) {
+            //     //config route's names = config page's name
+            //     $routeProvider.when("/", {
+            //         templateUrl: 'index.html'
+            //     })
+            //     .when("/login", {
+            //         templateUrl: 'login.html'
+            //     })
+            //     .when("/products", {
+            //         templateUrl: 'products.html'
+            //     })
+            // })
+            let birthYears = [1982, 1990, 2000, 1984, 2001] 
+            debugger       
+            const currentYear = new Date().getFullYear()
+            let ages = birthYears.map(birthYear => currentYear-birthYear)            
+            console.log(ages)    
+        </script>
+        <h1>{{languages}}</h1>     
+        <ol>
+            <li ng-repeat="language in languages">
+                {{language}}
+            </li>
+        </ol>        
+    </div>        
+</body>
+</html>

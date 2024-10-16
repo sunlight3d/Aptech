@@ -1,0 +1,92 @@
+<!-- <p>Hello, this is main component</p>
+<h1>{{ message }}</h1>
+<h1>{{ x }}</h1>
+<h1>{{ student.name }}, {{ student.age }}</h1> -->
+<h1>
+    Student management
+</h1>
+<table>
+    <tr>
+        <td>
+            <p>Student name</p> 
+        </td>
+        <td>
+            <input type="text" [(ngModel)]="studentName">
+        </td>        
+    </tr>
+    <tr>
+        <td>
+            <p>Student DOB</p> 
+        </td>
+        <td>
+            <input type="date" [(ngModel)]="studentDOB">
+        </td>        
+    </tr>
+    <tr>
+        <td>
+            <p>Student Gender</p> 
+        </td>
+        <td>
+            <label>
+                <input type="radio" name="gender" value="Male" [(ngModel)]="gender">
+                Male
+              </label>
+              <label>
+                <input type="radio" name="gender" value="Female" [(ngModel)]="gender">
+                Female
+              </label>
+        </td>        
+    </tr>
+    <tr>
+        <td>
+            <p>Languages</p> 
+        </td>
+        <td>
+            <label *ngFor="let language of languages">
+                <input type="checkbox" 
+                    name="language" 
+                    [value]="language.name" 
+                    [(ngModel)]="language.checked">
+                {{ language.name }}
+              </label>
+        </td>        
+    </tr>
+    <tr>
+        <td>
+            <p>Select class</p> 
+        </td>
+        <td>
+            <select [(ngModel)]="klass">
+                <option *ngFor="let eachKlass of klasses" 
+                [value]="eachKlass">{{ eachKlass }}</option>
+              </select>
+        </td>        
+    </tr>
+    <button (click)="onClickAdd()">Add</button>
+</table>
+<table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>DOB</th>
+        <th>Gender</th>
+        <th>Languages</th>
+        <th>klass</th>        
+        <th></th>        
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let student of students">
+        <td>{{ student.name }}</td>
+        <td>{{ convertDateTimeToString(student.dob) }}</td>
+        <td>{{ student.gender}}</td>
+         <td>{{ getLanguageString(student)}}</td> 
+        <td>{{ student.klass }}</td>        
+        <td><button (click)="onDeleteStudent(student)">Delete</button></td>        
+      </tr>
+    </tbody>
+  </table>
+  <p *ngIf="students.length > 0">There are {{students.length }}</p>
+  
+  
+

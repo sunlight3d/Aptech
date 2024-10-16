@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="49226b8e-d13b-4a00-b79b-fd9a0a271e4c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/#ib_16384_0.dblwr" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/#ib_16384_0.dblwr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/#innodb_redo/#ib_redo17" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/#innodb_redo/#ib_redo17" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/#innodb_temp/temp_1.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/#innodb_temp/temp_1.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/#innodb_temp/temp_10.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/#innodb_temp/temp_10.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/#innodb_temp/temp_2.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/#innodb_temp/temp_2.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/#innodb_temp/temp_3.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/#innodb_temp/temp_3.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/#innodb_temp/temp_4.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/#innodb_temp/temp_4.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/#innodb_temp/temp_5.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/#innodb_temp/temp_5.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/#innodb_temp/temp_6.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/#innodb_temp/temp_6.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/#innodb_temp/temp_7.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/#innodb_temp/temp_7.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/#innodb_temp/temp_8.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/#innodb_temp/temp_8.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/#innodb_temp/temp_9.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/#innodb_temp/temp_9.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/binlog.index" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/binlog.index" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/ibdata1" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/ibdata1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/ibtmp1" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/ibtmp1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/mysql.ibd" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/mysql.ibd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/undo_001" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/undo_001" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/undo_002" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2110iDoiCan/IASF/mysql-data/undo_002" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2aUNnxVeDMO6y9dyXoycHx5yym1" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/hoangnd/Documents/code/Aptech/C2109L/IDP/de01&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;dart.settings&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration name="main.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/main.dart" />
+      <option name="workingDirectory" value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Dart Command Line App.main.dart" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="49226b8e-d13b-4a00-b79b-fd9a0a271e4c" name="Changes" comment="" />
+      <created>1704369369942</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1704369369942</updated>
+    </task>
+    <servers />
+  </component>
+</project>

@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="testdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblDVDCategory">
+          <Key>
+            <PropertyRef Name="DVDCategoryId" />
+          </Key>
+          <Property Name="DVDCategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="tblDVDLibrary">
+          <Key>
+            <PropertyRef Name="DVDCodeNo" />
+          </Key>
+          <Property Name="DVDCodeNo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DVDCategoryId" Type="int" />
+          <Property Name="DVDTitle" Type="nvarchar" MaxLength="200" />
+          <Property Name="SubTitles" Type="bit" />
+          <Property Name="Price" Type="money" />
+          <Property Name="DateAdd" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_DVDLibraryCategory">
+          <End Role="tblDVDCategory" Type="Self.tblDVDCategory" Multiplicity="0..1" />
+          <End Role="tblDVDLibrary" Type="Self.tblDVDLibrary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDVDCategory">
+              <PropertyRef Name="DVDCategoryId" />
+            </Principal>
+            <Dependent Role="tblDVDLibrary">
+              <PropertyRef Name="DVDCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="testdbModelStoreContainer">
+          <EntitySet Name="tblDVDCategory" EntityType="Self.tblDVDCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblDVDLibrary" EntityType="Self.tblDVDLibrary" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_DVDLibraryCategory" Association="Self.FK_DVDLibraryCategory">
+            <End Role="tblDVDCategory" EntitySet="tblDVDCategory" />
+            <End Role="tblDVDLibrary" EntitySet="tblDVDLibrary" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="testdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblDVDCategory">
+          <Key>
+            <PropertyRef Name="DVDCategoryId" />
+          </Key>
+          <Property Name="DVDCategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tblDVDLibraries" Relationship="Self.FK_DVDLibraryCategory" FromRole="tblDVDCategory" ToRole="tblDVDLibrary" />
+        </EntityType>
+        <EntityType Name="tblDVDLibrary">
+          <Key>
+            <PropertyRef Name="DVDCodeNo" />
+          </Key>
+          <Property Name="DVDCodeNo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DVDCategoryId" Type="Int32" />
+          <Property Name="DVDTitle" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="SubTitles" Type="Boolean" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="DateAdd" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tblDVDCategory" Relationship="Self.FK_DVDLibraryCategory" FromRole="tblDVDLibrary" ToRole="tblDVDCategory" />
+        </EntityType>
+        <Association Name="FK_DVDLibraryCategory">
+          <End Role="tblDVDCategory" Type="Self.tblDVDCategory" Multiplicity="0..1" />
+          <End Role="tblDVDLibrary" Type="Self.tblDVDLibrary" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblDVDCategory">
+              <PropertyRef Name="DVDCategoryId" />
+            </Principal>
+            <Dependent Role="tblDVDLibrary">
+              <PropertyRef Name="DVDCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="testdbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblDVDCategories" EntityType="Self.tblDVDCategory" />
+          <EntitySet Name="tblDVDLibraries" EntityType="Self.tblDVDLibrary" />
+          <AssociationSet Name="FK_DVDLibraryCategory" Association="Self.FK_DVDLibraryCategory">
+            <End Role="tblDVDCategory" EntitySet="tblDVDCategories" />
+            <End Role="tblDVDLibrary" EntitySet="tblDVDLibraries" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="testdbModelStoreContainer" CdmEntityContainer="testdbEntities">
+          <EntitySetMapping Name="tblDVDCategories">
+            <EntityTypeMapping TypeName="testdbModel.tblDVDCategory">
+              <MappingFragment StoreEntitySet="tblDVDCategory">
+                <ScalarProperty Name="DVDCategoryId" ColumnName="DVDCategoryId" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblDVDLibraries">
+            <EntityTypeMapping TypeName="testdbModel.tblDVDLibrary">
+              <MappingFragment StoreEntitySet="tblDVDLibrary">
+                <ScalarProperty Name="DVDCodeNo" ColumnName="DVDCodeNo" />
+                <ScalarProperty Name="DVDCategoryId" ColumnName="DVDCategoryId" />
+                <ScalarProperty Name="DVDTitle" ColumnName="DVDTitle" />
+                <ScalarProperty Name="SubTitles" ColumnName="SubTitles" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="DateAdd" ColumnName="DateAdd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

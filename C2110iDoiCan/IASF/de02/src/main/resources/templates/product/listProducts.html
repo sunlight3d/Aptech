@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Product List</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+          rel="stylesheet">
+</head>
+<body>
+<h1>Product List</h1>
+<div class="container mx-auto px-4">
+    <table class="min-w-full">
+        <thead>
+        <tr>
+            <th class="py-2 px-4">Product ID</th>
+            <th class="py-2 px-4">Product Name</th>
+            <th class="py-2 px-4">Price</th>
+            <th class="py-2 px-4">Description</th>
+            <th class="py-2 px-4">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products}">
+            <td class="py-2 px-4" th:text="${product.productId}"></td>
+            <td class="py-2 px-4" th:text="${product.getProductName()}"></td>
+            <td class="py-2 px-4" th:text="${product.getPrice()}"></td>
+            <td class="py-2 px-4" th:text="${product.description}"></td>
+            <td class="py-2 px-4">
+                <a class="text-blue-500 hover:text-blue-700" th:href="@{/products/assign}">
+                    Assign this product to other category</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

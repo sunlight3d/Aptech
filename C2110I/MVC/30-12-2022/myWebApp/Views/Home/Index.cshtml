@@ -1,0 +1,16 @@
+﻿@using myWebApp.ViewModels;
+@model StudentViewModel;
+
+<!--<div class="text-center">
+    <h1 class="display-4">Hahaha</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1>Gia tri cua x la: @ViewBag.x, name = @(ViewBag?.name)</h1>  
+    <h1>Email: @ViewData["email"]</h1>
+</div> -->
+<form method="get" >
+    <h1>Please input your name</h1>
+    <input type="text" name="StudentName" />
+    <button asp-controller="Home" asp-action="Index">Click Me</button>
+    <h2>Hello @Model.StudentName</h2>
+</form>
+

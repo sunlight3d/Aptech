@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="13.0.5" />
+    <PackageReference Include="HotChocolate.AspNetCore.Authorization" Version="13.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.4">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.4" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Controllers\Filters\" />
+    <None Remove="Controllers\Attributes\" />
+    <None Remove="Hubs\" />
+    <None Remove="Services\" />
+    <None Remove="Services\Quote\" />
+    <None Remove="Models\SQLViews\" />
+    <None Remove="Services\Stock\" />
+    <None Remove="Services\WatchList\" />
+    <None Remove="Extensions\" />
+    <None Remove="Services\MarketIndex\" />
+    <None Remove="Services\User\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controllers\Filters\" />
+    <Folder Include="Controllers\Attributes\" />
+    <Folder Include="Hubs\" />
+    <Folder Include="Services\" />
+    <Folder Include="Services\Quote\" />
+    <Folder Include="Models\SQLViews\" />
+    <Folder Include="Services\Stock\" />
+    <Folder Include="Services\WatchList\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Services\MarketIndex\" />
+    <Folder Include="Services\User\" />
+  </ItemGroup>
+</Project>

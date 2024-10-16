@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="models\" />
+    <None Remove="namespace1\" />
+    <None Remove="namespace2\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="models\" />
+    <Folder Include="namespace1\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Reactive" Version="5.0.0" />
+    <PackageReference Include="System.Runtime" Version="4.3.1" />
+  </ItemGroup>
+</Project>

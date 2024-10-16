@@ -1,0 +1,28 @@
+#Tao container bang terminal
+#docker run -d --name=mysql8-container -e MYSQL_ROOT_PASSWORD=123456 mysql:8.0
+#Tao container tu docker compose file
+#docker-compose -f ./mysql.yaml up -d --build
+version: '3'
+services:
+  #danh sach cac container
+  mysql8-container:
+    image: mysql:8.0
+    container_name: mysql8-container
+    ports:
+      #port tren host : port tren container
+      - "3308:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    networks:
+      - backend-network
+  #tao them container openjdk de chua web service viet bang Java Spring  
+  maven-container-c1908i:
+    image: maven-image:1.0
+    container_name: maven-container-c1908i
+    depends_on:
+      - mysql8-container
+    networks:
+        - backend-network
+networks:
+  backend-network:
+    name: backend-network    

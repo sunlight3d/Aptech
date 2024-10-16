@@ -1,0 +1,36 @@
+vi du nay ta co 2 containers:
+1-mongodb / mysql
+2-mongo express
+Moi container co 1 dia chi ip(172.27,..)
+laptop(host) connect 2 container
+2(nhieu) containers nam trong 1 network rieng
+network nay se connect voi host(laptop)
+Co cac step sau:
+step1: pull va start 2 containers tren
+step2: tao ra 1 network de connect 2 containers kia
+step3: cai tien cua step2, tao docker compose(mongo-compose.yaml)
+
+tao ra network
+docker network create mongo-network
+docker run \
+--name mongo-container \
+-p 27018:27017 \
+-e MONGO_INITDB_ROOT_USERNAME=hoangnd \
+-e MONGO_INITDB_ROOT_PASSWORD=123456 \
+--net=mongo-network \
+-d mongo
+
+docker run \
+--name=mongo-express-container \
+-p 3001:8081 \
+-e ME_CONFIG_MONGODB_ADMINUSERNAME="hoangnd" \
+-e ME_CONFIG_MONGODB_ADMINPASSWORD="123456" \
+-e ME_CONFIG_MONGODB_SERVER=mongo-container \
+--net=mongo-network \
+-d mongo-express
+
+docker run -d \
+--name=node-server-container \
+-p 3002:3000 \
+-v /c/Users/sunli/Documents/code/Aptech/C1908iLeThanhNghi/EAD-Java/16-06-2021/nodejsServer:/app \
+node-server:1.0

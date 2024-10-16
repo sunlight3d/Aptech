@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script 
+            src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js" 
+            integrity="sha512-7oYXeK0OxTFxndh0erL8FsjGvrl2VMDor6fVqzlLGfwOQQqTbYsGPv4ZZ15QHfSk80doyaM0ZJdvkyDcVO7KFA==" 
+            crossorigin="anonymous" 
+            referrerpolicy="no-referrer">
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
+        <link rel="stylesheet" href="./mysite.css">
+        <style>
+            span.ng-invalid {
+                color: red;
+            }
+        </style>
+    </head>
+<body style="background-color: darkblue;">
+    
+    <div ng-app="myApp" ng-controller="HomeController">
+        <center>
+            <!-- <login></login>             -->
+            <div id="studentlist">
+                <h2>Student Management</h2>
+                <table>
+                    <tr>
+                        <td>
+                            Student Name
+                        </td>
+                        <td>
+                            <input 
+                                type="text" 
+                                ng-model="studentName"
+                                placeholder="Input student name" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Student DOB
+                        </td>
+                        <td>
+                            <input type="date" ng-model="studentDOB"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Gender
+                        </td>
+                        <td>
+                            <input 
+                                type="radio"                                 
+                                name="gender"
+                                id="genderMale"
+                                value="Male"
+                                ng-model="gender"/> 
+                                <label for="genderMale">Male</label>
+                            <input 
+                                type="radio" 
+                                name="gender"
+                                id="genderFemale"
+                                value="Female"
+                                ng-model="gender"/>
+                                <label for="genderFemale">Female</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Student Language
+                        </td>
+                        <td>
+                            <div ng-repeat="language in languages" 
+                                style="display: inline;">
+                                <input type="checkbox" 
+                                    name="{{language}}"                             
+                                    value="{{language}}">
+                                <label>{{language}}</label>
+                            </div>                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Student Language
+                        </td>
+                        <td>
+                            <div ng-repeat="language in languages" 
+                                style="display: inline;">
+                                <input type="checkbox" 
+                                    name="{{language}}"                             
+                                    value="{{language}}">
+                                <label>{{language}}</label>
+                            </div>                            
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </center>
+    </div>
+    <script>
+        const app = angular.module("myApp", ["ngRoute"])        
+        app.controller('HomeController', function($scope, $http) {            
+            $scope.username = "" //reactjs => initial state
+            $scope.password = ""                        
+            //$scope.login = a variable that references to a "function"            
+            $scope.languages = ["English", "Vietnamese", "Japanese", "Chinese", "French"]
+            $scope.login = function () {   
+                //function pointer                                 
+                let username = $scope.username
+                let password = $scope.password                
+                if(username == "admin" && password == "123456" ) {
+                    alert('Login success')
+                } else {
+                    alert('Login failed')
+                }
+            }
+        })
+        app.directive("login", function () {
+            return {
+                template: `<div id="loginmain">
+                <h1>Login</h1>
+                <form name="myForm" >
+                    <table>
+                        <tr>
+                            <td>
+                                Username
+                            </td>
+                            <td>
+                                <input type="text" 
+                                    ng-model="username"
+                                    placeholder="Input username" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Password
+                            </td>
+                            <td>                                                                
+                                <input 
+                                    type="password" 
+                                    ng-model="password"
+                                    placeholder="Input Password" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+            
+                            </td>
+                            <td>
+                                <button 
+                                    ng-click="login()"                                        
+                                    value="Login" >
+                                    Login
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>`
+            };
+        });
+        app.directive("studentlist", function () {
+            return {
+                template: `<h1>Student Management</h1>`
+            }
+        })
+    </script>
+</body>
+</html>

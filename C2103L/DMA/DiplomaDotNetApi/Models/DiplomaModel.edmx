@@ -1,0 +1,505 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DLMMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DIPLOMA">
+          <Key>
+            <PropertyRef Name="DiplomaID" />
+          </Key>
+          <Property Name="DiplomaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="60" />
+          <Property Name="DOB" Type="datetime" />
+          <Property Name="SexID" Type="int" />
+          <Property Name="TrainingTypeID" Type="int" />
+          <Property Name="TrainingProgramID" Type="int" />
+          <Property Name="RankID" Type="int" />
+          <Property Name="DiplomaTypeID" Type="int" />
+          <Property Name="BirthPlace" Type="nvarchar" MaxLength="100" />
+          <Property Name="VolumedBook" Type="nvarchar" MaxLength="20" />
+          <Property Name="DecideCode" Type="nvarchar" MaxLength="30" />
+          <Property Name="NumberSign" Type="nvarchar" MaxLength="30" />
+          <Property Name="RegisterNumber" Type="nvarchar" MaxLength="30" />
+          <Property Name="Language" Type="nvarchar" MaxLength="30" />
+          <Property Name="Colour" Type="nvarchar" MaxLength="30" />
+          <Property Name="Size" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="DIPLOMA_TYPE">
+          <Key>
+            <PropertyRef Name="DiplomaTypeID" />
+          </Key>
+          <Property Name="DiplomaTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DilomaTypeName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="OrganizationIssue" Type="nvarchar" MaxLength="255" />
+          <Property Name="PersonIssue" Type="nvarchar" MaxLength="255" />
+          <Property Name="Position" Type="nvarchar" MaxLength="255" />
+          <Property Name="Language" Type="nvarchar" MaxLength="50" />
+          <Property Name="Colour" Type="nvarchar" MaxLength="50" />
+          <Property Name="Size" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="RANK">
+          <Key>
+            <PropertyRef Name="RankID" />
+          </Key>
+          <Property Name="RankID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RankName" Type="nvarchar" MaxLength="50" />
+          <Property Name="FromPoint" Type="real" />
+          <Property Name="ToPoint" Type="real" />
+        </EntityType>
+        <EntityType Name="SEX">
+          <Key>
+            <PropertyRef Name="SexID" />
+          </Key>
+          <Property Name="SexID" Type="int" Nullable="false" />
+          <Property Name="SexName" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="TRAINING_PROGRAM">
+          <Key>
+            <PropertyRef Name="TrainingProgramID" />
+          </Key>
+          <Property Name="TrainingProgramID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TrainingProgram" Type="nvarchar" MaxLength="255" />
+          <Property Name="MaxPoint" Type="real" />
+          <Property Name="AchievePoint" Type="real" />
+          <Property Name="Achieve" Type="int" />
+          <Property Name="TrainingTypeID" Type="int" />
+        </EntityType>
+        <EntityType Name="TRAINING_TYPE">
+          <Key>
+            <PropertyRef Name="TrainingTypeID" />
+          </Key>
+          <Property Name="TrainingTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TrainingTypeCode" Type="nvarchar" MaxLength="50" />
+          <Property Name="TrainingTypeName" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="USERS">
+          <Key>
+            <PropertyRef Name="UsersID" />
+          </Key>
+          <Property Name="UsersID" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="255" />
+          <Property Name="Discription" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK_DIPLOMA_DIPLOMA_TYPE">
+          <End Role="DIPLOMA_TYPE" Type="Self.DIPLOMA_TYPE" Multiplicity="0..1" />
+          <End Role="DIPLOMA" Type="Self.DIPLOMA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DIPLOMA_TYPE">
+              <PropertyRef Name="DiplomaTypeID" />
+            </Principal>
+            <Dependent Role="DIPLOMA">
+              <PropertyRef Name="DiplomaTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DIPLOMA_RANK">
+          <End Role="RANK" Type="Self.RANK" Multiplicity="0..1" />
+          <End Role="DIPLOMA" Type="Self.DIPLOMA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RANK">
+              <PropertyRef Name="RankID" />
+            </Principal>
+            <Dependent Role="DIPLOMA">
+              <PropertyRef Name="RankID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DIPLOMA_SEX">
+          <End Role="SEX" Type="Self.SEX" Multiplicity="0..1" />
+          <End Role="DIPLOMA" Type="Self.DIPLOMA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SEX">
+              <PropertyRef Name="SexID" />
+            </Principal>
+            <Dependent Role="DIPLOMA">
+              <PropertyRef Name="SexID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DIPLOMA_TRAINING_PROGRAM">
+          <End Role="TRAINING_PROGRAM" Type="Self.TRAINING_PROGRAM" Multiplicity="0..1" />
+          <End Role="DIPLOMA" Type="Self.DIPLOMA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRAINING_PROGRAM">
+              <PropertyRef Name="TrainingProgramID" />
+            </Principal>
+            <Dependent Role="DIPLOMA">
+              <PropertyRef Name="TrainingProgramID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DIPLOMA_TRAINING_TYPE">
+          <End Role="TRAINING_TYPE" Type="Self.TRAINING_TYPE" Multiplicity="0..1" />
+          <End Role="DIPLOMA" Type="Self.DIPLOMA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRAINING_TYPE">
+              <PropertyRef Name="TrainingTypeID" />
+            </Principal>
+            <Dependent Role="DIPLOMA">
+              <PropertyRef Name="TrainingTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TRAINING_PROGRAM_TRAINING_TYPE">
+          <End Role="TRAINING_TYPE" Type="Self.TRAINING_TYPE" Multiplicity="0..1" />
+          <End Role="TRAINING_PROGRAM" Type="Self.TRAINING_PROGRAM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRAINING_TYPE">
+              <PropertyRef Name="TrainingTypeID" />
+            </Principal>
+            <Dependent Role="TRAINING_PROGRAM">
+              <PropertyRef Name="TrainingTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DLMMSModelStoreContainer">
+          <EntitySet Name="DIPLOMA" EntityType="Self.DIPLOMA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DIPLOMA_TYPE" EntityType="Self.DIPLOMA_TYPE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RANK" EntityType="Self.RANK" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SEX" EntityType="Self.SEX" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TRAINING_PROGRAM" EntityType="Self.TRAINING_PROGRAM" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TRAINING_TYPE" EntityType="Self.TRAINING_TYPE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USERS" EntityType="Self.USERS" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_DIPLOMA_DIPLOMA_TYPE" Association="Self.FK_DIPLOMA_DIPLOMA_TYPE">
+            <End Role="DIPLOMA_TYPE" EntitySet="DIPLOMA_TYPE" />
+            <End Role="DIPLOMA" EntitySet="DIPLOMA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DIPLOMA_RANK" Association="Self.FK_DIPLOMA_RANK">
+            <End Role="RANK" EntitySet="RANK" />
+            <End Role="DIPLOMA" EntitySet="DIPLOMA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DIPLOMA_SEX" Association="Self.FK_DIPLOMA_SEX">
+            <End Role="SEX" EntitySet="SEX" />
+            <End Role="DIPLOMA" EntitySet="DIPLOMA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DIPLOMA_TRAINING_PROGRAM" Association="Self.FK_DIPLOMA_TRAINING_PROGRAM">
+            <End Role="TRAINING_PROGRAM" EntitySet="TRAINING_PROGRAM" />
+            <End Role="DIPLOMA" EntitySet="DIPLOMA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DIPLOMA_TRAINING_TYPE" Association="Self.FK_DIPLOMA_TRAINING_TYPE">
+            <End Role="TRAINING_TYPE" EntitySet="TRAINING_TYPE" />
+            <End Role="DIPLOMA" EntitySet="DIPLOMA" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TRAINING_PROGRAM_TRAINING_TYPE" Association="Self.FK_TRAINING_PROGRAM_TRAINING_TYPE">
+            <End Role="TRAINING_TYPE" EntitySet="TRAINING_TYPE" />
+            <End Role="TRAINING_PROGRAM" EntitySet="TRAINING_PROGRAM" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DLMMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DIPLOMA">
+          <Key>
+            <PropertyRef Name="DiplomaID" />
+          </Key>
+          <Property Name="DiplomaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="DOB" Type="DateTime" Precision="3" />
+          <Property Name="SexID" Type="Int32" />
+          <Property Name="TrainingTypeID" Type="Int32" />
+          <Property Name="TrainingProgramID" Type="Int32" />
+          <Property Name="RankID" Type="Int32" />
+          <Property Name="DiplomaTypeID" Type="Int32" />
+          <Property Name="BirthPlace" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="VolumedBook" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="DecideCode" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="NumberSign" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="RegisterNumber" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Language" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Colour" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Size" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DIPLOMA_TYPE" Relationship="Self.FK_DIPLOMA_DIPLOMA_TYPE" FromRole="DIPLOMA" ToRole="DIPLOMA_TYPE" />
+          <NavigationProperty Name="RANK" Relationship="Self.FK_DIPLOMA_RANK" FromRole="DIPLOMA" ToRole="RANK" />
+          <NavigationProperty Name="SEX" Relationship="Self.FK_DIPLOMA_SEX" FromRole="DIPLOMA" ToRole="SEX" />
+          <NavigationProperty Name="TRAINING_PROGRAM" Relationship="Self.FK_DIPLOMA_TRAINING_PROGRAM" FromRole="DIPLOMA" ToRole="TRAINING_PROGRAM" />
+          <NavigationProperty Name="TRAINING_TYPE" Relationship="Self.FK_DIPLOMA_TRAINING_TYPE" FromRole="DIPLOMA" ToRole="TRAINING_TYPE" />
+        </EntityType>
+        <EntityType Name="DIPLOMA_TYPE">
+          <Key>
+            <PropertyRef Name="DiplomaTypeID" />
+          </Key>
+          <Property Name="DiplomaTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DilomaTypeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="OrganizationIssue" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PersonIssue" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Position" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Language" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Colour" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Size" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Diplomata" Relationship="Self.FK_DIPLOMA_DIPLOMA_TYPE" FromRole="DIPLOMA_TYPE" ToRole="DIPLOMA" />
+        </EntityType>
+        <EntityType Name="RANK">
+          <Key>
+            <PropertyRef Name="RankID" />
+          </Key>
+          <Property Name="RankID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RankName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FromPoint" Type="Single" />
+          <Property Name="ToPoint" Type="Single" />
+          <NavigationProperty Name="Diplomata" Relationship="Self.FK_DIPLOMA_RANK" FromRole="RANK" ToRole="DIPLOMA" />
+        </EntityType>
+        <EntityType Name="SEX">
+          <Key>
+            <PropertyRef Name="SexID" />
+          </Key>
+          <Property Name="SexID" Type="Int32" Nullable="false" />
+          <Property Name="SexName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Diplomata" Relationship="Self.FK_DIPLOMA_SEX" FromRole="SEX" ToRole="DIPLOMA" />
+        </EntityType>
+        <EntityType Name="TRAINING_PROGRAM">
+          <Key>
+            <PropertyRef Name="TrainingProgramID" />
+          </Key>
+          <Property Name="TrainingProgramID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TrainingProgram" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="MaxPoint" Type="Single" />
+          <Property Name="AchievePoint" Type="Single" />
+          <Property Name="Achieve" Type="Int32" />
+          <Property Name="TrainingTypeID" Type="Int32" />
+          <NavigationProperty Name="Diplomata" Relationship="Self.FK_DIPLOMA_TRAINING_PROGRAM" FromRole="TRAINING_PROGRAM" ToRole="DIPLOMA" />
+          <NavigationProperty Name="TRAINING_TYPE" Relationship="Self.FK_TRAINING_PROGRAM_TRAINING_TYPE" FromRole="TRAINING_PROGRAM" ToRole="TRAINING_TYPE" />
+        </EntityType>
+        <EntityType Name="TRAINING_TYPE">
+          <Key>
+            <PropertyRef Name="TrainingTypeID" />
+          </Key>
+          <Property Name="TrainingTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TrainingTypeCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TrainingTypeName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Diplomata" Relationship="Self.FK_DIPLOMA_TRAINING_TYPE" FromRole="TRAINING_TYPE" ToRole="DIPLOMA" />
+          <NavigationProperty Name="TRAINING_PROGRAM" Relationship="Self.FK_TRAINING_PROGRAM_TRAINING_TYPE" FromRole="TRAINING_TYPE" ToRole="TRAINING_PROGRAM" />
+        </EntityType>
+        <EntityType Name="USER">
+          <Key>
+            <PropertyRef Name="UsersID" />
+          </Key>
+          <Property Name="UsersID" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Discription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_DIPLOMA_DIPLOMA_TYPE">
+          <End Role="DIPLOMA_TYPE" Type="Self.DIPLOMA_TYPE" Multiplicity="0..1" />
+          <End Role="DIPLOMA" Type="Self.DIPLOMA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DIPLOMA_TYPE">
+              <PropertyRef Name="DiplomaTypeID" />
+            </Principal>
+            <Dependent Role="DIPLOMA">
+              <PropertyRef Name="DiplomaTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DIPLOMA_RANK">
+          <End Role="RANK" Type="Self.RANK" Multiplicity="0..1" />
+          <End Role="DIPLOMA" Type="Self.DIPLOMA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RANK">
+              <PropertyRef Name="RankID" />
+            </Principal>
+            <Dependent Role="DIPLOMA">
+              <PropertyRef Name="RankID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DIPLOMA_SEX">
+          <End Role="SEX" Type="Self.SEX" Multiplicity="0..1" />
+          <End Role="DIPLOMA" Type="Self.DIPLOMA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SEX">
+              <PropertyRef Name="SexID" />
+            </Principal>
+            <Dependent Role="DIPLOMA">
+              <PropertyRef Name="SexID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DIPLOMA_TRAINING_PROGRAM">
+          <End Role="TRAINING_PROGRAM" Type="Self.TRAINING_PROGRAM" Multiplicity="0..1" />
+          <End Role="DIPLOMA" Type="Self.DIPLOMA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRAINING_PROGRAM">
+              <PropertyRef Name="TrainingProgramID" />
+            </Principal>
+            <Dependent Role="DIPLOMA">
+              <PropertyRef Name="TrainingProgramID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DIPLOMA_TRAINING_TYPE">
+          <End Role="TRAINING_TYPE" Type="Self.TRAINING_TYPE" Multiplicity="0..1" />
+          <End Role="DIPLOMA" Type="Self.DIPLOMA" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRAINING_TYPE">
+              <PropertyRef Name="TrainingTypeID" />
+            </Principal>
+            <Dependent Role="DIPLOMA">
+              <PropertyRef Name="TrainingTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TRAINING_PROGRAM_TRAINING_TYPE">
+          <End Role="TRAINING_TYPE" Type="Self.TRAINING_TYPE" Multiplicity="0..1" />
+          <End Role="TRAINING_PROGRAM" Type="Self.TRAINING_PROGRAM" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TRAINING_TYPE">
+              <PropertyRef Name="TrainingTypeID" />
+            </Principal>
+            <Dependent Role="TRAINING_PROGRAM">
+              <PropertyRef Name="TrainingTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DLMMSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Diplomata" EntityType="Self.DIPLOMA" />
+          <EntitySet Name="DIPLOMA_TYPE" EntityType="Self.DIPLOMA_TYPE" />
+          <EntitySet Name="RANKs" EntityType="Self.RANK" />
+          <EntitySet Name="SEXes" EntityType="Self.SEX" />
+          <EntitySet Name="TRAINING_PROGRAM" EntityType="Self.TRAINING_PROGRAM" />
+          <EntitySet Name="TRAINING_TYPE" EntityType="Self.TRAINING_TYPE" />
+          <EntitySet Name="USERS" EntityType="Self.USER" />
+          <AssociationSet Name="FK_DIPLOMA_DIPLOMA_TYPE" Association="Self.FK_DIPLOMA_DIPLOMA_TYPE">
+            <End Role="DIPLOMA_TYPE" EntitySet="DIPLOMA_TYPE" />
+            <End Role="DIPLOMA" EntitySet="Diplomata" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DIPLOMA_RANK" Association="Self.FK_DIPLOMA_RANK">
+            <End Role="RANK" EntitySet="RANKs" />
+            <End Role="DIPLOMA" EntitySet="Diplomata" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DIPLOMA_SEX" Association="Self.FK_DIPLOMA_SEX">
+            <End Role="SEX" EntitySet="SEXes" />
+            <End Role="DIPLOMA" EntitySet="Diplomata" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DIPLOMA_TRAINING_PROGRAM" Association="Self.FK_DIPLOMA_TRAINING_PROGRAM">
+            <End Role="TRAINING_PROGRAM" EntitySet="TRAINING_PROGRAM" />
+            <End Role="DIPLOMA" EntitySet="Diplomata" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DIPLOMA_TRAINING_TYPE" Association="Self.FK_DIPLOMA_TRAINING_TYPE">
+            <End Role="TRAINING_TYPE" EntitySet="TRAINING_TYPE" />
+            <End Role="DIPLOMA" EntitySet="Diplomata" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TRAINING_PROGRAM_TRAINING_TYPE" Association="Self.FK_TRAINING_PROGRAM_TRAINING_TYPE">
+            <End Role="TRAINING_TYPE" EntitySet="TRAINING_TYPE" />
+            <End Role="TRAINING_PROGRAM" EntitySet="TRAINING_PROGRAM" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DLMMSModelStoreContainer" CdmEntityContainer="DLMMSEntities">
+          <EntitySetMapping Name="Diplomata">
+            <EntityTypeMapping TypeName="DLMMSModel.DIPLOMA">
+              <MappingFragment StoreEntitySet="DIPLOMA">
+                <ScalarProperty Name="DiplomaID" ColumnName="DiplomaID" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="SexID" ColumnName="SexID" />
+                <ScalarProperty Name="TrainingTypeID" ColumnName="TrainingTypeID" />
+                <ScalarProperty Name="TrainingProgramID" ColumnName="TrainingProgramID" />
+                <ScalarProperty Name="RankID" ColumnName="RankID" />
+                <ScalarProperty Name="DiplomaTypeID" ColumnName="DiplomaTypeID" />
+                <ScalarProperty Name="BirthPlace" ColumnName="BirthPlace" />
+                <ScalarProperty Name="VolumedBook" ColumnName="VolumedBook" />
+                <ScalarProperty Name="DecideCode" ColumnName="DecideCode" />
+                <ScalarProperty Name="NumberSign" ColumnName="NumberSign" />
+                <ScalarProperty Name="RegisterNumber" ColumnName="RegisterNumber" />
+                <ScalarProperty Name="Language" ColumnName="Language" />
+                <ScalarProperty Name="Colour" ColumnName="Colour" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DIPLOMA_TYPE">
+            <EntityTypeMapping TypeName="DLMMSModel.DIPLOMA_TYPE">
+              <MappingFragment StoreEntitySet="DIPLOMA_TYPE">
+                <ScalarProperty Name="DiplomaTypeID" ColumnName="DiplomaTypeID" />
+                <ScalarProperty Name="DilomaTypeName" ColumnName="DilomaTypeName" />
+                <ScalarProperty Name="OrganizationIssue" ColumnName="OrganizationIssue" />
+                <ScalarProperty Name="PersonIssue" ColumnName="PersonIssue" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Language" ColumnName="Language" />
+                <ScalarProperty Name="Colour" ColumnName="Colour" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RANKs">
+            <EntityTypeMapping TypeName="DLMMSModel.RANK">
+              <MappingFragment StoreEntitySet="RANK">
+                <ScalarProperty Name="RankID" ColumnName="RankID" />
+                <ScalarProperty Name="RankName" ColumnName="RankName" />
+                <ScalarProperty Name="FromPoint" ColumnName="FromPoint" />
+                <ScalarProperty Name="ToPoint" ColumnName="ToPoint" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SEXes">
+            <EntityTypeMapping TypeName="DLMMSModel.SEX">
+              <MappingFragment StoreEntitySet="SEX">
+                <ScalarProperty Name="SexID" ColumnName="SexID" />
+                <ScalarProperty Name="SexName" ColumnName="SexName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TRAINING_PROGRAM">
+            <EntityTypeMapping TypeName="DLMMSModel.TRAINING_PROGRAM">
+              <MappingFragment StoreEntitySet="TRAINING_PROGRAM">
+                <ScalarProperty Name="TrainingProgramID" ColumnName="TrainingProgramID" />
+                <ScalarProperty Name="TrainingProgram" ColumnName="TrainingProgram" />
+                <ScalarProperty Name="MaxPoint" ColumnName="MaxPoint" />
+                <ScalarProperty Name="AchievePoint" ColumnName="AchievePoint" />
+                <ScalarProperty Name="Achieve" ColumnName="Achieve" />
+                <ScalarProperty Name="TrainingTypeID" ColumnName="TrainingTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TRAINING_TYPE">
+            <EntityTypeMapping TypeName="DLMMSModel.TRAINING_TYPE">
+              <MappingFragment StoreEntitySet="TRAINING_TYPE">
+                <ScalarProperty Name="TrainingTypeID" ColumnName="TrainingTypeID" />
+                <ScalarProperty Name="TrainingTypeCode" ColumnName="TrainingTypeCode" />
+                <ScalarProperty Name="TrainingTypeName" ColumnName="TrainingTypeName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USERS">
+            <EntityTypeMapping TypeName="DLMMSModel.USER">
+              <MappingFragment StoreEntitySet="USERS">
+                <ScalarProperty Name="UsersID" ColumnName="UsersID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Discription" ColumnName="Discription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

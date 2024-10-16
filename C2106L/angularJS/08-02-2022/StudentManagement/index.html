@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script 
+            src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js" 
+            integrity="sha512-7oYXeK0OxTFxndh0erL8FsjGvrl2VMDor6fVqzlLGfwOQQqTbYsGPv4ZZ15QHfSk80doyaM0ZJdvkyDcVO7KFA==" 
+            crossorigin="anonymous" 
+            referrerpolicy="no-referrer">
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
+        <link rel="stylesheet" href="./mysite.css">
+        <style>
+            span.ng-invalid {
+                color: red;
+            }
+        </style>
+    </head>
+<body style="background-color: darkblue;">    
+    <div ng-app="myApp" ng-controller="HomeController">
+        <center>
+            <!-- <login></login>             -->
+            <div id="studentlist">
+                <h2>Student Management</h2>
+                <table>
+                    <tr>
+                        <td>
+                            Student Name
+                        </td>
+                        <td>
+                            <input 
+                                type="text" 
+                                ng-model="studentName"
+                                required
+                                placeholder="Input student name" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Student DOB
+                        </td>
+                        <td>
+                            <input type="date" ng-model="studentDOB" required />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Gender
+                        </td>
+                        <td>
+                            <input 
+                                type="radio"                                 
+                                name="gender"
+                                id="genderMale"
+                                value="1"
+                                ng-model="gender"/> 
+                                <label for="genderMale">Male</label>
+                            <input 
+                                type="radio" 
+                                name="gender"
+                                id="genderFemale"
+                                value="0"
+                                ng-model="gender"/>
+                                <label for="genderFemale">Female</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Student Language
+                        </td>
+                        <td>
+                            <div ng-repeat="language in languages" 
+                                style="display: inline;">
+                                <input type="checkbox" 
+                                    ng-model="language.selected"
+                                    name="{{language.name}}"                             
+                                    value="{{language.name}}">
+                                <label>{{language.name}}</label>
+                            </div>                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Student Class
+                        </td>
+                        <td>                            
+                            <select ng-model="selectedClass">
+                                <option ng-selected="{{operator.value == selectedClass}}"
+                                        ng-repeat="studentClass in studentClasses"
+                                        value="{{studentClass}}">
+                                  {{studentClass}}
+                                </option>
+                            </select>
+                            <a href="#"
+                                ng-click="addClass()">
+                                Add Class
+                            </a>
+                        </td>                        
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <button 
+                                    ng-click="addStudent()"                                        
+                                    value="Add" >
+                                    Add
+                                </button>
+                        </td>
+                    </tr>
+                </table>
+            <h1>Student List</h1>
+            <style>
+                .studentList {
+                  border: 1px solid black;
+                  border-collapse: collapse;
+                }
+                </style>
+            <table class="studentList" 
+                style="width:100%;"               
+                >
+                <tr>
+                  <th class="studentList" >Name</th>
+                  <th class="studentList" >Class</th> 
+                  <th class="studentList" >DOB</th>
+                  <th class="studentList" >Gender</th>
+                  <th class="studentList" >Language</th>
+                  <th class="studentList" ></th>
+                </tr>
+                <tr ng-repeat="student in students">
+                    <td class="studentList" >{{student.name}}</td>
+                    <td class="studentList" >{{student.className}}</td>
+                    <td class="studentList" >{{student.dob}}</td>
+                    <td class="studentList" >{{student.gender == 0 ? 'Female':"Male"}}</td>
+                    <td class="studentList" >{{student.languages.join(', ')}}</td>
+                    <td class="studentList" ><a href="#" ng-click="deleteStudent()">Delete</a></td>
+                  </tr>
+              </table>
+              <span style="text-align: right;"><strong>Total: </strong>{{students.length}} students</span>
+              
+            </div>
+
+        </center>
+    </div>
+    <script>
+        const app = angular.module("myApp", ["ngRoute"])        
+        app.controller('HomeController', function($scope, $http) {            
+            $scope.username = "" //reactjs => initial state
+            $scope.password = ""                        
+            //$scope.login = a variable that references to a "function"            
+            $scope.languages = [
+                {
+                    name: 'English',
+                    selected: true
+                },
+                {
+                    name: 'Vietnamese',
+                    selected: true
+                },
+                {
+                    name: 'Japanese',
+                    selected: false
+                },
+                {
+                    name: 'Chinese',
+                    selected: false
+                },
+                {
+                    name: 'French',
+                    selected: false
+                }                
+            ]
+            $scope.selectedLanguages = $scope.languages.filter(item => item.selected == true)
+            $scope.studentClasses = ["C1234L", "C2006L", "C44656L"]     
+
+            $scope.students = [
+                {
+                    name: 'Nguyen Van A',
+                    className: 'C1610L',
+                    dob: '1990/10/20',
+                    gender: 1,
+                    languages: ['Vietnamese', 'Chinese']
+                },
+                {
+                    name: 'Tran Thi B',
+                    className: 'C1608I',
+                    dob: '1991/02/03',
+                    gender: 0,
+                    languages: ['Vietnamese', 'English', 'Japanese']
+                },
+                {
+                    name: 'Pham Thanh C',
+                    className: 'C1610L',
+                    dob: '1990/10/20',
+                    gender: 0,
+                    languages: ['Vietnamese', 'English', 'Japanese']
+                },                
+                {
+                    name: 'Pham Than D',
+                    className: 'C2009L',
+                    dob: '1988/10/31',
+                    gender: 1,
+                    languages: ['Vietnamese', 'English']
+                },                
+            ]
+            //new object information
+            $scope.studentName = ''
+            $scope.studentDOB = ''
+            $scope.gender = 0
+            $scope.selectedClass = $scope.studentClasses[0]                  
+
+            $scope.login = function () {   
+                //function pointer                                 
+                let username = $scope.username
+                let password = $scope.password                
+                if(username == "admin" && password == "123456" ) {
+                    alert('Login success')
+                } else {
+                    alert('Login failed')
+                }
+            }
+            $scope.addClass = function () {   
+                //function pointer                                 
+                let newClassName = prompt('Input new class name:', '')
+                debugger
+                if(newClassName.trim() == '') {
+                    alert('Please input class name')
+                } else {
+                    studentClasses.push(newClassName)
+                }                
+            }
+            $scope.deleteStudent = function () {   
+                //function pointer                                 
+                debugger
+            }
+            $scope.addStudent = function() {                                           
+                //validate!
+                const year = $scope.studentDOB.getUTCFullYear()
+                let month = $scope.studentDOB.getUTCMonth() + 1 //months from 1-12
+                month = month < 10 ? `0${month}` : month
+                let day = $scope.studentDOB.getDate()
+                day = day < 10 ? `0${day}` : day
+                        
+                $scope.selectedLanguages = $scope.languages.filter(item => item.selected == true)
+                let newStudent = {
+                    name: $scope.studentName,
+                    className: $scope.selectedClass,
+                    dob: `${year}/${month}/${day}`,
+                    gender: parseInt($scope.gender),
+                    languages: $scope.selectedLanguages.map(selectedLanguage => selectedLanguage.name)    
+                }
+                //everything is ok 
+                debugger
+                $scope.students.push(newStudent)
+
+            }
+
+        })
+        app.directive("login", function () {
+            return {
+                template: `<div id="loginmain">
+                <h1>Login</h1>
+                <form name="myForm" >
+                    <table>
+                        <tr>
+                            <td>
+                                Username
+                            </td>
+                            <td>
+                                <input type="text" 
+                                    ng-model="username"
+                                    placeholder="Input username" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Password
+                            </td>
+                            <td>                                                                
+                                <input 
+                                    type="password" 
+                                    ng-model="password"
+                                    placeholder="Input Password" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+            
+                            </td>
+                            <td>
+                                <button 
+                                    ng-click="login()"                                        
+                                    value="Login" >
+                                    Login
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>`
+            };
+        });
+        app.directive("studentlist", function () {
+            return {
+                template: `<h1>Student Management</h1>`
+            }
+        })
+    </script>
+</body>
+</html>

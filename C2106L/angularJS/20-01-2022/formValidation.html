@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script 
+        src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.2/angular.min.js" 
+        integrity="sha512-7oYXeK0OxTFxndh0erL8FsjGvrl2VMDor6fVqzlLGfwOQQqTbYsGPv4ZZ15QHfSk80doyaM0ZJdvkyDcVO7KFA==" 
+        crossorigin="anonymous" 
+        referrerpolicy="no-referrer">
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.js"></script>
+    <style>
+        span.ng-invalid {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div ng-app="">
+        <p>Try writing in the input field:</p>
+    <form name="myForm">        
+        <table>
+            <tr>
+                <td>
+                    Name    
+                </td>
+                <td>
+                    <input 
+                        type="text" 
+                        name="name"
+                        ng-model="name"
+                        placeholder="Enter your name"
+                        ng-required ="true"
+                        />
+                </td>                
+            </tr>
+            <tr>
+                <td>
+                    Email
+                </td>
+                <td>
+                    <input 
+                        type="email" 
+                        name="email"
+                        ng-model="email"
+                        placeholder="Enter your email"
+                        ng-required ="true"
+                        />
+                    <span class="ng-invalid">{{myForm.email.$valid ? '' : 'Email is invalid'}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Website
+                </td>
+                <td>
+                    <input 
+                        type="url"
+                        name="website"
+                        ng-model="website"
+                        placeholder="Your website..."
+                        ng-required ="true"
+                        />  
+                    <span class="ng-invalid">{{myForm.website.$valid ? '' : 'Website is not invalid'}}</span>                 
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Message
+                </td>
+                <td>
+                    <textarea 
+                        type="text" 
+                        name="message"
+                        ng-model="message"
+                        ng-required ="true"
+                        placeholder="Enter your message"> </textarea>
+                        <span class="ng-invalid">{{myForm.message.$valid ? '' : 'Required'}}</span>                 
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    
+                </td>
+                <td>
+                    <input type="submit" value="Submit"/>
+                </td>
+            </tr>                        
+        </table>
+    </form>
+    </div>
+</body>
+
+</html>

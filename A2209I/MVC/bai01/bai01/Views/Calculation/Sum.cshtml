@@ -1,0 +1,18 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Sum Calculation</title>
+</head>
+<body>
+    <h1>This is sum</h1>
+    <form action="/Calculation/DoSum" method="post">
+        <input type="text" name="x" placeholder="Enter x value" required />
+        <input type="text" name="y" placeholder="Enter y value" required />
+        <button type="submit">Calculate Sum</button>
+    </form>
+    @if (ViewBag.sum != null)
+    {
+        <h2>Result: @ViewBag.sum</h2>  @* Display the result if it's available *@
+    }
+</body>
+</html>

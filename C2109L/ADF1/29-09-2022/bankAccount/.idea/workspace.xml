@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="f2370aba-d1b6-4371-a7be-a742045ef3c4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../27-09-2022/bankAccount/BankAccount/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../27-09-2022/bankAccount/BankAccount/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#ib_16384_0.dblwr" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#ib_16384_0.dblwr" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_redo/#ib_redo10" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_redo/#ib_redo10" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_1.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_1.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_10.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_10.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_2.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_2.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_3.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_3.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_4.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_4.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_5.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_5.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_6.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_6.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_7.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_7.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_8.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_8.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_9.ibt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/#innodb_temp/temp_9.ibt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/binlog.000021" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/binlog.000022" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/binlog.000023" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/binlog.000024" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/binlog.000075" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/binlog.000075" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/binlog.index" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/binlog.index" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/ibdata1" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/ibdata1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/ibtmp1" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/ibtmp1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/mysql.ibd" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/mysql.ibd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/undo_001" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/undo_001" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/undo_002" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../C2203L/PHP/19-08-2022/de11/db/undo_002" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
+  </component>
+  <component name="ProjectId" id="2FRT5gSmRAemWDoJAIALMCd9XsP" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "/Users/hoangnd/Documents/code/Aptech/C2109L/ADF1/29-09-2022/bankAccount"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f2370aba-d1b6-4371-a7be-a742045ef3c4" name="Changes" comment="" />
+      <created>1664453714823</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1664453714823</updated>
+    </task>
+    <servers />
+  </component>
+</project>

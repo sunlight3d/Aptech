@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b42f6341-b787-438a-adcb-285a94fe7542" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../../C2009L/EAP/21-02-2022/BookService/BookService/App_Data/BookServiceContext-20220218190210.mdf" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2009L/EAP/21-02-2022/BookService/BookService/App_Data/BookServiceContext-20220218190210.mdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2009L/EAP/21-02-2022/BookService/BookService/App_Data/BookServiceContext-20220218190210_log.ldf" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2009L/EAP/21-02-2022/BookService/BookService/App_Data/BookServiceContext-20220218190210_log.ldf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2009L/EAP/28-02-2022/EAP_C2009L_NguyenVanA/EAP_C2009L_NguyenVanA/App_Data/aspnet-EAP_C2009L_NguyenVanA-20220228064338.mdf" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2009L/EAP/28-02-2022/EAP_C2009L_NguyenVanA/EAP_C2009L_NguyenVanA/App_Data/aspnet-EAP_C2009L_NguyenVanA-20220228064338.mdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2009L/EAP/28-02-2022/EAP_C2009L_NguyenVanA/EAP_C2009L_NguyenVanA/App_Data/aspnet-EAP_C2009L_NguyenVanA-20220228064338_log.ldf" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2009L/EAP/28-02-2022/EAP_C2009L_NguyenVanA/EAP_C2009L_NguyenVanA/App_Data/aspnet-EAP_C2009L_NguyenVanA-20220228064338_log.ldf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2009L/MVC/24-12-2021/WAD_C2009L_NguyenVanA/WAD_C2009L_NguyenVanA/App_Data/aspnet-WAD_C2009L_NguyenVanA-20211213080946.mdf" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2009L/MVC/24-12-2021/WAD_C2009L_NguyenVanA/WAD_C2009L_NguyenVanA/App_Data/aspnet-WAD_C2009L_NguyenVanA-20211213080946.mdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2009L/MVC/24-12-2021/WAD_C2009L_NguyenVanA/WAD_C2009L_NguyenVanA/App_Data/aspnet-WAD_C2009L_NguyenVanA-20211213080946_log.ldf" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2009L/MVC/24-12-2021/WAD_C2009L_NguyenVanA/WAD_C2009L_NguyenVanA/App_Data/aspnet-WAD_C2009L_NguyenVanA-20211213080946_log.ldf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2009i/MVC/18-02-2022/WAD_C2009i_NguyenVanA/WAD_C2009i_NguyenVanA/App_Data/aspnet-WAD_C2009i_NguyenVanA-20220216021415.mdf" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2009i/MVC/18-02-2022/WAD_C2009i_NguyenVanA/WAD_C2009i_NguyenVanA/App_Data/aspnet-WAD_C2009i_NguyenVanA-20220216021415.mdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2009i/MVC/18-02-2022/WAD_C2009i_NguyenVanA/WAD_C2009i_NguyenVanA/App_Data/aspnet-WAD_C2009i_NguyenVanA-20220216021415_log.ldf" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2009i/MVC/18-02-2022/WAD_C2009i_NguyenVanA/WAD_C2009i_NguyenVanA/App_Data/aspnet-WAD_C2009i_NguyenVanA-20220216021415_log.ldf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2009i/MVC/21-02-2022/WAD_C2009i_NguyenVanA/WAD_C2009i_NguyenVanA/App_Data/ExamsDatabase.mdf" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2009i/MVC/21-02-2022/WAD_C2009i_NguyenVanA/WAD_C2009i_NguyenVanA/App_Data/ExamsDatabase.mdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2009i/MVC/21-02-2022/WAD_C2009i_NguyenVanA/WAD_C2009i_NguyenVanA/App_Data/ExamsDatabase_log.ldf" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2009i/MVC/21-02-2022/WAD_C2009i_NguyenVanA/WAD_C2009i_NguyenVanA/App_Data/ExamsDatabase_log.ldf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2009i/MVC/23-02-2022/WAD_C2009i_NguyenVanA/WAD_C2009i_NguyenVanA/App_Data/DefaultConnection.mdf" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2009i/MVC/23-02-2022/WAD_C2009i_NguyenVanA/WAD_C2009i_NguyenVanA/App_Data/DefaultConnection.mdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2009i/MVC/23-02-2022/WAD_C2009i_NguyenVanA/WAD_C2009i_NguyenVanA/App_Data/DefaultConnection_log.ldf" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2009i/MVC/23-02-2022/WAD_C2009i_NguyenVanA/WAD_C2009i_NguyenVanA/App_Data/DefaultConnection_log.ldf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2009i/MVC/23-02-2022/WAD_C2009i_NguyenVanA/WAD_C2009i_NguyenVanA/App_Data/ExamsDatabase.mdf" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2009i/MVC/23-02-2022/WAD_C2009i_NguyenVanA/WAD_C2009i_NguyenVanA/App_Data/ExamsDatabase.mdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2009i/MVC/23-02-2022/WAD_C2009i_NguyenVanA/WAD_C2009i_NguyenVanA/App_Data/ExamsDatabase_log.ldf" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2009i/MVC/23-02-2022/WAD_C2009i_NguyenVanA/WAD_C2009i_NguyenVanA/App_Data/ExamsDatabase_log.ldf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2009i/MVC/25-02-2022/WAD_C2009i_NguyenVanA/WAD_C2009i_NguyenVanA/App_Data/ExamsDatabase.mdf" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2009i/MVC/25-02-2022/WAD_C2009i_NguyenVanA/WAD_C2009i_NguyenVanA/App_Data/ExamsDatabase.mdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2009i/MVC/25-02-2022/WAD_C2009i_NguyenVanA/WAD_C2009i_NguyenVanA/App_Data/ExamsDatabase_log.ldf" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2009i/MVC/25-02-2022/WAD_C2009i_NguyenVanA/WAD_C2009i_NguyenVanA/App_Data/ExamsDatabase_log.ldf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../C2106L/SQL/12-03-2022.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../../../C2106L/SQL/12-03-2022.sql" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="24lb62dwOjA7vNWsE0iUvoMl8N0" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b42f6341-b787-438a-adcb-285a94fe7542" name="Changes" comment="" />
+      <created>1644207941979</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1644207941979</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+</project>

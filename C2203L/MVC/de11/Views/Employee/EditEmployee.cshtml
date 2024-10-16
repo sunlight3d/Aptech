@@ -1,0 +1,38 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model de11.Models.Employee;
+<h1>Update employee information</h1>
+<form method="post" asp-controller="Employee" asp-action="EditEmployee">
+    <table>
+        <tr>
+            <td>Employee No</td>
+            <td>@Model.EmployeeNo</td>            
+            <input type="hidden" name="EmployeeNo" value="@Model.EmployeeNo" />
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>
+                <input type="text" name="EmployeeName" value="@Model.EmployeeName" />
+            </td>            
+        </tr>
+        <tr>
+            <td>Salary</td>
+            <td>
+                <input type="text" name="Salary" value="@Model.Salary" />
+            </td>
+            
+        </tr>
+        <tr>
+            <td>Position</td>
+            <td>
+                <input type="text" name="Position" value="@Model.Position" />
+            </td>
+            
+        </tr>
+    </table>
+    <input type="submit" value="Update"/>
+</form>
+

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="./studentinfo.js"></script>   
+    <title>Document</title>
+</head>
+<body>
+    <div ng-app="myApp" ng-controller="StudentController">
+        <center>
+            <h1>Student management</h1>
+            <table>
+                <tr>
+                    <td>
+                        Student Name
+                    </td>
+                    <td>
+                        <input type="text" required ng-model="studentName">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Student DOB
+                    </td>
+                    <td>
+                        <input type="date" ng-model="dateOfBirth" required >
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Student Gender
+                    </td>
+                    <td>
+                        <div style="display: inline;" data-ng-repeat="gender in genders">
+                            <input type="radio" 
+                            name="{{gender.name}}" 
+                            ng-checked="gender.checked == true"                                
+                            ng-click="changeGender($index)"  
+                            
+                            value="true" />
+                                {{gender.name}}
+                        </div>
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Student Language
+                    </td>
+                    <td>
+                        <div style = "display: inline;" ng-repeat="language in languages">
+                            <input type="checkbox"
+                                value="{{ language.name }}" 
+                                ng-checked="language.checked == true"                                
+                                ng-click="changeLanguage($index)"                                
+                            > 
+                            <label for="{{ language.name }}">{{ language.name }}</label>
+                        </div>
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Student Class
+                    </td>
+                    <td>
+                        <select ng-model="selectedClass">
+                            <option ng-repeat="class in studentClasses" 
+                                selected
+                                value="{{class}}">{{class}}</option>
+                        </select>                        
+                        <a href="#" ng-click="btnAddClass()">Add Class</a>                        
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button ng-click="btnAddStudent()">Add</button></td>                
+                </tr>
+            </table>
+            
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Class</th>
+                    <th>DOB</th>
+                    <th>Gender</th>
+                    <th>Language</th>
+                    <th></th>                    
+                </tr>
+                <tr>
+                    <td>dd</td>
+                    <td>323</td>
+                    <td>ddsd</td>
+                    <td>dd</td>
+                    <td>dd</td>
+                    <td><a href="#" ng-click="btnDeleteStudent()">Delete</a></td>
+                </tr>
+            </table>
+            <p><strong>Total</strong>: 3 students</p>
+        </center>
+    </div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+﻿@model _03_07_2023.DTOs.UserRegisterRequest
+
+<h2>Register</h2>
+
+<form asp-action="Register" method="post" asp-controller="User">
+    <div class="form-group">
+        <label asp-for="Email">Email:</label>
+        <input asp-for="Email" class="form-control" type="text"/>
+        <span asp-validation-for="Email" class="text-danger" 
+            value="@Model.Email"></span>
+        <!--2-ways data binding-->
+    </div>
+
+    <div class="form-group">
+        <label asp-for="FullName">Full Name:</label>
+        <input asp-for="FullName" class="form-control"/>
+        <span asp-validation-for="FullName" class="text-danger" 
+            value="@Model.FullName"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Password">Password:</label>
+        <input asp-for="Password" class="form-control" type="password" />
+        <span asp-validation-for="Password" class="text-danger" 
+            value="@Model.Password"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ConfirmPassword">Confirm Password:</label>
+        <input asp-for="ConfirmPassword" class="form-control"
+            value="@Model.ConfirmPassword"
+            type="password" />
+        <span asp-validation-for="ConfirmPassword" class="text-danger" ></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register</button>
+    <!--Khi bấm vào nút Register => gửi request POST lên phương thức 
+        Register của controller: UserController -->
+</form>

@@ -1,0 +1,18 @@
+﻿@model ECommerceApp.ViewModels.UserViewModel
+@* @model List<Book> *@
+@{
+    ViewData["Title"] = "Home Page";
+    //@model Book
+}
+
+<div class="text-center">
+    <h1 class="display-4">@ViewData["Message"]</h1>
+    <h1 class="display-4">@ViewBag.x</h1>
+    @*
+    @foreach (var book in Model)
+    {
+        <p>@book.ID - @book.Title - @book.Price</p>
+    }
+    *@    
+  
+</div>

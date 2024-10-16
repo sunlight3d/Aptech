@@ -1,0 +1,33 @@
+Thiết kế cơ sở dữ liệu cho ứng dụng bảo hiểm có các chức năng sau:
+Người dùng có thể xem thông tin chi tiết về các chính sách và kế hoạch được cung cấp bởi Công ty Bảo hiểm.
+Người dùng mới có thể đăng ký với trang web để có thể nhận được thông tin trực tuyến.
+Khách hàng có thể xem chi tiết các gói bảo hiểm đã mua và mua/gia hạn thêm gói mới.
+Trang web cung cấp thông tin về các chiến lược mới và các kế hoạch phụ của công ty.
+Cung cấp cơ hội vay tiền cho chủ sở hữu chính sách và thanh toán trực tuyến. 
+Phí bảo hiểm tùy thuộc vào thời hạn khách hàng tham gia bảo hiểm: tham gia nhiều thì chi phí thấp, quyền lợi cao
+Các loại bảo hiểm:
+Life Insurance: Life insurance is a plan which provides protection to
+the insured and his family with financial coverage in case of any
+mishaps. To avail the benefits of life insurance policy, the policy holder
+has to pay a monthly premium to the insurer for a certain period of
+time.
+Medical Insurance: Under this type of health care cover, medical
+expenses are covered. When an insured person needs medical
+treatment due to illness or accident, the insurance agent provides
+coverage for his expenses such as doctor fees, hospital fees, medicine
+cost and other related bills.
+Motor insurance: Under this type of plan which provides protection
+against the auto-mobile the user owns.
+Home Insurance: The most popular among the 6 types of
+insurance is the home insurance that provides compensation for any
+mishaps that occurs on your home. Coverage is provided according to
+the policy and premium paid by the homeowner. There are various
+types of home insurance plans that you can choose from to suit your
+needs.
+Thiết kế cơ sở dữ liệu(SQL Server) cho ứng dụng trên:
+- Database convention.eg: NumberOfStudents
+- Bao gồm cả câu lệnh sql cho từng bảng
+- Chức năng đăng nhập yêu cầu mã hóa mật khẩu
+- Tên thực thể, trường bằng tiếng Anh, có comment giải thích bằng song ngữ Anh-Việt
+
+

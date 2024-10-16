@@ -1,0 +1,143 @@
+services:
+  sql-server-2019:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sql-server-2019
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "${SQL_SERVER_2019_PASSWORD}"
+    networks:
+      - learning    
+    ports:
+      - "1434:1433"
+    volumes:
+      - sqlserver2019-data:/var/opt/mssql
+
+  sql-server-2022:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql-server-2022
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "${SQL_SERVER_2022_PASSWORD}"
+    networks:
+      - learning
+    ports:
+      - "1435:1433"
+    volumes:
+      - sqlserver2022-data:/var/opt/mssql
+
+  mysql:
+    container_name: mysql
+    image: mysql:8.4.0    
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_PASSWORD}"
+      MYSQL_DATABASE: ShopApp
+    ports:
+      - 3306:3306
+    networks:
+      - learning
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  phpmyadmin-mysql:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin-mysql
+    restart: always
+    depends_on:
+      - mysql
+    ports:
+      - "8089:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      UPLOAD_LIMIT: 500M
+    networks:
+      - learning
+
+  phpmyadmin-mariadb:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin-mariadb
+    restart: always
+    depends_on:
+      - mariadb
+    ports:
+      - "8090:80"
+    environment:
+      PMA_HOST: mariadb
+      PMA_PORT: 3306
+      UPLOAD_LIMIT: 500M
+    networks:
+      - learning
+
+  redis:
+    #docker exec -it redis redis-cli
+    #SET hello world
+    #GET hello
+    #KEYS *
+    image: redis:7.2.3
+    container_name: redis
+    restart: always
+    ports:
+      - "6380:6379"
+    networks:
+      - learning
+    volumes:
+      - redis-data:/data
+
+  mongodb:
+    image: mongo:7.0.9-jammy
+    container_name: mongo
+    ports:
+      - 27018:27017    
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: "${MONGO_PASSWORD}"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - learning  
+
+  mariadb:
+    image: mariadb:11.3.2-jammy
+    environment:
+      MARIADB_ROOT_PASSWORD: "${MARIADB_PASSWORD}"
+    ports:
+      - 3310:3306
+    networks:
+      - learning
+    container_name: mariadb
+    volumes:
+      - mariadb-data:/var/lib/mysql
+
+networks:
+  learning:
+    name: learning
+    driver: bridge
+
+volumes:
+  sqlserver2019-data:
+  sqlserver2022-data:
+  mysql-data:
+  redis-data:
+  mongo-data:
+  mariadb-data:
+
+
+
+#docker-compose -f ./deployment.yaml down 
+#docker-compose -f ./deployment.yaml --env-file ./deployment.env up -d
+
+#mongosh "mongodb://root:Abc123456789@localhost:27018" --username root --authenticationDatabase admin
+#sample data is here:
+#https://atlas-education.s3.amazonaws.com/sampledata.archive
+
+#access to mongo-container's terminal
+#cd C:\Users\sunli\Documents\code\YoutubeChannel\2023\MongoDBTutorialsForBeginners2023\myapp
+#docker exec -it mongo-container bash
+#Connect inside container:
+#mongosh "mongodb://root:Abc123456789@localhost:27017" --username root --authenticationDatabase admin
+#use sample_mflix
+#Download and restore data
+#curl https://atlas-education.s3.amazonaws.com/sampledata.archive -o sampledata.archive
+#mongorestore --username root --password Abc123456789 --authenticationDatabase admin --archive=./sampledata.archive

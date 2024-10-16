@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Scores</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+</head>
+<body ng-app="myApp">
+  <div ng-controller="myCtrl">
+    <h2>Enter student details:</h2>
+    <form ng-submit="addStudent()">
+      <label>Name:</label>
+      <input type="text" ng-model="name" required><br>
+
+      <label>Age:</label>
+      <input type="text" ng-model="age" required><br>
+
+      <label>Address:</label>
+      <input type="text" ng-model="address" required><br>
+
+      <label>Java Score:</label>
+      <input type="text" ng-model="javaScore" required><br>
+
+      <label>C# Score:</label>
+      <input type="text" ng-model="csharpScore" required><br>
+
+      <input type="submit" value="Add Student">
+    </form>
+
+    <hr>
+
+    <h2>Student Scores:</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Address</th>
+          <th>Java Score</th>
+          <th>C# Score</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="student in students">
+          <td>{{student.name}}</td>
+          <td>{{student.age}}</td>
+          <td>{{student.address}}</td>
+          <td>{{student.javaScore}}</td>
+          <td>{{student.csharpScore}}</td>
+          <td><button ng-click="deleteStudent(student)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    var app = angular.module('myApp', [])
+    const urlStudents = 'http://localhost:8081/api/students'
+    app.controller('myCtrl', function($scope, $http) {
+      $scope.students = []      
+      $scope.name = ""//data binding
+      $scope.age = ""
+      $scope.address = ""
+      $scope.javaScore = ""
+      $scope.csharpScore = ""      
+      $scope.loadAllStudents = function() {
+        $http({
+                method: 'GET',
+                url: urlStudents,            
+            }).then(function(response) {     
+                debugger           
+                $scope.students = response.data?.data ?? []
+            }, function(error) {
+                // handle error response
+            });
+      }
+      $scope.deleteStudent = function(student) {                
+        debugger
+        if (confirm("Are you sure to delete ?") == true) {
+          debugger
+          $http({
+              method: 'DELETE',
+              url: `${urlStudents}/${student.id}`,            
+          }).then((response) => {
+              debugger
+              // handle success response
+              alert("delete successful")
+              $scope.loadAllStudents()
+          }, (error) => {
+              debugger
+              // handle error response
+          })    
+        }         
+      }
+      $scope.addStudent = function() {                
+        debugger
+        $http({
+            method: 'POST',
+            url: urlStudents,
+            data: {
+                name: $scope.name,
+                age: parseInt($scope.age),
+                address: $scope.address,
+                javaScore: parseInt($scope.javaScore),
+                csharpScore: parseInt($scope.csharpScore)
+            }
+        }).then((response) => {
+            debugger
+            // handle success response
+            $scope.loadAllStudents()
+        }, (error) => {
+            debugger
+            // handle error response
+        })        
+      }
+      $scope.loadAllStudents()
+    })
+  </script>
+</body>
+</html>

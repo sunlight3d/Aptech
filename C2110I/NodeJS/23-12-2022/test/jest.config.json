@@ -1,0 +1,8 @@
+{
+    "testRegex": "((\\.|/*.)(test))\\.js?$",
+    "testEnvironment": "jest-environment-node",
+    "transform": {
+
+    },
+    "testTimeout": 30000     
+}

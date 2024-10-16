@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="120dp">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_marginStart="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.533"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/txtProductName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="iphone 12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="@+id/imageView2" />
+
+    <TextView
+        android:id="@+id/txtProductDescription"
+        android:layout_width="287dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:minLines="1"
+        android:maxLines="2"
+        android:text="This is a very good product I have ever seen. I buy this yesterday"
+        app:layout_constraintEnd_toEndOf="@+id/txtProductName"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/txtProductName"
+        app:layout_constraintTop_toBottomOf="@id/txtProductName" />
+    <TextView
+        android:id="@+id/txtPrice"
+        android:layout_width="287dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:minLines="1"
+        android:text="812 $"
+        app:layout_constraintEnd_toEndOf="@+id/txtProductName"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/txtProductDescription"
+        app:layout_constraintTop_toBottomOf="@id/txtProductDescription" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,22 @@
+{
+  "name": "pms",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "mysql2": "^3.6.1"
+  },
+  "scripts": {
+    "start": "nodemon app.js",
+    "debug": "node inspect app.js",
+    "test": "mocha tests/*.test.js",
+    "test:debug": "mocha --inspect tests/*.test.js"
+  },
+  "devDependencies": {
+    "chai": "^4.3.8",
+    "chai-http": "^4.4.0",
+    "mocha": "^10.2.0"
+  }
+}

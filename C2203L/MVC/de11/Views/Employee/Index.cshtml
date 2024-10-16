@@ -1,0 +1,52 @@
+﻿
+<h1>Employee list</h1>
+<table>
+    <tr>
+        <th>Emp No</th>
+        <th>Emp Name</th>
+        <th>Emp Position</th>
+        <th>Emp Salary</th>
+        <th>Update details</th>
+        <th>Delete</th>
+    </tr>
+    @foreach(Employee employee in ViewBag.Employees)
+    {
+        <tr>
+            <td>@employee.EmployeeNo</td>
+            <td>@employee.EmployeeName</td>
+            <td>@employee.Position</td>
+            <td>@employee.Salary</td>
+            <td>
+                <a 
+                asp-action="EditEmployee" 
+                asp-controller="Employee"
+                asp-route-employeeNo="@employee.EmployeeNo">Edit infor
+            </a>
+           </td>
+            <td>
+                <a asp-action="DeleteEmployee"
+               asp-controller="Employee"
+               asp-route-employeeNo="@employee.EmployeeNo">
+                    Delete
+                </a>
+            </td>
+        </tr>        
+    }
+</table>
+<form asp-controller="Employee" asp-action="InsertEmployee" method="post">
+    <div>
+        <input type="text" name="employeeNo" placeholder="Enter employee no" />
+    </div>
+    <div>
+        <input type="text" name="employeeName" placeholder="Enter name" />
+    </div>
+    <div>
+        <input type="text" name="position" placeholder="Enter position" />
+    </div>
+    <div>
+        <input type="text" name="salary" placeholder="Enter salary" />
+    </div>
+    <div>
+        <input type="submit" value="Insert Employee"/>
+    </div>
+</form> 

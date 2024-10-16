@@ -1,0 +1,37 @@
+
+<div *ngIf="product">
+    <h2>{{ product.name }}</h2>
+    <p>ID: {{ product.id }}</p>
+    <p>Price: ${{ product.price }}</p>
+    <img *ngIf="product.thumbnail" [src]="product.thumbnail" alt="{{ product.name }}" />
+
+    <p>Description: {{ product.description }}</p>
+
+    <p>Created at: {{ product.created_at | date: 'medium' }}</p>
+    <p>Updated at: {{ product.updated_at | date: 'medium' }}</p>
+
+    <div *ngIf="product.product_images && product.product_images.length">
+    <h3>Product Images:</h3>
+    <div class="image-container">
+        <div *ngFor="let image of product.product_images">
+            <img [src]="image.image_url" alt="Product Image {{ image.id }}" />
+        </div>
+    </div>
+</div>
+
+
+    <p>Category ID: {{ product.category_id }}</p>
+</div>
+<div *ngIf="!product">
+    <p>Product information is not available.</p>
+</div>
+
+<h1>COLOR</h1>
+<div *ngFor="let eachColor of colors; let i = index"
+    class="color-item"
+>
+    <color-item [color]="eachColor"            
+        (click)="selectColor(i)" 
+            [isSelected]='i == selectedColorIndex'>
+    </color-item>
+</div>

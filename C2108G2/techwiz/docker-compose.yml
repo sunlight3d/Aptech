@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  raspberry_pi_os:
+    #image: resin/rpi-raspbian
+    #image: balenalib/raspberrypi3
+    #image: raspberrypi3-node
+    #image: raspbian/desktop
+    #image: balenalib/rpi-raspbian
+    #image: balenalib/raspberrypi3
+    image: tech_wiz_pi:lates
+    container_name: raspberry_pi_os_container
+    privileged: true
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+
+#docker-compose -f ./docker-compose.yml up -d
+#docker-compose -f ./docker-compose.yml down

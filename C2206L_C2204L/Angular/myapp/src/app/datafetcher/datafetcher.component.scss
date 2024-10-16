@@ -1,0 +1,15 @@
+.color-item {
+    display: inline;
+}
+.image-container {
+    display: flex;
+    flex-wrap: nowrap; /* Không cho phép các mục con xuống dòng */
+    overflow-x: auto; /* Thêm thanh cuộn nếu ảnh không vừa với màn hình */
+}
+
+.image-container img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 10px; /* Khoảng cách giữa các ảnh */
+}
