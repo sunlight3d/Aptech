@@ -11,7 +11,14 @@ struct Course {
 void inputCourses(struct Course* courses, int numberOfCourses) {
 	int i;
 	for(i = 0; i < numberOfCourses; i++) {
-		printf("");
+		struct Course* eachCourse = courses+i;
+		printf("Enter author's name : ");scanf(" %[^\n]", eachCourse->authorName); 
+		printf("Enter courseName : ");scanf(" %[^\n]", eachCourse->courseName); 
+		printf("Enter author's price : ");scanf("%d", &(eachCourse->price)); 
+		printf("Enter address : ");scanf(" %[^\n]", eachCourse->address); 
+		printf("Enter description : ");scanf(" %[^\n]", eachCourse->description); 
+		printf("Enter startedDate: ");scanf(" %[^\n]", eachCourse->startedDate); 
+
 	}
 }
 void sort(struct Course* courses, int numberOfCourses) {
@@ -40,6 +47,7 @@ void menu() {
 			break;
 		case 2:
 			printf("Sort and show detail \n");
+			showCourses(courses, numberOfCourses);
 			break;
 		default:
 			if(choice < 1 || choice > 3) {
@@ -55,12 +63,12 @@ void showCourses(struct Course* courses, int numberOfItems) {
 	int i;
 	for(i = 0; i < numberOfItems; i++){
 		struct Course* selectedCourse = courses+i;
-		printf("Author's name: %s", selectedCourse->authorName);
-		printf("course's name: %s", selectedCourse->courseName);
-		printf("Price: %d", selectedCourse->price);
-		printf("Address: %s", selectedCourse->address);
-		printf("Description: %s", selectedCourse->description);
-		printf("startedDate: %s", selectedCourse->startedDate);
+		printf("Author's name: %s\n", selectedCourse->authorName);
+		printf("course's name: %s\n", selectedCourse->courseName);
+		printf("Price: %d\n", selectedCourse->price);
+		printf("Address: %s\n", selectedCourse->address);
+		printf("Description: %s\n", selectedCourse->description);
+		printf("startedDate: %s\n", selectedCourse->startedDate);
 	}
 }
 int main(int argc, char *argv[]) {
