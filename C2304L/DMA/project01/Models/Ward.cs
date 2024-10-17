@@ -21,5 +21,7 @@ namespace project01.Models
         [Range(1, int.MaxValue, ErrorMessage = "Capacity must be at least 1")]
         public int Capacity { get; set; }
 
+        public virtual ICollection<Nurse>? Nurses { get; set; }
+
     }
 }

@@ -1,8 +1,19 @@
-# React + Vite
+Tôi có api GET như sau:
+https://localhost:7272/api/Nurses
+Giá trị trả về:
+[
+  {
+    "nurseId": 1,
+    "name": "nguyen van a",
+    "certification": "cert 11",
+    "wardId": 1
+  },
+  {
+    "nurseId": 3,
+    "name": "nguyen van a",
+    "certification": "abcc22",
+    "wardId": 1
+  }
+]
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Viết code reactjs gọi đến api này và hiển thị ra
