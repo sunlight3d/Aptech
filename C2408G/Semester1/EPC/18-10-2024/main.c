@@ -1,38 +1,85 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct {
 	char name[20];
 	char country[20];
-	char birthyear;
+	int birthyear;
 	float mark;
 } Student;
-void menu() {
-	
+void displayStudents(Student *students, int numberOfStudents)
+{
+	int i;
+	for (i = 0; i < numberOfStudents; i++)
+	{
+		Student *student = students + i;
+		printf("Name: %s, country: %s, birth year : %d, mark : %f \n", 
+				student->name,
+				student->country,
+				student->birthyear,
+				student->mark
+		);
+	}
+}
+void sort(Student *students, int numberOfStudents) {
+	int i,j;
+	for (i = 0; i < numberOfStudents - 1; i++)
+	{
+		for (j = i + 1; j < numberOfStudents; j++)
+		{
+			bool condition = strcmp((students+i)->name, (students+j)->name) > 0;
+			if(condition == true) {
+				Student temp = *(students+i);
+				*(students+i) = *(students+j);
+				*(students+j) = temp;
+			}
+		}
+	}
+}
+void menu()
+{
 	int choice = 0;
-	do {
+	int numberOfStudents = 0;
+	Student *students = (Student *)malloc(100 * sizeof(Student));
+	do
+	{
 		printf("Student management system\n");
-		printf("1. Input students   |2. Display Students | 3. exit\n");
-		printf("Enter your choice(1,2,3): ");scanf("%d", &choice);
+		printf("1. Input students   |  2. Sort | 3. Display Students | 4. exit\n");
+		printf("Enter your choice(1-4): ");
+		scanf("%d", &choice);		
+		int i = 0;
 		switch (choice)
 		{
 		case 1:
-			printf("You chose 1\n");
+			do
+			{
+				printf("Enter number of students: \n");
+				scanf("%d", &numberOfStudents);
+			} while (numberOfStudents < 0 || numberOfStudents > 100);
+			for(i = 0; i < numberOfStudents; i++){
+				Student* student = students + i;
+				printf("Enter name: ");scanf(" %[^\n]", student->name);
+				printf("Enter country: ");scanf(" %[^\n]", student->country);
+				printf("Enter birthyear: ");scanf("%d", &(student->birthyear));
+				printf("Enter mark: ");scanf("%f", &(student->mark));				
+			}
 			break;
 		case 2:
-			printf("You chose 2\n");
+			sort(students, numberOfStudents);
+			break;
+		case 3:
+			displayStudents(students, numberOfStudents);
 			break;
 		default:
-			if(choice < 0 || choice > 3) {
-				printf("please choose 1-3\n");
+			if (choice < 0 || choice > 4)
+			{
+				printf("please choose 1-4\n");
 				break;
 			}
 			break;
 		}
-	}while (choice != 3);
-	
-	
-
+	} while (choice != 4);
 }
 void question01() {
 	int number1 = 0;
