@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export default function AddNewNurse() {
   const [nurse, setNurse] = useState({
     name: '',
@@ -14,7 +16,7 @@ export default function AddNewNurse() {
     e.preventDefault();
     try {
       debugger  
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/Nurses`, nurse);
+      const response = await axios.post(`${apiUrl}/Nurses`, nurse);
       debugger
       console.log('Nurse added:', response.data);
       navigate('/'); // Navigate back to nurse list after adding

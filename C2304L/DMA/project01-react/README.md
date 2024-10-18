@@ -17,3 +17,5 @@ Giá trị trả về:
 ]
 
 Viết code reactjs gọi đến api này và hiển thị ra
+
+pnpm install axios
