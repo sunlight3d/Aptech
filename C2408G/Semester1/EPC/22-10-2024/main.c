@@ -47,7 +47,30 @@ void bai01() {
     fclose(file);
     free(buffer);
 }
+void bai02(){
+	char inputString[100];
+	char searchString[100];
+	int n = 0;
+	int i, j;
+	printf("Enter inputString : ");scanf(" %[^\n]", inputString); 
+	printf("Enter inputString : ");scanf(" %[^\n]", searchString); 
+	
+	for(i = 0 ; i < strlen(inputString); i++) {
+		if(inputString[i] == searchString[0]) {
+			for(j = 0; j < strlen(searchString); j ++){
+				if(searchString[j] != inputString[i+j]) {
+					break;
+				} 
+				if(j == strlen(searchString) - 1) {
+					n = n + 1;
+				}
+			}
+		}
+	}
+	printf("%s appears %d times in %s\n", searchString, n, inputString);
+}
 int main(int argc, char *argv[]) {
-	bai01();
+	//bai01();
+	bai02();
 	return 0;
 }
