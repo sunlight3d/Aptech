@@ -6,19 +6,43 @@ import {
   redirect,
   useNavigate,
 } from "react-router-dom";
+import { flushSync } from 'react-dom';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const NurseList = () => {
   const navigate = useNavigate();
-  debugger
+
   const [nurses, setNurses] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   
   
-  function handleDelete(nurseId) {
+  async function handleDelete(nurseId) {
     console.log("Deleting nurse with ID:", nurseId);
-    // Thêm logic xóa tại đây
+  
+    // Hiển thị hộp thoại xác nhận trước khi xóa
+    const confirmDelete = window.confirm("Are you sure you want to delete this nurse?");
+  
+    if (confirmDelete) {
+      try {
+        setIsLoading(true)
+        // Gửi yêu cầu DELETE tới API
+        const response = await axios.delete(`${apiUrl}/Nurses/${nurseId}`);
+        console.log("Nurse deleted successfully:", response.data);        
+        setNurses(nurses.filter(nurse => nurse.nurseId !== nurseId))
+        //setNurses(prevNurses => prevNurses.filter(nurse => nurse.nurseId !== nurseId));
+        debugger
+        setIsLoading(false)
+        // Thêm logic xử lý sau khi xóa thành công, ví dụ: cập nhật danh sách hiển thị
+      } catch (error) {
+        debugger
+        setIsLoading(false)
+        console.error("There was an error deleting the nurse:", error);
+        // Xử lý lỗi, ví dụ: hiển thị thông báo lỗi cho người dùng
+      } 
+    } else {
+      console.log("Delete action was canceled.");
+    }
   }
     
   function handleAddNew() {
@@ -31,21 +55,23 @@ const NurseList = () => {
 
   
   useEffect(() => {
-    // Gọi API GET để lấy dữ liệu Nurse
-    setIsLoading(true)
-    debugger
-
-    axios.get(`${apiUrl}/Nurses`)
+    async function getAllNurses() {
+      setIsLoading(true)
+      debugger
+      axios.get(`${apiUrl}/Nurses`)
       .then(response => {
-        setIsLoading(false)
-        debugger
+        setIsLoading(false)        
         setNurses(response.data); // Lưu dữ liệu nhận được vào state
       })
       .catch(error => {
         setIsLoading(false)
         console.error('There was an error fetching the nurses!', error);
       });
-  }, []); // Chỉ chạy 1 lần khi component được render
+    }
+    getAllNurses();
+  }, [
+    // nurses.length,    
+  ]); // Chỉ chạy 1 lần khi component được render
 
   if (isLoading == true) {
     return <div>
@@ -68,26 +94,28 @@ const NurseList = () => {
               </tr>
             </thead>
             <tbody>
-              {nurses.map(nurse => (
-                <tr key={nurse.nurseId}>
-                  <td>{nurse.nurseId}</td>
-                  <td>{nurse.name}</td>
-                  <td>{nurse.certification}</td>
-                  <td>{nurse.wardId}</td>
-                  <td>
-                    <button onClick={() => handleUpdate(nurse.nurseId)}>Update</button>
-                    <button onClick={() => handleDelete(nurse.nurseId)}>Delete</button>
-                  </td> {/* Cột chứa các nút Update và Delete */}
-                </tr>
-              ))}
+              {nurses.map(nurse => {
+                const {nurseId, name, certification, wardId} = nurse
+                return (
+                  <tr key={nurseId}>
+                    <td>{nurseId}</td>
+                    <td>{name}</td>
+                    <td>{certification}</td>
+                    <td>{wardId}</td>
+                    <td>
+                      <button onClick={() => handleUpdate(nurseId)}>Update</button>
+                      <button onClick={() => handleDelete(nurseId)}>Delete</button>
+                    </td> {/* Cột chứa các nút Update và Delete */}
+                  </tr>
+                );
+              })}
             </tbody>
-          </table>
-          <button onClick={handleAddNew}>Add New</button> {/* Nút Add New bên dưới bảng */}
+          </table>          
         </>
       ) : (
         <p>No data found</p>
       )}
-
+    <button onClick={handleAddNew}>Add New</button> {/* Nút Add New bên dưới bảng */}
 
     </div>
   );
