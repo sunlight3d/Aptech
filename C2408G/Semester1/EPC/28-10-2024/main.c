@@ -14,8 +14,10 @@ void displayBook(struct Book book) {
 }
 int main(int argc, char *argv[]) {
 	struct Book books[10]; 
-	//struct Book *books = (struct Book *)malloc(10 * sizeof(struct Book));
+	//struct Book *books = (struct Book *)malloc(10 * sizeof(struct Book));	
+	int currentIndex = 0;
 	int choice = 0;
+	int i;
 	do {
 		printf("Add a new book");
 		printf("Display all books");
@@ -29,10 +31,25 @@ int main(int argc, char *argv[]) {
 			printf("Enter author : ");scanf(" %[^\n]", newBook.author); 
 			printf("Enter publicationYear : ");scanf("%d", newBook.publicationYear); 
 			printf("Enter price : ");scanf("%f", newBook.price); 
+			books[currentIndex] = newBook;
+			currentIndex++;
 			break;
 		case 2:
+			for(i = 0; i < currentIndex; i++) {
+				displayBook(books[i]);
+			}
+			
 			break;
 		case 3:
+			//find a book with title(input from keyboard)
+			char title[100];
+			struct Book foundBook;
+			printf("which book do you like to search ?");scanf(" %[^\n]", title);
+			for(i = 0; i < currentIndex; i++) {
+				displayBook(books[i]);
+			}
+
+			//update that book
 			break;
 		
 		default:
