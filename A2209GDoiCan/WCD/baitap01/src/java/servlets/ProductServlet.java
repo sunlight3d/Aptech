@@ -9,16 +9,16 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import models.Product;
 
 public class ProductServlet extends HttpServlet {
-    private List<Product> products = List.of(
-            //int id, String name, float price, float quantity, String description
-            new Product(1, "iphone 15 pro 128gb 8 RAM", 1234.7f, 23, "This is iphone"), 
-            new Product(2, "Samsung galazy dnuhd 12", 872.7f, 23, "sam sunggg"), 
-            new Product(3, "laptop gaming", 983.7f, 2, "lap riuehjru kjd")
-            );
+    private List<Product> products = new ArrayList<>(List.of(
+            new Product("iphone 15 pro 128gb 8 RAM", 1234.7f, 23, "This is iphone"), 
+            new Product("Samsung galaxy dnuhd 12", 872.7f, 23, "sam sunggg"), 
+            new Product("laptop gaming", 983.7f, 2, "lap riuehjru kjd")
+        ));
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
@@ -27,8 +27,24 @@ public class ProductServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+         // Lấy dữ liệu từ form
+        try {
+            String name = request.getParameter("name");
+            float price = Float.parseFloat(request.getParameter("price"));
+            float quantity = Float.parseFloat(request.getParameter("quantity"));
+            String description = request.getParameter("description");
+
+            // Tạo đối tượng Product mới từ dữ liệu form
+            Product newProduct = new Product(name, price, quantity, description);//builder pattern        
+            this.products.add(newProduct);
+        }catch(Exception e) {
+            System.err.println("Error when inserting data");
+        }
+
+        // Chuyển hướng về trang danh sách sản phẩm sau khi thêm thành công
+        response.sendRedirect("products");        
     }
     
 }

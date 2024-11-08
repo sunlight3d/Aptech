@@ -28,10 +28,25 @@
                     <td><%= product.getPrice() %></td>
                     <td><%= product.getQuantity() %></td>
                     <td><%= product.getDescription() %></td>
+                    <td>
+                        <form action="${pageContext.request.contextPath}/ProductServlet" method="delete" style="display:inline;">
+                            <input type="hidden" name="id" value="<%= product.getId() %>">
+                            <button type="submit">Delete</button>
+                        </form>
+                        
+                        <form action="${pageContext.request.contextPath}/ProductServlet" method="get" style="display:inline;">
+                            <input type="hidden" name="id" value="<%= product.getId() %>">
+                            <button type="submit">Update</button>
+                        </form>
+                    </td>
                 </tr>
             <% 
                 } 
             %>
         </table>
+        <br>
+        <a href="insertProduct.jsp">
+            <button type="submit">Insert product</button>
+        </a>        
     </body>
 </html>

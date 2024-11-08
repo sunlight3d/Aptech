@@ -11,9 +11,12 @@ public class Product {
     private float price;
     private float quantity;
     private String description;
+    
+    private static int ID_VALUE = 0;
 
-    public Product(int id, String name, float price, float quantity, String description) {
-        this.id = id;
+    public Product(String name, float price, float quantity, String description) {    
+        Product.ID_VALUE++;     
+        this.id = Product.ID_VALUE;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
