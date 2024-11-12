@@ -29,13 +29,18 @@
                     <td><%= product.getQuantity() %></td>
                     <td><%= product.getDescription() %></td>
                     <td>
-                        <form action="${pageContext.request.contextPath}/ProductServlet" method="delete" style="display:inline;">
+                        <form action="${pageContext.request.contextPath}/products" 
+                              method="post" style="display:inline;">
+                            <input type="hidden" name="_method" value="delete">
                             <input type="hidden" name="id" value="<%= product.getId() %>">
                             <button type="submit">Delete</button>
                         </form>
+
                         
-                        <form action="${pageContext.request.contextPath}/ProductServlet" method="get" style="display:inline;">
+                        <form action="${pageContext.request.contextPath}/products" 
+                              method="get" style="display:inline;">
                             <input type="hidden" name="id" value="<%= product.getId() %>">
+                            <input type="hidden" name="_method" value="update">
                             <button type="submit">Update</button>
                         </form>
                     </td>

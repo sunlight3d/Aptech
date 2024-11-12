@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package servlets;
 
 import jakarta.servlet.ServletException;
@@ -20,10 +16,27 @@ public class ProductServlet extends HttpServlet {
             new Product("laptop gaming", 983.7f, 2, "lap riuehjru kjd")
         ));
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
-        req.setAttribute("products", products);
-        req.getRequestDispatcher("products.jsp").forward(req, resp);  
+        String httpMethod = request.getParameter("_method");
+        if(httpMethod != null && httpMethod.equals("update")) {
+            Integer id = Integer.valueOf(request.getParameter("id")); 
+            Product foundProduct = null;
+            for(Product product: this.products) {
+                if(product.getId() == id) {
+                    foundProduct = product;
+                    break;
+                }
+            }
+            if(foundProduct != null) {
+                request.setAttribute("product", foundProduct);
+                request.getRequestDispatcher("updateProduct.jsp").forward(request, response);  
+            }            
+        } else {
+            request.setAttribute("products", products);
+            request.getRequestDispatcher("products.jsp").forward(request, response);  
+        }
+        
     }
 
     @Override
@@ -31,20 +44,45 @@ public class ProductServlet extends HttpServlet {
             throws ServletException, IOException {
          // Lấy dữ liệu từ form
         try {
-            String name = request.getParameter("name");
-            float price = Float.parseFloat(request.getParameter("price"));
-            float quantity = Float.parseFloat(request.getParameter("quantity"));
-            String description = request.getParameter("description");
+            String name = request.getParameter("name");            
+            String httpMethod = request.getParameter("_method");
+            if(httpMethod.equals("delete")) {
+                Integer id = Integer.valueOf(request.getParameter("id"));                  
+                this.products.removeIf(p -> p.getId()==id);                
+            } else if(httpMethod.equals("update")) {
+                Integer id = Integer.valueOf(request.getParameter("id"));                                  
+                String productName = request.getParameter("productName");
+                float price = Float.parseFloat(request.getParameter("price"));
+                float quantity = Float.parseFloat(request.getParameter("quantity"));
+                String description = request.getParameter("description");
 
-            // Tạo đối tượng Product mới từ dữ liệu form
-            Product newProduct = new Product(name, price, quantity, description);//builder pattern        
-            this.products.add(newProduct);
+                // Find the product by id and update its details
+                for (Product product : products) {
+                    if (product.getId() == id) {
+                        product.setName(productName);
+                        product.setPrice(price);
+                        product.setQuantity(quantity);
+                        product.setDescription(description);
+                        break;
+                    }
+                }              
+            } else {
+                float price = Float.parseFloat(request.getParameter("price"));
+                float quantity = Float.parseFloat(request.getParameter("quantity"));
+                String description = request.getParameter("description");
+
+                // Tạo đối tượng Product mới từ dữ liệu form
+                Product newProduct = new Product(name, price, quantity, description);//builder pattern        
+                this.products.add(newProduct);
+            }
+            
         }catch(Exception e) {
             System.err.println("Error when inserting data");
-        }
-
-        // Chuyển hướng về trang danh sách sản phẩm sau khi thêm thành công
-        response.sendRedirect("products");        
+        } finally {
+            // Chuyển hướng về trang danh sách sản phẩm sau khi thêm thành công
+            response.sendRedirect("products");        
+        }        
     }
+
     
 }
