@@ -1,0 +1,40 @@
+services:
+  mysql:
+    image: mysql:latest #for mac intel, windows
+    #image: arm64v8/mysql:9.0.1  #for Mac Apple Silicon(M1, M2,...)
+    container_name: mysql_container
+    ports:
+      - "3309:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "" # Blank password    
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: "shopapp_online"
+    restart: always
+    networks:
+      - shopapp-online  
+  
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin 
+    container_name: phpmyadmin-container
+    restart: always
+    depends_on:
+      - mysql   
+    ports:
+      - "90:80" #port mapping
+    environment:
+      PMA_HOST: mysql #phpMyAdmin Host, PMA = PHP My Amin
+      PMA_PORT: 3306
+      PMA_USER: root # Điền sẵn tên người dùng, thay "root" bằng tên người dùng của bạn
+      #PMA_PASSWORD: rootpassword # Điền sẵn mật khẩu, thay "rootpassword" bằng mật khẩu của bạn
+      UPLOAD_LIMIT: 500M
+    networks:
+      - shopapp-online
+
+networks:
+  shopapp-online:
+    name: shopapp-online
+    driver: bridge
+
+#docker-compose -f ./deployments.yml up -d phpmyadmin
+#docker-compose -f ./deployments.yml up -d 
+#docker-compose -f ./deployments.yml down 
