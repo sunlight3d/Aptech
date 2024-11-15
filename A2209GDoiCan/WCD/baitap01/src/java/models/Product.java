@@ -4,33 +4,52 @@
  */
 package models;
 
-//lombok
-public class Product {
-    private int id;
-    private String name;
-    private float price;
-    private float quantity;
-    private String description;
-    
-    private static int ID_VALUE = 0;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import javax.persistence.*;
 
-    public Product(String name, float price, float quantity, String description) {    
-        Product.ID_VALUE++;     
-        this.id = Product.ID_VALUE;
-        this.name = name;
-        this.price = price;
-        this.quantity = quantity;
-        this.description = description;
-    }
+@Entity
+@Table(name = "products", catalog = "A2209G", schema = "")
+@NamedQueries({
+    @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
+    @NamedQuery(name = "Product.findById", query = "SELECT p FROM Product p WHERE p.id = :id"),
+    @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
+    @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price")})
+public class Product implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(nullable = false)
+    private Integer id;
+    @Basic(optional = false)
+    @Column(nullable = false, length = 100)
+    private String name;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(precision = 10, scale = 2)
+    private BigDecimal price;
+    @Lob
+    @Column(length = 65535)
+    private String description;
 
     public Product() {
     }
 
-    public int getId() {
+    public Product(Integer id) {
+        this.id = id;
+    }
+
+    public Product(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -42,20 +61,12 @@ public class Product {
         this.name = name;
     }
 
-    public float getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
-    }
-
-    public float getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(float quantity) {
-        this.quantity = quantity;
     }
 
     public String getDescription() {
@@ -64,6 +75,31 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (id != null ? id.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Product)) {
+            return false;
+        }
+        Product other = (Product) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "models.Product[ id=" + id + " ]";
     }
     
 }

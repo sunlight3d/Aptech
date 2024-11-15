@@ -13,8 +13,7 @@
             <tr>
                 <th>ID</th>
                 <th>Tên sản phẩm</th>
-                <th>Giá</th>
-                <th>Số lượng</th>
+                <th>Giá</th>                
                 <th>Mô tả</th>
             </tr>
             <% 
@@ -25,8 +24,7 @@
                 <tr>
                     <td><%= product.getId() %></td>
                     <td><%= product.getName() %></td>
-                    <td><%= product.getPrice() %></td>
-                    <td><%= product.getQuantity() %></td>
+                    <td><%= product.getPrice() %></td>                    
                     <td><%= product.getDescription() %></td>
                     <td>
                         <form action="${pageContext.request.contextPath}/products" 
