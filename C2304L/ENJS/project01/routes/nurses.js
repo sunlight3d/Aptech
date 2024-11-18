@@ -24,6 +24,7 @@ router.get('/:id', async (req, res) => {
 
 // POST: Thêm mới một nurse
 router.post('/', async (req, res) => {
+    debugger
     const { name, certification, ward_id } = req.body;
     try {
         const newNurse = await nurseController.createNurse(name, certification, ward_id);

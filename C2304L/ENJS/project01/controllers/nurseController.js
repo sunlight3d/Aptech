@@ -2,6 +2,7 @@
 const Nurse = require('../models/nurse');
 
 async function createNurse(name, certification, ward_id) {
+  debugger
   const nurse = new Nurse({ name, certification, ward_id });
   return await nurse.save();
 }

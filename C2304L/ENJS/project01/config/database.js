@@ -1,12 +1,16 @@
 const mongoose = require('mongoose');
+const uri = 'mongodb://localhost:27017/hospital';
+const options = {
+    autoIndex : true,
+    serverSelectionTimeoutMS: 50000
+};
 
-const conn = mongoose.createConnection('mongodb://localhost:27017/hospital');
-
-conn.on('connected', () => console.log('connected'));
-conn.on('open', () => console.log('open'));
-conn.on('disconnected', () => console.log('disconnected'));
-conn.on('reconnected', () => console.log('reconnected'));
-conn.on('disconnecting', () => console.log('disconnecting'));
-conn.on('close', () => console.log('close'));
-
+mongoose.connect(uri, options).then(
+  () => {
+    console.log('Successfully connected to MongoDB');
+  },
+  (err) => {
+    console.error('Connection error:', err);
+  }
+);
 module.exports = mongoose;

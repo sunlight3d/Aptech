@@ -2,7 +2,8 @@
 const Ward = require('../models/ward');
 
 async function createWard(name, capacity) {
-  const ward = new Ward({ name, capacity });
+  debugger
+  const ward = new Ward({ name, capacity });    
   return await ward.save();
 }
 

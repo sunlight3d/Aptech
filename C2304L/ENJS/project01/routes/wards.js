@@ -24,6 +24,7 @@ router.get('/:id', async (req, res) => {
 
 // POST: Thêm mới một ward
 router.post('/', async (req, res) => {
+    debugger
     const { name, capacity } = req.body;
     try {
         const newWard = await wardController.createWard(name, capacity);

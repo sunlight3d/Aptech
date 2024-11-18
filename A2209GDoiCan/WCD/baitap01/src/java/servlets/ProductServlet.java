@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 import models.Product;
-import models.Temp;
 
 public class ProductServlet extends HttpServlet {
     private EntityManagerFactory emf 
@@ -19,20 +18,31 @@ public class ProductServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         String httpMethod = request.getParameter("_method");
+        EntityManager em = null;
         if(httpMethod != null && httpMethod.equals("update")) {
             Integer id = Integer.valueOf(request.getParameter("id")); 
-            Temp foundProduct = null;
-            for(Temp product: this.products) {
-                if(product.getId() == id) {
-                    foundProduct = product;
-                    break;
-                }
-            }
-            if(foundProduct != null) {
+            em = emf.createEntityManager();
+    
+            // Tìm sản phẩm theo ID trong cơ sở dữ liệu
+            Product foundProduct = em.find(Product.class, id);
+
+            if (foundProduct != null) {
+                // Đặt sản phẩm vào request attribute
                 request.setAttribute("product", foundProduct);
-                request.getRequestDispatcher("updateProduct.jsp").forward(request, response);  
-            }            
+
+                // Chuyển tiếp đến trang updateProduct.jsp
+                request.getRequestDispatcher("updateProduct.jsp").forward(request, response);
+            } else {
+                // Nếu không tìm thấy sản phẩm
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Product not found");
+            }           
         } else {
+            em = emf.createEntityManager();
+
+            // Lấy danh sách tất cả sản phẩm từ cơ sở dữ liệu
+            List<Product> products = em.createNamedQuery("Product.findAll", Product.class).getResultList();
+
+            // Đặt danh sách sản phẩm vào request attribute
             request.setAttribute("products", products);
             request.getRequestDispatcher("products.jsp").forward(request, response);  
         }
@@ -46,33 +56,57 @@ public class ProductServlet extends HttpServlet {
         try {
             String name = request.getParameter("name");            
             String httpMethod = request.getParameter("_method");
+            EntityManager em = null;
             if(httpMethod.equals("delete")) {
-                Integer id = Integer.valueOf(request.getParameter("id"));                  
-                this.products.removeIf(p -> p.getId()==id);                
+                // Lấy ID từ request
+                Integer id = Integer.valueOf(request.getParameter("id"));
+                em = emf.createEntityManager();
+                EntityTransaction transaction = em.getTransaction();
+                // Bắt đầu giao dịch
+                transaction.begin();                
+                // Tìm sản phẩm theo ID
+                Product product = em.find(Product.class, id);
+                if (product != null) {
+                    // Xóa sản phẩm
+                    em.remove(product);
+                }   
+                transaction.commit();
             } else if(httpMethod.equals("update")) {
-                Integer id = Integer.valueOf(request.getParameter("id"));                                  
-                String productName = request.getParameter("productName");
-                float price = Float.parseFloat(request.getParameter("price"));
-                float quantity = Float.parseFloat(request.getParameter("quantity"));
-                String description = request.getParameter("description");
+                Integer id = Integer.valueOf(request.getParameter("id"));
+                // Tạo EntityManager từ EntityManagerFactory
+                em = emf.createEntityManager();
+                EntityTransaction transaction = em.getTransaction();
 
-                // Find the product by id and update its details
-                for (Temp product : products) {
-                    if (product.getId() == id) {
-                        product.setName(productName);
-                        product.setPrice(price);
-                        product.setQuantity(quantity);
-                        product.setDescription(description);
-                        break;
-                    }
-                }              
+                // Bắt đầu giao dịch
+                transaction.begin(); 
+                // Tìm sản phẩm theo ID
+                Product product = em.find(Product.class, id);
+                if (product != null) {
+                    // Cập nhật thông tin sản phẩm
+                    String productName = request.getParameter("productName");
+                    float price = Float.parseFloat(request.getParameter("price"));
+                    String description = request.getParameter("description");
+
+                    product.setName(productName);
+                    product.setPrice(new BigDecimal(price)); // Chuyển float sang BigDecimal
+                    product.setDescription(description);
+
+                    // Gọi merge để lưu thay đổi
+                    em.merge(product);
+                } else {
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Product not found");
+                }
+
+                // Cam kết giao dịch
+                transaction.commit();
+
             } else {                                
                 BigDecimal price = BigDecimal
                         .valueOf(Double.parseDouble(request.getParameter("price")));
                 String description = request.getParameter("description");
 
                 // Tạo đối tượng Temp mới từ dữ liệu form
-                EntityManager em = emf.createEntityManager();
+                em = emf.createEntityManager();
                 EntityTransaction tx = em.getTransaction();
                 tx.begin();
                 Product product = new Product();
