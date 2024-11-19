@@ -10,51 +10,61 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 import models.Product;
+//import com.mysql.cj.jdbc.Driver;
 
 public class ProductServlet extends HttpServlet {
     private EntityManagerFactory emf 
             = Persistence.createEntityManagerFactory("baitap01PU");  // Tên Persistence Unit    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
-        String httpMethod = request.getParameter("_method");
         EntityManager em = null;
-        if(httpMethod != null && httpMethod.equals("update")) {
-            Integer id = Integer.valueOf(request.getParameter("id")); 
+        try {
+            String httpMethod = request.getParameter("_method");
+
             em = emf.createEntityManager();
-    
-            // Tìm sản phẩm theo ID trong cơ sở dữ liệu
-            Product foundProduct = em.find(Product.class, id);
 
-            if (foundProduct != null) {
-                // Đặt sản phẩm vào request attribute
-                request.setAttribute("product", foundProduct);
+            if (httpMethod != null && httpMethod.equals("update")) {
+                Integer id = Integer.valueOf(request.getParameter("id"));
 
-                // Chuyển tiếp đến trang updateProduct.jsp
-                request.getRequestDispatcher("updateProduct.jsp").forward(request, response);
+                // Tìm sản phẩm theo ID trong cơ sở dữ liệu
+                Product foundProduct = em.find(Product.class, id);
+
+                if (foundProduct != null) {
+                    // Đặt sản phẩm vào request attribute
+                    request.setAttribute("product", foundProduct);
+
+                    // Chuyển tiếp đến trang updateProduct.jsp
+                    request.getRequestDispatcher("updateProduct.jsp").forward(request, response);
+                } else {
+                    // Nếu không tìm thấy sản phẩm
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Product not found");
+                }
             } else {
-                // Nếu không tìm thấy sản phẩm
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Product not found");
-            }           
-        } else {
-            em = emf.createEntityManager();
+                // Lấy danh sách tất cả sản phẩm từ cơ sở dữ liệu
+                List<Product> products = em.createNamedQuery("Product.findAll", Product.class).getResultList();
 
-            // Lấy danh sách tất cả sản phẩm từ cơ sở dữ liệu
-            List<Product> products = em.createNamedQuery("Product.findAll", Product.class).getResultList();
-
-            // Đặt danh sách sản phẩm vào request attribute
-            request.setAttribute("products", products);
-            request.getRequestDispatcher("products.jsp").forward(request, response);  
+                // Đặt danh sách sản phẩm vào request attribute
+                request.setAttribute("products", products);
+                request.getRequestDispatcher("products.jsp").forward(request, response);
+            }
+        } catch (Exception e) {
+            // Xử lý các lỗi khác
+            e.printStackTrace();
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request");
+        } finally {
+            // Đóng EntityManager để giải phóng tài nguyên
+            if (em != null) {
+                em.close();
+            }
         }
-        
     }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
          // Lấy dữ liệu từ form
-        try {
-            String name = request.getParameter("name");            
+        try {            
             String httpMethod = request.getParameter("_method");
             EntityManager em = null;
             if(httpMethod.equals("delete")) {
@@ -101,6 +111,7 @@ public class ProductServlet extends HttpServlet {
                 transaction.commit();
 
             } else {                                
+                String productName = request.getParameter("productName");
                 BigDecimal price = BigDecimal
                         .valueOf(Double.parseDouble(request.getParameter("price")));
                 String description = request.getParameter("description");
@@ -110,7 +121,8 @@ public class ProductServlet extends HttpServlet {
                 EntityTransaction tx = em.getTransaction();
                 tx.begin();
                 Product product = new Product();
-                product.setName(name);
+                
+                product.setName(productName);
                 product.setPrice(price);
                 product.setDescription(description);
                 em.persist(product);

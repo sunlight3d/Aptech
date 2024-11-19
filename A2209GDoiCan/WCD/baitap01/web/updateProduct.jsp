@@ -25,11 +25,7 @@
             <label for="price">Giá:</label>
             <input type="number" step="0.01" id="price" name="price" value="<%= product.getPrice() %>" required>
             <br><br>
-            
-            <label for="quantity">Số lượng:</label>
-            <input type="number" id="quantity" name="quantity" value="<%= product.getQuantity() %>" required>
-            <br><br>
-            
+                                    
             <label for="description">Mô tả:</label>
             <textarea id="description" name="description"><%= product.getDescription() %></textarea>
             <br><br>

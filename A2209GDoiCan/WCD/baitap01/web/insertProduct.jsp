@@ -8,15 +8,13 @@
 <body>
     <h1>Thêm sản phẩm mới</h1>
      <form action="${pageContext.request.contextPath}/products" method="post">
-        <label for="name">Tên sản phẩm:</label>
-        <input type="text" id="name" name="name" required>
+         <input type="hidden" name="_method" value="insert">
+        <label for="productName">Tên sản phẩm:</label>
+        <input type="text" id="productName" name="productName" required>
         <br><br>
         <label for="price">Giá:</label>
         <input type="number" step="0.01" id="price" name="price" required>
-        <br><br>
-        <label for="quantity">Số lượng:</label>
-        <input type="number" id="quantity" name="quantity" required>
-        <br><br>
+        <br><br>        
         <label for="description">Mô tả:</label>
         <textarea id="description" name="description"></textarea>
         <br><br>
