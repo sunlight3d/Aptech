@@ -1,5 +1,8 @@
 // controllers/wardController.js
+const {ObjectId} = require('mongoose').Types;
+
 const Ward = require('../models/ward');
+
 
 async function createWard(name, capacity) {
   debugger
@@ -7,16 +10,20 @@ async function createWard(name, capacity) {
   return await ward.save();
 }
 
-async function getWardById(wardId) {
-  return await Ward.findById(wardId);
+async function getWardById(id) {
+  return await Ward.findOne({ _id: id });
+}
+
+async function getAllWards() {
+  return await Ward.find();
 }
 
 async function updateWard(wardId, data) {
   return await Ward.findByIdAndUpdate(wardId, data, { new: true, runValidators: true });
 }
 
-async function deleteWard(wardId) {
-  return await Ward.findByIdAndDelete(wardId);
+async function deleteWard(id) {
+  return await Ward.findByIdAndDelete(id);
 }
 
-module.exports = { createWard, getWardById, updateWard, deleteWard };
+module.exports = { createWard, getWardById, updateWard, deleteWard, getAllWards };

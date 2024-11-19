@@ -47,7 +47,8 @@ router.put('/:id', async (req, res) => {
 // DELETE: Xóa một ward
 router.delete('/:id', async (req, res) => {
     try {
-        await wardController.deleteWard(req.params.id);
+        const {id} = req.params
+        await wardController.deleteWard(id);
         res.status(204).send();
     } catch (error) {
         res.status(404).json({ error: error.message });
