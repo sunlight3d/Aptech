@@ -3,6 +3,7 @@
   <persistence-unit name="baitap01PU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>models.Product</class>
+    <class>models.User</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3309/A2209G?zeroDateTimeBehavior=CONVERT_TO_NULL"/>

@@ -8,6 +8,10 @@
         <servlet-name>ProductServlet</servlet-name>
         <servlet-class>servlets.ProductServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserServlet</servlet-name>
+        <servlet-class>servlets.UserServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CalculationServlet</servlet-name>
         <url-pattern>/calculate</url-pattern>
@@ -15,5 +19,9 @@
     <servlet-mapping>
         <servlet-name>ProductServlet</servlet-name>
         <url-pattern>/products</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserServlet</servlet-name>
+        <url-pattern>/users</url-pattern>
     </servlet-mapping>
 </web-app>
