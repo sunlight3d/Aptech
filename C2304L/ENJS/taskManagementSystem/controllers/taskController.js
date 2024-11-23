@@ -37,7 +37,7 @@ async function getTaskById(taskId) {
 // Cập nhật task
 async function updateTask(taskId, { title, description, status }) {
   // Kiểm tra task tồn tại
-  const task = await Task.findByPk(taskId);
+  const task = await Task.findById(taskId);
   if (!task) {
     throw new Error(`Task với ID ${taskId} không tồn tại`);
   }
@@ -51,20 +51,20 @@ async function updateTask(taskId, { title, description, status }) {
   }
 
   // Cập nhật thông tin task
-  const updatedTask = await task.update({ title, description, status });
+  const updatedTask = await Task.update(taskId, { title, description, status });
   return updatedTask;
 }
 
 // Xóa task
 async function deleteTask(taskId) {
   // Kiểm tra task tồn tại
-  const task = await Task.findByPk(taskId);
+  const task = await Task.findById(taskId);
   if (!task) {
     throw new Error(`Task với ID ${taskId} không tồn tại`);
   }
 
   // Xóa task
-  await task.destroy();
+  await Task.delete(taskId);
   return { message: `Task với ID ${taskId} đã bị xóa` };
 }
 
