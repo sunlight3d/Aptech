@@ -19,6 +19,9 @@ curl -X POST http://localhost:3000/api/tasks \
 curl -X GET http://localhost:3000/api/tasks
 
 
+##Lấy detail 1 task:
+curl -X GET http://localhost:3000/api/tasks/4
+
 ##Cập nhật thông tin một task:
  curl -X PUT http://localhost:3000/api/tasks/1 \
 -H "Content-Type: application/json" \

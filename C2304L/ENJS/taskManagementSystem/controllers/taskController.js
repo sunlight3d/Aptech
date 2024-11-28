@@ -26,7 +26,7 @@ async function getAllTasks() {
 // Lấy thông tin task theo ID
 async function getTaskById(taskId) {
   // Lấy thông tin task
-  const task = await Task.findByPk(taskId);
+  const task = await Task.findById(taskId);
   if (!task) {
     throw new Error(`Task với ID ${taskId} không tồn tại`);
   }
