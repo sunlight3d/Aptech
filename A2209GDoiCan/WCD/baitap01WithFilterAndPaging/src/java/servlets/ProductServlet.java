@@ -17,60 +17,88 @@ public class ProductServlet extends HttpServlet {
             = Persistence.createEntityManagerFactory("baitap01PU");  // Tên Persistence Unit    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        EntityManager em = null;
-        try {
-            String httpMethod = request.getParameter("_method");
+    EntityManager em = null;
+    try {
+        String httpMethod = request.getParameter("_method");
 
-            em = emf.createEntityManager();
+        em = emf.createEntityManager();
 
-            if (httpMethod != null && httpMethod.equals("update")) {
-                Integer id = Integer.valueOf(request.getParameter("id"));
+        if (httpMethod != null && httpMethod.equals("update")) {
+            Integer id = Integer.valueOf(request.getParameter("id"));
 
-                // Tìm sản phẩm theo ID trong cơ sở dữ liệu
-                Product foundProduct = em.find(Product.class, id);
+            // Tìm sản phẩm theo ID trong cơ sở dữ liệu
+            Product foundProduct = em.find(Product.class, id);
 
-                if (foundProduct != null) {
-                    // Đặt sản phẩm vào request attribute
-                    request.setAttribute("product", foundProduct);
+            if (foundProduct != null) {
+                // Đặt sản phẩm vào request attribute
+                request.setAttribute("product", foundProduct);
 
-                    // Chuyển tiếp đến trang updateProduct.jsp
-                    request.getRequestDispatcher("updateProduct.jsp").forward(request, response);
-                } else {
-                    // Nếu không tìm thấy sản phẩm
-                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Product not found");
-                }
+                // Chuyển tiếp đến trang updateProduct.jsp
+                request.getRequestDispatcher("updateProduct.jsp").forward(request, response);
             } else {
-                // Lấy danh sách tất cả sản phẩm từ cơ sở dữ liệu
-                List<Product> products;
-                // Lấy tham số searchText từ request
-                String searchText = request.getParameter("searchText");
-
-                if (searchText != null && !searchText.trim().isEmpty()) {
-                    // Tìm kiếm sản phẩm theo tên (case-insensitive) hoặc mô tả
-                    products = em.createQuery(
-                            "SELECT p FROM Product p WHERE LOWER(p.name) LIKE :searchText OR LOWER(p.description) LIKE :searchText", Product.class)
-                            .setParameter("searchText", "%" + searchText.toLowerCase() + "%")
-                            .getResultList();
-
-                } else {
-                    // Lấy tất cả sản phẩm nếu không có từ khóa tìm kiếm
-                    products = em.createNamedQuery("Product.findAll", Product.class).getResultList();
-                }
-                // Đặt danh sách sản phẩm vào request attribute
-                request.setAttribute("products", products);
-                request.getRequestDispatcher("products.jsp").forward(request, response);
+                // Nếu không tìm thấy sản phẩm
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Product not found");
             }
-        } catch (Exception e) {
-            // Xử lý các lỗi khác
-            e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request");
-        } finally {
-            // Đóng EntityManager để giải phóng tài nguyên
-            if (em != null) {
-                em.close();
+        } else {
+            // Lấy danh sách tất cả sản phẩm từ cơ sở dữ liệu với phân trang
+            List<Product> products;
+
+            // Lấy tham số searchText từ request
+            String searchText = request.getParameter("searchText");
+
+            // Xử lý page
+            int page = (request.getParameter("page") == null || 
+                    !request.getParameter("page").matches("\\d+")) ? 1
+                    : Integer.parseInt(request.getParameter("page"));
+
+            // Xử lý size
+            int size = (request.getParameter("size") == null || 
+                    !request.getParameter("size").matches("\\d+"))? 5
+                    : Integer.parseInt(request.getParameter("size"));
+            // Tính toán vị trí bắt đầu
+            int startIndex = (page - 1) * size;
+
+            // Query sản phẩm với phân trang
+            if (searchText != null && !searchText.trim().isEmpty()) {
+                // Tìm kiếm sản phẩm theo tên (case-insensitive) hoặc mô tả với phân trang
+                products = em.createQuery(
+                        "SELECT p FROM Product p WHERE LOWER(p.name) LIKE :searchText OR LOWER(p.description) LIKE :searchText", Product.class)
+                        .setParameter("searchText", "%" + searchText.toLowerCase() + "%")
+                        .setFirstResult(startIndex) // Bắt đầu từ sản phẩm thứ startIndex
+                        .setMaxResults(size)        // Số lượng sản phẩm tối đa
+                        .getResultList();
+            } else {
+                // Lấy tất cả sản phẩm nếu không có từ khóa tìm kiếm, áp dụng phân trang
+                products = em.createQuery("SELECT p FROM Product p", Product.class)
+                        .setFirstResult(startIndex) // Bắt đầu từ sản phẩm thứ startIndex
+                        .setMaxResults(size)        // Số lượng sản phẩm tối đa
+                        .getResultList();
             }
+
+            // Tổng số sản phẩm (để tính số trang)
+            long totalProducts = em.createQuery("SELECT COUNT(p) FROM Product p", Long.class).getSingleResult();
+
+            // Tính tổng số trang
+            int totalPages = (int) Math.ceil((double) totalProducts / size);
+
+            // Đặt danh sách sản phẩm và thông tin phân trang vào request attribute
+            request.setAttribute("products", products);
+            request.setAttribute("currentPage", page);
+            request.setAttribute("totalPages", totalPages);
+
+            // Chuyển tiếp request tới JSP để hiển thị danh sách sản phẩm
+            request.getRequestDispatcher("products.jsp").forward(request, response);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while processing the request");
+    } finally {
+        if (em != null) {
+            em.close();
         }
     }
+}
+
 
 
     @Override
