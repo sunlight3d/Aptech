@@ -12,7 +12,6 @@ import java.io.IOException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import models.User;
 
 
 public class UserServlet extends HttpServlet {
