@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./register.js"></script>
+</head>
+<body>
+    <h1>User registration</h1>        
+    <br />    
+    <form method="post" onsubmit="return validateForm()" >
+        <table>
+            <tr>
+                <td>
+                    <label for="">User ID: </label>     
+                </td>
+                <td>
+                    <input name="userId" >
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="">Password:</label>
+                </td>
+                <td>
+                    <input name="password" type="password">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="">Confirm password:</label>
+                </td>
+                <td>
+                    <input name="confirmPassword" type="password">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="">Existing email ID:</label>
+                </td>
+                <td>
+                    <input name="email" type="email">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="">Confirm Existing email ID:</label>
+                </td>
+                <td>
+                    <input name="confirmEmail" type="email">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    
+                </td>
+                <td>
+                    <input type="submit" value="Submit">
+                    <input type="reset" value="Reset">
+                </td>
+            </tr>
+        </table>
+    </form>    
+</body>
+</html>
