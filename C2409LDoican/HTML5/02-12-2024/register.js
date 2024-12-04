@@ -23,8 +23,9 @@ function doSomething() {
     fruits = fruits2
 
     //xoa phan tu banana
-    //fruits = fruits.filter(item => item != "banana")
-    fruits.remove("banana")
+    fruits = fruits.filter(item => item != "banana")
+    //fruits = fruits.filter(item => item.studentId != "x1232255")
+    //fruits.remove("banana") //not work
     debugger
     //alert(x+y)
     /*
