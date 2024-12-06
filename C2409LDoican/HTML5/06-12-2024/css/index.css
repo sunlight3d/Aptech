@@ -1,0 +1,23 @@
+.flex-container {
+    display: flex;
+    height: 50px;
+    justify-content: space-between;
+    /* background-color: rgb(173,185,111); */
+    background-color: rgb(0,255,255)
+}
+.item {
+    height: 100%;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    margin-right: 10px;
+}
+.search-item {
+    height: 100%;
+    width: 200px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center; 
+    padding-right: 10px;
+}

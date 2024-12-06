@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./register.js"></script>
+</head>
+<body>
+    <center> 
+    <div style="
+        width: 30%; 
+        display: flex;flex-direction: column; justify-content: center;     
+        align-items: center;">
+    <h1 style="border: solid 5px purple; border-radius: 4px; padding: 5px 60px 5px 60px;">User registration</h1>        
+    <br />    
+    <p style="
+    background: linear-gradient(95deg, #f70000, #BA62FC, #F2416B, #41f500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 40pt;
+    ">This is me, hhi hi</p>
+
+    <form method="post" onsubmit="return validateForm()" >
+        <table>
+            <tr>
+                <td>
+                    <label for="">User ID: </label>     
+                </td>
+                <td>
+                    <input name="userId" id="userId">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="password">Password:</label>
+                </td>
+                <td>
+                    <input name="password" type="password" id="password">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="">Confirm password:</label>
+                </td>
+                <td>
+                    <input name="confirmPassword" id="confirmPassword" type="password">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="">Existing email ID:</label>
+                </td>
+                <td>
+                    <input name="email" id="email" type="email">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="">Confirm Existing email ID:</label>
+                </td>
+                <td>
+                    <input name="confirmEmail" id="confirmEmail" type="email">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    
+                </td>
+                <td>
+                    <input type="submit" value="Submit">
+                    <input type="reset" value="Reset">
+                </td>
+            </tr>
+        </table>
+    </form>    
+    </div>
+</center>
+</body>
+</html>
