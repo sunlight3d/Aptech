@@ -1,0 +1,18 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: blue;
+}
+.main-body {
+    width: 800px;
+    border: 6px black double;
+    background-color: white;
+}
+
+table {
+    border-spacing: 0 10px;
+}
+.each-td {
+    border: 1px solid;
+}

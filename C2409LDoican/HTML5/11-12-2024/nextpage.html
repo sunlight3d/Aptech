@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./nextpage.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="main-body">
+        <h3 style="display: flex; justify-content: center; align-items: center;">Student management</h3>
+        <table id="inputData">
+            <tr>
+                <td>
+                    Student name
+                </td>
+                <td>
+                    <input type="text" name="name" id="name" placeholder="Input student name">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Student DOB
+                </td>
+                <td>
+                    <input type="date" name="dob" id="dob">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Student Gender
+                </td>
+                <td>
+                    <input type="radio" name="gender" id="gender" value="Male" checked> Male
+                    <input type="radio" name="gender" id="gender" value="Female"> Female
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Student language
+                </td>
+                <td>
+                    <label>
+                        <input type="checkbox" name="language" id="language-english" value="English" checked>
+                        English
+                    </label>
+                    <label>
+                        <input type="checkbox" name="language" id="language-vietnamese" value="Vietnamese">
+                        Vietnamese
+                    </label>
+                    <label>
+                        <input type="checkbox" name="language" id="language-japanese" value="Japanese">
+                        Japanese
+                    </label>
+                    <label>
+                        <input type="checkbox" name="language" id="language-chinese" value="Chinese">
+                        Chinese
+                    </label>
+                    <label>
+                        <input type="checkbox" name="language" id="language-french" value="French">
+                        French
+                    </label>
+                </td>                
+            </tr>
+            <tr>
+                <td>
+                    Student class
+                </td>
+                <td>
+                    <select name="klass" id="klass">
+
+                    </select>
+                    <a id="addClass" href="#" onclick="addKlass()">Add Class</a>
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    
+                </td>
+                <td>
+                    <button id="add" onclick="addStudent()">Add</button>
+                </td>
+
+            </tr>
+        </table>
+        <center>
+            <h1>Student list</h1>
+            <table style="width: 100%;" id="studentList">
+                <thead>
+                    <td class="each-td">
+                        Name
+                    </td>
+                    <td class="each-td">
+                        Class
+                    </td>
+                    <td class="each-td">
+                        DOB
+                    </td>
+                    <td class="each-td">
+                        Gender
+                    </td>
+                    <td class="each-td">
+                        Language
+                    </td>
+                    <td class="each-td" style="width: 80px;">
+                        
+                    </td>
+                </thead>
+
+            </table>
+        </center>
+    </div>
+    
+
+</body>
+<script src="./nextpage.js"></script>
+</html>
