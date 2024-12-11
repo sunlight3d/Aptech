@@ -1,5 +1,7 @@
-import 'dart:ffi';
+import 'dart:convert';
 import 'dart:io';
+
+import 'product.dart';
 
 void question01a() {
   String inputString = '';
@@ -72,10 +74,41 @@ void question01c() {
   print('Sum of odd digits: $totalOdds (${oddNumbers.join(' + ')})');
 }
 
+void question02ab() {
+  Product newProduct = Product.input();
+  print('Enter quantity to buy:');
+  int quantity = int.parse(stdin.readLineSync() ?? '0');
+  newProduct.updateStock(quantity);
+  print('Total price: ${newProduct.calculateTotalPrice(quantity)}');
+
+  print('tax is : ${newProduct.tax}');
+}
+
+void question02c() {
+  int numberOfProducts;
+  List<Product> products = <Product>[];
+  print('Enter number of products:');
+  numberOfProducts = int.parse(stdin.readLineSync() ?? '0');
+  for (int i = 0; i < numberOfProducts; i++) {
+    Product product = Product.input();
+    products.add(product);
+  }
+  print('Sorted Products by Price: ');
+  products.sort((a, b) => a.price.toInt() - b.price.toInt());
+  int index = 0;
+  for (final Product product in products) {
+    index++;
+    print('${index} . ${product.toString()}');
+  }
+}
+
 void main() {
   //print('de 08');
   //question01a();
   //print(factorial(100));
   //question01b();
-  question01c();
+  //question01c();
+
+  //question02ab();
+  question02c();
 }
