@@ -1,6 +1,6 @@
 const klassNames = ['C1234L', 'C2409G', 'C2234L']
 let selectedKlass = klassNames[0];
-const students = [
+let students = [
     {
         name: 'Nguyen Van X',
         klass: 'C1234L',
@@ -18,7 +18,11 @@ const students = [
 ];
 let klassSelectTag = document.getElementById("klass");
 function deleteStudent(studentName) {
-    alert('haha')
+    if(confirm("Bạn có muốn xoá ko") == true){
+        debugger
+        students = students.filter(item => item.name != studentName)
+        reloadStudentTable();
+    }
 }
 let klassSelect = document.getElementById('klass')
 klassSelect.addEventListener('change',function(){
@@ -26,39 +30,42 @@ klassSelect.addEventListener('change',function(){
     
 });
 function reloadStudentTable() {
-    let studentListTable = document.getElementById('studentList').getElementsByTagName('tbody')[0];
+    debugger
+    let studentListTable = document.getElementById('tableB').getElementsByTagName('tbody')[0];
     studentListTable.innerText = null;
     for(let i = 0; i < students.length; i++) {
         let student = students[i]
         let row = studentListTable.insertRow();
     
         let tdName = row.insertCell(0);
-        tdName.className = "each-td";
+        //tdName.className = "each-td";
         tdName.innerHTML = student.name;
         
         let tdKlass = row.insertCell(1);
-        tdKlass.className = "each-td"
+        //tdKlass.className = "each-td"
         tdKlass.innerHTML = student.klass;
         
         
         let tdDOB = row.insertCell(2);
-        tdDOB.className = "each-td"
+        //tdDOB.className = "each-td"
         tdDOB.innerHTML = student.dob;
         
         let tdGender = row.insertCell(3);
-        tdGender.className = "each-td"
+        //tdGender.className = "each-td"
         tdGender.innerHTML = student.gender;
         
         
         let tdLanguage = row.insertCell(4);
-        tdLanguage.className = "each-td"
+        //tdLanguage.className = "each-td"
         tdLanguage.innerHTML = student.language;
         
         let tdButton = row.insertCell(5);
-        tdButton.className = "each-td"
+        //tdButton.className = "each-td"
         tdButton.innerHTML = `<a href='#' onClick="deleteStudent('${tdName.innerHTML}')">Delete</a>`;
     
     }
+    document.getElementById('totalStudent').innerHTML = 
+        `Total : ${students.length} ${students.length >= 2 ? 'students': 'student'}`
 }
 
 reloadStudentTable()

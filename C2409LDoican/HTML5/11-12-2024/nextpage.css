@@ -13,6 +13,12 @@ body {
 table {
     border-spacing: 0 10px;
 }
+#tableB td {
+    border: 1px solid;
+}
+#tableB {
+    border-collapse: collapse;
+}
 .each-td {
     border: 1px solid;
 }
