@@ -1,19 +1,25 @@
 server:
-  port: 8088
-
+  port: 8082  # The port on which the application will run
 spring:
-  application:
-    name: demo
   datasource:
-    url: jdbc:mysql://localhost:3306/a2209gdoican?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: root
-    password:
+    url: jdbc:mysql://localhost:3306/a2209gdoican?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root  # MySQL username
+    password:  # MySQL password (fill this in if required)
+    initialization-mode: always  # Option to initialize the database with SQL scripts
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 10
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
   jpa:
-    show-sql: true
     hibernate:
-      ddl-auto: none # Không t? ??ng thay ??i c?u trúc DB, an toàn cho môi tr??ng production
-    properties:
-      hibernate:
-        #dialect: org.hibernate.dialect.MySQLDialect
-        format_sql: true
+      #ddl-auto: create-drop  # Automatically update the database schema; options: create, create-drop, update, validate
+      ddl-auto: update
+  thymeleaf:
+    enabled: false
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql: trace
