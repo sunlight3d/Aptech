@@ -1,0 +1,19 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: demo
+  datasource:
+    url: jdbc:mysql://localhost:3306/a2209gdoican?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none # Không t? ??ng thay ??i c?u trúc DB, an toàn cho môi tr??ng production
+    properties:
+      hibernate:
+        #dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
