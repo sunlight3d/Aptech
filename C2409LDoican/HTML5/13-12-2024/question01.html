@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./question01.css">
+    
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <h3>Fruit information</h3>
+        <div>
+            <span>Filter by Category: </span>
+            <select>
+                <option value="0">All</option>
+              </select>
+        </div>
+        <form>
+            <table>
+                <tr>
+                    <td>
+                        <label>Fruit Name: </label>
+                    </td>
+                    <td>
+                        <input type="text" name="name" id="name">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Category: </label>
+                    </td>
+                    <td>
+                        <input type="text" name="category" id="category">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Description: </label>
+                    </td>
+                    <td>
+                        <input type="text" name="description" id="description">
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" value="Add Fruit">
+        </form>
+        <div id="fruitList">
+           
+        </div>
+    </div>
+</body>
+<script src="./question01.js"></script>
+</html>
