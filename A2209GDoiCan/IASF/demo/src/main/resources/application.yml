@@ -8,17 +8,20 @@ spring:
     password:  # MySQL password (fill this in if required)
     initialization-mode: always  # Option to initialize the database with SQL scripts
     hikari:
-      minimum-idle: 5
-      maximum-pool-size: 10
-      connection-timeout: 30000
-      idle-timeout: 600000
-      max-lifetime: 1800000
+      minimum-idle: 5 # Số lượng kết nối tối thiểu sẽ được giữ ở trạng thái nhàn rỗi (idle) trong connection pool.
+      maximum-pool-size: 10 # Số lượng kết nối tối đa mà pool có thể tạo ra và duy trì.
+      connection-timeout: 30000 # Thời gian tối đa (tính bằng milliseconds) mà một yêu cầu chờ để lấy kết nối trước khi bị timeout.
+      idle-timeout: 600000 # Thời gian tối đa (tính bằng milliseconds) mà một kết nối không được sử dụng (idle) trước khi bị đóng.
+      max-lifetime: 1800000 # Thời gian tối đa (tính bằng milliseconds) mà một kết nối được giữ trong pool trước khi bị đóng, bất kể kết nối có được sử dụng hay không.
+
   jpa:
     hibernate:
       #ddl-auto: create-drop  # Automatically update the database schema; options: create, create-drop, update, validate
       ddl-auto: update
   thymeleaf:
-    enabled: false
+    #enabled: false
+    prefix: classpath:/templates/
+    suffix: .html
 logging:
   level:
     org.hibernate.SQL: debug
