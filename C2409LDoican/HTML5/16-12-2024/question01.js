@@ -70,6 +70,7 @@ let fruits = [
         inStock: true
     }
 ];
+
 let divFruitList = document.getElementById('fruitList')
 let categories = ['All']
 for(let fruit of fruits) { 
@@ -78,6 +79,8 @@ for(let fruit of fruits) {
         categories.push(fruit.category)
     }
 }
+let selectedCategory = categories[0]
+let filteredFruits = selectedCategory == 'All' ? fruits : fruits.filter(item => item.category == selectedCategory)
 let selectCategoryTag = document.getElementById("selectCategory");
 function reloadCategories(){
     selectCategoryTag.innerText = null;
@@ -89,6 +92,12 @@ function reloadCategories(){
     }
 }
 reloadCategories()
+selectCategoryTag.addEventListener('change',function(){
+    selectedCategory = selectCategoryTag.options[selectCategoryTag.selectedIndex].text
+    filteredFruits = selectedCategory == 'All' ? fruits : fruits.filter(item => item.category == selectedCategory)
+    //alert(selectedCategory)
+    reloadFruitList();
+});
 debugger
 function editFruit(name) {
     alert(name)
@@ -102,16 +111,20 @@ function deleteFruit(name) {
 
 }
 
-for(let fruit of fruits) {
-    divFruitList.innerHTML += `
-            <div id='${fruit.name}'>
-                <p>-${fruit.name} Category: ${fruit.category}</p>
-                <p>Description: ${fruit.description}</p>
-                <div>
-                    <button class="btnEdit" onClick=editFruit('${fruit.name}')>Edit</button>
-                    <button class="btnDelete" onClick=deleteFruit('${fruit.name}')>Delete</button>
+function reloadFruitList() {
+    divFruitList.innerHTML = null;
+    for(let fruit of filteredFruits) {
+        divFruitList.innerHTML += `
+                <div id='${fruit.name}'>
+                    <p>-${fruit.name} Category: ${fruit.category}</p>
+                    <p>Description: ${fruit.description}</p>
+                    <div>
+                        <button class="btnEdit" onClick=editFruit('${fruit.name}')>Edit</button>
+                        <button class="btnDelete" onClick=deleteFruit('${fruit.name}')>Delete</button>
+                    </div>
+                    <hr>
                 </div>
-                <hr>
-            </div>
-`
+    `
+    }
 }
+reloadFruitList();
