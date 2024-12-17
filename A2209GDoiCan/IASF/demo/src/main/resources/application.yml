@@ -19,7 +19,6 @@ spring:
       #ddl-auto: create-drop  # Automatically update the database schema; options: create, create-drop, update, validate
       ddl-auto: update
   thymeleaf:
-    #enabled: false
     prefix: classpath:/templates/
     suffix: .html
 logging:

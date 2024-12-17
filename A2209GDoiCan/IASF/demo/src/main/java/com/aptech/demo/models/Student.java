@@ -2,7 +2,8 @@ package com.aptech.demo.models;
 
 import jakarta.persistence.*;
 import lombok.*;
-
+import lombok.Builder;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -10,15 +11,21 @@ import java.util.Date;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder //custom constructor
+@Builder
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "email", nullable = false)
+    private String email;
+
     @Column(name = "dob", nullable = false)
-    private Date dob;
+    private LocalDate dob;
+
+    @Column(name = "major", nullable = false)
+    private String major;
 }

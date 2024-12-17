@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Handling Form Submission</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <form method="post" th:action="@{/students/add}" th:object="${request}">
+        <input type="text" th:field="*{name}" placeholder="Enter name of student">
+        <br>
+        <input type="email" th:field="*{email}" placeholder="Enter email">
+        <br>
+        <input type="date" th:field="*{dob}" placeholder="Enter date of birth">
+        <br>
+        <input type="text" th:field="*{major}" placeholder="Enter major">
+        <br>
+        <input type="submit" value="Insert Student">
+    </form>
+</body>
+</html>
