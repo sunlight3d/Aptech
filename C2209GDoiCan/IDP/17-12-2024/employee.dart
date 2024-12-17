@@ -5,6 +5,7 @@ class Employee {
   final String name;
   final int workingDays;
   final int dailySalary;
+  int get monthlySalary => dailySalary * workingDays;
   Employee(
       {required this.id,
       required this.name,
@@ -31,14 +32,14 @@ class Employee {
     }
     while (workingDays < 1 || workingDays > 31) {
       print('Enter employee\'s workingDays : ');
-      name = (stdin.readLineSync() ?? '');
+      workingDays = int.parse(stdin.readLineSync() ?? '0');
       if (workingDays < 1 || workingDays > 31) {
         print('Employee\'s workingDays must be 1 to 31');
       }
     }
     while (dailySalary < 10 || dailySalary > 100) {
       print('Enter employee\'s salary : ');
-      name = (stdin.readLineSync() ?? '');
+      dailySalary = int.parse(stdin.readLineSync() ?? '0');
       if (dailySalary < 10 || dailySalary > 100) {
         print('Employee\'s dailySalary must be 10 to 100');
       }
@@ -46,4 +47,7 @@ class Employee {
     return Employee(
         id: id, name: name, workingDays: workingDays, dailySalary: dailySalary);
   }
+
+  @override
+  String toString() => 'id: ${id}, name: ${name}, dailySalary: ${dailySalary}, workingDays: ${workingDays}';
 }

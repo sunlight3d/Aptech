@@ -21,9 +21,11 @@ void showMenu() {
           Employee newEmployee = Employee.input();
           employees.add(newEmployee);
         }
+        employees.forEach(print);
         break;
       case 2:
         employees.sort((e1, e2) => e1.name.compareTo(e2.name));
+        employees.forEach(print);
         break;
       case 3:
         Map<int, int> map = new Map();
@@ -35,10 +37,15 @@ void showMenu() {
           }
         }
         //display the map
-        
+        map.keys.forEach((key) {
+          print('There are ${map[key]} employees with ${key} working days ');
+        });
+
         break;
       case 4:
-        print('You choose 4');
+        Employee employeeWithMaxSalary = employees
+            .reduce((a, b) => a.monthlySalary < b.monthlySalary ? a : b);
+        print('Employee with max salary : ${employeeWithMaxSalary}');
         break;
       default:
         print('Invalid choice. You must enter 1-5');
