@@ -74,7 +74,7 @@ let fruits = [
 let divFruitList = document.getElementById('fruitList')
 let categories = ['All']
 for(let fruit of fruits) { 
-    debugger
+    //debugger
     if(!categories.includes(fruit.category)) {
         categories.push(fruit.category)
     }
@@ -98,17 +98,30 @@ selectCategoryTag.addEventListener('change',function(){
     //alert(selectedCategory)
     reloadFruitList();
 });
-debugger
+//debugger
 function editFruit(name) {
-    alert(name)
+    let selectedFruit =  filteredFruits.filter(item => item.name == name)[0]
+    if(selectedFruit != null) {
+        let newName = prompt('Enter new name: ');
+        let newDescription = prompt('Enter new description: ');
+        let newPrice = prompt('Enter new price : ');
+        let inStock = prompt('In stock (yes or no) ? ')
+        selectedFruit.name = newName
+        selectedFruit.description = newDescription
+        selectedFruit.price = parseFloat(newPrice)
+        selectedFruit.inStock = inStock.trim().toLowerCase() == 'yes' ? true : false
+        debugger
+        reloadFruitList();
+    }
 }
 function deleteFruit(name) {
-    for(let item of divFruitList.children) {
-        if(item.id == name) {
-            divFruitList.removeChild(item)
+    if (confirm(`Do you want to delete ${name} ?`) == true) {
+        for (let item of divFruitList.children) {
+            if (item.id == name) {
+                divFruitList.removeChild(item)
+            }
         }
     }
-
 }
 
 function reloadFruitList() {
