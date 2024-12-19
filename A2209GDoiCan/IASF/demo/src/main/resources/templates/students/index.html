@@ -5,6 +5,45 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<p th:text="${title}">Fallback Title</p>
+<h1>Student List</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Date of Birth</th>
+        <th>Major</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="student : ${students}">
+        <td th:text="${student.getId()}">ID</td>
+        <td th:text="${student.getName()}">Name</td>
+        <td th:text="${student.getEmail()}">Email</td>
+        <td th:text="${student.getDob()}">Date of Birth</td>
+        <td th:text="${student.getMajor()}">Major</td>
+        <!-- Edit Button -->
+        <td>
+            <a th:href="@{/students/edit/{id}(id=${student.id})}">
+                <button type="button">Edit</button>
+            </a>
+        </td>
+        <!-- Delete Button -->
+        <td>
+            <form th:action="@{/students/delete/{id}(id=${student.id})}" method="post">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div style="margin-top: 20px;">
+    <a href="/students/add" th:href="@{/students/add}">
+        <button type="button">Add Student</button>
+    </a>
+</div>
 </body>
 </html>
