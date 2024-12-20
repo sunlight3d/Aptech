@@ -5,13 +5,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-<form method="post" th:action="@{/students/edit}" th:object="${student}">
+<form method="post" th:action="@{/students/edit/{id}(id=${student.id})}" th:object="${student}">
     <input type="hidden" th:field="*{id}">
     <input type="text" th:field="*{name}" placeholder="Enter name of student">
     <br>
     <input type="email" th:field="*{email}" placeholder="Enter email">
     <br>
-    <input type="date" th:field="*{dob}" th:text="*{dob}" placeholder="Enter date of birth">
+    <input type="date" th:field="*{dob}" placeholder="Enter date of birth">
     <br>
     <input type="text" th:field="*{major}" placeholder="Enter major">
     <br>

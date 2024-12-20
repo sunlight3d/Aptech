@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/students")
@@ -44,8 +45,8 @@ public class StudentController {
 
     @GetMapping("/edit/{id}")
     public String editStudent(@PathVariable("id") Long studentId, Model model) {
-        studentRepository.findById(studentId)
-                .ifPresent(student -> model.addAttribute("student", student));
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new RuntimeException("Student not found"));
+        model.addAttribute("student", student);
         return "students/edit";
     }
 
@@ -63,6 +64,14 @@ public class StudentController {
             studentRepository.save(existingStudent);
         });
 
+        // Redirect to the list of students
+        return "redirect:/students"; // Redirect to @GetMapping("")
+    }
+    @PostMapping("/delete/{id}")
+    public String deleteStudent(@PathVariable("id") Long studentId) {
+        // Find the existing student by ID
+        Optional<Student> existingStudent = studentRepository.findById(studentId);
+        existingStudent.ifPresent(student -> studentRepository.delete(student));
         // Redirect to the list of students
         return "redirect:/students"; // Redirect to @GetMapping("")
     }

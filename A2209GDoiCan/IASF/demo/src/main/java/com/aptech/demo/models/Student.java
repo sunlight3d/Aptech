@@ -4,6 +4,8 @@ import com.aptech.demo.dtos.requests.InsertStudentRequest;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.Builder;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -24,6 +26,7 @@ public class Student {
     private String email;
 
     @Column(name = "dob", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dob;
 
     @Column(name = "major", nullable = false)
