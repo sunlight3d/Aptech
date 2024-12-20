@@ -1,4 +1,6 @@
-let tasks = []
+let tasks = [
+    "code c and c++"
+]
 /*
 function addTask() {
     alert('ahahah')
@@ -15,10 +17,24 @@ const reloadTaskList = () => {
     divTaskList.innerText = '';
     for(let task of tasks) {
         debugger
-        let pTag = document.createElement('p');
-        pTag.id = task
-        pTag.innerText = task
-        divTaskList.appendChild(pTag)
-    }
+        let divTask = document.createElement('div');
+        divTask.id = task
+        divTask.style = `width: 500px;`
+        divTask.innerHTML = `<div style="display:flex; flex-direction: row; margin: 5px; justify-content:space-between; align-items: center; background-color: red;"> 
+            <span>- ${task} - </span>
+            <div>
+                <button class="btnEditTask" onClick="editTask('${task}')">Edit</button>
+                <button class="btnDeleteTask" onClick="deleteTask('${task}')">Delete</button>
+            </div>
+        </div>`;
     
+        divTaskList.appendChild(divTask)
+    }
+}
+reloadTaskList()
+const editTask = (taskName) => {
+    alert('editTask')
+}
+const deleteTask = (taskName) => {
+    alert('deleteTask')
 }
