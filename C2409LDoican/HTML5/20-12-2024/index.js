@@ -1,5 +1,9 @@
 let tasks = [
-    "code c and c++"
+    "code c and c++",
+    'Fix Java bugs',
+    'Learn Javascript',
+    'ReactJS learn and practice',
+    'Go for a wark'
 ]
 /*
 function addTask() {
@@ -15,13 +19,26 @@ const addTask = () => {
 const reloadTaskList = () => {
     let divTaskList = document.getElementById("taskList")
     divTaskList.innerText = '';
-    for(let task of tasks) {
+    if(tasks.length == 0) {
+       const h1Tag = document.createElement('h1')
+       h1Tag.innerHTML = 'No task found'
+       divTaskList.append(h1Tag)
+    }
+    for(let i = 0; i < tasks.length; i++) {
+        let task = tasks[i]
         debugger
         let divTask = document.createElement('div');
         divTask.id = task
         divTask.style = `width: 500px;`
-        divTask.innerHTML = `<div style="display:flex; flex-direction: row; margin: 5px; justify-content:space-between; align-items: center; background-color: red;"> 
-            <span>- ${task} - </span>
+        divTask.innerHTML = `<div style="
+                                display:flex; 
+                                flex-direction: row; 
+                                margin: 5px; 
+                                justify-content:space-between; 
+                                align-items: center; 
+                                background-color: ${i % 2 == 0 ? 'cyan' : 'coral'};
+                            "> 
+            <span>- ${task} </span>
             <div>
                 <button class="btnEditTask" onClick="editTask('${task}')">Edit</button>
                 <button class="btnDeleteTask" onClick="deleteTask('${task}')">Delete</button>
@@ -33,8 +50,20 @@ const reloadTaskList = () => {
 }
 reloadTaskList()
 const editTask = (taskName) => {
-    alert('editTask')
+    //alert(`edit name : ${taskName}`)
+    let newTaskName = prompt('Enter new name : ')
+    for(let i = 0; i < tasks.length; i++) {
+        let task = tasks[i]
+        if(task === taskName) {
+            tasks[i] = newTaskName
+            reloadTaskList()
+        }
+    }
 }
 const deleteTask = (taskName) => {
-    alert('deleteTask')
+    //alert(`delete name: ${taskName}`)
+    if(confirm(`Do you want to delete this ? `)) {
+        tasks = tasks.filter(task => task != taskName)
+        reloadTaskList()
+    }
 }
