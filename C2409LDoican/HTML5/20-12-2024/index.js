@@ -5,6 +5,7 @@ let tasks = [
     'ReactJS learn and practice',
     'Go for a wark'
 ]
+
 /*
 function addTask() {
     alert('ahahah')
@@ -38,6 +39,7 @@ const reloadTaskList = () => {
                                 align-items: center; 
                                 background-color: ${i % 2 == 0 ? 'cyan' : 'coral'};
                             "> 
+            <input type="checkbox" id = ${task} name="checkedTask">
             <span>- ${task} </span>
             <div>
                 <button class="btnEditTask" onClick="editTask('${task}')">Edit</button>
@@ -66,4 +68,12 @@ const deleteTask = (taskName) => {
         tasks = tasks.filter(task => task != taskName)
         reloadTaskList()
     }
+}
+const deleteTasks = () => {
+    debugger
+    let inputCheckboxes = document.querySelectorAll('input[name="checkedTask"][type="checkbox"]:checked');
+    inputCheckboxes.forEach((checkbox) => {
+        tasks = tasks.filter(task => task != checkbox.id)
+    });
+    reloadTaskList()
 }
