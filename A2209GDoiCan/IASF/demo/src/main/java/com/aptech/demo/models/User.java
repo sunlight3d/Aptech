@@ -34,7 +34,7 @@ public class User {
         User newUser = new User();
         newUser.username = request.getUsername();
         newUser.email = request.getEmail();
-        //newUser.password = request.getPassword();
+        newUser.password = request.getPassword();
         newUser.role = request.getRole() == null ? "user": request.getRole();
         return newUser;
     }
