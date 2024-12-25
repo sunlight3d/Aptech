@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <div class="container">
+        
+        <table>
+            <tr>
+                <td style="width: 50%;">
+                    <h1 >Registration</h1>
+                    <div style="height: 5px; background-color: blue; width: 40px; margin-top: -20px;"></div>
+                </td>
+                <td style="width: 50%;">
+                   
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Full name
+                </td>
+                <td>
+                    User name
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" name="fullname" id="fullname" required placeholder="Enter fullname">
+                </td>
+                <td>
+                    <input type="text" name="username" id="username" required placeholder="Enter your username">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Email
+                </td>
+                <td>
+                    Phone number
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="email" name="email" id="email" placeholder="Enter your email">
+                </td>
+                <td>
+                    <input type="text" name="phoneNumber" required id="phoneNumber" placeholder="Enter phone number">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Password
+                </td>
+                <td>
+                    Confirm password
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="password" name="password" id="password" placeholder="Enter your password">
+                </td>
+                <td>
+                    <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Retype your password">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Gender
+                </td>
+                <td>
+                    
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="radio" name="gender" value="Male" checked>
+                    <label for="gender"> Male</label>
+                    <input type="radio" name="gender" value="Female">
+                    <label for="gender"> Female</label>
+                </td>
+                <td>
+                    <input type="radio" name="gender" value="Unknown">
+                    <label for="gender"> Prefer not to say</label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button id="registerButton">Register</button>
+                </td>
+                
+            </tr>
+        </table>
+    </div>
+    <script src="./index.js"></script>
+</body>
+</html>
