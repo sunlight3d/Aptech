@@ -3,7 +3,7 @@
 <head>
   <title>Register new user</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <th:block th:replace=~{./common.html}></th:block>
 </head>
 <body class="bg-gray-100 h-screen flex items-center justify-center">
 <form method="post" th:action="@{/auth/login}" th:object="${request}"

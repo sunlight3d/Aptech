@@ -5,6 +5,7 @@ import com.aptech.demo.models.Student;
 import com.aptech.demo.models.User;
 import com.aptech.demo.repositories.StudentRepository;
 import com.aptech.demo.repositories.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ public class UserController {
     public String register(
             @ModelAttribute("request") @Valid RegisterUserRequest request,
             BindingResult bindingResult,
+            HttpSession session,
             Model model) {
         // Nếu có lỗi validation, trả lại view với lỗi
         if (bindingResult.hasErrors()) {
@@ -62,6 +64,7 @@ public class UserController {
     public String login(
             @ModelAttribute("request") @Valid LoginUserRequest request,
             BindingResult bindingResult,
+            HttpSession session,
             Model model) {
         if (bindingResult.hasErrors()) {
             return "users/login";
@@ -72,7 +75,17 @@ public class UserController {
             //not recommended !!
             throw new RuntimeException("Wrong email/password");
         }
+        // Save user to session
+        session.setAttribute("loggedInUser", existingUser);
         model.addAttribute("user", existingUser);
         return "redirect:/students";
+    }
+    @PostMapping("/logout")
+    public String logout(HttpSession session) {
+        // Invalidate the current session to log out the user
+        session.invalidate();
+
+        // Redirect to the login page after logout
+        return "redirect:/auth/login";
     }
 }

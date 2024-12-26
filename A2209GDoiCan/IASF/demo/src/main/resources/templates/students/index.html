@@ -3,46 +3,62 @@
 <head>
     <title>Student Page</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <th:block th:replace="~{./common.html}"></th:block>
 </head>
-<body>
-<h1>Student List</h1>
-<table>
-    <thead>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center py-8">
+<!-- Top Bar with Logout Button -->
+<div class="w-full flex justify-end items-center px-8 mb-6">
+    <form th:action="@{/auth/logout}" method="post">
+        <button type="submit"
+                class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1">
+            Logout
+        </button>
+    </form>
+</div>
+
+<h1 class="text-2xl font-bold text-gray-800 mb-6">Student List</h1>
+<table class="table-auto bg-white shadow-md rounded-lg w-11/12 lg:w-3/4">
+    <thead class="bg-blue-500 text-white">
     <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Date of Birth</th>
-        <th>Major</th>
-        <th>Edit</th>
-        <th>Delete</th>
+        <th class="px-4 py-2">ID</th>
+        <th class="px-4 py-2">Name</th>
+        <th class="px-4 py-2">Email</th>
+        <th class="px-4 py-2">Date of Birth</th>
+        <th class="px-4 py-2">Major</th>
+        <th class="px-4 py-2">Edit</th>
+        <th class="px-4 py-2">Delete</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="student : ${students}">
-        <td th:text="${student.getId()}">ID</td>
-        <td th:text="${student.getName()}">Name</td>
-        <td th:text="${student.getEmail()}">Email</td>
-        <td th:text="${student.getDob()}">Date of Birth</td>
-        <td th:text="${student.getMajor()}">Major</td>
+    <tr th:each="student : ${students}" class="even:bg-gray-100">
+        <td class="border px-4 py-2 text-center" th:text="${student.getId()}">ID</td>
+        <td class="border px-4 py-2" th:text="${student.getName()}">Name</td>
+        <td class="border px-4 py-2" th:text="${student.getEmail()}">Email</td>
+        <td class="border px-4 py-2" th:text="${student.getDob()}">Date of Birth</td>
+        <td class="border px-4 py-2" th:text="${student.getMajor()}">Major</td>
         <!-- Edit Button -->
-        <td>
-            <a th:href="@{/students/edit/{id}(id=${student.id})}">
-                <button type="button">Edit</button>
-            </a>
+        <td class="border px-4 py-2 text-center">
+            <a th:href="@{/students/edit/{id}(id=${student.id})}"
+               class="text-blue-500 hover:underline">Edit</a>
         </td>
         <!-- Delete Button -->
-        <td>
+        <td class="border px-4 py-2 text-center">
             <form th:action="@{/students/delete/{id}(id=${student.id})}" method="post">
-                <button type="submit">Delete</button>
+                <button type="submit"
+                        class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1">
+                    Delete
+                </button>
             </form>
         </td>
     </tr>
     </tbody>
 </table>
-<div style="margin-top: 20px;">
+<div class="mt-6">
     <a href="/students/add" th:href="@{/students/add}">
-        <button type="button">Add Student</button>
+        <button type="button"
+                class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1">
+            Add Student
+        </button>
     </a>
 </div>
 </body>

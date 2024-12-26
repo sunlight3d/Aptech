@@ -3,6 +3,7 @@ package com.aptech.demo.controllers;
 import com.aptech.demo.dtos.requests.InsertStudentRequest;
 import com.aptech.demo.models.Student;
 import com.aptech.demo.repositories.StudentRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,8 +21,17 @@ public class StudentController {
     @GetMapping("")
     public String getStudents(@RequestParam(name="page", required=false, defaultValue="1") Integer page,
                               @RequestParam(name="limit", required=false, defaultValue= "5") Integer limit,
-                              Model model
+                              Model model,
+                              HttpSession session
                               ) {
+        // Check if the user is logged in
+        Object loggedInUser = session.getAttribute("loggedInUser");
+
+        if (loggedInUser == null) {
+            // If no user in session, redirect to login page
+            return "redirect:/auth/login";
+        }
+
         List<Student> students = studentRepository.findAll();
         model.addAttribute("students", students);
         //return new ModelAndView("students/index");
