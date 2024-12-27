@@ -1,0 +1,15 @@
+.frame {
+    background-color: rgba(1, 1, 1, 0.3);
+    border-radius: 5px;
+    box-shadow: 20px;
+    width: 60%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 10px;
+
+}
+.left-td {
+    padding-left: 150px;
+}
