@@ -55,9 +55,20 @@ public class UserController {
     //login
     @GetMapping("/login")
     //http://localhost:8082/auth/register
-    public String login(Model model) {
-        model.addAttribute("request", new LoginUserRequest());
+    public String login( Model model) {
         return "users/login";
+    }
+    @GetMapping("/profile/{id}")
+    //http://localhost:8082/auth/register
+    public String profile(@PathVariable("id") Long userId, Model model) {
+        User user = repository.findById(userId).get();
+        EditUserRequest editUserRequest = new EditUserRequest();
+        editUserRequest.setName(user.getUsername());
+        editUserRequest.setEmail(user.getEmail());
+        editUserRequest.setPassword(user.getPassword());
+        editUserRequest.setUrl(user.getUrl());
+        model.addAttribute("request", editUserRequest);
+        return "users/profile";
     }
     @PostMapping("/login")
     //http://localhost:8082/http://localhost:8082/users/register/register

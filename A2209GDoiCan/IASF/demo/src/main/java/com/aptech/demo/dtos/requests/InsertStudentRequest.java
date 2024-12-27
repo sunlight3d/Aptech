@@ -16,6 +16,8 @@ public class InsertStudentRequest {
     //@JsonProperty("email")
     private String email;
 
+    private String url;
+
     //@JsonProperty("dob")
     private LocalDate dob;
 
@@ -52,5 +54,13 @@ public class InsertStudentRequest {
 
     public void setMajor(String major) {
         this.major = major;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

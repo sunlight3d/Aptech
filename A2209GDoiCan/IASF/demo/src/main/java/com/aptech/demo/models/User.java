@@ -22,6 +22,12 @@ public class User {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @Column(name = "url", nullable = true)
+    private String url;
+
+    @Column(name = "gender", nullable = true)
+    private String gender;
+
     @Column(name = "password")
     private String password;
 
@@ -77,5 +83,13 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
