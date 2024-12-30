@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(206, 131, 221);
+        border: 7px rgb(85, 18, 111) double;
+        border-radius: 10px;
+        width: 800px;
+        padding: 20px; 
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+        }
+        input:invalid {
+            border: 2px red;
+        }
+        input:invalid:focus {
+            outline: none;
+            box-shadow: 0 0 5px red;
+        }
+        input{
+            padding: 8px;
+            margin: 5px 0;
+        }
+        button{
+            size: 70%;
+            padding: 8px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Registeration form</h2>
+        <form onsubmit="handleSubmit(event)">
+            <table>
+                <tr>
+                    <td><label for="name">Full Name:</label></td>
+                    <td><input id="name" type="text"></td>
+                </tr>
+                <tr>
+                    <td><label for="email">Email:</label></td>
+                    <td><input id="email" type="email"></td>
+                </tr>
+                <tr>
+                    <td><label for="pwd">Password:</label></td>
+                    <td><input id="pwd" type="password"></td>
+                </tr>
+                <tr>
+                    <td><label for="cnfpwd">Confirm Password:</label></td>
+                    <td><input id="cnfpwd" type="password"></td>
+                </tr>
+                <tr>
+                    <td>Gender:</td>
+                    <td>
+                        <input type="radio" name="gender" id="gender-male" checked value="Male"> Male
+                        <input type="radio" name="gender" id="gender-female" value="Female"> Female
+                        <input type="radio" name="gender" id="gender-other" value="Other"> Other
+                    </td>
+                </tr>
+                <tr>
+                    <td>Skills:</td>
+                    <td>
+                        <input type="checkbox" name="skills" id="skill-html" value="html"> HTML
+                        <input type="checkbox" name="skills" id="skill-js" value="js"> JavaScript
+                        <input type="checkbox" name="skills" id="skill-css" value="css"> CSS
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <button type="submit">Submit</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <script>
+        function handleSubmit(event){
+            event.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('pwd').value;
+            const confirmPassword = document.getElementById('cnfpwd').value; 
+            /*
+            const male = document.getElementById('gender-male').checked;
+            const female = document.getElementById('gender-female').checked;
+            const other = document.getElementById('gender-other').checked;  
+            */
+            
+            //const xx = document.querySelectorAll('input[name="gender"]:checked')
+            const selectedGender = document.querySelector('input[name="gender"]:checked');
+            const gender = selectedGender ? selectedGender.value : '';
+
+            //const gender = document.querySelector('input[name="gender"]:checked').value;
+            /*
+            const html = document.getElementById('skill-html').checked;
+            const js = document.getElementById('skill-js').checked;
+            const css = document.getElementById('skill-css').checked;
+            */
+            debugger
+            const skillSelectors = document.querySelectorAll('input[name="skills"]:checked')
+            const skills = []
+            for(let i = 0; i < skillSelectors.length; i++) {
+                skills.push(skillSelectors[i].value)
+            }
+            /*
+            skillSelectors.forEach(item => {
+                skills.push(item.value)
+            })
+            */
+
+            if(!name){
+                alert("Please enter your name");
+                return;
+            }
+            const emailpatt = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9.-]+$/;
+            if (!emailpatt.test(email)){
+                alert("Please enter a valid email address");
+                return;
+            }
+            if (password.length < 8){
+                alert("Password must be at least 8 character");
+                return;
+            }
+            if (password != confirmPassword){
+                alert("Confirm password does not match");
+                return;
+            }
+            if (gender == null){
+                alert("Please choose a gender");
+                return;
+            }
+            /*
+            if (!html && !css && !js){
+                alert("Please choose at least one skill");
+                return;
+            }*/
+           if(skills.length ==0 ) {
+                alert("Please choose at least one skill");
+                return;
+           }
+        alert("Registeration successful!");
+        }
+    </script>
+</body>
+</html>
