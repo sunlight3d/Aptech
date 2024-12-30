@@ -1,0 +1,56 @@
+<th:block th:replace="~{layout/header.html}"></th:block>
+<div class="container mx-auto mt-10">
+  <h1 class="text-3xl font-bold text-center mb-6">Sign Up</h1>
+  <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
+    <form th:action="@{./signup}" method="post" th:object="${user}" class="space-y-4">
+      <p class="text-red-500 text-sm" th:text="${duplicatedError}"></p>
+      <!-- Username Field -->
+      <div>
+        <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+        <input id="username" name="username" type="text"
+               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 outline-none"
+               th:value="${user?.username}" required />
+        <p class="text-red-500 text-sm" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+      </div>
+
+      <!-- Email Field -->
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+        <input id="email" name="email" type="email"
+               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 outline-none"
+               th:value="${user?.email}" required />
+        <p class="text-red-500 text-sm" th:if="${#fields.hasErrors('email')}"
+           th:errors="*{email}"></p>
+      </div>
+
+      <!-- Password Field -->
+      <div>
+        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+        <input id="password" name="password" type="password"
+               class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 outline-none"
+               required />
+        <p class="text-red-500 text-sm" th:if="${#fields.hasErrors('password')}"
+           th:errors="*{password}"></p>
+      </div>
+
+      <!-- Role Field -->
+      <div>
+        <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
+        <select id="role" name="role"
+                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 outline-none">
+          <option value="USER" th:selected="${user?.role == 'USER'}">User</option>
+          <option value="ADMIN" th:selected="${user?.role == 'ADMIN'}">Admin</option>
+        </select>
+        <p class="text-red-500 text-sm" th:if="${#fields.hasErrors('role')}"
+           th:errors="*{role}"></p>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit"
+              class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">
+        Sign Up
+      </button>
+    </form>
+  </div>
+</div>
+<th:block th:replace="~{layout/footer.html}"></th:block>

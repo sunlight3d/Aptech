@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: studentManagement2712
+  datasource:
+    #url: jdbc:mysql://localhost:3306/aptech_db?useSSL=true&requireSSL=true
+    url: jdbc:mysql://localhost:3306/a2209gdoican?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    initialization-model: always
+    hikari:
+      maximum-pool-size: 10
+      idle-timeout: 60000
+      max-lifetime: 1800000
+      conection-timeout: 30000
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+    thymeleaf:
+      prefix: classpath:/templates/
+      suffix: .html
+upload:
+  #path: src/main/resources/static/uploads
+  path: ./uploads

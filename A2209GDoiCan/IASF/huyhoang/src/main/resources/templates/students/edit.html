@@ -1,0 +1,30 @@
+<th:block th:replace="~{layout/header.html}"></th:block>
+<div class="container mx-auto mt-8">
+    <h1 class="text-3xl font-bold text-center mb-6">Edit Student</h1>
+    <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
+        <form th:object="${student}" th:action="@{/students/edit/{id}(id=${student.id})}" method="post" class="space-y-4">
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                <input id="name" th:field="*{name}" type="text" class="mt-1 block w-full" />
+                <p class="text-red-500 text-sm" th:errors="*{name}"></p>
+            </div>
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input id="email" th:field="*{email}" type="email" class="mt-1 block w-full" />
+                <p class="text-red-500 text-sm" th:errors="*{email}"></p>
+            </div>
+            <div>
+                <label for="dob" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                <input id="dob" th:field="*{dob}" type="date" class="mt-1 block w-full" />
+                <p class="text-red-500 text-sm" th:errors="*{dob}"></p>
+            </div>
+            <div>
+                <label for="major" class="block text-sm font-medium text-gray-700">Major</label>
+                <input id="major" th:field="*{major}" type="text" class="mt-1 block w-full" />
+                <p class="text-red-500 text-sm" th:errors="*{major}"></p>
+            </div>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Save Changes</button>
+        </form>
+    </div>
+</div>
+<th:block th:replace="~{layout/footer.html}"></th:block>

@@ -1,0 +1,58 @@
+<th:block th:replace="~{layout/header.html}"></th:block>
+<div class="container mx-auto mt-8">
+    <h1 class="text-3xl font-bold text-center mb-6">Add New Student</h1>
+    <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
+        <form action="/students/add" th:object="${student}" method="post" class="space-y-4">
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                <input
+                        id="name"
+                        name="name"
+                        type="text"
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 outline-none"
+                        required
+                        th:value="${student?.name}"
+                />
+                <p class="text-red-500 text-sm" th:errors="*{name}"></p>
+            </div>
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 outline-none"
+                        required
+                        th:value="${student?.email}"
+                />
+                <p class="text-red-500 text-sm" th:errors="*{email}"></p>
+            </div>
+            <div>
+                <label for="dob" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                <input
+                        id="dob"
+                        name="dob"
+                        type="date"
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 outline-none"
+                        required
+                        th:value="${student?.dob}"
+                />
+                <p class="text-red-500 text-sm" th:errors="*{dob}"></p>
+            </div>
+            <div>
+                <label for="major" class="block text-sm font-medium text-gray-700">Major</label>
+                <input
+                        id="major"
+                        name="major"
+                        type="text"
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 outline-none"
+                        required
+                        th:value="${student?.major}"
+                />
+                <p class="text-red-500 text-sm" th:errors="*{major}"></p>
+            </div>
+            <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Add Student</button>
+        </form>
+    </div>
+</div>
+<th:block th:replace="~{layout/footer.html}"></th:block>

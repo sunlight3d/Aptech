@@ -1,0 +1,10 @@
+<th:block th:replace="~{layout/header.html}"></th:block>
+<div class="container mx-auto mt-8">
+    <h1 class="text-3xl font-bold text-center mb-6">Delete Student</h1>
+    <p>Are you sure you want to delete <b th:text="${student.name}"></b>?</p>
+    <form th:action="@{/students/delete/{id}(id=${student.id})}" method="post">
+        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Yes, Delete</button>
+        <a href="/students" class="bg-gray-500 text-white px-4 py-2 rounded">Cancel</a>
+    </form>
+</div>
+<th:block th:replace="~{layout/footer.html}"></th:block>
