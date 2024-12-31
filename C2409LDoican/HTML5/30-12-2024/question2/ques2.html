@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="ques2.css"></script>
+</head>
+<body>
+    <div class="main-body">
+        <div class="form">
+            <div class="firstline">
+                <h1>Product Management System</h1>
+            </div>
+            <div class="inputfields">
+                <div class="namebox">
+                    <h5>Product Name:</h5>
+                    <input type="text" id="productname" required>
+                </div>
+                <div class="pricebox">
+                    <h5>Price:</h5>
+                    <input type="text" id="price" required>
+                </div>
+                <div class="categorybox">
+                    <h5>Category:</h5>
+                    <select name="" id="category">
+                        <option name="category" value="Electronics">Electronics</option>
+                        <option name="category" value="Clothing">Clothing</option>
+                        <option name="category" value="Food">Food</option>
+                    </select>
+                </div>
+                <button id="addbutton" onclick="addproduct()">Add Product</button>
+            </div>
+            <div class="productlist">
+                <div class="secondline">
+                    <h1>Product List Table</h1>
+                </div>
+                <div class="listcats">
+                    <table id="">
+                        <tr>
+                            <td class="nametd">Name</td>
+                            <td class="pricetd">Price</td>
+                            <td class="categorytd">Category</td>
+                            <td class="actionsid">Actions</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="list">
+                    <table id="listproducts">
+                        
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="ques2.js"></script>
+</body>
+</html>
