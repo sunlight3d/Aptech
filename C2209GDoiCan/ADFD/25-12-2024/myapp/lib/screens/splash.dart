@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-
+import 'package:go_router/go_router.dart';
 class Splash extends StatelessWidget {
   const Splash({super.key});
-
   @override
   Widget build(BuildContext context) {
+    // Chờ 1 giây rồi chuyển hướng
+    Future.delayed(Duration(seconds: 1), () {
+      context.go('/login'); // Chuyển hướng đến '/login'
+    });
     return Scaffold(
       body: SafeArea(child: Stack(
         children: [
