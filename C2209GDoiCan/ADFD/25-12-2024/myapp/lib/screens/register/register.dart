@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-class Login extends StatefulWidget {
-  final int x = 0;
-  const Login({super.key});
+class Register extends StatefulWidget {
+  const Register({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _LoginState extends State<Login> {
+class _RegisterState extends State<Register> {
   bool _passwordVisile = false;
+  bool _retypePasswordVisile = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  void _handleLogin() {
+  final TextEditingController _retypePasswordController = TextEditingController();
+
+  void _handleRegister() {
     print('Email = ${_emailController.text}, password = ${_passwordController.text}');
   }
   @override
@@ -35,11 +38,14 @@ class _LoginState extends State<Login> {
                 //mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(
+                    height: 20,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text('Login', style: TextStyle(fontSize:  30,), textAlign: TextAlign.center,),
+                      Text('Register', style: TextStyle(fontSize:  30,), textAlign: TextAlign.center,),
                     ],
                   ),
                   Expanded(child: Container(),),
@@ -98,8 +104,48 @@ class _LoginState extends State<Login> {
                     ],
                   ),
                   SizedBox(height: 10,),
+                  Text('Retype password',),
+                  Stack(
+                    children: [
+                      Container(
+                        child: TextField(
+                          controller: _retypePasswordController,
+                          obscureText: !_retypePasswordVisile, // Ẩn văn bản
+                          decoration: InputDecoration(
+                            //hintText: 'Enter your password',
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.purple),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.purple),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10), // Khoảng cách giữa TextField và Icon
+                      Positioned(child: InkWell(
+                        child: Container(
+                          child: Icon(
+                            this._retypePasswordVisile == false ? Icons.visibility_off : Icons.visibility,
+                            color: Colors.black.withAlpha(120),
+                            size: 25.0,
+                          ),
+                          padding: EdgeInsets.all(10),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            _retypePasswordVisile = !_retypePasswordVisile;
+                          });
+                        },
+                      ),
+                        right: 0,
+                      )
+
+                    ],
+                  ),
+                  SizedBox(height: 10,),
                   InkWell(
-                    onTap: _handleLogin,
+                    onTap: _handleRegister,
                     child: Container(
                       height: 45,
                       width: double.infinity,
@@ -107,7 +153,7 @@ class _LoginState extends State<Login> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text('Login', style: TextStyle(fontSize: 18, color: Colors.white),),
+                          Text('Register', style: TextStyle(fontSize: 18, color: Colors.white),),
                         ],
                       ),
                       decoration: BoxDecoration(
@@ -117,14 +163,14 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text('Forgot password ?', style: TextStyle(fontSize:  14,), textAlign: TextAlign.center,),
-                        ],
-                      ),
+                    padding: EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('Forgot password ?', style: TextStyle(fontSize:  14,), textAlign: TextAlign.center,),
+                      ],
+                    ),
                   ),
                   Expanded(child: Container(),),
                   Padding(
@@ -133,13 +179,13 @@ class _LoginState extends State<Login> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text('Did not have account ?', style: TextStyle(fontSize:  14,), textAlign: TextAlign.center,),
+                        Text('Already have an account ?', style: TextStyle(fontSize:  14,), textAlign: TextAlign.center,),
                       ],
                     ),
                   ),
                   GestureDetector(
                     onTap: () {
-                      
+                      context.go('/login');
                     },
                     child: Padding(
                       padding: EdgeInsets.all(10),
@@ -147,7 +193,7 @@ class _LoginState extends State<Login> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text('Create account',
+                          Text('Login to your account ',
                               style: TextStyle(
                                   fontSize:  14,
                                   fontWeight: FontWeight.bold,

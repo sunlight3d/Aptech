@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:myapp/screens/login.dart';
-import 'package:myapp/screens/splash.dart';
-import 'package:myapp/screens/register.dart';
+import 'package:myapp/screens/login/login.dart';
+import 'package:myapp/screens/product_list/product_list.dart';
+import 'package:myapp/screens/splash/splash.dart';
+import 'package:myapp/screens/register/register.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,6 +29,12 @@ final GoRouter _router = GoRouter(
             return const Register();
           },
         ),
+        GoRoute(
+          path: 'product_list',
+          builder: (BuildContext context, GoRouterState state) {
+            return const ProductList();
+          },
+        ),
       ],
     ),
   ],
@@ -38,8 +45,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    return MaterialApp(
+      home: ProductList(),
+    );
     return MaterialApp.router(
       routerConfig: _router,
     );
   }
 }
+
+
