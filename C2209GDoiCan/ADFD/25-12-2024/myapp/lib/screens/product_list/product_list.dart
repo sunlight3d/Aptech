@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/screens/product_list/product_item.dart';
 
 class ProductList extends StatefulWidget {
   const ProductList({super.key});
@@ -17,11 +18,7 @@ class _ProductListState extends State<ProductList> {
           padding: const EdgeInsets.all(8),
           itemCount: 10,
           itemBuilder: (BuildContext context, int index) {
-            return Container(
-              height: 50,
-              color: index %2 == 0 ? Colors.red : Colors.greenAccent,
-              child: Center(child: Text('index = ${index}')),
-            );
+            return ProductItem();
           },
           separatorBuilder: (BuildContext context, int index) => const Divider(),
         ),
