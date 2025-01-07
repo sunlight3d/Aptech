@@ -1,0 +1,29 @@
+server:
+  port: 8082  # The port on which the application will run
+spring:
+  application:
+    name: de1
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/a2209gdoicande1?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root  # MySQL username
+    password:  # MySQL password (fill this in if required)
+    initialization-mode: always  # Option to initialize the database with SQL scripts
+    hikari:
+      minimum-idle: 5 # S? l??ng k?t n?i t?i thi?u s? ???c gi? ? tr?ng thái nhàn r?i (idle) trong connection pool.
+      maximum-pool-size: 10 # S? l??ng k?t n?i t?i ?a mà pool có th? t?o ra và duy trì.
+      connection-timeout: 30000 # Th?i gian t?i ?a (tính b?ng milliseconds) mà m?t yêu c?u ch? ?? l?y k?t n?i tr??c khi b? timeout.
+      idle-timeout: 600000 # Th?i gian t?i ?a (tính b?ng milliseconds) mà m?t k?t n?i không ???c s? d?ng (idle) tr??c khi b? ?óng.
+      max-lifetime: 1800000 # Th?i gian t?i ?a (tính b?ng milliseconds) mà m?t k?t n?i ???c gi? trong pool tr??c khi b? ?óng, b?t k? k?t n?i có ???c s? d?ng hay không.
+
+  jpa:
+    hibernate:
+      #ddl-auto: create-drop  # Automatically update the database schema; options: create, create-drop, update, validate
+      ddl-auto: update
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+# logging:
+#   level:
+#     org.hibernate.SQL: debug
+#     org.hibernate.type.descriptor.sql: trace
