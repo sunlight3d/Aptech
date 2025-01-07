@@ -53,5 +53,12 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
+/*
+flutter pub add bloc
+flutter pub add bloc_concurrency
+flutter pub add equatable
+flutter pub add flutter_bloc
+flutter pub add http
+flutter pub add stream_transform
+* */
 
