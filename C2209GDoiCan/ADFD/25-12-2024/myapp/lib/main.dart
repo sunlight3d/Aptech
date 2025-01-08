@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:http/http.dart' as http;
+import 'package:myapp/bloc/product/bloc.dart';
+import 'package:myapp/config.dart';
 import 'package:myapp/screens/login/login.dart';
 import 'package:myapp/screens/product_list/product_list.dart';
 import 'package:myapp/screens/splash/splash.dart';
 import 'package:myapp/screens/register/register.dart';
+import 'package:myapp/bloc/simple_bloc_observer.dart';
+
+import 'services/product_service.dart';
+
 
 void main() {
+  Bloc.observer = const SimpleBlocObserver();
   runApp(const MyApp());
 }
+
 /// The route configuration.
 final GoRouter _router = GoRouter(
   routes: <RouteBase>[
@@ -39,26 +49,22 @@ final GoRouter _router = GoRouter(
     ),
   ],
 );
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: ProductList(),
+    final productService = ProductService(
+      baseURL: API_BASE_URL,
+      httpClient: http.Client(),
     );
-    return MaterialApp.router(
-      routerConfig: _router,
+
+    return BlocProvider(
+      create: (context) => ProductBloc(productService: productService),
+      child: MaterialApp.router(
+        routerConfig: _router,
+      ),
     );
   }
 }
-/*
-flutter pub add bloc
-flutter pub add bloc_concurrency
-flutter pub add equatable
-flutter pub add flutter_bloc
-flutter pub add http
-flutter pub add stream_transform
-* */
-
