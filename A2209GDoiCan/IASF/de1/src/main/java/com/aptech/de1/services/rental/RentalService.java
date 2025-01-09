@@ -13,8 +13,12 @@ public class RentalService implements IRentalService{
     @Autowired
     private RentalRepository rentalRepository;
 
-    public Page<Rental> getRentalsWithDetails(int page, int size) {
+    @Override
+    public Page<Rental> getRentalsWithDetails(int page, int size, String search) {
         Pageable pageable = PageRequest.of(page, size);
+        if (search != null && !search.isBlank()) {
+            return rentalRepository.findAllRentalsWithSearch(search, pageable);
+        }
         return rentalRepository.findAllRentalsWithDetails(pageable);
     }
 }

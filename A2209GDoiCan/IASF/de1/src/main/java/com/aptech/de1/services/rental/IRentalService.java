@@ -4,5 +4,5 @@ import com.aptech.de1.models.Rental;
 import org.springframework.data.domain.Page;
 
 public interface IRentalService {
-    public Page<Rental> getRentalsWithDetails(int page, int size);
+    Page<Rental> getRentalsWithDetails(int page, int size, String search);
 }

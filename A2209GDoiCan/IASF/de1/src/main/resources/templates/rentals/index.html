@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Rentals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center py-8">
+
+<div class="w-full max-w-6xl bg-white shadow-md rounded-lg p-6">
+    <h1 class="text-xl font-bold text-gray-800 mb-4">Rental Vehicle System</h1>
+    <!-- Search Bar -->
+    <form method="get" th:action="@{/rentals}" class="flex items-center mb-4">
+        <input type="text" name="search" placeholder="Search by customer name or vehicle"
+               th:value="${search}"
+               class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <button type="submit"
+                class="ml-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+            Search
+        </button>
+    </form>
+    <table class="table-auto w-full bg-white rounded-lg shadow-lg">
+        <thead class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+        <tr>
+            <th class="py-3 px-6 text-left">Rental ID</th>
+            <th class="py-3 px-6 text-left">Rental Date</th>
+            <th class="py-3 px-6 text-left">Return Date</th>
+            <th class="py-3 px-6 text-left">Customer Name</th>
+            <th class="py-3 px-6 text-left">Vehicle Maker</th>
+            <th class="py-3 px-6 text-left">Vehicle Model</th>
+            <th class="py-3 px-6 text-left">Vehicle Year</th>
+
+        </tr>
+        </thead>
+        <tbody class="text-gray-600 text-sm font-light" th:each="rental : ${rentals}">
+        <tr class="border-b border-gray-200 hover:bg-gray-100">
+            <td class="py-3 px-6 text-left" th:text="${rental.id}"></td>
+            <td class="py-3 px-6 text-left" th:text="${rental.rentalDate}"></td>
+            <td class="py-3 px-6 text-left" th:text="${rental.returnDate}"></td>
+            <td class="py-3 px-6 text-left" th:text="${rental.customer.firstName} + ' ' + ${rental.customer.lastName}"></td>
+            <td class="py-3 px-6 text-left" th:text="${rental.vehicle.make}"></td>
+            <td class="py-3 px-6 text-left" th:text="${rental.vehicle.model}"></td>
+            <td class="py-3 px-6 text-left" th:text="${rental.vehicle.year}"></td>
+            thêm cột delete và viết tiếp chức năng delete 
+
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div class="flex justify-center items-center mt-4 space-x-2">
+        <button
+                th:if="${currentPage > 1}"
+                th:href="@{/rentals(page=${currentPage - 1}, size=${size}, search=${search})}"
+                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+            Previous
+        </button>
+
+        <div class="flex space-x-1">
+            <a th:each="pageNum : ${#numbers.sequence(1, totalPages)}"
+               th:href="@{/rentals(page=${pageNum}, size=${size}, search=${search})}"
+               th:classappend="${pageNum == currentPage} ? 'bg-red-500 text-white' : 'bg-blue-500 text-white hover:bg-blue-600'"
+               class="px-4 py-2 rounded">
+                <span th:text="${pageNum}"></span>
+            </a>
+        </div>
+
+        <button
+                th:if="${currentPage < totalPages}"
+                th:href="@{/rentals(page=${currentPage + 1}, size=${size}, search=${search})}"
+                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+            Next
+        </button>
+    </div>
+</div>
+
+</body>
+</html>
