@@ -13,7 +13,6 @@ part 'event.dart';
 part 'state.dart';
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final throttleDuration = Duration(milliseconds: 100);
-  final int _productLimit = 10; // Số lượng sản phẩm tối đa cho mỗi trang
   //final http.Client httpClient;
   final ProductService productService;
 

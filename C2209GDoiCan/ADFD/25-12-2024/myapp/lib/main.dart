@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
     );
 
     return BlocProvider(
-      create: (context) => ProductBloc(productService: productService),
+      create: (context) => ProductBloc(productService: productService)..add(FetchProducts()),
       child: MaterialApp.router(
         routerConfig: _router,
       ),

@@ -9,9 +9,12 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if(product.id == 78) {
+      print('haha');
+    }
     return ListTile(
       leading: Image.network(
-        product.image,
+        product.image.trim().length == 0 ? 'https://bizflyportal.mediacdn.vn/bizflyportal/459/347/2020/06/02/17/37/70515910726734841.jpg' : product.image,
         width: 50,
         height: 50,
         fit: BoxFit.cover,

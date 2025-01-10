@@ -22,30 +22,33 @@ class _ProductListState extends State<ProductList> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProductBloc, ProductState>(
-      builder: (context, state) {
-        switch (state.status) {
-          case ProductStatus.failure:
-            return const Center(child: Text('Failed to fetch products'));
-          case ProductStatus.success:
-            if (state.products.isEmpty) {
-              return const Center(child: Text('No products available'));
+    return Scaffold(
+      body: SafeArea(
+        child: BlocBuilder<ProductBloc, ProductState>(
+          builder: (context, state) {
+            if (state.status == ProductStatus.failure) {
+              return const Center(child: Text('Failed to fetch products'));
+            } else if (state.status == ProductStatus.success) {
+              if (state.products.isEmpty) {
+                return const Center(child: Text('No products available'));
+              }
+              return ListView.builder(
+                controller: _scrollController,
+                itemCount: state.hasReachedMax
+                    ? state.products.length
+                    : state.products.length + 1,
+                itemBuilder: (BuildContext context, int index) {
+                  return index >= state.products.length
+                      ? const BottomLoader()
+                      : ProductItem(product: state.products[index]);
+                },
+              );
+            } else {
+              return const Center(child: CircularProgressIndicator());
             }
-            return ListView.builder(
-              itemBuilder: (BuildContext context, int index) {
-                return index >= state.products.length
-                    ? const BottomLoader()
-                    : ProductItem(product: state.products[index]);
-              },
-              itemCount: state.hasReachedMax
-                  ? state.products.length
-                  : state.products.length + 1,
-              controller: _scrollController,
-            );
-          case ProductStatus.initial:
-            return const Center(child: CircularProgressIndicator());
-        }
-      },
+          },
+        ),
+      ),
     );
   }
 
