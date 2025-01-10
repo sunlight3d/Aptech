@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Create Rental</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center py-8">
+
+<div class="w-full max-w-3xl bg-white shadow-md rounded-lg p-6">
+  <h2 class="text-xl font-semibold mb-6 text-center">Create Rental</h2>
+  <form action="#" th:action="@{./createRental}" th:object="${rental}" method="post">
+    <div class="mb-4">
+      <label for="customer" class="block text-gray-700">Customer</label>
+      <select id="customer" name="customer" class="form-control w-full mt-1 p-2 border rounded" required>
+        <option value="" disabled selected>Select Customer</option>
+        <option th:each="customer : ${customers}"
+                th:value="${customer.id}"
+                th:text="${customer.firstName + ' ' + customer.lastName}"></option>
+      </select>
+      <div th:if="${#fields.hasErrors('customer')}" class="text-red-500 mt-1">
+        <p th:errors="*{customer}"></p>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="vehicle" class="block text-gray-700">Vehicle</label>
+      <select id="vehicle" name="vehicle" class="form-control w-full mt-1 p-2 border rounded" required>
+        <option value="" disabled selected>Select Vehicle</option>
+        <option th:each="vehicle : ${availableVehicles}"
+                th:value="${vehicle.id}"
+                th:text="${vehicle.make + ' ' + vehicle.model + ' (' + vehicle.year + ')'}"></option>
+      </select>
+      <div th:if="${#fields.hasErrors('vehicle')}" class="text-red-500 mt-1">
+        <p th:errors="*{vehicle}"></p>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="rentalDate" class="block text-gray-700">Rental Date</label>
+      <input type="date" id="rentalDate" name="rentalDate" class="form-control w-full mt-1 p-2 border rounded" required>
+      <div th:if="${#fields.hasErrors('rentalDate')}" class="text-red-500 mt-1">
+        <p th:errors="*{rentalDate}"></p>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="returnDate" class="block text-gray-700">Return Date</label>
+      <input type="date" id="returnDate" name="returnDate" class="form-control w-full mt-1 p-2 border rounded" required>
+      <div th:if="${#fields.hasErrors('returnDate')}" class="text-red-500 mt-1">
+        <p th:errors="*{returnDate}"></p>
+      </div>
+    </div>
+
+    <div class="flex justify-between">
+      <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Create Rental</button>
+      <button type="button" class="bg-gray-300 text-gray-700 py-2 px-4 rounded hover:bg-gray-400" onclick="window.history.back();">Cancel</button>
+    </div>
+  </form>
+</div>
+
+</body>
+</html>
