@@ -29,7 +29,7 @@ public class Doctor {
     @Column(name = "dob", nullable = false)
     private LocalDate dob;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Appointment> appointments;
 
