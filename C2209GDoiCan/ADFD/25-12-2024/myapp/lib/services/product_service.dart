@@ -1,15 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:myapp/models/product.dart';
-import 'package:myapp/models/product_attribute.dart';
+import '../models/product.dart';
+import '../models/product_attribute.dart';
+import 'base_service.dart';
 
-class ProductService {
-  final String baseURL;
-  final http.Client httpClient;
+class ProductService extends BaseService {
+  const ProductService({required String baseURL, required http.Client httpClient})
+      : super(baseURL: baseURL, httpClient: httpClient);
 
-  const ProductService({required this.baseURL, required this.httpClient});
-
-  static const int _productLimit = 10; // Số lượng sản phẩm mỗi trang
+  static const int _productLimit = 10;
 
   Future<List<Product>> fetchProducts({required int startIndex}) async {
     final response = await httpClient.get(
