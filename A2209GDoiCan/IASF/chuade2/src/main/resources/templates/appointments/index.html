@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Appointments</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center py-8">
+
+<div class="w-full max-w-6xl bg-white shadow-md rounded-lg p-6">
+    <h1 class="text-xl font-bold text-gray-800 mb-4">Hospital Appointment Management</h1>
+    <!-- Search Bar -->
+    <form method="get" th:action="@{/appointments}" class="flex items-center mb-4">
+        <input type="text" name="search" placeholder="Search by customer name or vehicle"
+               th:value="${search}"
+               class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <button type="submit"
+                class="ml-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+            Search
+        </button>
+    </form>
+    <table class="table-auto w-full bg-white rounded-lg shadow-lg">
+        <thead class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+        <tr>
+            <th class="py-3 px-6 text-left">Appointment ID</th>
+            <th class="py-3 px-6 text-left">Appointment Date</th>
+            <th class="py-3 px-6 text-left">Patient Name</th>
+            <th class="py-3 px-6 text-left">Doctor Name</th>
+            <th class="py-3 px-6 text-left">Specialization</th>
+            <th class="py-3 px-6 text-left">Appointment status</th>
+            <th class="py-3 px-6 text-left">Action</th> <!-- New Action column -->
+        </tr>
+        </thead>
+        <tbody class="text-gray-600 text-sm font-light" th:each="appointment : ${appointments}">
+        <tr class="border-b border-gray-200 hover:bg-gray-100">
+            <td class="py-3 px-6 text-left" th:text="${appointment.id}"></td>
+            <td class="py-3 px-6 text-left" th:text="${appointment.appointmentDate}"></td>
+            <td class="py-3 px-6 text-left" th:text="${appointment.patient.firstName + ' ' + appointment.patient.lastName}"></td>
+            <td class="py-3 px-6 text-left" th:text="${appointment.doctor.name}"></td>
+            <td class="py-3 px-6 text-left" th:text="${appointment.doctor.specialization}"></td>
+            <td class="py-3 px-6 text-left" th:text="${appointment.status}"></td>
+
+            <!-- Add a form for the delete button in the Action column -->
+            <td class="py-3 px-6 text-left">
+                <form th:action="@{./appointments/delete/{id}(id=${appointment.id})}" method="post" onsubmit="return confirm('Are you sure you want to delete this appointment?');">
+                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400">
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <!-- Pagination -->
+    <div class="flex justify-center items-center mt-4 space-x-2">
+        <button
+                th:if="${currentPage > 1}"
+                th:href="@{/appointments(page=${currentPage - 1}, size=${size}, search=${search})}"
+                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+            Previous
+        </button>
+
+        <div class="flex space-x-1">
+            <a th:each="pageNum : ${#numbers.sequence(1, totalPages)}"
+               th:href="@{/appointments(page=${pageNum}, size=${size}, search=${search})}"
+               th:classappend="${pageNum == currentPage} ? 'bg-red-500 text-white' : 'bg-blue-500 text-white hover:bg-blue-600'"
+               class="px-4 py-2 rounded">
+                <span th:text="${pageNum}"></span>
+            </a>
+        </div>
+
+        <button
+                th:if="${currentPage < totalPages}"
+                th:href="@{/appointments(page=${currentPage + 1}, size=${size}, search=${search})}"
+                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+            Next
+        </button>
+    </div>
+
+    <form th:action="@{./appointments/add}">
+        <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+            Create appointment
+        </button>
+    </form>
+</div>
+
+</body>
+</html>

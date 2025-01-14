@@ -1,10 +1,8 @@
 server:
   port: 8082
-
 spring:
   application:
     name: de2
-
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/hospital_appointment_system?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true

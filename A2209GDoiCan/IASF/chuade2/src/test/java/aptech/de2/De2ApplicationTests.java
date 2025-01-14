@@ -1,10 +1,10 @@
-package com.aptech.de02;
+package aptech.de2;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class De02ApplicationTests {
+class De2ApplicationTests {
 
 	@Test
 	void contextLoads() {
