@@ -28,7 +28,7 @@ class User extends Equatable {
     );
   }
 
-  /// A static property to represent an empty user instance.
+  /// A static property to represent an empty auth instance.
   static const User empty = User(
     id: 0,
     email: '',

@@ -4,12 +4,15 @@ import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:myapp/bloc/product/bloc.dart';
 import 'package:myapp/config.dart';
+import 'package:myapp/repositories/local_storage_repository.dart';
 import 'package:myapp/screens/login/login.dart';
 import 'package:myapp/screens/product_list/product_list.dart';
 import 'package:myapp/screens/splash/splash.dart';
 import 'package:myapp/screens/register/register.dart';
 import 'package:myapp/bloc/simple_bloc_observer.dart';
+import 'package:myapp/services/auth_service.dart';
 
+import 'bloc/auth/bloc.dart';
 import 'services/product_service.dart';
 
 
@@ -60,11 +63,30 @@ class MyApp extends StatelessWidget {
       httpClient: http.Client(),
     );
 
-    return BlocProvider(
-      create: (context) => ProductBloc(productService: productService)..add(FetchProducts()),
+    final authService = AuthService(
+      baseURL: API_BASE_URL,
+      httpClient: http.Client(),
+      localStorageRepository: LocalStorageRepository(),
+    );
+
+    return MultiBlocProvider(
+      providers: [
+        // Khởi tạo AuthenticationBloc với lazy = false
+        BlocProvider<AuthenticationBloc>(
+          lazy: false,
+          create: (context) => AuthenticationBloc(authService: authService)
+            ..add(AuthenticationRequested()),
+        ),
+        // Khởi tạo ProductBloc (lazy mặc định = true)
+        BlocProvider<ProductBloc>(
+          create: (context) => ProductBloc(productService: productService)
+            ..add(FetchProducts()),
+        ),
+      ],
       child: MaterialApp.router(
         routerConfig: _router,
       ),
     );
   }
 }
+
