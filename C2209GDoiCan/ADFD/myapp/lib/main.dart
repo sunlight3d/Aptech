@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
+import 'package:myapp/bloc/login/bloc.dart';
 import 'package:myapp/bloc/product/bloc.dart';
 import 'package:myapp/config.dart';
 import 'package:myapp/repositories/local_storage_repository.dart';
@@ -77,16 +78,25 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthenticationBloc(authService: authService)
             ..add(AuthenticationRequested()),
         ),
-        // Khởi tạo ProductBloc (lazy mặc định = true)
+
+        // Khởi tạo ProductBloc
         BlocProvider<ProductBloc>(
           create: (context) => ProductBloc(productService: productService)
             ..add(FetchProducts()),
+        ),
+
+        // Khởi tạo LoginBloc
+        BlocProvider<LoginBloc>(
+          create: (context) => LoginBloc(
+            authService: context.read<AuthService>(),
+          ),
         ),
       ],
       child: MaterialApp.router(
         routerConfig: _router,
       ),
     );
+
   }
 }
 

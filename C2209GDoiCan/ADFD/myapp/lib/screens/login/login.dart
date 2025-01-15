@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:myapp/bloc/login/bloc.dart';
+import 'package:myapp/services/auth_service.dart';
 class Login extends StatefulWidget {
   final int x = 0;
   const Login({super.key});
@@ -9,68 +12,88 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  bool _passwordVisile = false;
+  bool _passwordVisible = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  /// Khi người dùng bấm Login, ta phát sự kiện lên Bloc
   void _handleLogin() {
-    print('Email = ${_emailController.text}, password = ${_passwordController.text}');
-    context.go('/product_list');
+    // Gửi event thay vì `context.go` trực tiếp
+
+    context.read<LoginBloc>().add(
+      // Tuỳ thuộc bạn đặt sự kiện thế nào
+      // 1) Cập nhật giá trị email/phone
+      LoginEmailOrPhoneChanged(_emailController.text),
+    );
+    context.read<LoginBloc>().add(
+      LoginPasswordChanged(_passwordController.text),
+    );
+    // 3) Gửi sự kiện LoginSubmitted
+    context.read<LoginBloc>().add(const LoginSubmitted());
   }
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      body: Container(
-        width: double.infinity,
-        child: Stack(
-          children: [
-            Positioned.fill(
-              child: Image.asset(
-                'images/background.png',
-                fit: BoxFit.cover, // Đảm bảo ảnh phủ toàn bộ Container
+    return BlocListener<LoginBloc, LoginState>(
+      listener: (context, state) {
+        // Ví dụ: nếu đăng nhập thành công, chuyển sang product_list
+        if (state.status == LoginStatus.success) {
+          context.go('/product_list');
+        } else if (state.status == LoginStatus.failure) {
+          // Hoặc hiển thị dialog, snackbar, vv.
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Login failed')),
+          );
+        }
+      },
+      child: Scaffold(
+        body: SizedBox(
+          width: double.infinity,
+          child: Stack(
+            children: [
+              Positioned.fill(
+                child: Image.asset(
+                  'images/background.png',
+                  fit: BoxFit.cover, // Đảm bảo ảnh phủ toàn bộ Container
+                ),
               ),
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 10),
-              height: double.infinity,
-              child: Column(
-                //mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text('Login', style: TextStyle(fontSize:  30,), textAlign: TextAlign.center,),
-                    ],
-                  ),
-                  Expanded(child: Container(),),
-                  Text('Email address'),
-                  TextField(
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      //hintText: 'Enter your email',
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.purple),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.purple),
+              Container(
+                padding: const EdgeInsets.all(10),
+                height: double.infinity,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          'Login',
+                          style: TextStyle(fontSize: 30),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                    const Expanded(child: SizedBox()),
+                    const Text('Email or Phone'),
+                    TextField(
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: const InputDecoration(
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.purple),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.purple),
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 20,),
-                  Text('Password',),
-                  Stack(
-                    children: [
-                      Container(
-                        child: TextField(
+                    const SizedBox(height: 20),
+                    const Text('Password'),
+                    Stack(
+                      children: [
+                        TextField(
                           controller: _passwordController,
-                          obscureText: !_passwordVisile, // Ẩn văn bản
-                          decoration: InputDecoration(
-                            //hintText: 'Enter your password',
+                          obscureText: !_passwordVisible,
+                          decoration: const InputDecoration(
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.purple),
                             ),
@@ -79,91 +102,97 @@ class _LoginState extends State<Login> {
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(width: 10), // Khoảng cách giữa TextField và Icon
-                      Positioned(child: InkWell(
-                        child: Container(
-                          child: Icon(
-                            this._passwordVisile == false ? Icons.visibility_off : Icons.visibility,
-                            color: Colors.black.withAlpha(120),
-                            size: 25.0,
+                        Positioned(
+                          right: 0,
+                          child: InkWell(
+                            onTap: () {
+                              setState(() {
+                                _passwordVisible = !_passwordVisible;
+                              });
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(10),
+                              child: Icon(
+                                _passwordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: Colors.black.withAlpha(120),
+                                size: 25.0,
+                              ),
+                            ),
                           ),
-                          padding: EdgeInsets.all(10),
                         ),
-                        onTap: () {
-                          setState(() {
-                            _passwordVisile = !_passwordVisile;
-                          });
-                        },
-                      ),
-                        right: 0,
-                      )
-
-                    ],
-                  ),
-                  SizedBox(height: 10,),
-                  InkWell(
-                    onTap: _handleLogin,
-                    child: Container(
-                      height: 45,
-                      width: double.infinity,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text('Login', style: TextStyle(fontSize: 18, color: Colors.white),),
-                        ],
-                      ),
-                      decoration: BoxDecoration(
-                          color: Colors.purple,
-                          borderRadius: BorderRadius.all(Radius.circular(10))
-                      ),
-                    ),
-                  ),
-                  Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text('Forgot password ?', style: TextStyle(fontSize:  14,), textAlign: TextAlign.center,),
-                        ],
-                      ),
-                  ),
-                  Expanded(child: Container(),),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text('Did not have account ?', style: TextStyle(fontSize:  14,), textAlign: TextAlign.center,),
                       ],
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      context.go('/register');
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.all(10),
+                    const SizedBox(height: 10),
+                    InkWell(
+                      onTap: _handleLogin,
+                      child: Container(
+                        height: 45,
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                          color: Colors.purple,
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            'Login',
+                            style: TextStyle(fontSize: 18, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text('Create account',
-                              style: TextStyle(
-                                  fontSize:  14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.purple), textAlign: TextAlign.center),
+                        children: const [
+                          Text(
+                            'Forgot password ?',
+                            style: TextStyle(fontSize: 14),
+                          ),
                         ],
                       ),
                     ),
-                  )
-                ],
-              ),
-            )
-          ],
+                    const Expanded(child: SizedBox()),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text(
+                            'Did not have account ?',
+                            style: TextStyle(fontSize: 14),
+                          ),
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        context.go('/register');
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text(
+                              'Create account',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.purple,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
