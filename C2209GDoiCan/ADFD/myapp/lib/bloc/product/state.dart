@@ -2,9 +2,9 @@
 
 part of 'bloc.dart';
 
-enum ProductStatus { initial, success, failure }
+enum ProductStatus { initial, loading, success, failure }
 
-final class ProductState extends Equatable {
+class ProductState extends Equatable {
   const ProductState({
     this.status = ProductStatus.initial,
     this.products = const <Product>[],
@@ -33,5 +33,5 @@ final class ProductState extends Equatable {
   }
 
   @override
-  List<Object> get props => [status, products, hasReachedMax];
+  List<Object> get props => [status, products, hasReachedMax, products.length];
 }

@@ -19,12 +19,12 @@ class User extends Equatable {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'] as int,
-      email: json['email'] as String,
-      name: json['name'] as String,
-      role: json['role'] as int,
-      avatar: json['avatar'] as String?,
-      phone: json['phone'] as String?,
+      id: json['id'] as int? ?? 0, // Nếu json['id'] là null, gán giá trị 0
+      email: json['email'] as String? ?? "", // Nếu json['email'] là null, gán giá trị ""
+      name: json['name'] as String? ?? "", // Nếu json['name'] là null, gán giá trị ""
+      role: json['role'] as int? ?? 0, // Nếu json['role'] là null, gán giá trị 0
+      avatar: json['avatar'] as String? ?? "", // Nếu json['avatar'] là null, gán giá trị ""
+      phone: json['phone'] as String? ?? "", // Nếu json['phone'] là null, gán giá trị ""
     );
   }
 
@@ -34,8 +34,8 @@ class User extends Equatable {
     email: '',
     name: '',
     role: 0,
-    avatar: null,
-    phone: null,
+    avatar: '',
+    phone: '',
   );
 
   @override

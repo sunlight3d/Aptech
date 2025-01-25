@@ -10,10 +10,10 @@ enum AuthenticationStatus { unknown, authenticated, unauthenticated }
 
 class AuthService extends BaseService {
   AuthService({
-    required String baseURL,
-    required http.Client httpClient,
+    required super.baseURL,
+    required super.httpClient,
     required this.localStorageRepository,
-  }) : super(baseURL: baseURL, httpClient: httpClient);
+  });
 
   /// Repository dùng để lưu dữ liệu cục bộ (token, userId...)
   final LocalStorageRepository localStorageRepository;

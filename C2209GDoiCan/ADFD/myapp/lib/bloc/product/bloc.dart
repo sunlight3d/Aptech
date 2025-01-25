@@ -11,46 +11,49 @@ import 'package:bloc_concurrency/bloc_concurrency.dart';
 
 part 'event.dart';
 part 'state.dart';
+// bloc.dart
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final throttleDuration = Duration(milliseconds: 100);
-  //final http.Client httpClient;
   final ProductService productService;
 
-
-  EventTransformer<E> throttleDroppable<E>(Duration duration) {
-    return (events, mapper) {
-      return droppable<E>().call(events.throttle(duration), mapper);
-    };
-  }
   ProductBloc({required this.productService}) : super(const ProductState()) {
     on<FetchProducts>(
       _onFetched,
       transformer: throttleDroppable(throttleDuration),
     );
   }
-
-
-  Future<void> _onFetched(
-      FetchProducts event,
-      Emitter<ProductState> emit,
-      ) async {
-    if (state.hasReachedMax) return;
-
+  EventTransformer<E> throttleDroppable<E>(Duration duration) {
+    return (events, mapper) {
+      return droppable<E>().call(events.throttle(duration), mapper);
+    };
+  }
+  Future<void> _onFetched(FetchProducts event, Emitter<ProductState> emit) async {
     try {
-      final products = await productService.fetchProducts(startIndex: state.products.length);
-
-      if (products.isEmpty) {
-        return emit(state.copyWith(hasReachedMax: true));
-      }
-
-      emit(
-        state.copyWith(
-          status: ProductStatus.success,
-          products: [...state.products, ...products],
-        ),
+      final products = await productService.fetchProducts(
+        startIndex: event.search.isEmpty ? state.products.length : 0,
+        search: event.search,
       );
+
+      if (event.search.isEmpty && event.search.trim().isEmpty) {
+        emit(
+          state.copyWith(
+            status: ProductStatus.success,
+            products: [...state.products, ...products],
+            hasReachedMax: products.isEmpty,
+          ),
+        );
+      } else {
+        emit(
+          state.copyWith(
+            status: ProductStatus.success,
+            products: products,
+            hasReachedMax: products.isEmpty,
+          ),
+        );
+      }
     } catch (_) {
       emit(state.copyWith(status: ProductStatus.failure));
     }
   }
 }
+

@@ -6,8 +6,8 @@ import 'package:myapp/screens/main/cart/cart.dart';
 import 'package:myapp/screens/main/notification/notification.dart';
 import 'package:myapp/screens/main/product_list/product_list.dart';
 import 'package:myapp/screens/main/profile/profile.dart';
-
 import 'package:myapp/services/auth_service.dart';
+import 'package:myapp/repositories/local_storage_repository.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -16,13 +16,36 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
+  String token = '';
+  int userId = 0;
 
-  static List<Widget> _widgetOptions = <Widget>[
-    ProductListScreen(),
-    CartScreen(),
-    NotificationsScreen(),
-    ProfileScreen(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final localStorageRepository = LocalStorageRepository();
+    final storedToken = await localStorageRepository.getToken();
+    final storedUserId = await localStorageRepository.getUserId();
+
+    if (storedToken != null && storedUserId != null) {
+      setState(() {
+        token = storedToken;
+        userId = storedUserId;
+      });
+    }
+  }
+
+  List<Widget> _getWidgetOptions() {
+    return <Widget>[
+      ProductListScreen(),
+      CartScreen(),
+      NotificationsScreen(),
+      ProfileScreen(userId: userId, token: token),
+    ];
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -34,7 +57,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: _getWidgetOptions().elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -56,10 +79,10 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.purple, // Màu tím cho tab được chọn
-        unselectedItemColor: Colors.grey, // Màu xám nhạt cho các tab không được chọn
-        showSelectedLabels: true, // Hiển thị nhãn của tab được chọn
-        showUnselectedLabels: true, // Hiển thị nhãn của các tab không được chọn
+        selectedItemColor: Colors.purple,
+        unselectedItemColor: Colors.grey,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
         onTap: _onItemTapped,
       ),
     );

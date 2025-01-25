@@ -13,6 +13,7 @@ class ProductListScreen extends StatefulWidget {
 
 class _ProductListScreenState extends State<ProductListScreen> {
   final _scrollController = ScrollController();
+  final _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -21,45 +22,21 @@ class _ProductListScreenState extends State<ProductListScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: BlocBuilder<ProductBloc, ProductState>(
-          builder: (context, state) {
-            if (state.status == ProductStatus.failure) {
-              return const Center(child: Text('Failed to fetch products'));
-            } else if (state.status == ProductStatus.success) {
-              if (state.products.isEmpty) {
-                return const Center(child: Text('No products available'));
-              }
-              return ListView.builder(
-                controller: _scrollController,
-                itemCount: state.hasReachedMax
-                    ? state.products.length
-                    : state.products.length + 1,
-                itemBuilder: (BuildContext context, int index) {
-                  return index >= state.products.length
-                      ? const BottomLoader()
-                      : ProductItem(product: state.products[index]);
-                },
-              );
-            } else {
-              return const Center(child: CircularProgressIndicator());
-            }
-          },
-        ),
-      ),
-    );
-  }
-
-  @override
   void dispose() {
     _scrollController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
+  void _onSearch(String query) {
+    // Gửi sự kiện tìm kiếm đến ProductBloc
+    context.read<ProductBloc>().add(FetchProducts(search: query));
+  }
+
   void _onScroll() {
-    if (_isBottom) context.read<ProductBloc>().add(FetchProducts());
+    if (_isBottom) {
+      context.read<ProductBloc>().add(FetchProducts());
+    }
   }
 
   bool get _isBottom {
@@ -67,5 +44,66 @@ class _ProductListScreenState extends State<ProductListScreen> {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.offset;
     return currentScroll >= (maxScroll * 0.9);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // Loại bỏ AppBar
+      appBar: null,
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Ô tìm kiếm
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: _searchController,
+                decoration: InputDecoration(
+                  hintText: 'Search products...',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10), // Giảm chiều cao
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.search, color: Colors.purple,),
+                    onPressed: () => _onSearch(_searchController.text),
+                  ),
+                ),
+                onSubmitted: _onSearch,
+              ),
+            ),
+            // Danh sách sản phẩm
+            Expanded(
+              child: BlocBuilder<ProductBloc, ProductState>(
+                builder: (context, state) {
+                  if (state.status == ProductStatus.failure) {
+                    return const Center(child: Text('Failed to fetch products'));
+                  } else if (state.status == ProductStatus.success) {
+                    if (state.products.isEmpty) {
+                      return const Center(child: Text('No products available'));
+                    }
+                    return ListView.builder(
+                      controller: _scrollController,
+                      itemCount: state.hasReachedMax
+                          ? state.products.length
+                          : state.products.length + 1,
+                      itemBuilder: (BuildContext context, int index) {
+                        return index >= state.products.length
+                            ? const BottomLoader()
+                            : ProductItem(product: state.products[index]);
+                      },
+                    );
+                  } else {
+                    // Hiển thị loading indicator khi trạng thái là initial hoặc loading
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

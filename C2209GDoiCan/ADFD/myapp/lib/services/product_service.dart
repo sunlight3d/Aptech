@@ -4,15 +4,15 @@ import '../models/product.dart';
 import '../models/product_attribute.dart';
 import 'base_service.dart';
 
+// product_service.dart
 class ProductService extends BaseService {
-  const ProductService({required String baseURL, required http.Client httpClient})
-      : super(baseURL: baseURL, httpClient: httpClient);
+  const ProductService({required super.baseURL, required super.httpClient});
 
   static const int _productLimit = 10;
 
-  Future<List<Product>> fetchProducts({required int startIndex}) async {
+  Future<List<Product>> fetchProducts({required int startIndex, String search = ""}) async {
     final response = await httpClient.get(
-      Uri.parse('$baseURL/products?page=${(startIndex ~/ _productLimit) + 1}&limit=$_productLimit'),
+      Uri.parse('$baseURL/products?page=${(startIndex ~/ _productLimit) + 1}&limit=$_productLimit&search=$search'),
     );
 
     if (response.statusCode == 200) {
