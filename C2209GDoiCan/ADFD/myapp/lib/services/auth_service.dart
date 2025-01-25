@@ -44,7 +44,7 @@ class AuthService extends BaseService {
 
     if (response.statusCode == 200) {
       final body = json.decode(response.body) as Map<String, dynamic>;
-      final userData = User.fromJson(body['data']['auth']);
+      final userData = User.fromJson(body['data']['user']);
       final token = body['data']['token'] as String;
 
       // Lưu token và userId

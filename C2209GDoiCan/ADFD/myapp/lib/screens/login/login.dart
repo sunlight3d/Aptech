@@ -3,18 +3,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myapp/bloc/login/bloc.dart';
 import 'package:myapp/services/auth_service.dart';
-class Login extends StatefulWidget {
-  final int x = 0;
-  const Login({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginScreenState extends State<LoginScreen> {
   bool _passwordVisible = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Gán giá trị mặc định cho email và password
+    _emailController.text = 'hoang.nd@aptechlearning.edu.vn';
+    _passwordController.text = 'Abc123456';
+  }
+
   /// Khi người dùng bấm Login, ta phát sự kiện lên Bloc
   void _handleLogin() {
     // Gửi event thay vì `context.go` trực tiếp
@@ -36,7 +44,7 @@ class _LoginState extends State<Login> {
       listener: (context, state) {
         // Ví dụ: nếu đăng nhập thành công, chuyển sang product_list
         if (state.status == LoginStatus.success) {
-          context.go('/product_list');
+          context.go('/main');
         } else if (state.status == LoginStatus.failure) {
           // Hoặc hiển thị dialog, snackbar, vv.
           ScaffoldMessenger.of(context).showSnackBar(

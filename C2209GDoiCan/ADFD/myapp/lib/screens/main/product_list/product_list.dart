@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myapp/bloc/product/bloc.dart';
-import 'package:myapp/screens/product_list/bottom_loader.dart';
+import 'package:myapp/screens/main/product_list/bottom_loader.dart';
 import 'product_item.dart';
 
-class ProductList extends StatefulWidget {
-  const ProductList({super.key});
+class ProductListScreen extends StatefulWidget {
+  const ProductListScreen({super.key});
 
   @override
-  State<ProductList> createState() => _ProductListState();
+  State<ProductListScreen> createState() => _ProductListScreenState();
 }
 
-class _ProductListState extends State<ProductList> {
+class _ProductListScreenState extends State<ProductListScreen> {
   final _scrollController = ScrollController();
 
   @override

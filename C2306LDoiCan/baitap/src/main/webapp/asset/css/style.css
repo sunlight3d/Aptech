@@ -1,0 +1,10 @@
+.main {
+    font-family: "Inter", sans-serif;
+}
+.student-form {
+    width: 600px;
+    margin-top: 10px;
+}
+.active{
+    color: red !important;
+}

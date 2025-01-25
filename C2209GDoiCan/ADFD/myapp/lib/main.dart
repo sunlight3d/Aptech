@@ -7,7 +7,7 @@ import 'package:myapp/bloc/product/bloc.dart';
 import 'package:myapp/config.dart';
 import 'package:myapp/repositories/local_storage_repository.dart';
 import 'package:myapp/screens/login/login.dart';
-import 'package:myapp/screens/product_list/product_list.dart';
+import 'package:myapp/screens/main/main.dart';
 import 'package:myapp/screens/splash/splash.dart';
 import 'package:myapp/screens/register/register.dart';
 import 'package:myapp/bloc/simple_bloc_observer.dart';
@@ -16,37 +16,36 @@ import 'package:myapp/services/auth_service.dart';
 import 'bloc/auth/bloc.dart';
 import 'services/product_service.dart';
 
-
 void main() {
   Bloc.observer = const SimpleBlocObserver();
   runApp(const MyApp());
 }
 
-/// The route configuration.
+/// Cấu hình routing
 final GoRouter _router = GoRouter(
   routes: <RouteBase>[
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return const Splash();
+        return const SplashScreen();
       },
       routes: <RouteBase>[
         GoRoute(
           path: 'login',
           builder: (BuildContext context, GoRouterState state) {
-            return const Login();
+            return const LoginScreen();
           },
         ),
         GoRoute(
           path: 'register',
           builder: (BuildContext context, GoRouterState state) {
-            return const Register();
+            return const RegisterScreen();
           },
         ),
         GoRoute(
-          path: 'product_list',
+          path: 'main',
           builder: (BuildContext context, GoRouterState state) {
-            return const ProductList();
+            return MainScreen();
           },
         ),
       ],
@@ -70,33 +69,37 @@ class MyApp extends StatelessWidget {
       localStorageRepository: LocalStorageRepository(),
     );
 
-    return MultiBlocProvider(
+    return MultiRepositoryProvider(
       providers: [
-        // Khởi tạo AuthenticationBloc với lazy = false
-        BlocProvider<AuthenticationBloc>(
-          lazy: false,
-          create: (context) => AuthenticationBloc(authService: authService)
-            ..add(AuthenticationRequested()),
-        ),
-
-        // Khởi tạo ProductBloc
-        BlocProvider<ProductBloc>(
-          create: (context) => ProductBloc(productService: productService)
-            ..add(FetchProducts()),
-        ),
-
-        // Khởi tạo LoginBloc
-        BlocProvider<LoginBloc>(
-          create: (context) => LoginBloc(
-            authService: context.read<AuthService>(),
-          ),
-        ),
+        // Cung cấp AuthService cho toàn bộ ứng dụng
+        RepositoryProvider<AuthService>.value(value: authService),
       ],
-      child: MaterialApp.router(
-        routerConfig: _router,
+      child: MultiBlocProvider(
+        providers: [
+          // Khởi tạo AuthenticationBloc
+          BlocProvider<AuthenticationBloc>(
+            lazy: false,
+            create: (context) => AuthenticationBloc(authService: authService)
+              ..add(AuthenticationRequested()),
+          ),
+
+          // Khởi tạo ProductBloc
+          BlocProvider<ProductBloc>(
+            create: (context) => ProductBloc(productService: productService)
+              ..add(FetchProducts()),
+          ),
+
+          // Khởi tạo LoginBloc
+          BlocProvider<LoginBloc>(
+            create: (context) => LoginBloc(
+              authService: context.read<AuthService>(), // Truy cập AuthService từ context
+            ),
+          ),
+        ],
+        child: MaterialApp.router(
+          routerConfig: _router,
+        ),
       ),
     );
-
   }
 }
-

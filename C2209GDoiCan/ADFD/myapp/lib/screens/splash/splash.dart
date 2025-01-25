@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-class Splash extends StatelessWidget {
-  const Splash({super.key});
+class SplashScreen extends StatelessWidget {
+  const SplashScreen({super.key});
   @override
   Widget build(BuildContext context) {
     // Chờ 1 giây rồi chuyển hướng
