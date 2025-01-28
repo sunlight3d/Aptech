@@ -71,8 +71,7 @@ class AuthService extends BaseService {
       if (googleUser == null) return;
 
       // Bước 2: Lấy thông tin xác thực
-      final GoogleSignInAuthentication googleAuth =
-      await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
       // Bước 3: Tạo Firebase credential
       final firebase_auth.OAuthCredential credential = firebase_auth.GoogleAuthProvider.credential(
@@ -81,28 +80,45 @@ class AuthService extends BaseService {
       );
 
       // Bước 4: Đăng nhập vào Firebase
-      final firebase_auth.UserCredential userCredential =
-      await firebase_auth.FirebaseAuth.instance.signInWithCredential(credential);
+      final firebase_auth.UserCredential userCredential = await firebase_auth.FirebaseAuth.instance.signInWithCredential(credential);
 
-      // Bước 5: Lưu thông tin người dùng và token
-      final token = await userCredential.user!.getIdToken();
+      // Bước 5: Lấy thông tin người dùng từ Firebase
       if (userCredential.user != null) {
-        // Sử dụng firebase_auth.User
         final firebase_auth.User firebaseUser = userCredential.user!;
 
-        // Lưu thông tin người dùng của ứng dụng (nếu cần)
-        final User appUser = User(
-          id: firebaseUser.uid.hashCode,
-          email: firebaseUser.email ?? "",
-          name: firebaseUser.displayName ?? "",
-          role: 0, // Tuỳ chỉnh theo logic ứng dụng
-        );
-        // Lưu token và userId
-        //await localStorageRepository.saveToken(token!);
-        await localStorageRepository.saveUserId(appUser.id);
+        // Chuẩn bị dữ liệu để gửi đến backend
+        final Map<String, dynamic> userData = {
+          "email": firebaseUser.email ?? "",
+          "display_name": firebaseUser.displayName ?? "",
+          "photo_url": firebaseUser.photoURL ?? "",
+          "google_id": firebaseUser.uid,
+          "phone_number": firebaseUser.phoneNumber ?? "",
+        };
 
-        // Cập nhật trạng thái xác thực
-        _controller.add(AuthenticationStatus.authenticated);
+        // Bước 6: Gọi API đăng nhập bằng Google
+        final url = Uri.parse('$baseURL/users/google/login');
+        final response = await httpClient.post(
+          url,
+          headers: {'Content-Type': 'application/json'},
+          body: json.encode(userData),
+        );
+
+        if (response.statusCode == 200) {
+          final body = json.decode(response.body) as Map<String, dynamic>;
+          final userData = User.fromJson(body['data']['user']);
+          final token = body['data']['token'] as String;
+
+          // Lưu token và userId
+          await localStorageRepository.saveToken(token);
+          await localStorageRepository.saveUserId(userData.id);
+
+          // Cập nhật trạng thái xác thực
+          _controller.add(AuthenticationStatus.authenticated);
+        } else {
+          // Đăng nhập thất bại => unauthenticated
+          _controller.add(AuthenticationStatus.unauthenticated);
+          throw Exception('Failed to log in with Google: ${response.body}');
+        }
       }
     } catch (e) {
       _controller.add(AuthenticationStatus.unauthenticated);
