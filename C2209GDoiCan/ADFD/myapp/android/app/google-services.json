@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "348037129425",
+    "firebase_url": "https://shopapp-online-ddd91-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "shopapp-online-ddd91",
+    "storage_bucket": "shopapp-online-ddd91.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:348037129425:android:b6f7933f506a01534291f0",
+        "android_client_info": {
+          "package_name": "com.aptech.myapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "348037129425-ho2hg13i58pn7sint4hu74pn8j3fnan7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.aptech.myapp",
+            "certificate_hash": "d467e9c9eecf641b47668e9fd01d3c8f9162b2f1"
+          }
+        },
+        {
+          "client_id": "348037129425-sfn8vku0amqnqb41e4fjnv80t8lohmtj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9D8dkX5eWv3Fbk8gqbRDl9IP_36ula-0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "348037129425-d40f1163qvskqus9b8f4v9da7pptrgie.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "348037129425-n9bv2o5kcptkiml2ch12v916qof0rqvr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.aptech.myapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

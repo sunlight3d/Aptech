@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -6,6 +7,7 @@ import 'package:myapp/bloc/login/bloc.dart';
 import 'package:myapp/bloc/product/bloc.dart';
 import 'package:myapp/bloc/user/bloc.dart';
 import 'package:myapp/config.dart';
+import 'package:myapp/firebase_options.dart';
 import 'package:myapp/repositories/local_storage_repository.dart';
 import 'package:myapp/screens/login/login.dart';
 import 'package:myapp/screens/main/main.dart';
@@ -18,8 +20,22 @@ import 'package:myapp/services/user_service.dart';
 
 import 'bloc/auth/bloc.dart';
 import 'services/product_service.dart';
+/*
+flutter pub add firebase_auth
+flutter pub add firebase_core
+flutter pub add google_sign_in
+flutter pub add meta
+flutter pub add formz
+flutter pub add google_fonts
 
-void main() {
+
+flutter pub add firebase_auth_platform_interface --dev
+flutter pub add firebase_core_platform_interface --dev
+* */
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Đảm bản Flutter binding được khởi tạo
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform); // Khởi tạo Firebase
   Bloc.observer = const SimpleBlocObserver();
   runApp(const MyApp());
 }

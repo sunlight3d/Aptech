@@ -31,3 +31,7 @@ final class LoginPasswordChanged extends LoginEvent {
 final class LoginSubmitted extends LoginEvent {
   const LoginSubmitted();
 }
+/// Người dùng nhấn đăng nhập bằng Google
+final class LoginWithGoogleRequested extends LoginEvent {
+  const LoginWithGoogleRequested();
+}

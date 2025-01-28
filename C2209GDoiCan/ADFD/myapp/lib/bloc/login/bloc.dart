@@ -13,10 +13,23 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginEmailOrPhoneChanged>(_onEmailOrPhoneChanged);
     on<LoginPasswordChanged>(_onPasswordChanged);
     on<LoginSubmitted>(_onLoginSubmitted);
+    on<LoginWithGoogleRequested>(_onGoogleLoginRequested);
   }
 
   final AuthService _authService;
-
+// Xử lý đăng nhập Google
+  Future<void> _onGoogleLoginRequested(
+      LoginWithGoogleRequested event,
+      Emitter<LoginState> emit,
+      ) async {
+    emit(state.copyWith(status: LoginStatus.inProgress));
+    try {
+      await _authService.signInWithGoogle();
+      emit(state.copyWith(status: LoginStatus.success));
+    } catch (_) {
+      emit(state.copyWith(status: LoginStatus.failure));
+    }
+  }
   /// Người dùng thay đổi email/phone => cập nhật state
   void _onEmailOrPhoneChanged(
       LoginEmailOrPhoneChanged event,

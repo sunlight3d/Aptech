@@ -1,4 +1,8 @@
 import 'dart:convert';
+// Thêm alias 'firebase_auth' cho Firebase Auth
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+// Thêm alias 'myapp_user' cho User của ứng dụng
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:myapp/models/user.dart';
 import 'package:myapp/repositories/local_storage_repository.dart';
@@ -57,6 +61,52 @@ class AuthService extends BaseService {
       // Đăng nhập thất bại => unauthenticated
       _controller.add(AuthenticationStatus.unauthenticated);
       throw Exception('Failed to log in: ${response.body}');
+    }
+  }
+  /// Đăng nhập bằng Google
+  Future<void> signInWithGoogle() async {
+    try {
+      // Bước 1: Đăng nhập bằng Google
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) return;
+
+      // Bước 2: Lấy thông tin xác thực
+      final GoogleSignInAuthentication googleAuth =
+      await googleUser.authentication;
+
+      // Bước 3: Tạo Firebase credential
+      final firebase_auth.OAuthCredential credential = firebase_auth.GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      // Bước 4: Đăng nhập vào Firebase
+      final firebase_auth.UserCredential userCredential =
+      await firebase_auth.FirebaseAuth.instance.signInWithCredential(credential);
+
+      // Bước 5: Lưu thông tin người dùng và token
+      final token = await userCredential.user!.getIdToken();
+      if (userCredential.user != null) {
+        // Sử dụng firebase_auth.User
+        final firebase_auth.User firebaseUser = userCredential.user!;
+
+        // Lưu thông tin người dùng của ứng dụng (nếu cần)
+        final User appUser = User(
+          id: firebaseUser.uid.hashCode,
+          email: firebaseUser.email ?? "",
+          name: firebaseUser.displayName ?? "",
+          role: 0, // Tuỳ chỉnh theo logic ứng dụng
+        );
+        // Lưu token và userId
+        //await localStorageRepository.saveToken(token!);
+        await localStorageRepository.saveUserId(appUser.id);
+
+        // Cập nhật trạng thái xác thực
+        _controller.add(AuthenticationStatus.authenticated);
+      }
+    } catch (e) {
+      _controller.add(AuthenticationStatus.unauthenticated);
+      throw Exception('Google sign-in failed: $e');
     }
   }
 

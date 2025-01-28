@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myapp/bloc/login/bloc.dart';
 import 'package:myapp/services/auth_service.dart';
@@ -37,6 +38,10 @@ class _LoginScreenState extends State<LoginScreen> {
     );
     // 3) Gửi sự kiện LoginSubmitted
     context.read<LoginBloc>().add(const LoginSubmitted());
+  }
+  /// Xử lý đăng nhập Google
+  void _handleGoogleLogin() {
+    context.read<LoginBloc>().add(const LoginWithGoogleRequested());
   }
   @override
   Widget build(BuildContext context) {
@@ -147,6 +152,34 @@ class _LoginScreenState extends State<LoginScreen> {
                             'Login',
                             style: TextStyle(fontSize: 18, color: Colors.white),
                           ),
+                        ),
+                      ),
+                    ),
+                    // Nút Google
+                    const SizedBox(height: 20),
+                    InkWell(
+                      onTap: _handleGoogleLogin,
+                      child: Container(
+                        height: 45,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              'images/google-icon.svg', // Đặt file SVG trong thư mục assets
+                              height: 24,
+                            ),
+                            const SizedBox(width: 10),
+                            const Text(
+                              'Sign in with Google',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ],
                         ),
                       ),
                     ),
