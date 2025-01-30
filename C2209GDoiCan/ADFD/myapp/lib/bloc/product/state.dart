@@ -9,29 +9,34 @@ class ProductState extends Equatable {
     this.status = ProductStatus.initial,
     this.products = const <Product>[],
     this.hasReachedMax = false,
+    this.selectedProduct,
   });
 
   final ProductStatus status;
   final List<Product> products;
   final bool hasReachedMax;
+  final Product? selectedProduct;
 
   ProductState copyWith({
     ProductStatus? status,
     List<Product>? products,
     bool? hasReachedMax,
+    Product? selectedProduct,
   }) {
     return ProductState(
       status: status ?? this.status,
       products: products ?? this.products,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+      selectedProduct: selectedProduct ?? this.selectedProduct,
     );
   }
-
   @override
   String toString() {
     return '''ProductState { status: $status, hasReachedMax: $hasReachedMax, products: ${products.length} }''';
   }
 
   @override
-  List<Object> get props => [status, products, hasReachedMax, products.length];
+  List<Object?> get props => [status, products, hasReachedMax, selectedProduct];
 }
+
+

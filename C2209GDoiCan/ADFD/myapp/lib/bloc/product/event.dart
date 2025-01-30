@@ -17,3 +17,11 @@ final class FetchProducts extends ProductEvent {
   @override
   List<Object?> get props => [page, search];
 }
+final class FetchProductDetail extends ProductEvent {
+  final int productId;
+
+  FetchProductDetail(this.productId);
+
+  @override
+  List<Object?> get props => [productId];
+}

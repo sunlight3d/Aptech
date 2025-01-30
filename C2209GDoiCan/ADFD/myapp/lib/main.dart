@@ -19,6 +19,7 @@ import 'package:myapp/services/auth_service.dart';
 import 'package:myapp/services/user_service.dart';
 
 import 'bloc/auth/bloc.dart';
+import 'screens/detail_product/detail_product.dart';
 import 'services/product_service.dart';
 /*
 flutter pub add firebase_auth
@@ -66,6 +67,15 @@ final GoRouter _router = GoRouter(
           builder: (BuildContext context, GoRouterState state) {
             return MainScreen();
           },
+          routes: [
+            GoRoute(
+              path: 'products/:productId',
+              builder: (context, state) {
+                final productId = int.parse(state.pathParameters['productId']!);
+                return ProductDetailScreen(productId: productId);
+              },
+            ),
+          ]
         ),
         GoRoute(
           path: 'profile/:userId',
@@ -104,6 +114,7 @@ class MyApp extends StatelessWidget {
       providers: [
         RepositoryProvider<AuthService>.value(value: authService),
         RepositoryProvider<UserService>.value(value: userService),
+        RepositoryProvider<ProductService>.value(value: productService),
       ],
       child: MultiBlocProvider(
         providers: [

@@ -17,6 +17,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   final ProductService productService;
 
   ProductBloc({required this.productService}) : super(const ProductState()) {
+    on<FetchProductDetail>(_onFetchProductDetail);
     on<FetchProducts>(
       _onFetched,
       transformer: throttleDroppable(throttleDuration),
@@ -52,6 +53,15 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         );
       }
     } catch (_) {
+      emit(state.copyWith(status: ProductStatus.failure));
+    }
+  }
+  Future<void> _onFetchProductDetail(FetchProductDetail event, Emitter<ProductState> emit) async {
+    try {
+      emit(state.copyWith(status: ProductStatus.loading));
+      final product = await productService.fetchProductDetail(event.productId);
+      emit(state.copyWith(status: ProductStatus.success, selectedProduct: product));
+    } catch (e) {
       emit(state.copyWith(status: ProductStatus.failure));
     }
   }

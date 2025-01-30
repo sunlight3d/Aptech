@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:myapp/bloc/product/bloc.dart';
 import 'package:myapp/screens/main/product_list/bottom_loader.dart';
 import 'product_item.dart';
@@ -45,7 +46,9 @@ class _ProductListScreenState extends State<ProductListScreen> {
     final currentScroll = _scrollController.offset;
     return currentScroll >= (maxScroll * 0.9);
   }
-
+  void _navigateToProductDetail(BuildContext context, int productId) {
+    context.go('/main/products/$productId'); // Sử dụng GoRouter để điều hướng
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,9 +92,14 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           ? state.products.length
                           : state.products.length + 1,
                       itemBuilder: (BuildContext context, int index) {
-                        return index >= state.products.length
-                            ? const BottomLoader()
-                            : ProductItem(product: state.products[index]);
+                        if (index >= state.products.length) {
+                          return const BottomLoader();
+                        }
+                        final product = state.products[index];
+                        return GestureDetector(
+                          onTap: () => _navigateToProductDetail(context, product.id), // Nhấn vào sản phẩm để điều hướng
+                          child: ProductItem(product: product),
+                        );
                       },
                     );
                   } else {

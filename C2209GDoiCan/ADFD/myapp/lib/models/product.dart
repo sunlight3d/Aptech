@@ -1,14 +1,11 @@
 import 'package:equatable/equatable.dart';
-
 import 'product_attribute.dart';
 
-final class Product extends Equatable {
+class Product extends Equatable {
   final int id;
   final String name;
   final String image;
   final String description;
-  final int brandId;
-  final int categoryId;
   final int stock;
   final double rating;
   final int totalRatings;
@@ -17,15 +14,17 @@ final class Product extends Equatable {
   final double oldPrice;
   final String createdAt;
   final String updatedAt;
+  final List<String> images;
   final List<ProductAttribute> attributes;
+  final Map<String, dynamic> brand;
+  final Map<String, dynamic> category;
+  final List<Map<String, dynamic>> variants;
 
   const Product({
     required this.id,
     required this.name,
     required this.image,
     required this.description,
-    required this.brandId,
-    required this.categoryId,
     required this.stock,
     required this.rating,
     required this.totalRatings,
@@ -34,70 +33,42 @@ final class Product extends Equatable {
     required this.oldPrice,
     required this.createdAt,
     required this.updatedAt,
+    required this.images,
     required this.attributes,
+    required this.brand,
+    required this.category,
+    required this.variants,
   });
 
-  // Parse from JSON
+  // Parse từ JSON với giá trị mặc định
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-      id: json['id'],
-      name: json['name'],
-      image: json['image'],
-      description: json['description'],
-      brandId: json['brand_id'],
-      categoryId: json['category_id'],
-      stock: json['stock'],
-      rating: double.parse(json['rating']),
-      totalRatings: json['total_ratings'],
-      totalSold: json['total_sold'],
-      price: double.parse(json['price']),
-      oldPrice: double.parse(json['old_price']),
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
-      attributes: (json['attributes'] as List<dynamic>)
-          .map((e) => ProductAttribute.fromJson(e))
-          .toList(),
+      id: json['id'] ?? 0,
+      name: json['name'] ?? "",
+      image: json['image'] ?? "",
+      description: json['description'] ?? "",
+      stock: json['stock'] ?? 0,
+      rating: double.tryParse(json['rating']?.toString() ?? "0.0") ?? 0.0,
+      totalRatings: json['total_ratings'] ?? 0,
+      totalSold: json['total_sold'] ?? 0,
+      price: double.tryParse(json['price']?.toString() ?? "0.0") ?? 0.0,
+      oldPrice: double.tryParse(json['old_price']?.toString() ?? "0.0") ?? 0.0,
+      createdAt: json['created_at'] ?? "",
+      updatedAt: json['updated_at'] ?? "",
+      images: (json['images'] as List?)
+          ?.map((e) => e['url'] as String)
+          .toList() ??
+          [],
+      attributes: (json['attributes'] as List?)
+          ?.map((e) => ProductAttribute.fromJson(e))
+          .toList() ??
+          [],
+      brand: json['brand'] ?? {"id": 0, "name": ""},
+      category: json['category'] ?? {"id": 0, "name": ""},
+      variants: List<Map<String, dynamic>>.from(json['variants'] ?? []),
     );
   }
 
-  // Convert to JSON
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'name': name,
-      'image': image,
-      'description': description,
-      'brand_id': brandId,
-      'category_id': categoryId,
-      'stock': stock,
-      'rating': rating.toString(),
-      'total_ratings': totalRatings,
-      'total_sold': totalSold,
-      'price': price.toString(),
-      'old_price': oldPrice.toString(),
-      'created_at': createdAt,
-      'updated_at': updatedAt,
-      'attributes': attributes.map((e) => e.toJson()).toList(),
-    };
-  }
-
   @override
-  List<Object?> get props => [
-    // id,
-    name,
-    // image,
-    description,
-    // brandId,
-    // categoryId,
-    // stock,
-    // rating,
-    // totalRatings,
-    // totalSold,
-    // price,
-    // oldPrice,
-    // createdAt,
-    // updatedAt,
-    // attributes,
-  ];
+  List<Object?> get props => [id, name, description, stock, price, images, attributes, brand, category, variants];
 }
-
