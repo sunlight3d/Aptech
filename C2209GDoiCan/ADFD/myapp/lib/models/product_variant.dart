@@ -28,6 +28,24 @@ class ProductVariant extends Equatable {
     );
   }
 
+  ProductVariant copyWith({
+    int? id,
+    double? price,
+    double? oldPrice,
+    int? stock,
+    String? sku,
+    List<Map<String, dynamic>>? values,
+  }) {
+    return ProductVariant(
+      id: id ?? this.id,
+      price: price ?? this.price,
+      oldPrice: oldPrice ?? this.oldPrice,
+      stock: stock ?? this.stock,
+      sku: sku ?? this.sku,
+      values: values ?? this.values,
+    );
+  }
+
   @override
   List<Object?> get props => [id, price, oldPrice, stock, sku, values];
 }

@@ -16,6 +16,7 @@ class ProductDetailScreen extends StatefulWidget {
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
+  late Product product;
   int quantity = 1;
   String? selectedImage;
   int selectedImageIndex = 0;
@@ -61,14 +62,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     });
   }
 
-  void _handleQuantityChange(int change, int stock) {
+  void _handleQuantityChange(int change) {
     setState(() {
       int updatedQuantity = quantity + change;
-      if (updatedQuantity >= 1 && updatedQuantity <= stock) {
+      int maxStock = selectedVariant?.stock ?? product.stock;
+
+      // Chỉ tăng số lượng nếu nó không vượt quá số lượng tồn kho
+      if (updatedQuantity >= 1 && updatedQuantity <= maxStock) {
         quantity = updatedQuantity;
       }
     });
   }
+
 
   void _selectVariant(Product product) {
     for (var variant in product.variants) {
@@ -90,7 +95,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     return BlocListener<ProductBloc, ProductState>(
       listener: (context, state) {
         if (state.status == ProductStatus.success && state.selectedProduct != null) {
-          final product = state.selectedProduct!;
+          product = state.selectedProduct!;
           final Map<String, String> defaultVariants = {};
 
           // Duyệt qua các nhóm biến thể để chọn giá trị đầu tiên của mỗi nhóm
@@ -259,6 +264,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   setState(() {
                                     selectedVariantValues[variantName] = value;
                                     _selectVariant(product);
+                                    quantity = 1;
                                   });
                                 },
                               );
@@ -275,15 +281,20 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     children: [
                       const Text("Số lượng:", style: TextStyle(fontWeight: FontWeight.bold)),
                       const SizedBox(width: 10),
+
                       IconButton(
-                        onPressed: () => _handleQuantityChange(-1, selectedVariant?.stock ?? product.stock),
+                        onPressed: quantity > 1 ? () => _handleQuantityChange(-1) : null,
                         icon: const Icon(Icons.remove_circle_outline),
                       ),
                       Text("$quantity", style: const TextStyle(fontSize: 18)),
                       IconButton(
-                        onPressed: () => _handleQuantityChange(1, selectedVariant?.stock ?? product.stock),
+                        onPressed: quantity < (selectedVariant?.stock ?? product.stock)
+                            ? () => _handleQuantityChange(1)
+                            : null,
                         icon: const Icon(Icons.add_circle_outline),
                       ),
+
+
                       const SizedBox(width: 10),
                       Text("Kho: ${selectedVariant?.stock ?? product.stock}"),
                     ],
