@@ -9,6 +9,7 @@ import 'package:myapp/bloc/user/bloc.dart';
 import 'package:myapp/config.dart';
 import 'package:myapp/firebase_options.dart';
 import 'package:myapp/repositories/local_storage_repository.dart';
+import 'package:myapp/screens/checkout/checkout.dart';
 import 'package:myapp/screens/login/login.dart';
 import 'package:myapp/screens/main/main.dart';
 import 'package:myapp/screens/main/profile/profile.dart';
@@ -20,6 +21,7 @@ import 'package:myapp/services/user_service.dart';
 
 import 'bloc/auth/bloc.dart';
 import 'screens/detail_product/detail_product.dart';
+import 'screens/select_address/select_address.dart';
 import 'services/product_service.dart';
 /*
 flutter pub add firebase_auth
@@ -75,7 +77,21 @@ final GoRouter _router = GoRouter(
                 return ProductDetailScreen(productId: productId);
               },
             ),
-          ]
+            GoRoute(
+              path: 'checkout', // Màn hình thanh toán
+              builder: (context, state) {
+                return const CheckoutScreen();
+              },
+              routes: [
+                GoRoute(
+                  path: 'select-address', // Màn hình chọn địa chỉ
+                  builder: (context, state) {
+                    return const SelectAddressScreen();
+                  },
+                ),
+              ],
+            ),
+          ],
         ),
         GoRoute(
           path: 'profile/:userId',
@@ -109,7 +125,15 @@ class MyApp extends StatelessWidget {
         baseURL: API_BASE_URL,
         httpClient: http.Client()
     );
-
+    // return MaterialApp(
+    //   debugShowCheckedModeBanner: false,
+    //   title: 'Thanh Toán Shopee',
+    //   theme: ThemeData(
+    //     primarySwatch: Colors.orange,
+    //   ),
+    //   //home: SelectAddressScreen()
+    //   home:CheckoutScreen()
+    // );
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<AuthService>.value(value: authService),
