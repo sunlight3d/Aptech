@@ -1,9 +1,12 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myapp/bloc/login/bloc.dart';
 import 'package:myapp/services/auth_service.dart';
+import 'package:myapp/services/utils.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -51,10 +54,9 @@ class _LoginScreenState extends State<LoginScreen> {
         if (state.status == LoginStatus.success) {
           context.go('/main');
         } else if (state.status == LoginStatus.failure) {
-          // Hoặc hiển thị dialog, snackbar, vv.
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Login failed')),
-          );
+          SchedulerBinding.instance.addPostFrameCallback((_) {
+            alert(context, "Login failed", ContentType.failure);
+          });
         }
       },
       child: Scaffold(

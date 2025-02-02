@@ -2,6 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:myapp/config.dart';
+import 'package:myapp/repositories/local_storage_repository.dart';
+
 
 enum HttpMethod { GET, POST, PUT, DELETE }
 
@@ -32,17 +35,31 @@ class CustomException implements Exception {
 }
 
 class BaseService {
+  // Các giá trị mặc định, chỉ khởi tạo một lần
+  static const String _defaultBaseURL = API_BASE_URL;
+  static final http.Client _defaultHttpClient = http.Client();
+  static final LocalStorageRepository _defaultLocalStorageRepository =
+  LocalStorageRepository();
+
   final String baseURL;
   final http.Client httpClient;
+  final LocalStorageRepository localStorageRepository;
 
-  const BaseService({required this.baseURL, required this.httpClient});
+  BaseService({
+    String? baseURL,
+    http.Client? httpClient,
+    LocalStorageRepository? localStorageRepository,
+  })  : baseURL = baseURL ?? _defaultBaseURL,
+        httpClient = httpClient ?? _defaultHttpClient,
+        localStorageRepository =
+            localStorageRepository ?? _defaultLocalStorageRepository;
 
   /// 🔹 Hàm xử lý request API chung
   Future<ApiResponse> request({
     required String endpoint,
     required HttpMethod method,
     Map<String, dynamic>? requestData,
-    String? token, // Optional token parameter
+    String? token,
   }) async {
     int errorStatusCode = 200;
     try {
@@ -59,7 +76,10 @@ class BaseService {
       // Xử lý request dựa trên phương thức HTTP
       Uri uri = Uri.parse('$baseURL/$endpoint');
       if (method == HttpMethod.GET && requestData != null) {
-        uri = uri.replace(queryParameters: requestData.map((key, value) => MapEntry(key, value.toString())));
+        uri = uri.replace(
+          queryParameters:
+          requestData.map((key, value) => MapEntry(key, value.toString())),
+        );
       }
 
       switch (method) {
@@ -67,10 +87,12 @@ class BaseService {
           response = await httpClient.get(uri, headers: headers);
           break;
         case HttpMethod.POST:
-          response = await httpClient.post(uri, headers: headers, body: jsonEncode(requestData));
+          response = await httpClient.post(uri,
+              headers: headers, body: jsonEncode(requestData));
           break;
         case HttpMethod.PUT:
-          response = await httpClient.put(uri, headers: headers, body: jsonEncode(requestData));
+          response = await httpClient.put(uri,
+              headers: headers, body: jsonEncode(requestData));
           break;
         case HttpMethod.DELETE:
           response = await httpClient.delete(uri, headers: headers);

@@ -1,6 +1,9 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:myapp/bloc/cart/bloc.dart';
 import 'package:myapp/bloc/product/bloc.dart';
 import 'package:myapp/models/product.dart';
 import 'package:myapp/models/product_variant.dart';
@@ -16,12 +19,8 @@ class ProductDetailScreen extends StatefulWidget {
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
-  late Product product;
   int quantity = 1;
-  String? selectedImage;
   int selectedImageIndex = 0;
-  bool isModalOpen = false;
-  int modalImageIndex = 0;
   Map<String, String> selectedVariantValues = {}; // Lưu biến thể đã chọn
   ProductVariant? selectedVariant; // Biến thể hiện tại
   late PageController _pageController;
@@ -29,58 +28,34 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   void initState() {
     super.initState();
+    // Yêu cầu lấy chi tiết sản phẩm từ bloc
     context.read<ProductBloc>().add(FetchProductDetail(widget.productId));
     _pageController = PageController(initialPage: selectedImageIndex);
   }
+
   void _onPageChanged(int index) {
     setState(() {
       selectedImageIndex = index;
     });
   }
-  void _handleThumbnailHover(String imageUrl) {
-    setState(() {
-      selectedImage = imageUrl;
-    });
-  }
 
-  void _handleImageClick(int index) {
-    setState(() {
-      modalImageIndex = index;
-      isModalOpen = true;
-    });
-  }
-
-  void _handlePrevImage(List<String> images) {
-    setState(() {
-      modalImageIndex = (modalImageIndex == 0) ? images.length - 1 : modalImageIndex - 1;
-    });
-  }
-
-  void _handleNextImage(List<String> images) {
-    setState(() {
-      modalImageIndex = (modalImageIndex == images.length - 1) ? 0 : modalImageIndex + 1;
-    });
-  }
-
-  void _handleQuantityChange(int change) {
+  // Hàm cập nhật số lượng, sử dụng product để lấy thông tin tồn kho
+  void _handleQuantityChange(int change, Product product) {
     setState(() {
       int updatedQuantity = quantity + change;
       int maxStock = selectedVariant?.stock ?? product.stock;
-
-      // Chỉ tăng số lượng nếu nó không vượt quá số lượng tồn kho
       if (updatedQuantity >= 1 && updatedQuantity <= maxStock) {
         quantity = updatedQuantity;
       }
     });
   }
 
-
+  // Hàm chọn biến thể phù hợp dựa trên các giá trị đã chọn
   void _selectVariant(Product product) {
     for (var variant in product.variants) {
       bool isMatch = variant['values'].every((value) {
         return selectedVariantValues[value['name']] == value['value'];
       });
-
       if (isMatch) {
         setState(() {
           selectedVariant = ProductVariant.fromJson(variant);
@@ -92,43 +67,66 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ProductBloc, ProductState>(
-      listener: (context, state) {
-        if (state.status == ProductStatus.success && state.selectedProduct != null) {
-          product = state.selectedProduct!;
-          final Map<String, String> defaultVariants = {};
+    return MultiBlocListener(
+      listeners: [
+        // Listener của ProductBloc để cập nhật dữ liệu sản phẩm
+        BlocListener<ProductBloc, ProductState>(
+          listener: (context, state) {
+            if (state.status == ProductStatus.success && state.selectedProduct != null) {
+              final product = state.selectedProduct!;
+              final Map<String, String> defaultVariants = {};
 
-          // Duyệt qua các nhóm biến thể để chọn giá trị đầu tiên của mỗi nhóm
-          final variantGroups = product.variants.fold<Map<String, List<String>>>({}, (map, variant) {
-            for (var value in variant['values']) {
-              map.putIfAbsent(value['name'], () => []).add(value['value']);
+              // Tạo danh sách các nhóm biến thể: key là tên nhóm, value là danh sách các giá trị
+              final variantGroups = product.variants.fold<Map<String, List<String>>>({}, (map, variant) {
+                for (var value in variant['values']) {
+                  map.putIfAbsent(value['name'], () => []).add(value['value']);
+                }
+                return map;
+              });
+
+              // Chọn giá trị đầu tiên của các nhóm biến thể (chỉ lấy 2 nhóm đầu tiên)
+              int count = 0;
+              for (var entry in variantGroups.entries) {
+                if (count < 2 && entry.value.isNotEmpty) {
+                  defaultVariants[entry.key] = entry.value[0];
+                  count++;
+                }
+              }
+
+              setState(() {
+                selectedVariantValues = defaultVariants;
+                _selectVariant(product);
+              });
             }
-            return map;
-          });
-
-          // Chọn giá trị đầu tiên của nhóm biến thể đầu tiên và thứ hai
-          int count = 0;
-          for (var entry in variantGroups.entries) {
-            if (count < 2 && entry.value.isNotEmpty) {
-              defaultVariants[entry.key] = entry.value[0]; // Chọn giá trị đầu tiên
-              count++;
+          },
+        ),
+        // Listener của CartBloc để hiện thông báo sau khi thêm vào giỏ hàng
+        BlocListener<CartBloc, CartState>(
+          listener: (context, state) {
+            if (state.status == CartStatus.success || state.status == CartStatus.failure) {
+              SchedulerBinding.instance.addPostFrameCallback((_) {
+                alert(context, state.message, state.status == CartStatus.success ? ContentType.success : ContentType.failure);
+              });
             }
-          }
-
-          setState(() {
-            selectedVariantValues = defaultVariants;
-            _selectVariant(product);
-          });
-        }
-      },
+          },
+        ),
+      ],
       child: BlocBuilder<ProductBloc, ProductState>(
         builder: (context, state) {
           if (state.status == ProductStatus.loading) {
-            return const Scaffold(body: Center(child: CircularProgressIndicator()));
+            return const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            );
           } else if (state.status == ProductStatus.failure) {
-            return const Scaffold(body: Center(child: Text('Lỗi khi lấy dữ liệu')));
+            alert(context, 'Lỗi khi lấy dữ liệu', ContentType.failure);
+            return const Scaffold(
+              body: Center(child: Text('Lỗi khi lấy dữ liệu')),
+            );
           } else if (state.selectedProduct == null) {
-            return const Scaffold(body: Center(child: Text('Không có dữ liệu sản phẩm')));
+            alert(context, 'Không có dữ liệu sản phẩm', ContentType.warning);
+            return const Scaffold(
+              body: Center(child: Text('Không có dữ liệu sản phẩm')),
+            );
           }
 
           final product = state.selectedProduct!;
@@ -147,7 +145,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // 🖼 Ảnh chính sản phẩm (vuốt được)
+                  // Ảnh chính sản phẩm (vuốt được)
                   SizedBox(
                     height: 300,
                     child: PageView.builder(
@@ -166,9 +164,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  // 🖼 Ảnh nhỏ (chọn ảnh)
+                  // Ảnh nhỏ (thumbnail)
                   SizedBox(
-                    height: 80, // Chiều cao cố định cho container chứa ảnh
+                    height: 80,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: images.length,
@@ -177,9 +175,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         bool isSelected = selectedImageIndex == index;
                         return GestureDetector(
                           onTap: () {
-                            _pageController.animateToPage(index,
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeInOut);
+                            _pageController.animateToPage(
+                              index,
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeInOut,
+                            );
                           },
                           child: Container(
                             margin: const EdgeInsets.symmetric(horizontal: 5),
@@ -199,20 +199,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       },
                     ),
                   ),
-
                   const SizedBox(height: 10),
-
-                  // 🛍 Thông tin sản phẩm
-                  Text(product.name, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+                  // Thông tin sản phẩm
+                  Text(product.name,
+                      style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
                   const SizedBox(height: 5),
                   Text("⭐ ${product.rating.toStringAsFixed(1)} (${product.totalRatings} đánh giá)"),
                   Text("Đã bán: ${product.totalSold} sản phẩm"),
                   const SizedBox(height: 5),
-
-                  // 💰 Giá sản phẩm
+                  // Giá sản phẩm
                   Row(
                     children: [
-                      // Định dạng giá hiện tại
                       Text(
                         formatCurrency(selectedVariant?.price ?? product.price),
                         style: const TextStyle(
@@ -221,9 +218,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(width: 10), // Khoảng cách giữa giá hiện tại và giá cũ
-                      // Hiển thị giá cũ nếu tồn tại, nếu không thì hiển thị một Container trống
-                      (selectedVariant?.oldPrice != null || product.oldPrice != null)
+                      const SizedBox(width: 10),
+                      (selectedVariant?.oldPrice != null)
                           ? Text(
                         formatCurrency(selectedVariant?.oldPrice ?? product.oldPrice),
                         style: const TextStyle(
@@ -232,12 +228,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           decoration: TextDecoration.lineThrough,
                         ),
                       )
-                          : const SizedBox.shrink(), // Không hiển thị gì nếu không có giá cũ
+                          : const SizedBox.shrink(),
                     ],
                   ),
                   const SizedBox(height: 10),
-
-                  // 🎭 Chọn biến thể sản phẩm
+                  // Chọn biến thể sản phẩm
                   Text("Phân loại:", style: const TextStyle(fontWeight: FontWeight.bold)),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -252,7 +247,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(variantName, style: const TextStyle(fontWeight: FontWeight.bold)),
+                          Text(variantName,
+                              style: const TextStyle(fontWeight: FontWeight.bold)),
                           Wrap(
                             spacing: 8,
                             children: values.map((value) {
@@ -275,38 +271,49 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       );
                     }).toList(),
                   ),
-
-                  // 📦 Số lượng sản phẩm
+                  // Số lượng sản phẩm
                   Row(
                     children: [
-                      const Text("Số lượng:", style: TextStyle(fontWeight: FontWeight.bold)),
+                      const Text("Số lượng:",
+                          style: TextStyle(fontWeight: FontWeight.bold)),
                       const SizedBox(width: 10),
-
                       IconButton(
-                        onPressed: quantity > 1 ? () => _handleQuantityChange(-1) : null,
+                        onPressed: quantity > 1
+                            ? () => _handleQuantityChange(-1, product)
+                            : null,
                         icon: const Icon(Icons.remove_circle_outline),
                       ),
                       Text("$quantity", style: const TextStyle(fontSize: 18)),
                       IconButton(
                         onPressed: quantity < (selectedVariant?.stock ?? product.stock)
-                            ? () => _handleQuantityChange(1)
+                            ? () => _handleQuantityChange(1, product)
                             : null,
                         icon: const Icon(Icons.add_circle_outline),
                       ),
-
-
                       const SizedBox(width: 10),
                       Text("Kho: ${selectedVariant?.stock ?? product.stock}"),
                     ],
                   ),
                   const SizedBox(height: 20),
-
-                  // 🛒 Nút thêm vào giỏ hàng & mua ngay
+                  // Nút thêm vào giỏ hàng & mua ngay
                   Row(
                     children: [
                       Expanded(
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            // Kiểm tra biến thể đã được chọn (nếu cần)
+                            if (selectedVariant == null) {
+                              alert(context, "Vui lòng chọn biến thể sản phẩm.", ContentType.warning);
+                              return;
+                            }
+                            // Gửi sự kiện AddToCart đến CartBloc
+                            context.read<CartBloc>().add(
+                              AddToCart(
+                                productVariantId: selectedVariant!.id, // Giả sử ProductVariant có trường id
+                                quantity: quantity,
+                              ),
+                            );
+                          },
                           child: Container(
                             height: 45,
                             decoration: BoxDecoration(
@@ -319,7 +326,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 children: [
                                   Icon(Icons.shopping_cart, color: Colors.white),
                                   SizedBox(width: 5),
-                                  Text("Thêm vào giỏ hàng", style: TextStyle(fontSize: 14, color: Colors.white)),
+                                  Text(
+                                    "Thêm vào giỏ hàng",
+                                    style: TextStyle(fontSize: 14, color: Colors.white),
+                                  ),
                                 ],
                               ),
                             ),
@@ -329,7 +339,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       const SizedBox(width: 10),
                       Expanded(
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            // Xử lý mua ngay: chuyển hướng đến màn hình thanh toán
+                            context.push("/checkout");
+                          },
                           child: Container(
                             height: 45,
                             decoration: BoxDecoration(
@@ -342,7 +355,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                 children: [
                                   Icon(Icons.attach_money, color: Colors.white),
                                   SizedBox(width: 5),
-                                  Text("Mua ngay", style: TextStyle(fontSize: 14, color: Colors.white)),
+                                  Text(
+                                    "Mua ngay",
+                                    style: TextStyle(fontSize: 14, color: Colors.white),
+                                  ),
                                 ],
                               ),
                             ),
@@ -352,19 +368,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  // 📜 Mô tả sản phẩm
+                  // Mô tả sản phẩm
                   if (product.description.isNotEmpty)
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           children: [
-                            Icon(Icons.description, color: Colors.grey), // Icon mô tả
-                            SizedBox(width: 5), // Khoảng cách giữa icon và text
-                            Text(
-                              "Mô tả sản phẩm",
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                            ),
+                            Icon(Icons.description, color: Colors.grey),
+                            const SizedBox(width: 5),
+                            const Text("Mô tả sản phẩm",
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
                           ],
                         ),
                         const SizedBox(height: 5),

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:google_sign_in/google_sign_in.dart';
@@ -9,14 +8,6 @@ import 'base_service.dart';
 enum AuthenticationStatus { unknown, authenticated, unauthenticated }
 
 class AuthService extends BaseService {
-  final LocalStorageRepository localStorageRepository;
-
-  AuthService({
-    required super.baseURL,
-    required super.httpClient,
-    required this.localStorageRepository,
-  });
-
   final _controller = StreamController<AuthenticationStatus>();
 
   Stream<AuthenticationStatus> get status async* {
@@ -38,6 +29,7 @@ class AuthService extends BaseService {
     final userData = User.fromJson(response.data['user']);
     final token = response.data['token'] as String;
 
+    // Sử dụng localStorageRepository từ BaseService
     await localStorageRepository.saveToken(token);
     await localStorageRepository.saveUserId(userData.id);
     _controller.add(AuthenticationStatus.authenticated);
@@ -50,7 +42,8 @@ class AuthService extends BaseService {
       if (googleUser == null) return;
 
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-      final firebase_auth.OAuthCredential credential = firebase_auth.GoogleAuthProvider.credential(
+      final firebase_auth.OAuthCredential credential =
+      firebase_auth.GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
@@ -60,7 +53,6 @@ class AuthService extends BaseService {
 
       if (userCredential.user != null) {
         final firebase_auth.User firebaseUser = userCredential.user!;
-
         final Map<String, dynamic> userData = {
           "email": firebaseUser.email ?? "",
           "display_name": firebaseUser.displayName ?? "",
@@ -78,6 +70,7 @@ class AuthService extends BaseService {
         final user = User.fromJson(response.data['user']);
         final token = response.data['token'] as String;
 
+        // Sử dụng localStorageRepository từ BaseService
         await localStorageRepository.saveToken(token);
         await localStorageRepository.saveUserId(user.id);
         _controller.add(AuthenticationStatus.authenticated);
@@ -95,7 +88,6 @@ class AuthService extends BaseService {
       method: HttpMethod.GET,
       token: token,
     );
-
     return User.fromJson(response.data);
   }
 

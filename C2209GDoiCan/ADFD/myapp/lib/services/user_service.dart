@@ -4,7 +4,6 @@ import '../models/user.dart'; // Import model User
 import 'base_service.dart';
 
 class UserService extends BaseService {
-  const UserService({required super.baseURL, required super.httpClient});
 
   /// Hàm lấy thông tin chi tiết người dùng
   Future<User> fetchUserDetail(int userId, String token) async {

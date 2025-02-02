@@ -17,12 +17,18 @@ import 'package:myapp/screens/splash/splash.dart';
 import 'package:myapp/screens/register/register.dart';
 import 'package:myapp/bloc/simple_bloc_observer.dart';
 import 'package:myapp/services/auth_service.dart';
+import 'package:myapp/services/cart_item_service.dart';
+import 'package:myapp/services/cart_service.dart';
 import 'package:myapp/services/user_service.dart';
 
 import 'bloc/auth/bloc.dart';
 import 'screens/detail_product/detail_product.dart';
 import 'screens/select_address/select_address.dart';
 import 'services/product_service.dart';
+
+// Thêm import cho CartBloc
+import 'package:myapp/bloc/cart/bloc.dart'; // Giả sử bạn đã đặt CartBloc vào thư mục này
+
 /*
 flutter pub add firebase_auth
 flutter pub add firebase_core
@@ -31,13 +37,12 @@ flutter pub add meta
 flutter pub add formz
 flutter pub add google_fonts
 
-
 flutter pub add firebase_auth_platform_interface --dev
 flutter pub add firebase_core_platform_interface --dev
-* */
+*/
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Đảm bản Flutter binding được khởi tạo
+  WidgetsFlutterBinding.ensureInitialized(); // Đảm bảo Flutter binding được khởi tạo
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform); // Khởi tạo Firebase
   Bloc.observer = const SimpleBlocObserver();
   runApp(const MyApp());
@@ -111,34 +116,30 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productService = ProductService(
-      baseURL: API_BASE_URL,
-      httpClient: http.Client(),
-    );
+    // Khởi tạo các dependency dùng chung
+    final httpClient = http.Client();
+    // Nếu bạn muốn dùng instance được tạo sẵn thay vì các default trong BaseService, tạo một instance LocalStorageRepository:
+    final localStorageRepository = const LocalStorageRepository();
 
+    // Khởi tạo các service và truyền dependency nếu cần (nếu không truyền, BaseService sẽ dùng giá trị mặc định)
     final authService = AuthService(
-      baseURL: API_BASE_URL,
-      httpClient: http.Client(),
-      localStorageRepository: LocalStorageRepository(),
+      // Nếu AuthService không yêu cầu tham số, bạn có thể gọi AuthService() trực tiếp;
+      // hoặc truyền các dependency:
+      // baseURL: API_BASE_URL, httpClient: httpClient, localStorageRepository: localStorageRepository,
     );
-    final userService = UserService(
-        baseURL: API_BASE_URL,
-        httpClient: http.Client()
-    );
-    // return MaterialApp(
-    //   debugShowCheckedModeBanner: false,
-    //   title: 'Thanh Toán Shopee',
-    //   theme: ThemeData(
-    //     primarySwatch: Colors.orange,
-    //   ),
-    //   //home: SelectAddressScreen()
-    //   home:CheckoutScreen()
-    // );
+    final productService = ProductService();
+    final userService = UserService();
+    final cartService = CartService();
+    final cartItemService = CartItemService();
+
     return MultiRepositoryProvider(
       providers: [
+        RepositoryProvider<LocalStorageRepository>.value(value: localStorageRepository),
         RepositoryProvider<AuthService>.value(value: authService),
-        RepositoryProvider<UserService>.value(value: userService),
         RepositoryProvider<ProductService>.value(value: productService),
+        RepositoryProvider<UserService>.value(value: userService),
+        RepositoryProvider<CartService>.value(value: cartService),
+        RepositoryProvider<CartItemService>.value(value: cartItemService),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -152,15 +153,26 @@ class MyApp extends StatelessWidget {
               ..add(FetchProducts()),
           ),
           BlocProvider<LoginBloc>(
-            create: (context) => LoginBloc(
-              authService: context.read<AuthService>(),
-            ),
+            create: (context) => LoginBloc(authService: authService),
           ),
           BlocProvider<UserBloc>(
             create: (context) => UserBloc(userService: userService),
           ),
+          // Thêm CartBloc, sử dụng các service và LocalStorageRepository đã cung cấp
+          BlocProvider<CartBloc>(
+            create: (context) => CartBloc(
+              cartService: cartService,
+              cartItemService: cartItemService,
+              localStorageRepository: localStorageRepository,
+            ),
+          ),
         ],
         child: MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          title: 'Thanh Toán Shopee',
+          theme: ThemeData(
+            primarySwatch: Colors.orange,
+          ),
           routerConfig: _router,
         ),
       ),

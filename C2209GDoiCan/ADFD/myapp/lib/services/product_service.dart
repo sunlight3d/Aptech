@@ -1,15 +1,14 @@
+import 'package:http/http.dart' as http;
 import '../models/product.dart';
 import 'base_service.dart';
 
 class ProductService extends BaseService {
-  const ProductService({required super.baseURL, required super.httpClient});
-
   static const int _productLimit = 10;
 
   /// 🔹 Lấy danh sách sản phẩm
   Future<List<Product>> fetchProducts({
     required int startIndex,
-    String search = ""
+    String search = "",
   }) async {
     final response = await request(
       endpoint: 'products',
@@ -22,7 +21,9 @@ class ProductService extends BaseService {
     );
 
     final List<dynamic> data = response.data;
-    return data.map((json) => Product.fromJson(json as Map<String, dynamic>)).toList();
+    return data
+        .map((json) => Product.fromJson(json as Map<String, dynamic>))
+        .toList();
   }
 
   /// 🔹 Lấy chi tiết sản phẩm
@@ -31,7 +32,6 @@ class ProductService extends BaseService {
       endpoint: 'products/$productId',
       method: HttpMethod.GET,
     );
-
     return Product.fromJson(response.data);
   }
 }

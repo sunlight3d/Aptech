@@ -3,15 +3,21 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:myapp/dtos/requests/cart.dart';
 import 'package:myapp/dtos/requests/cart_checkout.dart';
+import 'package:myapp/dtos/requests/cart_item_create.dart';
 import 'package:myapp/dtos/responses/cart.dart';
 import 'package:myapp/dtos/responses/cart_checkout.dart';
+import 'package:myapp/dtos/responses/cart_item_create.dart';
+import 'package:myapp/models/cart_item.dart';
 import 'base_service.dart';
 
 class CartService extends BaseService {
-  CartService({required super.baseURL, required super.httpClient});
+
 
   /// 🔹 **Gọi API tạo giỏ hàng**
-  Future<CartResponse> createCart({required CartRequest request, String? token}) async {
+  Future<CartResponse> createCart({
+    required CartRequest request,
+    String? token,
+  }) async {
     final response = await this.request(
       endpoint: 'carts',
       method: HttpMethod.POST,
@@ -23,7 +29,7 @@ class CartService extends BaseService {
     return CartResponse.fromJson(response.data);
   }
 
-
+  /// 🔹 **Gọi API thanh toán giỏ hàng**
   Future<CartCheckoutResponse> checkoutCart({
     required CartCheckoutRequest request,
     String? token, // Nếu có user đăng nhập thì truyền token
@@ -34,10 +40,19 @@ class CartService extends BaseService {
       requestData: request.toJson(),
       token: token,
     );
-
-    // Chuyển đổi response thành đối tượng CartCheckoutResponse
     return CartCheckoutResponse.fromJson(response.data);
   }
 
-
+  /// 🔹 **Gọi API xoá giỏ hàng**
+  Future<ApiResponse> deleteCart({
+    required int id,
+    String? token,
+  }) async {
+    final response = await request(
+      endpoint: 'carts/$id',
+      method: HttpMethod.DELETE,
+      token: token,
+    );
+    return response;
+  }
 }
