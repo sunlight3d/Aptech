@@ -41,9 +41,36 @@ flutter pub add firebase_auth_platform_interface --dev
 flutter pub add firebase_core_platform_interface --dev
 */
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:http/http.dart' as http;
+import 'package:myapp/bloc/cart/bloc.dart';
+import 'package:myapp/bloc/login/bloc.dart';
+import 'package:myapp/bloc/product/bloc.dart';
+import 'package:myapp/bloc/user/bloc.dart';
+import 'package:myapp/config.dart';
+import 'package:myapp/firebase_options.dart';
+import 'package:myapp/repositories/local_storage_repository.dart';
+import 'package:myapp/screens/checkout/checkout.dart';
+import 'package:myapp/screens/login/login.dart';
+import 'package:myapp/screens/main/main.dart';
+import 'package:myapp/screens/main/profile/profile.dart';
+import 'package:myapp/screens/splash/splash.dart';
+import 'package:myapp/screens/register/register.dart';
+import 'package:myapp/bloc/simple_bloc_observer.dart';
+import 'package:myapp/services/auth_service.dart';
+import 'package:myapp/services/cart_item_service.dart';
+import 'package:myapp/services/cart_service.dart';
+import 'package:myapp/services/user_service.dart';
+import 'package:myapp/screens/detail_product/detail_product.dart';
+import 'package:myapp/screens/select_address/select_address.dart';
+import 'package:myapp/services/product_service.dart';
+
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Đảm bảo Flutter binding được khởi tạo
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform); // Khởi tạo Firebase
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   Bloc.observer = const SimpleBlocObserver();
   runApp(const MyApp());
 }
@@ -72,7 +99,11 @@ final GoRouter _router = GoRouter(
         GoRoute(
           path: 'main',
           builder: (BuildContext context, GoRouterState state) {
-            return MainScreen();
+            final tabIndex = int.tryParse(state.uri.queryParameters['index'] ?? '0') ?? 0;
+            return MainScreen(
+              key: ValueKey(tabIndex), // Thêm key để Flutter nhận biết sự thay đổi
+              initialTabIndex: tabIndex,
+            );
           },
           routes: [
             GoRoute(
@@ -83,13 +114,13 @@ final GoRouter _router = GoRouter(
               },
             ),
             GoRoute(
-              path: 'checkout', // Màn hình thanh toán
+              path: 'checkout',
               builder: (context, state) {
                 return const CheckoutScreen();
               },
               routes: [
                 GoRoute(
-                  path: 'select-address', // Màn hình chọn địa chỉ
+                  path: 'select-address',
                   builder: (context, state) {
                     return const SelectAddressScreen();
                   },
@@ -118,15 +149,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // Khởi tạo các dependency dùng chung
     final httpClient = http.Client();
-    // Nếu bạn muốn dùng instance được tạo sẵn thay vì các default trong BaseService, tạo một instance LocalStorageRepository:
-    final localStorageRepository = const LocalStorageRepository();
+    final localStorageRepository = LocalStorageRepository();
 
-    // Khởi tạo các service và truyền dependency nếu cần (nếu không truyền, BaseService sẽ dùng giá trị mặc định)
-    final authService = AuthService(
-      // Nếu AuthService không yêu cầu tham số, bạn có thể gọi AuthService() trực tiếp;
-      // hoặc truyền các dependency:
-      // baseURL: API_BASE_URL, httpClient: httpClient, localStorageRepository: localStorageRepository,
-    );
+    // Khởi tạo các service
+    final authService = AuthService();
     final productService = ProductService();
     final userService = UserService();
     final cartService = CartService();
@@ -158,13 +184,12 @@ class MyApp extends StatelessWidget {
           BlocProvider<UserBloc>(
             create: (context) => UserBloc(userService: userService),
           ),
-          // Thêm CartBloc, sử dụng các service và LocalStorageRepository đã cung cấp
           BlocProvider<CartBloc>(
             create: (context) => CartBloc(
               cartService: cartService,
               cartItemService: cartItemService,
               localStorageRepository: localStorageRepository,
-            ),
+            )..add(FetchCartItems()),
           ),
         ],
         child: MaterialApp.router(

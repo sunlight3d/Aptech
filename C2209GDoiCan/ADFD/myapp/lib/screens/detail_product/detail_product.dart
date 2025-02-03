@@ -104,9 +104,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         BlocListener<CartBloc, CartState>(
           listener: (context, state) {
             if (state.status == CartStatus.success || state.status == CartStatus.failure) {
-              SchedulerBinding.instance.addPostFrameCallback((_) {
-                alert(context, state.message, state.status == CartStatus.success ? ContentType.success : ContentType.failure);
-              });
+              context.read<CartBloc>().add(FetchCartItemsCount()); // Gửi sự kiện lấy giỏ hàng
+              // SchedulerBinding.instance.addPostFrameCallback((_) {
+              //   alert(context, state.message, state.status == CartStatus.success ? ContentType.success : ContentType.failure);
+              // });
             }
           },
         ),
@@ -118,17 +119,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               body: Center(child: CircularProgressIndicator()),
             );
           } else if (state.status == ProductStatus.failure) {
-            alert(context, 'Lỗi khi lấy dữ liệu', ContentType.failure);
             return const Scaffold(
               body: Center(child: Text('Lỗi khi lấy dữ liệu')),
             );
           } else if (state.selectedProduct == null) {
-            alert(context, 'Không có dữ liệu sản phẩm', ContentType.warning);
             return const Scaffold(
               body: Center(child: Text('Không có dữ liệu sản phẩm')),
             );
           }
-
           final product = state.selectedProduct!;
           final images = product.images.isNotEmpty ? product.images : ["https://via.placeholder.com/400"];
 
@@ -139,6 +137,44 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () => context.pop(),
               ),
+              actions: [
+                BlocBuilder<CartBloc, CartState>(
+                  builder: (context, state) {
+                    return Stack(
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.shopping_cart, color: Colors.purple,),
+                          onPressed: () {
+                            // Chuyển hướng sang tab giỏ hàng trong MainScreen
+                            context.read<CartBloc>().add(FetchCartItems()); // Gửi sự kiện lấy giỏ hàng
+                            context.go('/main?index=1');
+                          },
+                        ),
+                        if (state.cartItemCount > 0)
+                          Positioned(
+                            right: 0,
+                            top: 1,
+                            child: Container(
+                              padding: const EdgeInsets.all(3),
+                              decoration: const BoxDecoration(
+                                color: Colors.red,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Text(
+                                state.cartItemCount.toString(),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    );
+                  },
+                ),
+              ],
             ),
             body: SingleChildScrollView(
               padding: const EdgeInsets.all(16.0),

@@ -1,30 +1,41 @@
-import 'package:myapp/models/cart_item.dart';
+import 'package:myapp/models/variant.dart';
 
-/// Lớp chứa thông tin kết quả trả về của API lấy danh sách cart items
-class CartItemsResponse {
-  final String message;
-  final List<CartItem> data;
-  final int currentPage;
-  final int totalPages;
-  final int total;
+class CartItemResponse {
+  final int id;
+  final int productVariantId;
+  final double price;
+  final int stock;
+  final double oldPrice;
+  final int quantity;
+  final String productName;
+  final String productImage;
+  final List<Variant> variants;
 
-  CartItemsResponse({
-    required this.message,
-    required this.data,
-    required this.currentPage,
-    required this.totalPages,
-    required this.total,
+  CartItemResponse({
+    required this.id,
+    required this.productVariantId,
+    required this.price,
+    required this.stock,
+    required this.oldPrice,
+    required this.quantity,
+    required this.productName,
+    required this.productImage,
+    required this.variants,
   });
 
-  factory CartItemsResponse.fromJson(Map<String, dynamic> json) {
-    return CartItemsResponse(
-      message: json['message'] as String,
-      data: (json['data'] as List)
-          .map((item) => CartItem.fromJson(item))
-          .toList(),
-      currentPage: json['currentPage'] as int,
-      totalPages: json['totalPages'] as int,
-      total: json['total'] as int,
+  factory CartItemResponse.fromJson(Map<String, dynamic> json) {
+    return CartItemResponse(
+      id: json['id'] as int,
+      productVariantId: json['product_variant_id'] as int,
+      price: double.tryParse(json['price'] ?? "0") ?? 0,
+      stock: json['stock'] as int? ?? 0,
+      oldPrice: double.tryParse(json['old_price'] ?? "0") ?? 0,
+      quantity: json['quantity'] as int? ?? 0,
+      productName: json['product_name'] as String? ?? '',
+      productImage: json['product_image'] as String? ?? '',
+      variants: (json['variants'] as List<dynamic>?)
+          ?.map((variant) => Variant.fromJson(variant))
+          .toList() ?? [],
     );
   }
 }

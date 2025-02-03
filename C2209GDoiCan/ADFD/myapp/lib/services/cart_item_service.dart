@@ -13,24 +13,6 @@ import 'base_service.dart';
 class CartItemService extends BaseService {
   CartItemService() : super();
 
-  /// 🔹 **Gọi API lấy danh sách mục trong giỏ hàng**
-  /// - [cartId]: ID của giỏ hàng cần lấy danh sách mục
-  /// - [token]: Token người dùng (nếu đã đăng nhập)
-  Future<CartItemsResponse> getCartItems({
-    required int cartId,
-    String? token,
-  }) async {
-    final response = await request(
-      endpoint: 'cart-items',
-      method: HttpMethod.GET,
-      // Truyền tham số query, BaseService sẽ chuyển đổi các tham số này thành chuỗi query
-      requestData: {'cart_id': cartId.toString()},
-      token: token,
-    );
-
-    // Parse dữ liệu trả về thành đối tượng CartItemsResponse
-    return CartItemsResponse.fromJson(response.data);
-  }
   /// 🔹 **Gọi API thêm mới 1 mục (item) vào giỏ hàng**
   Future<CartItemCreateResponse> createCartItem({
     required CartItemCreateRequest requestData,
@@ -46,7 +28,7 @@ class CartItemService extends BaseService {
   }
 
   /// 🔹 **Gọi API xoá 1 mục (item) trong giỏ hàng**
-  Future<CartItem> deleteCartItem({
+  Future<bool> deleteCartItem({
     required int id,
     String? token,
   }) async {
@@ -55,6 +37,6 @@ class CartItemService extends BaseService {
       method: HttpMethod.DELETE,
       token: token,
     );
-    return CartItem.fromJson(response.data);
+    return true;
   }
 }

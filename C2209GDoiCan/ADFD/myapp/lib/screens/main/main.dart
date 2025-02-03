@@ -10,19 +10,36 @@ import 'package:myapp/services/auth_service.dart';
 import 'package:myapp/repositories/local_storage_repository.dart';
 
 class MainScreen extends StatefulWidget {
+  final int initialTabIndex;
+
+  const MainScreen({super.key, required this.initialTabIndex});
+
   @override
   _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _selectedIndex = 0;
+  late int _selectedIndex;
   String token = '';
   int userId = 0;
 
   @override
   void initState() {
     super.initState();
+    debugPrint('MainScreen initState - initialTabIndex: ${widget.initialTabIndex}');
+    _selectedIndex = widget.initialTabIndex; // Cập nhật đúng tab mặc định
     _loadUserData();
+  }
+
+  @override
+  void didUpdateWidget(covariant MainScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.initialTabIndex != oldWidget.initialTabIndex) {
+      debugPrint('MainScreen didUpdateWidget - Updating _selectedIndex to ${widget.initialTabIndex}');
+      setState(() {
+        _selectedIndex = widget.initialTabIndex; // Cập nhật tab nếu giá trị thay đổi
+      });
+    }
   }
 
   Future<void> _loadUserData() async {
@@ -40,9 +57,9 @@ class _MainScreenState extends State<MainScreen> {
 
   List<Widget> _getWidgetOptions() {
     return <Widget>[
-      ProductListScreen(),
-      CartScreen(),
-      NotificationsScreen(),
+      const ProductListScreen(),
+      const CartScreen(),
+      const NotificationsScreen(),
       ProfileScreen(userId: userId, token: token),
     ];
   }
@@ -61,22 +78,10 @@ class _MainScreenState extends State<MainScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Cart',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notifications',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Me',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: 'Cart'),
+          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: 'Notifications'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Me'),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.purple,
