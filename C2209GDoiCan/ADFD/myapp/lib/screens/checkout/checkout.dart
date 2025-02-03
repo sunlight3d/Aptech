@@ -7,7 +7,6 @@ import 'package:myapp/widgets/app_button.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
-
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
 }
@@ -17,6 +16,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   String selectedShippingMethod = "fast";
   late List<Map<String, dynamic>> items;
   late double totalAmount;
+  Map<String, String>? currentAddress;
 
 
   @override
@@ -62,7 +62,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           children: [
             // Địa chỉ giao hàng
             GestureDetector(
-              onTap: () => context.go('/checkout/select-address'),
+              onTap: () async {
+                final selectedAddress = await context.push('/checkout/select-address');
+                if (selectedAddress != null && mounted) {
+                  setState(() {
+                    currentAddress = selectedAddress as Map<String, String>;
+                  });
+                }
+              },
               child: Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
@@ -78,7 +85,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
-                        "Nguyễn Đức Hoàng, Phòng 3302, Helios Tower, Số 75, Nguyễn Trị Tam, Quận Hoàng Mai, Hà Nội",
+                        currentAddress != null ? currentAddress!['address']! : "Chọn địa chỉ giao hàng",
                         style: GoogleFonts.roboto(fontSize: 16),
                       ),
                     ),

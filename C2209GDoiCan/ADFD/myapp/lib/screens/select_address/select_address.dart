@@ -50,7 +50,7 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             SchedulerBinding.instance.addPostFrameCallback((_) {
-              context.go('/checkout');
+              context.pop();
             });
           },
         ),

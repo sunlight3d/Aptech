@@ -110,7 +110,7 @@ final GoRouter _router = GoRouter(
           builder: (context, state) => const CheckoutScreen(),
           routes: [
             GoRoute(
-              path: 'select-address',
+              path: 'select-address', // Không có dấu `/` ở đầu, nó sẽ nối vào `/checkout`
               builder: (context, state) => const SelectAddressScreen(),
             ),
           ],
