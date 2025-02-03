@@ -52,6 +52,7 @@ dependencies:
   formz: ^0.8.0
   google_fonts: ^6.2.1
   awesome_snackbar_content: ^0.1.1
+  back_button_interceptor: ^8.0.3
 
 
 dev_dependencies:

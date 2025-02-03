@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myapp/services/utils.dart';
+import 'package:myapp/widgets/app_button.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -12,6 +15,29 @@ class CheckoutScreen extends StatefulWidget {
 class _CheckoutScreenState extends State<CheckoutScreen> {
   String selectedPaymentMethod = "cod";
   String selectedShippingMethod = "fast";
+  late List<Map<String, dynamic>> items;
+  late double totalAmount;
+
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final Map<String, dynamic>? extra = GoRouterState.of(context).extra as Map<String, dynamic>?;
+
+    if (extra == null || !extra.containsKey("items") || !extra.containsKey("totalAmount")) {
+      // Hoãn điều hướng đến frame tiếp theo để tránh lỗi setState trong build
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        context.go('/main');
+      });
+      return;
+    }
+    if (extra.containsKey("selectedShippingMethod")) {
+      selectedShippingMethod = extra["selectedShippingMethod"] ?? "fast";
+    }
+
+    items = List<Map<String, dynamic>>.from(extra["items"]);
+    totalAmount = extra["totalAmount"] as double;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +50,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.go('/main'),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
@@ -62,7 +88,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             ),
             const SizedBox(height: 10),
 
-            // Sản phẩm trong đơn hàng (Dữ liệu fake)
+            // Danh sách sản phẩm
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
@@ -73,52 +99,63 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ],
               ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Image.network(
-                        "https://placehold.co/800@2x.png",
-                        width: 80,
-                        height: 80,
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Gối nệm Ema cho người Việt",
-                              style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              "Màu tối - Size M",
-                              style: GoogleFonts.roboto(fontSize: 14, color: Colors.grey),
-                            ),
-                            const SizedBox(height: 5),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Text("Sản phẩm trong đơn hàng", style: GoogleFonts.roboto(fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 10),
+                  ...items.map((item) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Row(
+                        children: [
+                          Image.network(
+                            item["productImage"],
+                            width: 80,
+                            height: 80,
+                            fit: BoxFit.cover,
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "₫389.000",
-                                  style: GoogleFonts.roboto(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.red,
-                                  ),
+                                  item["productName"],
+                                  style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.bold),
                                 ),
-                                const Text("x1", style: TextStyle(fontSize: 16)),
+                                if (item["variants"] != null && item["variants"].isNotEmpty)
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: item["variants"].map<Widget>((variant) {
+                                      return Text("${variant["name"]}: ${variant["value"]}");
+                                    }).toList(),
+                                  ),
+                                const SizedBox(height: 5),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      formatCurrency(item["price"]),
+                                      style: GoogleFonts.roboto(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                    Text("x${item["quantity"]}", style: const TextStyle(fontSize: 16)),
+                                  ],
+                                ),
                               ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    );
+                  }).toList(),
                 ],
               ),
             ),
             const SizedBox(height: 10),
-
             // Phương thức vận chuyển
             Container(
               padding: const EdgeInsets.all(12),
@@ -134,39 +171,30 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 children: [
                   Text("Phương thức vận chuyển", style: GoogleFonts.roboto(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 10),
-                  ListTile(
-                    title: const Text("Giao hàng hỏa tốc - Nhận trong ngày"),
-                    trailing: selectedShippingMethod == "express" ? const Icon(Icons.check, color: Colors.orange) : null,
-                    onTap: () => setState(() => selectedShippingMethod = "express"),
+
+                  RadioListTile<String>(
+                    value: "fast",
+                    groupValue: selectedShippingMethod, // Đảm bảo mặc định là "fast"
+                    activeColor: Colors.purple,
+                    onChanged: (value) {
+                      setState(() => selectedShippingMethod = value!);
+                    },
+                    title: const Text("Giao hàng nhanh - Nhận trong ngày"),
                   ),
-                  ListTile(
+
+                  RadioListTile<String>(
+                    value: "standard",
+                    groupValue: selectedShippingMethod,
+                    activeColor: Colors.purple,
+                    onChanged: (value) {
+                      setState(() => selectedShippingMethod = value!);
+                    },
                     title: const Text("Giao hàng tiết kiệm - Nhận sau 3-5 ngày"),
-                    trailing: selectedShippingMethod == "standard" ? const Icon(Icons.check, color: Colors.orange) : null,
-                    onTap: () => setState(() => selectedShippingMethod = "standard"),
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 10),
-
-            // Mã giảm giá
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [
-                  BoxShadow(color: Colors.grey.shade300, blurRadius: 5, spreadRadius: 2),
-                ],
-              ),
-              child: ListTile(
-                title: Text("Shopee Voucher", style: GoogleFonts.roboto(fontWeight: FontWeight.bold)),
-                subtitle: Text("Miễn phí vận chuyển", style: GoogleFonts.roboto(color: Colors.green)),
-                trailing: const Icon(Icons.chevron_right),
-              ),
-            ),
-            const SizedBox(height: 10),
-
             // Phương thức thanh toán
             Container(
               padding: const EdgeInsets.all(12),
@@ -181,21 +209,31 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("Phương thức thanh toán", style: GoogleFonts.roboto(fontWeight: FontWeight.bold)),
-                  ListTile(
-                    title: const Text("Thanh toán khi nhận hàng"),
-                    trailing: selectedPaymentMethod == "cod" ? const Icon(Icons.check, color: Colors.orange) : null,
-                    onTap: () => setState(() => selectedPaymentMethod = "cod"),
+                  const SizedBox(height: 10),
+
+                  RadioListTile<String>(
+                    value: "cod",
+                    groupValue: selectedPaymentMethod,
+                    activeColor: Colors.purple,
+                    onChanged: (value) {
+                      setState(() => selectedPaymentMethod = value!);
+                    },
+                    title: const Text("Thanh toán khi nhận hàng (COD)"),
                   ),
-                  ListTile(
-                    title: const Text("Thanh toán VNPay"),
-                    trailing: selectedPaymentMethod == "vnpay" ? const Icon(Icons.check, color: Colors.orange) : null,
-                    onTap: () => setState(() => selectedPaymentMethod = "vnpay"),
+
+                  RadioListTile<String>(
+                    value: "vnpay",
+                    groupValue: selectedPaymentMethod,
+                    activeColor: Colors.purple,
+                    onChanged: (value) {
+                      setState(() => selectedPaymentMethod = value!);
+                    },
+                    title: const Text("Chuyển khoản qua VNPay"),
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 10),
-
             // Tổng tiền đơn hàng
             Container(
               padding: const EdgeInsets.all(12),
@@ -210,7 +248,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Tổng thanh toán:", style: GoogleFonts.roboto(fontSize: 18, fontWeight: FontWeight.bold)),
-                  Text("₫389.000", style: GoogleFonts.roboto(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red)),
+                  Text(formatCurrency(totalAmount), style: GoogleFonts.roboto(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red)),
                 ],
               ),
             ),
@@ -218,32 +256,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: Container(
-        height: 45,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(color: Colors.grey.shade300, blurRadius: 5, spreadRadius: 2),
-          ],
-        ),
-        child: InkWell(
-          onTap: () {
-            // Xử lý đặt hàng
-          },
-          child: Container(
-            height: 40,
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              color: Colors.purple,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
-            child: Center(
-              child: Text(
-                'Đặt hàng',
-                style: GoogleFonts.roboto(fontSize: 16, color: Colors.white),
-              ),
-            ),
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: AppButton(
+            label: "Đặt hàng",
+            onPressed: () {
+              // Xử lý đặt hàng
+            },
           ),
         ),
       ),

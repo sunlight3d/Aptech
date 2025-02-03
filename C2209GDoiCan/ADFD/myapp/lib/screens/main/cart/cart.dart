@@ -1,9 +1,11 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:myapp/bloc/cart/bloc.dart';
 import 'package:myapp/dtos/responses/cart_item.dart';
 import 'package:myapp/services/utils.dart';
+import 'package:myapp/widgets/app_button.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -157,21 +159,28 @@ class CartScreen extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 10),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Xử lý thanh toán
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding:
-                          const EdgeInsets.symmetric(vertical: 12),
-                          backgroundColor: Colors.purple,
-                        ),
-                        child: const Text("Thanh toán ngay",
-                            style:
-                            TextStyle(fontSize: 18, color: Colors.white)),
-                      ),
+                    AppButton(
+                      label: "Thanh toán ngay",
+                      onPressed: () {
+                        final checkoutItems = state.cartItems.map((item) {
+                          return {
+                            "productId": item.productVariantId,
+                            "productVariantId": item.productVariantId,
+                            "quantity": item.quantity,
+                            "price": item.price,
+                            "productName": item.productName,
+                            "productImage": item.productImage,
+                            "variants": item.variants.map((v) => {"name": v.name, "value": v.value}).toList(),
+                          };
+                        }).toList();
+
+                        final totalAmount = state.cartItems.fold(0.0, (sum, item) => sum + item.price * item.quantity);
+
+                        context.go('/checkout', extra: {
+                          "items": checkoutItems,
+                          "totalAmount": totalAmount,
+                        });
+                      },
                     ),
                   ],
                 ),

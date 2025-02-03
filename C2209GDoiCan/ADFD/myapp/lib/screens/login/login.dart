@@ -5,8 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:myapp/bloc/login/bloc.dart';
-import 'package:myapp/services/auth_service.dart';
 import 'package:myapp/services/utils.dart';
+import 'package:myapp/widgets/app_button.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -22,40 +23,31 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    // Gán giá trị mặc định cho email và password
     _emailController.text = 'hoang.nd@aptechlearning.edu.vn';
     _passwordController.text = 'Abc123456';
   }
 
-  /// Khi người dùng bấm Login, ta phát sự kiện lên Bloc
+  /// Xử lý đăng nhập
   void _handleLogin() {
-    // Gửi event thay vì `context.go` trực tiếp
-
-    context.read<LoginBloc>().add(
-      // Tuỳ thuộc bạn đặt sự kiện thế nào
-      // 1) Cập nhật giá trị email/phone
-      LoginEmailOrPhoneChanged(_emailController.text),
-    );
-    context.read<LoginBloc>().add(
-      LoginPasswordChanged(_passwordController.text),
-    );
-    // 3) Gửi sự kiện LoginSubmitted
+    context.read<LoginBloc>().add(LoginEmailOrPhoneChanged(_emailController.text));
+    context.read<LoginBloc>().add(LoginPasswordChanged(_passwordController.text));
     context.read<LoginBloc>().add(const LoginSubmitted());
   }
-  /// Xử lý đăng nhập Google
+
+  /// Xử lý đăng nhập bằng Google
   void _handleGoogleLogin() {
     context.read<LoginBloc>().add(const LoginWithGoogleRequested());
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
-        // Ví dụ: nếu đăng nhập thành công, chuyển sang product_list
         if (state.status == LoginStatus.success) {
           context.go('/main');
         } else if (state.status == LoginStatus.failure) {
           SchedulerBinding.instance.addPostFrameCallback((_) {
-            alert(context, "Login failed", ContentType.failure);
+            alert(context, "Đăng nhập thất bại", ContentType.failure);
           });
         }
       },
@@ -67,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Positioned.fill(
                 child: Image.asset(
                   'images/background.png',
-                  fit: BoxFit.cover, // Đảm bảo ảnh phủ toàn bộ Container
+                  fit: BoxFit.cover,
                 ),
               ),
               Container(
@@ -77,18 +69,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 20),
+                    const Expanded(child: SizedBox()),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
                         Text(
-                          'Login',
+                          'Đăng nhập',
                           style: TextStyle(fontSize: 30),
                           textAlign: TextAlign.center,
                         ),
                       ],
                     ),
                     const Expanded(child: SizedBox()),
-                    const Text('Email or Phone'),
+
+                    // Nhập Email hoặc Số điện thoại
+                    const Text('Email hoặc Số điện thoại'),
                     TextField(
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
@@ -102,7 +97,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    const Text('Password'),
+
+                    // Nhập Mật khẩu
+                    const Text('Mật khẩu'),
                     Stack(
                       children: [
                         TextField(
@@ -128,9 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Container(
                               padding: const EdgeInsets.all(10),
                               child: Icon(
-                                _passwordVisible
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
+                                _passwordVisible ? Icons.visibility : Icons.visibility_off,
                                 color: Colors.black.withAlpha(120),
                                 size: 25.0,
                               ),
@@ -140,24 +135,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                     const SizedBox(height: 10),
-                    InkWell(
-                      onTap: _handleLogin,
-                      child: Container(
-                        height: 45,
-                        width: double.infinity,
-                        decoration: const BoxDecoration(
-                          color: Colors.purple,
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            'Login',
-                            style: TextStyle(fontSize: 18, color: Colors.white),
-                          ),
-                        ),
-                      ),
+
+                    // Nút Đăng nhập
+                    AppButton(
+                      label: "Đăng nhập",
+                      onPressed: _handleLogin,
                     ),
-                    // Nút Google
+
+                    // Nút Đăng nhập bằng Google
                     const SizedBox(height: 20),
                     InkWell(
                       onTap: _handleGoogleLogin,
@@ -173,38 +158,43 @@ class _LoginScreenState extends State<LoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SvgPicture.asset(
-                              'images/google-icon.svg', // Đặt file SVG trong thư mục assets
+                              'images/google-icon.svg',
                               height: 24,
                             ),
                             const SizedBox(width: 10),
                             const Text(
-                              'Sign in with Google',
+                              'Đăng nhập bằng Google',
                               style: TextStyle(fontSize: 16),
                             ),
                           ],
                         ),
                       ),
                     ),
+
+                    // Quên mật khẩu
                     Padding(
                       padding: const EdgeInsets.all(10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
                           Text(
-                            'Forgot password ?',
+                            'Quên mật khẩu?',
                             style: TextStyle(fontSize: 14),
                           ),
                         ],
                       ),
                     ),
+
                     const Expanded(child: SizedBox()),
+
+                    // Đăng ký tài khoản
                     Padding(
                       padding: const EdgeInsets.all(10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
                           Text(
-                            'Did not have account ?',
+                            'Bạn chưa có tài khoản?',
                             style: TextStyle(fontSize: 14),
                           ),
                         ],
@@ -220,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const [
                             Text(
-                              'Create account',
+                              'Tạo tài khoản',
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -230,7 +220,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ],
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               )

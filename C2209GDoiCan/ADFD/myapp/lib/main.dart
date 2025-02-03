@@ -1,3 +1,4 @@
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -80,28 +81,16 @@ final GoRouter _router = GoRouter(
   routes: <RouteBase>[
     GoRoute(
       path: '/',
-      builder: (BuildContext context, GoRouterState state) {
-        return const SplashScreen();
-      },
+      builder: (context, state) => const SplashScreen(),
       routes: <RouteBase>[
-        GoRoute(
-          path: 'login',
-          builder: (BuildContext context, GoRouterState state) {
-            return const LoginScreen();
-          },
-        ),
-        GoRoute(
-          path: 'register',
-          builder: (BuildContext context, GoRouterState state) {
-            return const RegisterScreen();
-          },
-        ),
+        GoRoute(path: 'login', builder: (context, state) => const LoginScreen()),
+        GoRoute(path: 'register', builder: (context, state) => const RegisterScreen()),
         GoRoute(
           path: 'main',
-          builder: (BuildContext context, GoRouterState state) {
+          builder: (context, state) {
             final tabIndex = int.tryParse(state.uri.queryParameters['index'] ?? '0') ?? 0;
             return MainScreen(
-              key: ValueKey(tabIndex), // Thêm key để Flutter nhận biết sự thay đổi
+              key: ValueKey(tabIndex),
               initialTabIndex: tabIndex,
             );
           },
@@ -113,25 +102,22 @@ final GoRouter _router = GoRouter(
                 return ProductDetailScreen(productId: productId);
               },
             ),
+          ],
+        ),
+        // Đưa checkout ra ngoài main
+        GoRoute(
+          path: 'checkout',
+          builder: (context, state) => const CheckoutScreen(),
+          routes: [
             GoRoute(
-              path: 'checkout',
-              builder: (context, state) {
-                return const CheckoutScreen();
-              },
-              routes: [
-                GoRoute(
-                  path: 'select-address',
-                  builder: (context, state) {
-                    return const SelectAddressScreen();
-                  },
-                ),
-              ],
+              path: 'select-address',
+              builder: (context, state) => const SelectAddressScreen(),
             ),
           ],
         ),
         GoRoute(
           path: 'profile/:userId',
-          builder: (BuildContext context, GoRouterState state) {
+          builder: (context, state) {
             final userId = int.parse(state.pathParameters['userId']!);
             final token = state.extra as String;
             return ProfileScreen(userId: userId, token: token);
@@ -142,16 +128,35 @@ final GoRouter _router = GoRouter(
   ],
 );
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    BackButtonInterceptor.add(myInterceptor, zIndex: 1);
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(myInterceptor);
+    super.dispose();
+  }
+
+  /// Chặn nút back vật lý trên toàn bộ ứng dụng
+  bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    return true; // Trả về true để chặn Back
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // Khởi tạo các dependency dùng chung
-    final httpClient = http.Client();
     final localStorageRepository = LocalStorageRepository();
 
-    // Khởi tạo các service
     final authService = AuthService();
     final productService = ProductService();
     final userService = UserService();
@@ -196,7 +201,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Thanh Toán Shopee',
           theme: ThemeData(
-            primarySwatch: Colors.orange,
+            primarySwatch: Colors.purple,
           ),
           routerConfig: _router,
         ),

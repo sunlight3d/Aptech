@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:go_router/go_router.dart';
 
 class SelectAddressScreen extends StatefulWidget {
   const SelectAddressScreen({super.key});
@@ -46,7 +48,11 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+            SchedulerBinding.instance.addPostFrameCallback((_) {
+              context.go('/checkout');
+            });
+          },
         ),
         backgroundColor: Colors.white,
         elevation: 0,

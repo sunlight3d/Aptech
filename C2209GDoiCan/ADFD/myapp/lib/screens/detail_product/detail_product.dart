@@ -353,7 +353,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           child: Container(
                             height: 45,
                             decoration: BoxDecoration(
-                              color: Colors.orange,
+                              color: Colors.blue,
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: const Center(
@@ -376,13 +376,37 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       Expanded(
                         child: InkWell(
                           onTap: () {
-                            // Xử lý mua ngay: chuyển hướng đến màn hình thanh toán
-                            context.push("/checkout");
+                            if (selectedVariant == null) {
+                              alert(context, "Vui lòng chọn biến thể sản phẩm.", ContentType.warning);
+                              return;
+                            }
+
+                            final checkoutItem = {
+                              "productId": widget.productId,
+                              "productVariantId": selectedVariant!.id,
+                              "quantity": quantity,
+                              "price": selectedVariant!.price,
+                              "productName": product.name,
+                              "productImage": product.images.first,
+                              "variants": selectedVariantValues,
+                            };
+
+                            context.go('/checkout', extra: {
+                              "items": [checkoutItem],
+                              "totalAmount": selectedVariant!.price * quantity,
+                            });
                           },
                           child: Container(
                             height: 45,
                             decoration: BoxDecoration(
-                              color: Colors.red,
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.red.shade400, // Màu tím sáng hơn
+                                  Colors.purple
+                                ], // Màu tím đậm hơn], // Gradient từ tím nhạt đến tím đậm
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                              ),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: const Center(
@@ -393,7 +417,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                                   SizedBox(width: 5),
                                   Text(
                                     "Mua ngay",
-                                    style: TextStyle(fontSize: 14, color: Colors.white),
+                                    style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               ),
