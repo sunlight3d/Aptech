@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -65,5 +66,38 @@ class LocalStorageRepository {
     const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     final random = Random.secure();
     return List.generate(length, (_) => chars[random.nextInt(chars.length)]).join();
+  }
+  Future<List<Map<String, String>>> getAddresses() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? addressesJson = prefs.getString('addresses');
+    if (addressesJson != null) {
+      return (jsonDecode(addressesJson) as List)
+          .map((e) => Map<String, String>.from(e as Map))
+          .toList();
+    }
+    return [];
+  }
+
+  Future<void> saveAddress(Map<String, String> newAddress) async {
+    final prefs = await SharedPreferences.getInstance();
+    List<Map<String, dynamic>> currentAddresses = await getAddresses();
+    currentAddresses.add(newAddress);
+    await prefs.setString('addresses', jsonEncode(currentAddresses));
+  }
+
+  // Lưu địa chỉ được chọn
+  Future<void> saveSelectedAddress(Map<String, String> address) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('selected_address', jsonEncode(address));
+  }
+
+  // Lấy địa chỉ đã chọn lần trước
+  Future<Map<String, String>?> getSelectedAddress() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? addressJson = prefs.getString('selected_address');
+    if (addressJson != null) {
+      return Map<String, String>.from(jsonDecode(addressJson));
+    }
+    return null;
   }
 }

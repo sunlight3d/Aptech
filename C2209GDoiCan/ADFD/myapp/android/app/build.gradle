@@ -48,4 +48,7 @@ flutter {
 }
 dependencies {
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.14.1'
+    compile(name: 'merchant-1.0.25', ext: 'aar')
 }

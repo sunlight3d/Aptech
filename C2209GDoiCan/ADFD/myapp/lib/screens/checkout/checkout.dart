@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myapp/repositories/local_storage_repository.dart';
 import 'package:myapp/services/utils.dart';
 import 'package:myapp/widgets/app_button.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
+
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
 }
@@ -17,7 +19,22 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   late List<Map<String, dynamic>> items;
   late double totalAmount;
   Map<String, String>? currentAddress;
+  final LocalStorageRepository _localStorage = LocalStorageRepository();
 
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedAddress(); // Lấy địa chỉ đã lưu
+  }
+
+  void _loadSavedAddress() async {
+    final savedAddress = await _localStorage.getSelectedAddress();
+    if (savedAddress != null) {
+      setState(() {
+        currentAddress = savedAddress;
+      });
+    }
+  }
 
   @override
   void didChangeDependencies() {
@@ -25,25 +42,25 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     final Map<String, dynamic>? extra = GoRouterState.of(context).extra as Map<String, dynamic>?;
 
     if (extra == null || !extra.containsKey("items") || !extra.containsKey("totalAmount")) {
-      // Hoãn điều hướng đến frame tiếp theo để tránh lỗi setState trong build
       SchedulerBinding.instance.addPostFrameCallback((_) {
         context.go('/main');
       });
       return;
     }
-    if (extra.containsKey("selectedShippingMethod")) {
-      selectedShippingMethod = extra["selectedShippingMethod"] ?? "fast";
-    }
 
     items = List<Map<String, dynamic>>.from(extra["items"]);
     totalAmount = extra["totalAmount"] as double;
+
+    if (extra.containsKey("selectedShippingMethod")) {
+      selectedShippingMethod = extra["selectedShippingMethod"] ?? "fast";
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true, // Đưa tiêu đề ra giữa
+        centerTitle: true,
         title: Text(
           "Thanh toán",
           style: GoogleFonts.roboto(fontWeight: FontWeight.bold),
@@ -84,9 +101,27 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     const Icon(Icons.location_on, color: Colors.orange),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: Text(
-                        currentAddress != null ? currentAddress!['address']! : "Chọn địa chỉ giao hàng",
-                        style: GoogleFonts.roboto(fontSize: 16),
+                      child: currentAddress != null
+                          ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            currentAddress!['name'] ?? "Chưa có tên",
+                            style: GoogleFonts.roboto(fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            currentAddress!['phone'] ?? "Chưa có số điện thoại",
+                            style: GoogleFonts.roboto(fontSize: 14, color: Colors.grey[700]),
+                          ),
+                          Text(
+                            currentAddress!['address'] ?? "Chưa có địa chỉ",
+                            style: GoogleFonts.roboto(fontSize: 14),
+                          ),
+                        ],
+                      )
+                          : Text(
+                        "Chọn địa chỉ giao hàng",
+                        style: GoogleFonts.roboto(fontSize: 16, color: Colors.grey),
                       ),
                     ),
                   ],
@@ -181,7 +216,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
                   RadioListTile<String>(
                     value: "fast",
-                    groupValue: selectedShippingMethod, // Đảm bảo mặc định là "fast"
+                    groupValue: selectedShippingMethod,
                     activeColor: Colors.purple,
                     onChanged: (value) {
                       setState(() => selectedShippingMethod = value!);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:go_router/go_router.dart';
+import 'package:myapp/repositories/local_storage_repository.dart';
 
 class SelectAddressScreen extends StatefulWidget {
   const SelectAddressScreen({super.key});
@@ -10,52 +11,116 @@ class SelectAddressScreen extends StatefulWidget {
 }
 
 class _SelectAddressScreenState extends State<SelectAddressScreen> {
-  int selectedAddressIndex = 0; // Chỉ mục địa chỉ được chọn
+  int selectedAddressIndex = 0;
+  List<Map<String, String>> addresses = [];
+  final LocalStorageRepository _localStorage = LocalStorageRepository();
 
-  final List<Map<String, String>> addresses = [
-    {
-      "name": "Nguyễn Đức Hoàng",
-      "phone": "(+84) 399 946 776",
-      "address":
-      "Phòng 3302, Helios Tower, Số 75, Nguyen Thi Tam Trinh Street, Phường Mai Động, Quận Hoàng Mai, Hà Nội",
-      "default": "true"
-    },
-    {
-      "name": "Cafe H3",
-      "phone": "(+84) 399 946 776",
-      "address": "H3 Cafe, Phố Trung Kính, Phường Trung Hòa, Quận Cầu Giấy, Hà Nội",
-    },
-    {
-      "name": "Nguyễn Đức Hoàng",
-      "phone": "(+84) 964 896 239",
-      "address": "Số 41, Ngõ Mai Hương, Bạch Mai, Hà Nội, Phường Bạch Mai, Quận Hai Bà Trưng, Hà Nội",
-    },
-    {
-      "name": "Nguyễn Đức Hoàng",
-      "phone": "(+84) 964 896 239",
-      "address": "Số 285, Đội Cấn, Phường Liễu Giai, Quận Ba Đình, Hà Nội",
-    },
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _loadAddresses();
+  }
+
+  void _loadAddresses() async {
+    final storedAddresses = await _localStorage.getAddresses();
+    setState(() {
+      addresses = storedAddresses;
+    });
+  }
+
+  void _addNewAddress() {
+    final _formKey = GlobalKey<FormState>();
+    TextEditingController nameController = TextEditingController();
+    TextEditingController phoneController = TextEditingController();
+    TextEditingController addressController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Thêm Địa Chỉ Mới"),
+          content: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: nameController,
+                  decoration: const InputDecoration(labelText: "Họ và tên"),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Vui lòng nhập họ và tên";
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: phoneController,
+                  decoration: const InputDecoration(labelText: "Số điện thoại"),
+                  keyboardType: TextInputType.phone,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Vui lòng nhập số điện thoại";
+                    }
+                    if (!RegExp(r'^\d{7,12}$').hasMatch(value)) {
+                      return "Số điện thoại phải có từ 7 đến 12 số";
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: addressController,
+                  decoration: const InputDecoration(labelText: "Địa chỉ"),
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return "Vui lòng nhập địa chỉ";
+                    }
+                    return null;
+                  },
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Hủy"),
+            ),
+            TextButton(
+              onPressed: () async {
+                if (_formKey.currentState!.validate()) {
+                  final newAddress = {
+                    "name": nameController.text.trim(),
+                    "phone": phoneController.text.trim(),
+                    "address": addressController.text.trim(),
+                  };
+                  await _localStorage.saveAddress(newAddress);
+                  _loadAddresses();
+                  Navigator.pop(context);
+                }
+              },
+              child: const Text("Lưu"),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true, // Đưa tiêu đề ra giữa
-        title: const Text(
-          "Chọn địa chỉ nhận hàng",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        centerTitle: true,
+        title: const Text("Chọn địa chỉ nhận hàng"),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             SchedulerBinding.instance.addPostFrameCallback((_) {
-              context.pop();
+              Navigator.pop(context, addresses[selectedAddressIndex]);
             });
           },
         ),
-        backgroundColor: Colors.white,
-        elevation: 0,
       ),
       body: Column(
         children: [
@@ -72,19 +137,20 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
               itemBuilder: (context, index) {
                 final address = addresses[index];
                 return GestureDetector(
-                  onTap: () {
+                  onTap: () async {
                     setState(() {
                       selectedAddressIndex = index;
                     });
-                    Navigator.pop(context, address);
+                    await _localStorage.saveSelectedAddress(address);
+
+                    if (mounted) { // Kiểm tra mounted trước khi pop
+                      Navigator.pop(context, address);
+                    }
                   },
                   child: Container(
                     padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      border: Border(bottom: BorderSide(color: Colors.grey[300]!)),
-                    ),
+                    decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey[300]!))),
                     child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Radio<int>(
                           value: index,
@@ -101,48 +167,9 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: "${address['name']} ",
-                                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black),
-                                    ),
-                                    TextSpan(
-                                      text: address['phone'],
-                                      style: const TextStyle(fontSize: 16, color: Colors.grey),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: 5),
-                              Text(
-                                address['address']!,
-                                style: const TextStyle(fontSize: 14, color: Colors.black54),
-                              ),
-                              const SizedBox(height: 5),
-                              if (address.containsKey('default'))
-                                Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Colors.purple),
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  child: const Text(
-                                    "Mặc định",
-                                    style: TextStyle(color: Colors.purple, fontSize: 12),
-                                  ),
-                                ),
+                              Text("${address['name']} - ${address['phone']}", style: const TextStyle(fontWeight: FontWeight.bold)),
+                              Text(address['address']!, style: const TextStyle(fontSize: 14, color: Colors.black54)),
                             ],
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            // Xử lý sửa địa chỉ
-                          },
-                          child: const Text(
-                            "Sửa",
-                            style: TextStyle(color: Colors.purple, fontSize: 14),
                           ),
                         ),
                       ],
@@ -152,25 +179,17 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
               },
             ),
           ),
-          // Nút thêm địa chỉ mới
           GestureDetector(
-            onTap: () {
-              // Xử lý thêm địa chỉ mới
-            },
+            onTap: _addNewAddress,
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 14),
-              decoration: BoxDecoration(
-                border: Border(top: BorderSide(color: Colors.grey[300]!)),
-              ),
-              child: Row(
+              decoration: BoxDecoration(border: Border(top: BorderSide(color: Colors.grey[300]!))),
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.add_circle_outline, color: Colors.purple),
-                  const SizedBox(width: 5),
-                  const Text(
-                    "Thêm Địa Chỉ Mới",
-                    style: TextStyle(fontSize: 16, color: Colors.purple, fontWeight: FontWeight.bold),
-                  ),
+                  Icon(Icons.add_circle_outline, color: Colors.purple),
+                  SizedBox(width: 5),
+                  Text("Thêm Địa Chỉ Mới", style: TextStyle(fontSize: 16, color: Colors.purple, fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
