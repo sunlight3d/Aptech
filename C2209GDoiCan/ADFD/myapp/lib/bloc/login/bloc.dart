@@ -67,7 +67,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       // Thành công => success
       emit(state.copyWith(status: LoginStatus.success));
-    } catch (_) {
+    } catch (e) {
       // Lỗi => failure
       emit(state.copyWith(status: LoginStatus.failure));
     }
