@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:myapp/bloc/login/bloc.dart';
+import 'package:myapp/bloc/payment/bloc.dart';
 import 'package:myapp/bloc/product/bloc.dart';
 import 'package:myapp/bloc/user/bloc.dart';
 import 'package:myapp/config.dart';
@@ -20,6 +21,7 @@ import 'package:myapp/bloc/simple_bloc_observer.dart';
 import 'package:myapp/services/auth_service.dart';
 import 'package:myapp/services/cart_item_service.dart';
 import 'package:myapp/services/cart_service.dart';
+import 'package:myapp/services/payment_service.dart';
 import 'package:myapp/services/user_service.dart';
 
 import 'bloc/auth/bloc.dart';
@@ -162,6 +164,7 @@ class _MyAppState extends State<MyApp> {
     final userService = UserService();
     final cartService = CartService();
     final cartItemService = CartItemService();
+    final paymentService = PaymentService();
 
     return MultiRepositoryProvider(
       providers: [
@@ -171,6 +174,7 @@ class _MyAppState extends State<MyApp> {
         RepositoryProvider<UserService>.value(value: userService),
         RepositoryProvider<CartService>.value(value: cartService),
         RepositoryProvider<CartItemService>.value(value: cartItemService),
+        RepositoryProvider<PaymentService>.value(value: paymentService),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -195,6 +199,9 @@ class _MyAppState extends State<MyApp> {
               cartItemService: cartItemService,
               localStorageRepository: localStorageRepository,
             )..add(FetchCartItems()),
+          ),
+          BlocProvider<PaymentBloc>( // ✅ Thêm PaymentBloc
+            create: (context) => PaymentBloc(paymentService: paymentService),
           ),
         ],
         child: MaterialApp.router(

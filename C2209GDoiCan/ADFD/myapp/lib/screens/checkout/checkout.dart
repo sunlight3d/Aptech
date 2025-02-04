@@ -1,7 +1,11 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myapp/bloc/payment/bloc.dart';
+import 'package:myapp/dtos/requests/vnpay_payment.dart';
 import 'package:myapp/repositories/local_storage_repository.dart';
 import 'package:myapp/services/utils.dart';
 import 'package:myapp/widgets/app_button.dart';
@@ -304,7 +308,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           child: AppButton(
             label: "Đặt hàng",
             onPressed: () {
-              // Xử lý đặt hàng
+              if (selectedPaymentMethod == "vnpay") {
+
+              } else {
+                print("✅ Thanh toán COD được chọn.");
+              }
             },
           ),
         ),

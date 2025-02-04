@@ -142,7 +142,6 @@ class _SelectAddressScreenState extends State<SelectAddressScreen> {
                       selectedAddressIndex = index;
                     });
                     await _localStorage.saveSelectedAddress(address);
-
                     if (mounted) { // Kiểm tra mounted trước khi pop
                       Navigator.pop(context, address);
                     }
