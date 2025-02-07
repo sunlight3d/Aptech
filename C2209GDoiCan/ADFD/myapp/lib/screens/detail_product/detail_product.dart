@@ -380,21 +380,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               alert(context, "Vui lòng chọn biến thể sản phẩm.", ContentType.warning);
                               return;
                             }
-
-                            final checkoutItem = {
-                              "productId": widget.productId,
-                              "productVariantId": selectedVariant!.id,
-                              "quantity": quantity,
-                              "price": selectedVariant!.price,
-                              "productName": product.name,
-                              "productImage": product.images.first,
-                              "variants": selectedVariantValues,
-                            };
-
-                            context.go('/checkout', extra: {
-                              "items": [checkoutItem],
-                              "totalAmount": selectedVariant!.price * quantity,
-                            });
+                            // ✅ Gửi sự kiện AddToCart
+                            context.read<CartBloc>().add(
+                              AddToCart(
+                                productVariantId: selectedVariant!.id,
+                                quantity: quantity,
+                              ),
+                            );
+                            // ✅ Điều hướng sang màn Checkout
+                            context.go('/checkout');
                           },
                           child: Container(
                             height: 45,

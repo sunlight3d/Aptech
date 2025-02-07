@@ -46,9 +46,11 @@ class _ProductListScreenState extends State<ProductListScreen> {
     final currentScroll = _scrollController.offset;
     return currentScroll >= (maxScroll * 0.9);
   }
+
   void _navigateToProductDetail(BuildContext context, int productId) {
     context.go('/main/products/$productId'); // Sử dụng GoRouter để điều hướng
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,16 +65,19 @@ class _ProductListScreenState extends State<ProductListScreen> {
               child: TextField(
                 controller: _searchController,
                 decoration: InputDecoration(
-                  hintText: 'Search products...',
+                  hintText: 'Tìm kiếm sản phẩm...',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10), // Giảm chiều cao
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.search, color: Colors.purple,),
-                    onPressed: () => _onSearch(_searchController.text),
-                  ),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                  // suffixIcon: IconButton(
+                  //   icon: const Icon(Icons.search, color: Colors.purple),
+                  //   onPressed: () => _onSearch(_searchController.text),
+                  // ),
                 ),
+                onChanged: (value) {
+                  _onSearch(value); // Tự động gọi tìm kiếm khi nhập chữ
+                },
                 onSubmitted: _onSearch,
               ),
             ),
@@ -81,10 +86,10 @@ class _ProductListScreenState extends State<ProductListScreen> {
               child: BlocBuilder<ProductBloc, ProductState>(
                 builder: (context, state) {
                   if (state.status == ProductStatus.failure) {
-                    return const Center(child: Text('Failed to fetch products'));
+                    return const Center(child: Text('Không thể tải danh sách sản phẩm'));
                   } else if (state.status == ProductStatus.success) {
                     if (state.products.isEmpty) {
-                      return const Center(child: Text('No products available'));
+                      return const Center(child: Text('Không có sản phẩm nào'));
                     }
                     return ListView.builder(
                       controller: _scrollController,
