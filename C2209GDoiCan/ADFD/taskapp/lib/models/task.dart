@@ -3,3 +3,4 @@ class Task {
   final bool isFinished;
   Task({required this.name, required this.isFinished});
 }
+
