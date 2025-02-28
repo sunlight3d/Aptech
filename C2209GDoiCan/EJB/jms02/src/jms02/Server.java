@@ -8,7 +8,8 @@ import javax.jms.*;
 import javax.jms.Connection;
 import java.net.URI;
 import org.apache.activemq.*;
-import org.apache.activemq.broker.*;
+import org.apache.activemq.broker.BrokerFactory;
+import org.apache.activemq.broker.BrokerService;
 
 public final class Server {    
     public static final String url = "tcp://localhost:61616";

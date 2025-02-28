@@ -781,22 +781,26 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${file.reference.activemq-client-5.17.6.jar}" todir="${build.classes.dir}"/>
         <copyfiles files="${file.reference.jakarta.jms-api-3.1.0.jar}" todir="${build.classes.dir}"/>
         <copyfiles files="${file.reference.wildfly-messaging-activemq-20.0.0.Final.jar}" todir="${build.classes.dir}"/>
+        <copyfiles files="${file.reference.Nguyen_Duc_Hoang-Downloads}" todir="${build.classes.dir}"/>
     </target>
     <target if="is.server.weblogic" name="-library-inclusion-in-archive-weblogic">
         <basename file="${file.reference.activemq-client-5.17.6.jar}" property="manifest.file.reference.activemq-client-5.17.6.jar"/>
         <basename file="${file.reference.jakarta.jms-api-3.1.0.jar}" property="manifest.file.reference.jakarta.jms-api-3.1.0.jar"/>
         <basename file="${file.reference.wildfly-messaging-activemq-20.0.0.Final.jar}" property="manifest.file.reference.wildfly-messaging-activemq-20.0.0.Final.jar"/>
+        <basename file="${file.reference.Nguyen_Duc_Hoang-Downloads}" property="manifest.file.reference.Nguyen_Duc_Hoang-Downloads"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Extension-List" value="jar-1 jar-2 jar-3 "/>
+            <attribute name="Extension-List" value="jar-1 jar-2 jar-3 jar-4 "/>
             <attribute name="jar-1-Extension-Name" value="${manifest.file.reference.activemq-client-5.17.6.jar}"/>
             <attribute name="jar-2-Extension-Name" value="${manifest.file.reference.jakarta.jms-api-3.1.0.jar}"/>
             <attribute name="jar-3-Extension-Name" value="${manifest.file.reference.wildfly-messaging-activemq-20.0.0.Final.jar}"/>
+            <attribute name="jar-4-Extension-Name" value="${manifest.file.reference.Nguyen_Duc_Hoang-Downloads}"/>
         </manifest>
     </target>
     <target depends="compile" name="library-inclusion-in-manifest">
         <copyfiles files="${file.reference.activemq-client-5.17.6.jar}" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.jakarta.jms-api-3.1.0.jar}" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.wildfly-messaging-activemq-20.0.0.Final.jar}" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${file.reference.Nguyen_Duc_Hoang-Downloads}" todir="${dist.ear.dir}/lib"/>
         <manifest file="${build.ear.classes.dir}/META-INF/MANIFEST.MF" mode="update"/>
     </target>
     <target name="-copy-meta-inf">

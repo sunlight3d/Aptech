@@ -8,6 +8,7 @@
             <included-library dirs="200">file.reference.activemq-client-5.17.6.jar</included-library>
             <included-library dirs="200">file.reference.jakarta.jms-api-3.1.0.jar</included-library>
             <included-library dirs="200">file.reference.wildfly-messaging-activemq-20.0.0.Final.jar</included-library>
+            <included-library dirs="200">file.reference.Nguyen_Duc_Hoang-Downloads</included-library>
             <source-roots>
                 <root id="src.dir" name="Source Packages"/>
             </source-roots>

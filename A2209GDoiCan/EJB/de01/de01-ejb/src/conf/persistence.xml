@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence           http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
-  <persistence-unit name="ExamPU" transaction-type="JTA">
-    <!--<jta-data-source>jdbc:mysql://localhost:3307/exam_db?zeroDateTimeBehavior=CONVERT_TO_NULL [root on Default schema]</jta-data-source>-->
-    <jta-data-source>java:jboss/datasources/MySQLDS</jta-data-source>
+  <persistence-unit name="ExamPU" transaction-type="JTA">   
+    <jta-data-source>java:/jdbc/MySqlDS</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+        <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+        <property name="hibernate.show_sql" value="true"/>
+        <property name="hibernate.format_sql" value="true"/>
+    </properties>
     <properties/>
   </persistence-unit>
 </persistence>
