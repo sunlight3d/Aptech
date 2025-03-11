@@ -1,4 +1,5 @@
 import 'package:app03062025/screens/counter_screen.dart';
+import 'package:app03062025/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: CounterScreen(title: 'Counter heeeeerree'),
+      //home: CounterScreen(title: 'Counter heeeeerree'),
+      home: LoginScreen(),
     );
   }
 }
