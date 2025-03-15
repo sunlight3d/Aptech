@@ -1,5 +1,6 @@
 import 'package:app03062025/screens/counter_screen.dart';
 import 'package:app03062025/screens/login_screen.dart';
+import 'package:app03062025/screens/product_list/product_list.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +17,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       //home: CounterScreen(title: 'Counter heeeeerree'),
-      home: LoginScreen(),
+      //home: LoginScreen(),
+      home: ProductListScreen()
     );
   }
 }
