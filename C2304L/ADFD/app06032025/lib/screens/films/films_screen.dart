@@ -107,7 +107,7 @@ class _FilmsScreenState extends State<FilmsScreen> {
                               padding: EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                 color: Colors.lightBlue,
-                                
+
                               ),
                               child: Text('Do something'),
                             ),
