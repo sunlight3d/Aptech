@@ -3,6 +3,7 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +18,8 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -44,6 +47,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.myapp.R
 import com.example.myapp.ui.widgets.CustomAlertDialog
+import com.example.myapp.utils.CsvReader
 import com.example.myapp.utils.alert
 
 
@@ -54,7 +58,16 @@ import com.example.myapp.utils.alert
 //Apple = SwiftUI = Objective C => NO !
 @Composable
 fun LoginScreen(navController: NavController) {
+    val context = LocalContext.current
     var phoneNumber by remember { mutableStateOf("") }
+    var userId by remember { mutableStateOf("") }
+    var showError by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf("") }
+
+    // Đọc dữ liệu từ CSV
+    val users by remember {
+        mutableStateOf(CsvReader.readUsersFromCsv(context))
+    }
 
     Column(
         modifier = Modifier
@@ -64,60 +77,101 @@ fun LoginScreen(navController: NavController) {
     ) {
         Spacer(modifier = Modifier.height(60.dp))
 
-        // Tiêu đề
-        Text(text = "Log in", fontSize = 30.sp, color = Color.Black, fontWeight = FontWeight.Bold)
+        Text(text = "Log in", fontSize = 30.sp, fontWeight = FontWeight.Bold)
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        // Trường nhập ID
-        OutlinedTextField(
-            value = "012345",
-            onValueChange = {},
-            label = { Text("My ID (Provided by your Clinician)") },
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(10.dp),
-            trailingIcon = {
-                IconButton(onClick = {}) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_arrow_down), // Icon mũi tên
-                        contentDescription = "Dropdown Arrow",
-                        modifier = Modifier.size(24.dp) // Kích thước icon vuông
+        // Dropdown cho User ID
+        var expanded by remember { mutableStateOf(false) }
+        Box(modifier = Modifier.fillMaxWidth()) {
+            OutlinedTextField(
+                value = userId,
+                onValueChange = { userId = it },
+                label = { Text("My ID") },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(10.dp),
+                trailingIcon = {
+                    IconButton(onClick = { expanded = true }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_arrow_down),
+                            contentDescription = "Dropdown",
+                            modifier = Modifier.size(24.dp))
+                    }
+                },
+                readOnly = true
+            )
+
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                users.map { it.userId }.distinct().forEach { id ->
+                    DropdownMenuItem(
+                        text = { Text(id) },
+                        onClick = {
+                            userId = id
+                            expanded = false
+                        }
                     )
                 }
-            },
-        )
+            }
+        }
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        // Trường nhập số điện thoại
         OutlinedTextField(
             value = phoneNumber,
             onValueChange = { phoneNumber = it },
             label = { Text("Phone number") },
-            placeholder = { Text("Enter your number") },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(10.dp),
-            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Phone)
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
         )
+
+        if (showError) {
+            Text(
+                text = errorMessage,
+                color = Color.Red,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+        }
 
         Spacer(modifier = Modifier.height(20.dp))
 
         Text(
-            text = "This app is only for pre-registered users. Please have your ID and phone number handy before continuing.",
-            fontSize = 15.sp,
-            color = Color.Black
+            //61436567330,4,
+            text = "This app is only for pre-registered users. Please have your ID and phone number handy before continuing",
+            fontSize = 15.sp
         )
+
         Spacer(modifier = Modifier.height(20.dp))
-        // Nút Continue
+
         Button(
-            onClick = { navController.navigate("food_intake") },
+            onClick = {
+                val user = users.find { it.userId == userId && it.phoneNumber == phoneNumber }
+
+                if (user != null) {
+                    // Lưu thông tin user nếu cần
+                    navController.navigate("food_intake") {
+                        // Truyền dữ liệu user nếu cần
+//                        putString("userId", userId)
+                    }
+                } else {
+                    showError = true
+                    errorMessage = if (users.none { it.userId == userId }) {
+                        "User ID not found"
+                    } else {
+                        "Phone number does not match"
+                    }
+                }
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
-            shape = RoundedCornerShape(10.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6200EE))
+            shape = RoundedCornerShape(10.dp)
         ) {
-            Text(text = "Continue", fontSize = 18.sp, color = Color.White)
+            Text(text = "Continue", fontSize = 18.sp)
         }
     }
 }
