@@ -1,9 +1,11 @@
 class Expense {
-  final String name;
-  final double price;
-  final DateTime date;
+  final String id;
+  String title;
+  double price;
+  DateTime date;
   Expense({
-    required this.name,
+    required this.id,
+    required this.title,
     this.price = 0,
     required this.date});
 }
