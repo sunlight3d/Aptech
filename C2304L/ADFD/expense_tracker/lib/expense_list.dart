@@ -81,6 +81,12 @@ class _ExpenseListState extends State<ExpenseList> {
                     Text(item.title),
                     Text('\$${item.price}'),
                     Text(formatDate(item.date)),
+                    ElevatedButton(onPressed: (){
+
+                    }, child: Text('Edit')),
+                    ElevatedButton(onPressed: (){
+                      deleteExpense(item.id);
+                    }, child: Text('Delete', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),))
                   ],
                 );
               }
