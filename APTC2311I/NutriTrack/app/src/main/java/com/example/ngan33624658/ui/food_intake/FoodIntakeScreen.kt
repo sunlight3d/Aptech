@@ -92,9 +92,13 @@ fun FoodIntakeScreen() {
     var errorMessage by remember { mutableStateOf("") }
 
     val context = LocalContext.current
+    val prefsHelper = remember { SharedPreferencesHelper(context) }
+
     var showDialog by remember { mutableStateOf(false) }
     var selectedPersona by remember { mutableStateOf<Map<String, String>?>(null) }
-    var selectedPersonaName by remember { mutableStateOf("") } // Đổi tên biến để tránh xung đột
+    var selectedPersonaName by remember {
+        mutableStateOf(prefsHelper.getSelectedPersona())
+    }
     val scrollState = rememberScrollState()
 
     Column(
@@ -141,7 +145,11 @@ fun FoodIntakeScreen() {
         val foodCategories = listOf(
             "Fruits", "Vegetables", "Grains", "Red Meat", "Seafood", "Poultry", "Fish", "Eggs", "Nuts/Seeds"
         )
-        val selectedFoods = remember { mutableStateListOf<String>() }
+        val selectedFoods = remember {
+            mutableStateListOf<String>().apply {
+                addAll(prefsHelper.getSelectedFoods())
+            }
+        }
 
         foodCategories.chunked(3).forEach { rowItems ->
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -272,9 +280,16 @@ fun FoodIntakeScreen() {
         )
 
 // Create state variables for each time
-        var biggestMealTime by remember { mutableStateOf("00:00") }
-        var sleepTime by remember { mutableStateOf("00:00") }
-        var wakeUpTime by remember { mutableStateOf("00:00") }
+        var biggestMealTime by remember {
+            mutableStateOf(prefsHelper.getBiggestMealTime())
+        }
+        var sleepTime by remember {
+            mutableStateOf(prefsHelper.getSleepTime())
+        }
+
+        var wakeUpTime by remember {
+            mutableStateOf(prefsHelper.getWakeUpTime())
+        }
 
 // Create state variables for showing time pickers
         var showBiggestMealTimePicker by remember { mutableStateOf(false) }
@@ -388,7 +403,6 @@ fun FoodIntakeScreen() {
                     }
                     else -> {
                         // Lưu dữ liệu vào SharedPreferences
-                        val prefsHelper = SharedPreferencesHelper(context)
                         prefsHelper.saveFoodPreferences(selectedFoods)
                         prefsHelper.savePersona(selectedPersonaName)
                         prefsHelper.saveTimings(biggestMealTime, sleepTime, wakeUpTime)

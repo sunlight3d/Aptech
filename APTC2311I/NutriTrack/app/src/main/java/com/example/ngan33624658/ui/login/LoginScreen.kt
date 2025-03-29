@@ -1,4 +1,5 @@
 package com.example.ngan33624658.ui.login
+import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -52,7 +53,7 @@ fun LoginScreen() {
 
     // Đọc dữ liệu từ CSV
     val users by remember {
-        mutableStateOf(CsvReader.readUsersFromCsv(context))
+        mutableStateOf(CsvReader.readUsersFromCsv(context)) //get data from csv file
     }
 
     Column(
@@ -139,13 +140,21 @@ fun LoginScreen() {
                 val user = users.find { it.userId == userId && it.phoneNumber == phoneNumber }
 
                 if (user != null) {
+                    // Lưu thông tin user đăng nhập vào SharedPreferences
+                    val prefs = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+                    prefs.edit().apply {
+                        putString("user_id", user.userId)
+                        putString("phone_number", user.phoneNumber)
+                        apply()
+                    }
+
                     val intent = Intent(context, FoodIntakeActivity::class.java)
                     context.startActivity(intent)
                 } else {
-                    // ... (giữ nguyên phần xử lý lỗi)
+                    errorMessage = "Invalid user ID or phone number"
+                    showError = true
                 }
             },
-            // ... (giữ nguyên phần còn lại của Button)
         ) {
             Text(text = "Continue", fontSize = 18.sp)
         }

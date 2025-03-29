@@ -8,6 +8,7 @@ class SharedPreferencesHelper(context: Context) {
     private val sharedPref: SharedPreferences =
         context.getSharedPreferences("FoodIntakePrefs", Context.MODE_PRIVATE)
 
+    //save data to SharedPref
     fun saveFoodPreferences(selectedFoods: List<String>) {
         val editor = sharedPref.edit()
         editor.putStringSet("selected_foods", selectedFoods.toSet())
@@ -27,12 +28,27 @@ class SharedPreferencesHelper(context: Context) {
         }
     }
 
-    // Các hàm get nếu cần
+    //read data from SharedPref
     fun getSelectedFoods(): Set<String> {
         return sharedPref.getStringSet("selected_foods", emptySet()) ?: emptySet()
     }
 
     fun getSelectedPersona(): String {
         return sharedPref.getString("selected_persona", "") ?: ""
+    }
+
+    fun getBiggestMealTime(): String {
+        return sharedPref.getString("biggest_meal_time", "00:00") ?: "00:00"
+    }
+
+    fun getSleepTime(): String {
+        return sharedPref.getString("sleep_time", "00:00") ?: "00:00"
+    }
+
+    fun getWakeUpTime(): String {
+        return sharedPref.getString("wake_up_time", "00:00") ?: "00:00"
+    }
+    fun clearAllData() {
+        sharedPref.edit().clear().apply()
     }
 }
