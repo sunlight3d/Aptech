@@ -43,7 +43,9 @@ void main() async {
   print('kaka1');
   await printWithDelay('hehe');
   print('kaka2');
-  Student? studentB = Student(
+  Student? studentB;
+  //....
+  studentB = Student(
     age: 21,
     id: 44,
     firstName: 'Nguyen',
