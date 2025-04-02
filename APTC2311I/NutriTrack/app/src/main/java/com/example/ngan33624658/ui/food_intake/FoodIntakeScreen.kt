@@ -204,7 +204,7 @@ fun FoodIntakeScreen() {
             ),
             mapOf(
                 "name" to "Balance Seeker",
-                "image" to R.drawable.image3.toString(),
+                "image" to R.drawable.image4.toString(),
                 "description" to "I seek a balanced approach to eating, avoiding extreme diets. My meals include a variety of whole grains, proteins, and healthy fats. Moderation is important to me, and I focus on long-term sustainability."
             ),
             mapOf(

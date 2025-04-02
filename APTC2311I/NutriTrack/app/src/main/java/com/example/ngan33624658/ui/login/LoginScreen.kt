@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -136,6 +137,8 @@ fun LoginScreen() {
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
+            shape = RoundedCornerShape(10.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6200EE)),
             onClick = {
                 val user = users.find { it.userId == userId && it.phoneNumber == phoneNumber }
 

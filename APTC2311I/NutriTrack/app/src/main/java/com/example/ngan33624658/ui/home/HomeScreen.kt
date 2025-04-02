@@ -1,4 +1,5 @@
 package com.example.ngan33624658.ui.home
+import InsightsTab
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
@@ -35,7 +36,7 @@ fun HomeScreen() {
         bottomBar = { BottomNavigationBar(navController) }
     ) { innerPadding ->
         NavHost(navController, startDestination = BottomNavItem.Home.route, Modifier.padding(innerPadding)) {
-            composable(BottomNavItem.Home.route) { HomeTab() }
+            composable(BottomNavItem.Home.route) { HomeTab(navController) }
             composable(BottomNavItem.Insights.route) { InsightsTab() }
             composable(BottomNavItem.NutriCoach.route) { NutriCoachTab() }
             composable(BottomNavItem.Settings.route) { SettingsTab() }
