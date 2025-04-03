@@ -58,5 +58,12 @@ class Student {
     return result;
   }
 
-  Student fromJSON(Map<String, dynamic> map) {}
+  factory Student.fromJSON(Map<String, dynamic> map) {
+    return Student(
+      name: map['name'] as String? ?? 'Unknown',
+      age: map['age'] as int? ?? 0,
+      weight: (map['weight'] as num?)?.toDouble() ?? 0.0,
+      height: (map['height'] as num?)?.toDouble() ?? 0.0,
+    );
+  }
 }
