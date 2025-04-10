@@ -1,0 +1,65 @@
+{
+    "contacts": [
+      {
+        "id": 1,
+        "name": "Nguyen Van A",
+        "phoneNumber": "0901234567",
+        "email": "vana@example.com"
+      },
+      {
+        "id": 2,
+        "name": "Tran Thi B",
+        "phoneNumber": "0912345678",
+        "email": "thib@example.com"
+      },
+      {
+        "id": 3,
+        "name": "Le Van C",
+        "phoneNumber": "0923456789",
+        "email": "vanc@example.com"
+      },
+      {
+        "id": 4,
+        "name": "Pham Thi D",
+        "phoneNumber": "0934567890",
+        "email": "thid@example.com"
+      },
+      {
+        "id": 5,
+        "name": "Hoang Van E",
+        "phoneNumber": "0945678901",
+        "email": "vane@example.com"
+      },
+      {
+        "id": 6,
+        "name": "Do Thi F",
+        "phoneNumber": "0956789012",
+        "email": "thif@example.com"
+      },
+      {
+        "id": 7,
+        "name": "Bui Van G",
+        "phoneNumber": "0967890123",
+        "email": "vang@example.com"
+      },
+      {
+        "id": 8,
+        "name": "Nguyen Thi H",
+        "phoneNumber": "0978901234",
+        "email": "thih@example.com"
+      },
+      {
+        "id": 9,
+        "name": "Tran Van I",
+        "phoneNumber": "0989012345",
+        "email": "vani@example.com"
+      },
+      {
+        "id": 10,
+        "name": "Le Thi J",
+        "phoneNumber": "0990123456",
+        "email": "thij@example.com"
+      }
+    ]
+  }
+  
