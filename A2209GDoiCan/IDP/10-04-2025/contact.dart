@@ -29,6 +29,21 @@ class Contact {
       email: valueMap['email'],
     );
   }
+  static Contact input() {
+    print('Enter id: ');
+    int id = int.parse(stdin.readLineSync()!) ?? 0;
+
+    print('Enter name: ');
+    String name = stdin.readLineSync() ?? '';
+
+    print("Enter phone's number: ");
+    String phoneNumber = stdin.readLineSync() ?? '';
+
+    print('Enter email: ');
+    String email = stdin.readLineSync() ?? '';
+    return Contact(id: id, name: name, phoneNumber: phoneNumber, email: email);
+
+  }
 
   static Future<List<Contact>> loadFromFile(String fileName) async {
     var input = await File(fileName).readAsString();
