@@ -46,20 +46,38 @@ class Contact {
   }
 
   static void updateContactInList({
-    required userId, 
-    required fileName, 
+    required userId,
+    required fileName,
     String? name,
     String? phoneNumber,
-    String? email
-    }) async {
+    String? email,
+  }) async {
     try {
       List<Contact> contacts = await Contact.loadFromFile(fileName);
-      Contact foundContact = contacts.where((contact) => contact.id == userId).first;
+      Contact foundContact =
+          contacts.where((contact) => contact.id == userId).first;
       foundContact.name = name ?? foundContact.name;
       foundContact.name = email ?? foundContact.email;
       foundContact.name = phoneNumber ?? foundContact.phoneNumber;
-    } catch(Exception) {
-      print('Cannot update contact')
+      Map<String, dynamic> map = Map();
+      map['contacts'] = contacts.map((Contact contact) => contact.toJSON());
+      await File(fileName).writeAsString(jsonEncode(map));
+      //Shared Preference
+    } catch (Exception) {
+      print('Cannot update contact');
+    }
+  }
+
+  static void deleteContactInList({required userId, required fileName}) async {
+    try {
+      List<Contact> contacts = await Contact.loadFromFile(fileName);
+      contacts.removeWhere((contact) => contact.id == userId);
+      Map<String, dynamic> map = Map();
+      map['contacts'] = contacts.map((Contact contact) => contact.toJSON());
+      await File(fileName).writeAsString(jsonEncode(map));
+      //Shared Preference
+    } catch (Exception) {
+      print('Cannot delete contact');
     }
   }
 
