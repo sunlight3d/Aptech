@@ -29,6 +29,7 @@ class Contact {
       email: valueMap['email'],
     );
   }
+
   static Contact input() {
     print('Enter id: ');
     int id = int.parse(stdin.readLineSync()!) ?? 0;
@@ -42,7 +43,24 @@ class Contact {
     print('Enter email: ');
     String email = stdin.readLineSync() ?? '';
     return Contact(id: id, name: name, phoneNumber: phoneNumber, email: email);
+  }
 
+  static void updateContactInList({
+    required userId, 
+    required fileName, 
+    String? name,
+    String? phoneNumber,
+    String? email
+    }) async {
+    try {
+      List<Contact> contacts = await Contact.loadFromFile(fileName);
+      Contact foundContact = contacts.where((contact) => contact.id == userId).first;
+      foundContact.name = name ?? foundContact.name;
+      foundContact.name = email ?? foundContact.email;
+      foundContact.name = phoneNumber ?? foundContact.phoneNumber;
+    } catch(Exception) {
+      print('Cannot update contact')
+    }
   }
 
   static Future<List<Contact>> loadFromFile(String fileName) async {
