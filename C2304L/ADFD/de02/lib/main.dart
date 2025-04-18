@@ -1,3 +1,4 @@
+import 'package:de02/contact_list.dart';
 import 'package:de02/models/database_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: Text('ddd'),
+      home: ContactList(),
     );
   }
 }
