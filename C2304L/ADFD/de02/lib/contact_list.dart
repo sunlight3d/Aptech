@@ -1,3 +1,4 @@
+import 'package:de02/api_call.dart';
 import 'package:de02/models/contact.dart';
 import 'package:de02/models/database_helper.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'contact_detail.dart';
 
 class ContactList extends StatefulWidget {
+
   ContactList({super.key});
   @override
   State<ContactList> createState() => _ContactListState();
@@ -26,7 +28,12 @@ class _ContactListState extends State<ContactList> {
     _emailController.dispose();
     super.dispose();
   }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
 
+  }
   Future<void> _refreshContacts() async {
     setState(() {});
   }
@@ -59,7 +66,7 @@ class _ContactListState extends State<ContactList> {
 
     _clearFields();
     Navigator.of(context).pop();
-    await _refreshContacts();
+    await _refreshContacts(); //goi lai list 1 lan nữa
   }
 
   void _clearFields() {

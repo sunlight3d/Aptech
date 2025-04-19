@@ -12,13 +12,7 @@ class ContactDetailScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Chi tiết liên hệ'),
         actions: [
-          IconButton(
-            icon: Icon(Icons.edit),
-            onPressed: () {
-              // Sẽ thêm chức năng edit sau
-              Navigator.pop(context); // Quay lại màn hình trước
-            },
-          ),
+
         ],
       ),
       body: SingleChildScrollView(

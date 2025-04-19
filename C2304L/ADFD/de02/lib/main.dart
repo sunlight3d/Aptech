@@ -1,3 +1,4 @@
+import 'package:de02/coffee_list.dart';
 import 'package:de02/contact_list.dart';
 import 'package:de02/models/database_helper.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       home: ContactList(),
+      //home: CoffeeList(),
     );
   }
 }
