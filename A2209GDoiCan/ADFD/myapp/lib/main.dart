@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Login.dart';
+import 'package:myapp/sample.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: Login(),
+      //home: Sample(),
+      home: Login()
     );
   }
 }
