@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Login.dart';
+import 'package:myapp/cart_list.dart';
 import 'package:myapp/sample.dart';
 
 void main() {
@@ -15,7 +16,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       //home: Sample(),
-      home: Login()
+      //home: Login()
+      home:CartList()
     );
   }
 }
