@@ -1,8 +1,6 @@
+import 'package:baitap01/screens/add_product.dart';
+import 'package:baitap01/screens/main.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/Login.dart';
-import 'package:myapp/cart_list.dart';
-import 'package:myapp/product_grid.dart';
-import 'package:myapp/sample.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,10 +14,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      //home: Sample(),
-      //home: Login()
-      //home:CartList()
-      home: ProductGrid(),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      ),
+      home: MainScreen(),
+      //home: AddProductScreen()
     );
   }
 }
