@@ -1,10 +1,25 @@
+import 'package:baitap01/database/db_helper.dart';
+import 'package:baitap01/models/product.dart';
 import 'package:flutter/material.dart';
 
 import 'add_product.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+
+class _MainScreenState extends State<MainScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //DBHelper().insertContact(Product(code: 'x123', colorHex: '0xFF1212', name: 'product X', price: 12.3));
+    DBHelper().getProducts();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
