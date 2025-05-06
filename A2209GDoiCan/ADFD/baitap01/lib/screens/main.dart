@@ -1,5 +1,6 @@
 import 'package:baitap01/database/db_helper.dart';
 import 'package:baitap01/models/product.dart';
+import 'package:baitap01/screens/product_list.dart';
 import 'package:flutter/material.dart';
 
 import 'add_product.dart';
@@ -67,7 +68,13 @@ class _MainScreenState extends State<MainScreen> {
               width: 200, // Fixed width
               height: 50, // Fixed height
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  print('Navigate to list');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ProductListScreen())
+                  );
+                },
                 style: TextButton.styleFrom(
                   backgroundColor: Colors.deepPurple,
                   foregroundColor: Colors.white,

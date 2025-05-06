@@ -1,3 +1,5 @@
+import 'package:baitap01/database/db_helper.dart';
+import 'package:baitap01/models/product.dart';
 import 'package:flutter/material.dart';
 
 import '../types/color_option.dart';
@@ -42,18 +44,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   void _saveProduct() {
     if (_formKey.currentState!.validate()) {
-      final newProduct = {
-        //map object
-        'code': _codeController.text,
-        'name': _nameController.text,
-        'color': {
-          'name': _selectedColor?.name,
-          'hex': _selectedColor?.hexColor,
-        },
-        'price': _priceController.text,
-      };
-      print('New product: $newProduct');
-      Navigator.pop(context, newProduct);
+      Product newProduct = Product(code: _codeController.text,
+          colorHex: _selectedColor?.hexColor ?? '',
+          name: _selectedColor?.name ?? '', price: double.parse(_priceController.text)
+      );
+      DBHelper().insertProduct(newProduct);
+      Navigator.pop(context);
     }
   }
 

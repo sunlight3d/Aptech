@@ -7,6 +7,7 @@ import 'package:path/path.dart';
 class DBHelper {
   //singleton pattern
   static final DBHelper _instance = DBHelper._internal();
+
   factory DBHelper() => _instance;
   DBHelper._internal();
   static Database? _db;
@@ -33,9 +34,17 @@ class DBHelper {
       },
     );
   }
-  Future<int> insertContact(Product product) async {
+  Future<int> insertProduct(Product product) async {
     final dbClient = await db;
     return await dbClient.insert('products', product.toJson());
+  }
+  Future<int> deleteProduct(String code) async {
+    final dbClient = await db;
+    return await dbClient.delete(
+      'products',
+      where: 'code = ?',
+      whereArgs: [code],
+    );
   }
   Future<List<Product>> getProducts() async {
     final dbClient = await db;
