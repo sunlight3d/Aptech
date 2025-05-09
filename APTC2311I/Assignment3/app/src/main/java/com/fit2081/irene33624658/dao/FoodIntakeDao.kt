@@ -13,7 +13,11 @@ interface FoodIntakeDao {
     @Update
     suspend fun update(foodIntake: FoodIntake)
 
-    // Delete a specific food intake record
+    // Option 1: Delete by ID using query
+    @Query("DELETE FROM food_intakes WHERE id = :id")
+    suspend fun deleteById(id: Int)
+
+    // Option 2: Or keep the entity-based delete if needed
     @Delete
     suspend fun delete(foodIntake: FoodIntake)
 

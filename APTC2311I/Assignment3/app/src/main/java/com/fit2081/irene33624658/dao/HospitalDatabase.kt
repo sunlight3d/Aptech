@@ -6,8 +6,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.fit2081.irene33624658.models.FoodIntake
 import com.fit2081.irene33624658.models.Patient
-
-
 @Database(
     entities = [Patient::class, FoodIntake::class],
     version = 5,  // Incremented version

@@ -5,9 +5,22 @@ import android.content.SharedPreferences
 
 class SharedPreferencesHelper(context: Context) {
     private val sharedPref: SharedPreferences =
-        context.getSharedPreferences("FoodIntakePrefs", Context.MODE_PRIVATE)
+        context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
 
-    //save data to SharedPref
+    fun getSharedPreferences(): SharedPreferences {
+        return sharedPref
+    }
+
+    // For first run check
+    fun setFirstRunCompleted() {
+        sharedPref.edit().putBoolean("is_first_run", false).apply()
+    }
+
+    fun isFirstRun(): Boolean {
+        return sharedPref.getBoolean("is_first_run", true)
+    }
+
+    // Existing food intake preferences methods
     fun saveFoodPreferences(selectedFoods: List<String>) {
         val editor = sharedPref.edit()
         editor.putStringSet("selected_foods", selectedFoods.toSet())
@@ -27,7 +40,6 @@ class SharedPreferencesHelper(context: Context) {
         }
     }
 
-    //read data from SharedPref
     fun getBiggestMealTime(): String {
         return sharedPref.getString("biggest_meal_time", "00:00") ?: "00:00"
     }
@@ -39,11 +51,12 @@ class SharedPreferencesHelper(context: Context) {
     fun getWakeUpTime(): String {
         return sharedPref.getString("wake_up_time", "00:00") ?: "00:00"
     }
+
     fun clearAllData() {
         sharedPref.edit().clear().apply()
     }
 
-    fun getFoodPreferences(): Collection<String> {
+    fun getFoodPreferences(): List<String> {
         return sharedPref.getStringSet("selected_foods", emptySet())?.toList() ?: emptyList()
     }
 

@@ -1,6 +1,7 @@
 package com.fit2081.irene33624658.dao
 
 import androidx.room.*
+import com.fit2081.irene33624658.models.FoodIntake
 import com.fit2081.irene33624658.models.Patient
 import kotlinx.coroutines.flow.Flow
 
@@ -8,10 +9,22 @@ import kotlinx.coroutines.flow.Flow
 interface PatientDao {
     // Patient operations
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPatient(patient: Patient)
+    suspend fun insert(patient: Patient)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllPatients(patients: List<Patient>)
+
+    @Update
+    suspend fun update(patient: Patient)
+
+    @Delete
+    suspend fun delete(patient: Patient)
+
+    @Query("DELETE FROM patients")
+    suspend fun deleteAllPatients()
+
+    @Query("SELECT * FROM patients WHERE userId = :userId")
+    suspend fun getPatientById(userId: String): Patient?
 
     @Query("SELECT * FROM patients")
     fun getAllPatients(): Flow<List<Patient>>
@@ -20,8 +33,18 @@ interface PatientDao {
     @Insert
     suspend fun insertFoodIntake(foodIntake: FoodIntake)
 
-    @Query("SELECT * FROM food_intakes WHERE userID = :userID")
-    fun getFoodIntakesForPatient(userID: String): Flow<List<FoodIntake>>
+    @Update
+    suspend fun updateFoodIntake(foodIntake: FoodIntake)
 
-    // Add other queries as needed
+    @Delete
+    suspend fun deleteFoodIntake(foodIntake: FoodIntake)
+
+    @Query("DELETE FROM food_intakes WHERE patientId = :patientId")
+    suspend fun deleteAllFoodIntakesForPatient(patientId: String)
+
+    @Query("SELECT * FROM food_intakes WHERE patientId = :patientId ORDER BY createdAt DESC")
+    fun getFoodIntakesForPatient(patientId: String): Flow<List<FoodIntake>>
+
+    @Query("SELECT * FROM food_intakes WHERE id = :id")
+    suspend fun getFoodIntakeById(id: Int): FoodIntake?
 }
