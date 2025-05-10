@@ -50,4 +50,5 @@ interface PatientDao {
 
     @Query("SELECT userId FROM patients")
     suspend fun getAllPatientIds(): List<String>
+
 }

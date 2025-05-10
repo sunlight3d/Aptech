@@ -25,7 +25,12 @@
         <activity
                 android:name="com.fit2081.irene33624658.LoginActivity"
                 android:exported="true"
-                android:label="@string/app_name"
+                android:label="LoginActivity"
+                android:theme="@style/Theme.Assignment1" />
+        <activity
+                android:name="com.fit2081.irene33624658.RegisterActivity"
+                android:exported="true"
+                android:label="RegisterActivity"
                 android:theme="@style/Theme.Assignment1" />
         <activity
                 android:name="com.fit2081.irene33624658.food_intake.PersonaInfo"
@@ -38,7 +43,7 @@
                 android:label="@string/title_activity_food_intake_screen"
                 android:theme="@style/Theme.Assignment1" />
         <activity
-                android:name="com.fit2081.irene33624658.WelcomeScreen"
+                android:name="com.fit2081.irene33624658.WelcomeActivity"
                 android:exported="true"
                 android:label="@string/title_activity_welcome_screen"
                 android:theme="@style/Theme.Assignment1">

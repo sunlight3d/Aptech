@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,6 +39,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -82,21 +84,24 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
     ) {
         Text(
             text = "Log in",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
+            fontSize = 30.sp,
+            fontWeight = FontWeight.ExtraBold,  // đậm hơn
             color = Color.Black,
+            textAlign = TextAlign.Center,       // căn giữa
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 32.dp)
         )
 
-        // ID Field with Dropdown
+        // Nhãn My ID có thể bấm cả vùng Text để mở dropdown
         Text(
             text = "My ID (Provided by your Clinician)",
             fontSize = 14.sp,
             color = Color.Gray,
+            textAlign = TextAlign.Start,
             modifier = Modifier
                 .fillMaxWidth()
+                .clickable { expanded = true }
                 .padding(bottom = 4.dp)
         )
 
@@ -104,7 +109,9 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
             OutlinedTextField(
                 value = id,
                 onValueChange = {},
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { expanded = true }, // bấm vào khung cũng mở
                 shape = RoundedCornerShape(12.dp),
                 readOnly = true,
                 trailingIcon = {
@@ -136,7 +143,6 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Password Field
         Text(
             text = "Password",
             fontSize = 14.sp,
@@ -176,7 +182,6 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
                 .padding(bottom = 24.dp)
         )
 
-        // Continue Button
         Button(
             onClick = {
                 if (id.isBlank() || password.isBlank()) {
@@ -199,28 +204,29 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp),
+            shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF67CFDC),
                 contentColor = Color.White
             )
         ) {
-            Text("Continue")
+            Text("Continue", fontSize = 16.sp)
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Register Button
         Button(
-            onClick = { /* Handle register action */ },
+            onClick = {
+                context.startActivity(Intent(context, RegisterActivity::class.java))
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp),
             shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color.White,
-                contentColor = Color(0xFF67CFDC)
-            ),
-            border = ButtonDefaults.outlinedButtonBorder
+                containerColor = Color(0xFF67CFDC),
+                contentColor = Color.White
+            )
         ) {
             Text("Register", fontSize = 16.sp)
         }

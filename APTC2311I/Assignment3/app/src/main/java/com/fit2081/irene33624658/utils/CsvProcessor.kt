@@ -6,6 +6,8 @@ import com.fit2081.irene33624658.models.Patient
 
 object CsvProcessor {
     suspend fun processPatientsCsv(context: Context, dao: PatientDao) {
+        //call 1 time, first time !
+        //read csv file, then insert to RoomDB
         val patients = CsvReader.readPatientsFromCsv(context).map { user ->
             Patient(
                 userId = user.userId,

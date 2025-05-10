@@ -16,7 +16,12 @@ class LoginViewModel : ViewModel() {
     fun initRepository(context: Context) {
         repository = PatientsRepository(context)
         viewModelScope.launch {
-            _patientIds.value = repository.getAllPatientIds()
+            // collect flow Patients rồi map sang userId
+            repository
+                .getAllPatients()
+                .collect { listOfPatients ->
+                    _patientIds.value = listOfPatients.map { it.userId }
+                }
         }
     }
 
