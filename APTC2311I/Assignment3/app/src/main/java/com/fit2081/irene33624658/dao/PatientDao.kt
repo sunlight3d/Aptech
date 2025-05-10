@@ -47,4 +47,7 @@ interface PatientDao {
 
     @Query("SELECT * FROM food_intakes WHERE id = :id")
     suspend fun getFoodIntakeById(id: Int): FoodIntake?
+
+    @Query("SELECT userId FROM patients")
+    suspend fun getAllPatientIds(): List<String>
 }

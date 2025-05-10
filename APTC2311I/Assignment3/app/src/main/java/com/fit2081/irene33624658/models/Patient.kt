@@ -8,6 +8,7 @@ data class Patient(
     @PrimaryKey
     val userId: String,
     val phoneNumber: String,
+    val password: String = "", // Thêm trường password với giá trị mặc định
     val sex: String,
     val heifaTotalScoreMale: Double,
     val heifaTotalScoreFemale: Double,

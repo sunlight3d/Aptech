@@ -20,7 +20,7 @@ class PatientsRepository {
     // Property to hold the FoodIntakeDao instance
     var foodIntakeDao: FoodIntakeDao
     // Property for SharedPreferences
-    private val sharedPrefHelper: SharedPreferencesHelper
+    val sharedPrefHelper: SharedPreferencesHelper
 
     // Constructor to initialize the DAOs and SharedPreferencesHelper
     constructor(context: Context) {
@@ -33,6 +33,10 @@ class PatientsRepository {
     // Patient operations
     suspend fun insert(patient: Patient) {
         patientDao.insert(patient)
+    }
+
+    suspend fun getAllPatientIds(): List<String> {
+        return patientDao.getAllPatientIds()
     }
 
     suspend fun delete(patient: Patient) {
@@ -79,5 +83,31 @@ class PatientsRepository {
                 putBoolean("is_first_run", false)
             }
         }
+    }
+
+    //Login
+    // Thêm vào class PatientsRepository
+    fun saveLoginState(userId: String) {
+        sharedPrefHelper.getSharedPreferences().edit {
+            putString("logged_in_user_id", userId)
+            putBoolean("is_logged_in", true)
+            apply()
+        }
+    }
+
+    fun clearLoginState() {
+        sharedPrefHelper.getSharedPreferences().edit {
+            remove("logged_in_user_id")
+            putBoolean("is_logged_in", false)
+            apply()
+        }
+    }
+
+    fun isUserLoggedIn(): Boolean {
+        return sharedPrefHelper.getSharedPreferences().getBoolean("is_logged_in", false)
+    }
+
+    fun getLoggedInUserId(): String? {
+        return sharedPrefHelper.getSharedPreferences().getString("logged_in_user_id", null)
     }
 }

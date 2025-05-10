@@ -2,6 +2,7 @@ package com.fit2081.irene33624658.utils
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 
 class SharedPreferencesHelper(context: Context) {
     private val sharedPref: SharedPreferences =
@@ -62,5 +63,29 @@ class SharedPreferencesHelper(context: Context) {
 
     fun getPersona(): String {
         return sharedPref.getString("selected_persona", "") ?: ""
+    }
+    //Login
+    fun saveLoginState(userId: String) {
+        sharedPref.edit {
+            putString("logged_in_user_id", userId)
+            putBoolean("is_logged_in", true)
+            apply()
+        }
+    }
+
+    fun clearLoginState() {
+        sharedPref.edit {
+            remove("logged_in_user_id")
+            putBoolean("is_logged_in", false)
+            apply()
+        }
+    }
+
+    fun isUserLoggedIn(): Boolean {
+        return sharedPref.getBoolean("is_logged_in", false)
+    }
+
+    fun getLoggedInUserId(): String? {
+        return sharedPref.getString("logged_in_user_id", null)
     }
 }
