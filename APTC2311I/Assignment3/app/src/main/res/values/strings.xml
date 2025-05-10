@@ -1,9 +1,0 @@
-<resources>
-    <string name="app_name">Assignment1</string>
-    <string name="title_activity_welcome_screen">WelcomeScreen</string>
-    <string name="title_activity_food_intake_screen">FoodIntakeScreen</string>
-    <string name="title_activity_persona_info">PersonaInfo</string>
-    <string name="title_activity_food_intake">FoodIntake</string>
-    <string name="title_activity_persona_dialog">PersonaDialog</string>
-    <string name="title_activity_home_screen">HomeScreen</string>
-</resources>
