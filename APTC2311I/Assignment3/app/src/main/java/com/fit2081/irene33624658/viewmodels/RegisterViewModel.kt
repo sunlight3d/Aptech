@@ -105,6 +105,7 @@ class RegisterViewModel : ViewModel() {
                 }
                 // Update password
                 repository.updatePatient(patient.copy(password = password))
+                repository.saveLoginState(userId)
                 onSuccess()
             } catch (e: Exception) {
                 onFailure("Registration failed: ${e.message}")

@@ -23,21 +23,29 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fit2081.assignment1.R
-import com.fit2081.irene33624658.ui.theme.Assignment1Theme
+import com.fit2081.irene33624658.utils.SharedPreferencesHelper
+import com.fit2081.irene33624658.food_intake.FoodIntakeScreen
+//import com.fit2081.irene33624658.ui.theme.Assignment1Theme
 import com.fit2081.irene33624658.viewmodels.WelcomeViewModel
 
 class WelcomeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // 1. Kiểm tra trạng thái login
+        val prefsHelper = SharedPreferencesHelper(this)
+        if (prefsHelper.isUserLoggedIn()) {              // :contentReference[oaicite:4]{index=4}:contentReference[oaicite:5]{index=5}
+            // Nếu đã login, khởi thẳng FoodIntakeScreen
+            startActivity(Intent(this, FoodIntakeScreen::class.java))
+            finish()                                       // không cho back về Welcome
+            return
+        }
         enableEdgeToEdge()
         setContent {
-            Assignment1Theme {
-                WelcomeScreen(
-                    onLoginClick = {
-                        startActivity(Intent(this, LoginActivity::class.java))
-                    }
-                )
-            }
+            WelcomeScreen(
+                onLoginClick = {
+                    startActivity(Intent(this, LoginActivity::class.java))
+                }
+            )
         }
     }
 }

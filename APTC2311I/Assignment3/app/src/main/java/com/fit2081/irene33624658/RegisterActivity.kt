@@ -32,6 +32,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
@@ -48,6 +50,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -80,8 +83,10 @@ fun RegisterScreen(
     // Khởi tạo repository và load danh sách ID
     loginViewModel.initRepository(context)
     viewModel.initRepository(context)
-    val patientIds by loginViewModel.patientIds.collectAsState()
+    val scrollState = rememberScrollState()
+    val isKeyboardVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
 
+    val patientIds by loginViewModel.patientIds.collectAsState()
     var userId by remember { mutableStateOf("") }
     var phoneNumber by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -95,8 +100,11 @@ fun RegisterScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.Center
+            .padding(horizontal = 24.dp)
+            .verticalScroll(scrollState)
+            .imePadding()
+            .navigationBarsPadding(),
+            verticalArrangement = Arrangement.Center,
     ) {
         Text(
             text = "Register",
