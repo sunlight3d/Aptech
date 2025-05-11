@@ -10,18 +10,37 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.fit2081.irene33624658.dao.HospitalDatabase
+import com.fit2081.irene33624658.repositories.GeminiRepository
+import com.fit2081.irene33624658.repositories.PatientsRepository
 import com.fit2081.irene33624658.viewmodels.FruitViewModel
+import com.fit2081.irene33624658.viewmodels.MotivationViewModel
 
 @Composable
-fun NutriCoachTab(viewModel: FruitViewModel = viewModel()) {
+fun NutriCoachTab(
+    viewModel: FruitViewModel = viewModel(),
+) {
+    val context = LocalContext.current
+    val motivationViewModel = remember {
+        val db = HospitalDatabase.getDatabase(context)
+        val geminiRepo = GeminiRepository(db.patientDao())
+        val patientsRepo = PatientsRepository(context)
+        MotivationViewModel(geminiRepo, patientsRepo)
+    }
     val names by viewModel.filteredNames.collectAsState()
     val detail by viewModel.detail.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
+    val motivationMessage by motivationViewModel.message.collectAsState()
+    val isMotivationLoading by motivationViewModel.isLoading.collectAsState()
 
     var text by remember { mutableStateOf("") }
+    var showMessageDialog by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Text("NutriCoach", style = MaterialTheme.typography.headlineSmall)
@@ -109,13 +128,40 @@ fun NutriCoachTab(viewModel: FruitViewModel = viewModel()) {
         Spacer(Modifier.height(16.dp))
 
         Button(
-            onClick = { /* gọi AI API */ },
+            onClick = {
+                motivationViewModel.generateMotivationalMessage()
+                showMessageDialog = true
+            },
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6C00FF)),
-            shape = RoundedCornerShape(8.dp)
+            shape = RoundedCornerShape(8.dp),
+            enabled = !isMotivationLoading
         ) {
-            Icon(Icons.Default.Favorite, contentDescription = null)
-            Spacer(Modifier.width(4.dp))
-            Text("Motivational Message (AI)")
+            if (isMotivationLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(20.dp),
+                    color = Color.White
+                )
+            } else {
+                Icon(Icons.Default.Favorite, contentDescription = null)
+                Spacer(Modifier.width(4.dp))
+                Text("Motivational Message (AI)")
+            }
+        }
+
+        if (showMessageDialog) {
+            AlertDialog(
+                onDismissRequest = { showMessageDialog = false },
+                title = { Text("Your Motivational Message") },
+                text = { Text(motivationMessage) },
+                confirmButton = {
+                    Button(
+                        onClick = { showMessageDialog = false },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6C00FF))
+                    ) {
+                        Text("OK")
+                    }
+                }
+            )
         }
     }
 }

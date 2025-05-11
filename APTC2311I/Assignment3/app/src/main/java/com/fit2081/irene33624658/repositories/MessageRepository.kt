@@ -1,7 +1,6 @@
 package com.fit2081.irene33624658.repositories
 
 import com.fit2081.irene33624658.dao.MessageDao
-import com.fit2081.irene33624658.models.Message
 import kotlinx.coroutines.flow.Flow
 
 class MessageRepository(private val messageDao: MessageDao) {
