@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class FruitViewModel : ViewModel() {
-    private val repo = FruitRepository()
+    private val repository = FruitRepository()
 
     // Full list of Fruit
     private val _allFruits = MutableStateFlow<List<Fruit>>(emptyList())
@@ -33,7 +33,7 @@ class FruitViewModel : ViewModel() {
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                val list = repo.loadAll()
+                val list = repository.loadAll()
                 _allFruits.value = list
                 _filteredNames.value = list.map { it.name }
             } finally {
@@ -53,7 +53,7 @@ class FruitViewModel : ViewModel() {
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                _detail.value = repo.loadDetail(name)
+                _detail.value = repository.loadDetail(name)
             } finally {
                 _isLoading.value = false
             }
