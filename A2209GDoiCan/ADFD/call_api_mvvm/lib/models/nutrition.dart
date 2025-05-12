@@ -32,4 +32,5 @@ class Nutrition {
       'protein': protein,
     };
   }
+
 }

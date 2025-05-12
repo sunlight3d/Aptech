@@ -1,5 +1,6 @@
 import 'package:call_api_mvvm/repositories/fruit_repository.dart';
 import 'package:call_api_mvvm/services/fruit_service.dart';
+import 'package:call_api_mvvm/viewmodels/fruit_view_model.dart';
 import 'package:call_api_mvvm/views/FruitList.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget with ChangeNotifier, DiagnosticableTreeMixin {
-  const MyApp({super.key});
+  MyApp({super.key});
 
   // This widget is the root of your application.
   @override

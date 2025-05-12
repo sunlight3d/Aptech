@@ -24,7 +24,7 @@ class FruitViewModel extends ViewModel {
       notifyListeners();
     }
   }
-  Future<void> getPets() async {
+  Future<void> getFruits() async {
     await _performAsyncOperation(() async {
       fruits = await repository.getFruits();
     });
