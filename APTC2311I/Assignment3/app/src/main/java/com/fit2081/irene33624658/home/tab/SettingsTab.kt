@@ -1,6 +1,8 @@
 // SettingsTab.kt
 package com.fit2081.irene33624658.home
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -19,9 +21,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.ui.platform.LocalContext
+import com.fit2081.irene33624658.LoginActivity
 
 @Composable
 fun SettingsTab(
+    context: Context = LocalContext.current,
     navController: NavController,
     vm: SettingsViewModel = viewModel()
 ) {
@@ -43,7 +48,7 @@ fun SettingsTab(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Default.Person, contentDescription = null)
                 Spacer(Modifier.width(16.dp))
-                Text(p.userId, fontSize = 16.sp)
+                Text("Irene Nguyen", fontSize = 16.sp)
             }
             Spacer(Modifier.height(8.dp))
             // Phone
@@ -72,9 +77,11 @@ fun SettingsTab(
                 .fillMaxWidth()
                 .clickable {
                     vm.logout {
-                        // Sau khi xóa login, điều hướng về màn Login
-                        navController.popBackStack()     // clear backstack
-                        navController.navigate("login")  // route của Login screen
+                        // Dùng Intent để chuyển về Login Activity
+                        val intent = Intent(context, LoginActivity::class.java).apply {
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK  // Xóa hết back stack
+                        }
+                        context.startActivity(intent)
                     }
                 }
                 .padding(vertical = 12.dp),

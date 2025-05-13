@@ -1,6 +1,6 @@
 package com.fit2081.irene33624658.repositories
 
-import com.fit2081.irene33624658.apis.RetrofitClient
+import com.fit2081.irene33624658.api.RetrofitClient
 import com.fit2081.irene33624658.models.Fruit
 
 // repositories/FruitRepository.kt

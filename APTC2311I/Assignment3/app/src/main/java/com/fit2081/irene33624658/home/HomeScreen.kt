@@ -46,7 +46,9 @@ fun HomeScreen() {
             // Truyền navController vào InsightsTab
             composable(BottomNavItem.Insights.route) { InsightsTab(navController) }
             composable(BottomNavItem.NutriCoach.route) { NutriCoachTab() }
-            composable(BottomNavItem.Settings.route) { SettingsTab(navController) }
+            composable(BottomNavItem.Settings.route) {
+                SettingsTab(navController = navController)  // Context sẽ tự động được lấy từ LocalContext
+            }
         }
     }
 }

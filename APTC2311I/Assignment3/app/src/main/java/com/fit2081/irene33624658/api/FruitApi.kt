@@ -1,4 +1,4 @@
-package com.fit2081.irene33624658.apis
+package com.fit2081.irene33624658.api
 import com.fit2081.irene33624658.models.Fruit
 import retrofit2.http.GET
 import retrofit2.http.Path

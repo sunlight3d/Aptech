@@ -10,5 +10,5 @@ data class MotivationalMessage(
     val id: Int = 0,
     val userId: String,
     val message: String,
-    val createdAt: Date = Date()
+    val createdAt: Date = Date()  // Vẫn giữ nguyên kiểu Date
 )

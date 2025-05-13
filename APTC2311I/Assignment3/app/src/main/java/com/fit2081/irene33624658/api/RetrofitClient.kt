@@ -1,4 +1,4 @@
-package com.fit2081.irene33624658.apis
+package com.fit2081.irene33624658.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
