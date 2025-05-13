@@ -64,5 +64,18 @@ namespace CourseEnrollementManagement
         {
             Console.WriteLine($"Course: {CourseName} | Students: {enrolledCount} | Total Fee: {CalculateTotalFee()}");
         }
+        public void Input() {
+            Console.WriteLine("Enter id: "); 
+            this.CourseId = int.Parse(Console.ReadLine() ?? "1");
+
+            Console.WriteLine("Enter name: ");
+            this.CourseName = Console.ReadLine() ?? "";
+
+            Console.WriteLine("Fee per student: "); 
+            this.FeePerStudent = float.Parse(Console.ReadLine() ?? "1");
+
+            Console.WriteLine("enrolledCount: ");
+            this.FeePerStudent = int.Parse(Console.ReadLine() ?? "1");
+        }
     }
 }
