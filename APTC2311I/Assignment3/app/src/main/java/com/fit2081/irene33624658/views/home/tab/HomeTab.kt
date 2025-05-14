@@ -1,4 +1,4 @@
-package com.fit2081.irene33624658.home.tab
+package com.fit2081.irene33624658.views.home.tab
 
 import android.content.Context
 import android.content.Intent
@@ -39,7 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
 import com.fit2081.irene33624658.models.Patient
 import com.fit2081.irene33624658.utils.CsvReader
-import com.fit2081.irene33624658.food_intake.FoodIntakeScreen
+import com.fit2081.irene33624658.views.food_intake.FoodIntakeScreen
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.outlined.KeyboardArrowUp
@@ -49,7 +49,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
-import com.fit2081.irene33624658.home.BottomNavItem
+import com.fit2081.irene33624658.views.home.BottomNavItem
 import com.fit2081.assignment1.R
 import com.fit2081.irene33624658.utils.SharedPreferencesHelper
 

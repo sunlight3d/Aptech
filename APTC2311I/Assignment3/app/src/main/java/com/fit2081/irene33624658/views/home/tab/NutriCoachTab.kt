@@ -1,4 +1,4 @@
-package com.fit2081.irene33624658.home.tab
+package com.fit2081.irene33624658.views.home.tab
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape

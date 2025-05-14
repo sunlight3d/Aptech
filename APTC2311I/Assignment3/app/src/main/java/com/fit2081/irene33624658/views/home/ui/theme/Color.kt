@@ -1,4 +1,4 @@
-package com.fit2081.irene33624658.home.ui.theme
+package com.fit2081.irene33624658.views.home.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

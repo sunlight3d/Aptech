@@ -1,4 +1,4 @@
-package com.fit2081.irene33624658.food_intake.ui.theme
+package com.fit2081.irene33624658.views.food_intake.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

@@ -1,4 +1,4 @@
-package com.fit2081.irene33624658.home
+package com.fit2081.irene33624658.views.home
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -15,13 +15,14 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.fit2081.assignment1.R
-import com.fit2081.irene33624658.home.tab.HomeTab
-import com.fit2081.irene33624658.home.tab.InsightsTab
-import com.fit2081.irene33624658.home.tab.NutriCoachTab
+import com.fit2081.irene33624658.views.home.tab.HomeTab
+import com.fit2081.irene33624658.views.home.tab.InsightsTab
+import com.fit2081.irene33624658.views.home.tab.NutriCoachTab
 import androidx.compose.runtime.getValue
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.NavHost
+import com.fit2081.irene33624658.home.SettingsTab
 
 // sealed class representing each bottom navigation tab with its route, icon, and label
 sealed class BottomNavItem(val route: String, val iconRes: Int, val label: String) {

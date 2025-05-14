@@ -1,4 +1,4 @@
-package com.fit2081.irene33624658.home.tab
+package com.fit2081.irene33624658.views.home.tab
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -43,7 +43,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.fit2081.irene33624658.home.BottomNavItem
+import com.fit2081.irene33624658.views.home.BottomNavItem
 
 // data to represent each food score item
 data class FoodScoreItem(

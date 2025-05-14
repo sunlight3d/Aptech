@@ -1,4 +1,4 @@
-package com.fit2081.irene33624658.food_intake
+package com.fit2081.irene33624658.views.food_intake
 
 import android.app.Activity
 import android.content.Intent
@@ -54,8 +54,8 @@ import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.LaunchedEffect
 import com.fit2081.assignment1.R
-import com.fit2081.irene33624658.food_intake.ui.theme.widgets.PersonaDialog
-import com.fit2081.irene33624658.home.HomeActivity
+import com.fit2081.irene33624658.views.food_intake.ui.theme.widgets.PersonaDialog
+import com.fit2081.irene33624658.views.home.HomeActivity
 import com.fit2081.irene33624658.utils.SharedPreferencesHelper
 
 

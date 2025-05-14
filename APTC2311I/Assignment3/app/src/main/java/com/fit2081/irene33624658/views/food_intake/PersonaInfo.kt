@@ -1,4 +1,4 @@
-package com.fit2081.irene33624658.food_intake
+package com.fit2081.irene33624658.views.food_intake
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -24,7 +24,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.fit2081.irene33624658.food_intake.ui.theme.Assignment1Theme
+import com.fit2081.irene33624658.views.food_intake.ui.theme.Assignment1Theme
 
 class PersonaInfo : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

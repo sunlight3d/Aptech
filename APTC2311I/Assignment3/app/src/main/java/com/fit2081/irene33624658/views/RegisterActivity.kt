@@ -1,4 +1,4 @@
-package com.fit2081.irene33624658
+package com.fit2081.irene33624658.views
 
 import android.content.Intent
 import android.os.Bundle
@@ -21,8 +21,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fit2081.irene33624658.ui.theme.Assignment1Theme
 import com.fit2081.irene33624658.viewmodels.RegisterViewModel
-import android.content.Context
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -51,14 +49,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.fit2081.irene33624658.food_intake.FoodIntakeScreen
-import com.fit2081.irene33624658.ui.theme.Assignment1Theme
+import com.fit2081.irene33624658.views.food_intake.FoodIntakeScreen
 import com.fit2081.irene33624658.viewmodels.LoginViewModel
-import kotlinx.coroutines.launch
 
 /*
 61436567330,4

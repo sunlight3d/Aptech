@@ -14,37 +14,37 @@
             tools:targetApi="31">
 
         <activity
-                android:name="com.fit2081.irene33624658.home.HomeActivity"
+                android:name="com.fit2081.irene33624658.views.home.HomeActivity"
                 android:exported="false"
                 android:label="@string/title_activity_home_screen"
                 android:theme="@style/Theme.Assignment1" />
         <activity
-                android:name="com.fit2081.irene33624658.food_intake.ui.theme.widgets.PersonaDialog"
+                android:name="com.fit2081.irene33624658.views.food_intake.ui.theme.widgets.PersonaDialog"
                 android:exported="false"
                 android:label="@string/title_activity_persona_dialog"
                 android:theme="@style/Theme.Assignment1" /> <!-- Login Activity -->
         <activity
-                android:name="com.fit2081.irene33624658.LoginActivity"
+                android:name="com.fit2081.irene33624658.views.LoginActivity"
                 android:exported="true"
                 android:label="LoginActivity"
                 android:theme="@style/Theme.Assignment1" />
         <activity
-                android:name="com.fit2081.irene33624658.RegisterActivity"
+                android:name="com.fit2081.irene33624658.views.RegisterActivity"
                 android:exported="true"
                 android:label="RegisterActivity"
                 android:theme="@style/Theme.Assignment1" />
         <activity
-                android:name="com.fit2081.irene33624658.food_intake.PersonaInfo"
+                android:name="com.fit2081.irene33624658.views.food_intake.PersonaInfo"
                 android:exported="false"
                 android:label="@string/title_activity_persona_info"
                 android:theme="@style/Theme.Assignment1" />
         <activity
-                android:name="com.fit2081.irene33624658.food_intake.FoodIntakeScreen"
+                android:name="com.fit2081.irene33624658.views.food_intake.FoodIntakeScreen"
                 android:exported="false"
                 android:label="@string/title_activity_food_intake_screen"
                 android:theme="@style/Theme.Assignment1" />
         <activity
-                android:name="com.fit2081.irene33624658.WelcomeActivity"
+                android:name="com.fit2081.irene33624658.views.WelcomeActivity"
                 android:exported="true"
                 android:label="@string/title_activity_welcome_screen"
                 android:theme="@style/Theme.Assignment1">

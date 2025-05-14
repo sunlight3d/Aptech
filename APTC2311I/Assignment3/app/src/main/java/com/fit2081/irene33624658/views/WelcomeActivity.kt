@@ -1,4 +1,4 @@
-package com.fit2081.irene33624658
+package com.fit2081.irene33624658.views
 
 import android.content.Intent
 import android.os.Bundle
@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fit2081.assignment1.R
 import com.fit2081.irene33624658.utils.SharedPreferencesHelper
-import com.fit2081.irene33624658.food_intake.FoodIntakeScreen
+import com.fit2081.irene33624658.views.food_intake.FoodIntakeScreen
 //import com.fit2081.irene33624658.ui.theme.Assignment1Theme
 import com.fit2081.irene33624658.viewmodels.WelcomeViewModel
 

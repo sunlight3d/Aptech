@@ -1,4 +1,4 @@
-package com.fit2081.irene33624658.home
+package com.fit2081.irene33624658.views.home
 
 import android.content.Intent
 import android.os.Bundle

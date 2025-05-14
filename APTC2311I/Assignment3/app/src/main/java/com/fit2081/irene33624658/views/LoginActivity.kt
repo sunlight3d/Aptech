@@ -1,6 +1,5 @@
-package com.fit2081.irene33624658
+package com.fit2081.irene33624658.views
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -50,7 +49,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.fit2081.irene33624658.food_intake.FoodIntakeScreen
+import com.fit2081.irene33624658.views.food_intake.FoodIntakeScreen
 import com.fit2081.irene33624658.ui.theme.Assignment1Theme
 import com.fit2081.irene33624658.viewmodels.LoginViewModel
 

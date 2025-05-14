@@ -1,4 +1,4 @@
-package com.fit2081.irene33624658.food_intake.ui.theme.widgets
+package com.fit2081.irene33624658.views.food_intake.ui.theme.widgets
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -34,8 +34,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.fit2081.irene33624658.food_intake.FoodIntake
-import com.fit2081.irene33624658.food_intake.ui.theme.widgets.ui.theme.Assignment1Theme
+import com.fit2081.irene33624658.views.food_intake.FoodIntake
+import com.fit2081.irene33624658.views.food_intake.ui.theme.widgets.ui.theme.Assignment1Theme
 
 class PersonaDialog : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
