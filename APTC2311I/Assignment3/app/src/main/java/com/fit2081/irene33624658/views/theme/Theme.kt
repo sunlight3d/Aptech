@@ -1,4 +1,4 @@
-package com.fit2081.irene33624658.ui.theme
+package com.fit2081.irene33624658.views.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
