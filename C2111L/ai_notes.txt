@@ -1,0 +1,46 @@
+Viết cho tôi 1 trang Web, NO!
+Copy/paste yêu cầu dài => làm cho tôi => NO!
+
+prompt cụ thể:
+Đồ án kỳ 3(hoặc bất kỳ project nào):
+
+-Database(quan trọng nhất)
+
+	-chatgpt 4.1(mới ra), Deepseek R1(tạm ổn, free,fix bug tốt, hay bị treo, hỏi nhiều câu phải tạo tab mới), Kimi(not so recommend, đọc nhiều file tốt)...
+	-Qwen(distill từ deepseek), nhanh, ko treo, fix bug khó ko tốt bằng.
+	Thỉnh thoảng chatgpt, deepseek treo, quên => attach lại code và hỏi lại là ok
+	-Claude sonet 3.7(ngon, phí hơi cao, viết lách, fix bug tốt)
+	-Grok 3(Tesla): phân tích số liệu đc, fix bug ko ổn, đọc file kém => not recommend
+	Câu prompt: Thiết kế db SQL Server với các yêu cầu sau: ...
+	...yêu cầu db phải gồm file sql, kèm comment chi tiết tiếng việt, giải thích các quan hệ giữa các thực thể.
+	...
+	Từ db tôi cần chức năng abc, hãy viết cho tôi câu lệnh tạo procedure, trigger, views,...
+
+	Chức năng xyz cần tối ưu(những query này cần tốc độ cao,...), tôi cần index và tối ưu tốc độ,...viết cho tôi câu sql tương ứng
+
+	Câu trả lời có phát sinh thêm bảng , cột => CHÚ Ý
+	Phần Db sẽ hỏi nhiều nhất có thể, kèm câu sql cho các tính năng
+
+	=> Tất cả câu SQL => cover 100% chức năng => thiết kế DB xong
+	Yêu cầu AI tạo dữ liệu fake cho các bảng => chạy thử các câu lệnh SQL
+	AI ko gen quá nhieu bản ghi
+
+-Backend 
+ -Vẫn dùng chủ yếu chatgpt, deepseek, claude(đã claude rồi có thể thôi chatgpt)
+ -Prompt viết các test case/suite tương ứng
+ -VD: chức năng abc dưới backend như sau(copy 1 đoạn code trong controller,=> viết test case tương ứng)
+ -test theo luồng(nhớ attach các file controller tương ứng)
+
+-FrontEnd:
+ dev0(NextJS, React, NodeJS), chỉ cần đưa ảnh thiết kế => ra UI(NextJS, TAilwinds CSS) 
+ -deepseek ko tốt lắm(UI attach và code output ko match nhiều với nhau)
+ -Câu prompt, yêu cầu code UI sử dụng UI framework nhiều nhất có thể(Tailwinds CSS, bootstrap,...tránh dùng css thuần)
+
+Muốn học AI bài bản: 
+-Cơ bản về Machine Learning(Linear regression, SVM, Random forest,...)
+-Kiến thức toán => kênh 3brown1blue
+-Neuron networks: tensor flow, pytorch,.., chạy thử trên colab
+có kiến thức AI => làm đc những sản phẩm: Text-to-speed(VD: elevenlabs, vbee,zalo AI)
+
+có kiến thức AI => làm đc những sản phẩm: expand image, scale image(VD: pixelcut,), tạo video từ prompt,...
+RAG, vector db,..=> chatbot 
