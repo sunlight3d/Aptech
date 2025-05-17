@@ -1,0 +1,45 @@
+Đồ án kỳ 4:
+Những AI hay dùng: 
+-chatgpt(ít nhất phải có chức năng attach file, tốt nhất mini-o3 trở lên)
+-deepseek(ổn, hay bị treo, hỏi nhiều câu sẽ phải mở tab mới)
+-dev0(phục vụ NextJS, attach file ảnh thiết kế => ra code)
+-claude (3.7 sonet) ổn,fix bug tốt, viết lách ok, chi phí cao hơn
+-Le Chat(nhanh, phù hợp bt sinh viên), not recommended
+-Kimi(attach nhiều file,ít bị treo, fix bug ko ổn lắm)
+-Grok(phù hợp tìm kiếm thông tin, code ko ổn, ko xử lý đc nhiều file), not recommended
+Dùng claude rồi thì thôi chatgpt và ngược lại
+
+1.Database(quan trọng nhất)
+	Câu prompt: Làm 2 trang web thế nào => NO!
+
+	Prompt:Thiết kế Database MySQL có các chức năng: ...liệt kê chi tiết nhất có thể
+	Cần viết cụ thể các câu lệnh SQL tạo bảng, có comment và giải thích từng trường trong bảng
+
+	Prompt: Với chức năng abc này, hãy viết câu lệnh sql tương ứng...
+	Prompt: Với chức năng abc này, hãy viết các views/procedures tương ứng...
+	Kết quả: Nếu thấy phát sinh thêm bảng/cột thì phải cân nhắc kỹ có dùng giải pháp này ko
+	Phần chức năng sẽ phải hỏi AI nhiều nhất có thể => để chốt đc DB Schema
+	...
+	sau khi đặt thêm nhiều câu hỏi về chức năng của app => ko phát sinh bảng/fields => thiết kế DB đã tạm ổn
+
+	Prompt: Với chức năng abc, hãy tối ưu câu lệnh SQL và phân tich cho biết chức năng này sẽ mất thời gian nhiều nhất ở khâu nào...
+
+
+	Prompt: Viết câu lệnh SQL insert dữ liệu fake(ko đặt quá nhiều bản ghi)
+
+2.Backend
+	Yêu cầu AI viết theo mô hình chuẩn(VD: MVC, API,...), chia file và cấu trúc thư mục rõ ràng, ứng dụng quy mô 10 devs, attach file sql ở trên vào => AI sẽ viết cụ thể các file, đặt vào thư mục nào cho hợp lý
+	-Thêm chức năng: prompt: Tôi đã có chức năng CRUD với thực thể category, hãy làm tương tự với thực thể product(nhớ attach file Category.java, CategoryController, CategoryREpository.java) => chatgpt, deepseek,claude đều làm tốt
+	-Yêu cầu AI viết test case: nhớ attach các file ở controller vào hoặc: CHỤP ẢNH postman phần test api 
+	-Yêu cầu AI viết các test suite: Mô tả flow, mỗi thành phần trong flow có chụp ảnh postman hoặc lệnh curl
+3.FrondEnd
+   -dev0(NextJS) và nhiều con AI khác
+   Prompts: code cho tôi màn hình với UI như sau, sử dụng tối đa class sẵn có trong Tailwinds CSS,...tránh css/html thuần
+
+Học AI bài bản, sẽ làm ra các ứng dụng như sau:
+-Text to speed
+-Expand(ảnh dọc => ảnh ngang)/rescale(tăng độ phân giải) ảnh. VD: Pixelcut,..
+-Phát hiện câu từ trong đoạn audio
+Để học AI: Machine Learning cơ bản(Linear regression, SVM, RAndom forest,...) 
+học AI: Tensorflow(Google)/Pytorch(facebook) => Neuron network, mỗi loại có neuron network riêng, xem qua kênh 3brown1blue
+

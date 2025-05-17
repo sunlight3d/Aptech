@@ -3,16 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace baitap004
 {
-    internal class Employee
+    public abstract class Employee
     {
         private int employeeID;
-        private string employeeName;
+        private string? employeeName;
         private DateTime dob;
-        private string department;
+        private string? department;
         int numberOfWorkings;
+        public abstract int CalculateSalary();
+        public virtual void DisplayDetail() {
+            Console.WriteLine($"Id: {EmployeeID},\n" +
+                $"name: {EmployeeName},\n" +
+                $"dob: {DOB}, \n" +
+                $"department: {Department},\n" +
+                $"numberOfWorkings : {NumberOfWorkings}\n");
+        }
+
+
         public int EmployeeID { 
             get { return employeeID; }
             set {
@@ -23,7 +34,7 @@ namespace baitap004
             }
         }
         public string EmployeeName { 
-            get { return employeeName; }
+            get { return employeeName ?? ""; }
             set {
                 if (value.Length < 6 || value.Length > 40) {
                     throw new ArgumentOutOfRangeException("Length of employee must be from 6-40 characters");
@@ -47,7 +58,7 @@ namespace baitap004
                 dob = value;
             }
         }
-        public string Department { get; set; }
+        public string Department { get => department; set => department = value; }
         public int NumberOfWorkings {
             get => numberOfWorkings; 
             set {
@@ -71,11 +82,24 @@ namespace baitap004
             Department = _department;
             NumberOfWorkings = _numberOfWorking;
         }
-        void Input() {
+        public virtual void Input() {
             Console.WriteLine("Enter id: ");
-            int employeeID = int.Parse(Console.ReadLine() ?? string.Empty);
+            this.EmployeeID = int.Parse(Console.ReadLine() ?? string.Empty);
 
-            
+            Console.WriteLine("Enter name: ");
+            this.EmployeeName = Console.ReadLine() ?? string.Empty;
+
+            Console.WriteLine("Enter dob(eg: 25/12/1999): ");
+            string stringDOB = Console.ReadLine() ?? string.Empty;
+            string[] dobs = stringDOB.Split("/");
+            this.DOB = new DateTime(int.Parse(dobs[2]), int.Parse(dobs[1]), int.Parse(dobs[0]),0,0,0);
+
+            Console.WriteLine("Enter department: ");
+            this.Department = Console.ReadLine() ?? string.Empty;
+
+            Console.WriteLine("Years of workings: ");
+            this.NumberOfWorkings = int.Parse(Console.ReadLine() ?? "0");
+
 
         }
     }
