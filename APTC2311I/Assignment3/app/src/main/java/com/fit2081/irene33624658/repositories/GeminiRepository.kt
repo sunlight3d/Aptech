@@ -1,5 +1,7 @@
 
 package com.fit2081.irene33624658.repositories
+import android.content.Context
+import com.fit2081.irene33624658.dao.HospitalDatabase
 import com.fit2081.irene33624658.dao.PatientDao
 import com.fit2081.irene33624658.models.MotivationalMessage
 import com.google.ai.client.generativeai.GenerativeModel
@@ -7,12 +9,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.Date
 
-class GeminiRepository(private val patientDao: PatientDao) {
+class GeminiRepository(private val context: Context) {
+    private val patientDao: PatientDao
     private val generativeModel = GenerativeModel(
         modelName = "gemini-pro",
         apiKey = "YOUR_API_KEY" // Replace with your actual API key
     )
 
+    init {
+        val db = HospitalDatabase.getDatabase(context)
+        patientDao = db.patientDao()
+    }
     suspend fun generateMotivationalMessage(userId: String): String {
         return withContext(Dispatchers.IO) {
             try {
@@ -31,6 +38,17 @@ class GeminiRepository(private val patientDao: PatientDao) {
                 message
             } catch (e: Exception) {
                 "Error generating message: ${e.message}"
+            }
+        }
+    }
+    // Add to GeminiRepository.kt
+    suspend fun generateAnalysis(prompt: String): String {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response = generativeModel.generateContent(prompt)
+                response.text ?: "No patterns could be identified at this time."
+            } catch (e: Exception) {
+                "Error analyzing data: ${e.message}"
             }
         }
     }

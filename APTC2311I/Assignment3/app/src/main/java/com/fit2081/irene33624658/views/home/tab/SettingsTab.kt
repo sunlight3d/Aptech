@@ -21,91 +21,114 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.ui.platform.LocalContext
+import com.fit2081.irene33624658.viewmodels.ClinicianViewModel
 import com.fit2081.irene33624658.views.LoginActivity
+import com.fit2081.irene33624658.views.clinician.ClinicianDashboard
+import com.fit2081.irene33624658.views.clinician.ClinicianLogin
 
 @Composable
 fun SettingsTab(
     context: Context = LocalContext.current,
     navController: NavController,
-    vm: SettingsViewModel = viewModel()
+    settingsViewModel: SettingsViewModel = viewModel(),
+    clinicianViewModel: ClinicianViewModel = viewModel()
 ) {
-    val patient by vm.patient.collectAsState()
+    val patient by settingsViewModel.patient.collectAsState()
+    var showClinicianLogin by remember { mutableStateOf(false) }
+    var showClinicianDashboard by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        Text("Settings", style = MaterialTheme.typography.headlineSmall)
+    if (showClinicianDashboard) {
+        ClinicianDashboard(
+            viewModel = clinicianViewModel,
+            onLogout = {
+                showClinicianDashboard = false
+                showClinicianLogin = false
+            }
+        )
+    } else if (showClinicianLogin) {
+        ClinicianLogin(
+            onAuthenticated = { showClinicianDashboard = true },
+            viewModel = clinicianViewModel
+        )
+    } else {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            Text("Settings", style = MaterialTheme.typography.headlineSmall)
 
-        Spacer(modifier = Modifier.height(24.dp))
-        Text("ACCOUNT", style = MaterialTheme.typography.labelSmall)
+            Spacer(modifier = Modifier.height(24.dp))
+            Text("ACCOUNT", style = MaterialTheme.typography.labelSmall)
 
-        patient?.let { p ->
-            Spacer(modifier = Modifier.height(12.dp))
-            // Name
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            patient?.let { p ->
+                Spacer(modifier = Modifier.height(12.dp))
+                // Name
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Default.Person, contentDescription = null)
+                    Spacer(Modifier.width(16.dp))
+                    Text("Irene Nguyen", fontSize = 16.sp)
+                }
+                Spacer(Modifier.height(8.dp))
+                // Phone
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Default.Call, contentDescription = null)
+                    Spacer(Modifier.width(16.dp))
+                    Text(p.phoneNumber, fontSize = 16.sp)
+                }
+                Spacer(Modifier.height(8.dp))
+                // ID
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Filled.AccountBox, contentDescription = "ID", tint = MaterialTheme.colorScheme.primary)
+                    Spacer(Modifier.width(16.dp))
+                    Text(p.userId, fontSize = 16.sp)
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+            HorizontalDivider()
+            Spacer(modifier = Modifier.height(24.dp))
+            Text("OTHER SETTINGS", style = MaterialTheme.typography.labelSmall)
+
+            // Logout
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        settingsViewModel.logout {
+                            // Dùng Intent để chuyển về Login Activity
+                            val intent = Intent(context, LoginActivity::class.java).apply {
+                                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK  // Xóa hết back stack
+                            }
+                            context.startActivity(intent)
+                        }
+                    }
+                    .padding(vertical = 12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(Icons.AutoMirrored.Filled.ExitToApp, contentDescription = null)
+                Spacer(Modifier.width(16.dp))
+                Text("Logout", modifier = Modifier.weight(1f))
+                Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null)
+            }
+
+            // Clinician Login (nếu có)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        showClinicianLogin = true // This will trigger the ClinicianLogin composable
+                    }
+                    .padding(vertical = 12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Icon(Icons.Default.Person, contentDescription = null)
                 Spacer(Modifier.width(16.dp))
-                Text("Irene Nguyen", fontSize = 16.sp)
+                Text("Clinician Login", modifier = Modifier.weight(1f))
+                Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null)
             }
-            Spacer(Modifier.height(8.dp))
-            // Phone
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Default.Call, contentDescription = null)
-                Spacer(Modifier.width(16.dp))
-                Text(p.phoneNumber, fontSize = 16.sp)
-            }
-            Spacer(Modifier.height(8.dp))
-            // ID
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Filled.AccountBox, contentDescription = "ID", tint = MaterialTheme.colorScheme.primary)
-                Spacer(Modifier.width(16.dp))
-                Text(p.userId, fontSize = 16.sp)
-            }
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-        HorizontalDivider()
-        Spacer(modifier = Modifier.height(24.dp))
-        Text("OTHER SETTINGS", style = MaterialTheme.typography.labelSmall)
-
-        // Logout
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable {
-                    vm.logout {
-                        // Dùng Intent để chuyển về Login Activity
-                        val intent = Intent(context, LoginActivity::class.java).apply {
-                            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK  // Xóa hết back stack
-                        }
-                        context.startActivity(intent)
-                    }
-                }
-                .padding(vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(Icons.AutoMirrored.Filled.ExitToApp, contentDescription = null)
-            Spacer(Modifier.width(16.dp))
-            Text("Logout", modifier = Modifier.weight(1f))
-            Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null)
-        }
-
-        // Clinician Login (nếu có)
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable {
-                    navController.navigate("clinician_login")
-                }
-                .padding(vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(Icons.Default.Person, contentDescription = null)
-            Spacer(Modifier.width(16.dp))
-            Text("Clinician Login", modifier = Modifier.weight(1f))
-            Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null)
         }
     }
+
+
 }
