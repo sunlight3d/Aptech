@@ -77,6 +77,7 @@ dependencies {
     implementation(libs.converter.gson)
     // (Tuỳ chọn) Logging interceptor để debug các request
     implementation(libs.logging.interceptor)
-    implementation("com.google.ai.client.generativeai:generativeai:0.1.1")
+    implementation(libs.generativeai)
+    implementation(libs.coil.compose)
 
 }

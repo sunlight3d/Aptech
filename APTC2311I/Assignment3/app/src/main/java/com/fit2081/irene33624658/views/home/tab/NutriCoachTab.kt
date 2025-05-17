@@ -29,7 +29,7 @@ fun NutriCoachTab(
     val context = LocalContext.current
     val motivationViewModel = remember {
         val db = HospitalDatabase.getDatabase(context)
-        val geminiRepo = GeminiRepository(db.patientDao())
+        val geminiRepo = GeminiRepository(context)
         val patientsRepo = PatientsRepository(context)
         MotivationViewModel(geminiRepo, patientsRepo)
     }

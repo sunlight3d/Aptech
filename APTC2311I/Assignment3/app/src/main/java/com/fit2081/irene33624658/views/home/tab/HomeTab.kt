@@ -52,6 +52,8 @@ import androidx.navigation.NavController
 import com.fit2081.irene33624658.views.home.BottomNavItem
 import com.fit2081.assignment1.R
 import com.fit2081.irene33624658.utils.SharedPreferencesHelper
+import coil.compose.AsyncImage
+
 
 @Composable
 fun HomeTab(navController: NavController) {
@@ -60,6 +62,7 @@ fun HomeTab(navController: NavController) {
     var isLoading by remember { mutableStateOf(true) }
     val scrollState = rememberScrollState()
     val prefsHelper = remember { SharedPreferencesHelper(context) }
+    var imageUrl by remember { mutableStateOf("") }
 
     // load user data from CSV
     LaunchedEffect(Unit) {
@@ -73,6 +76,8 @@ fun HomeTab(navController: NavController) {
             user = users.find { it.userId == userId && it.phoneNumber == phoneNumber }
         }
         isLoading = false
+        val randomId = (1..500).random()
+        imageUrl = "https://picsum.photos/id/$randomId/300"
     }
 
     Column(
@@ -154,9 +159,9 @@ fun HomeTab(navController: NavController) {
                     .aspectRatio(1f)
                     .background(Color.LightGray)
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.food_dish),
-                    contentDescription = "Description",
+                AsyncImage(
+                    model = imageUrl,
+                    contentDescription = "Random image from Picsum",
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
                 )
