@@ -13,7 +13,7 @@ class GeminiRepository(private val context: Context) {
     private val patientDao: PatientDao
     private val generativeModel = GenerativeModel(
         modelName = "gemini-pro",
-        apiKey = "YOUR_API_KEY" // Replace with your actual API key
+        apiKey = "AIzaSyBNMemiPu2X2NX4VqV0xKTbYPDrAmn4pZU"
     )
 
     init {
