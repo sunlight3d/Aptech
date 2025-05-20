@@ -251,9 +251,7 @@ fun RegisterScreen(
                     phoneNumber = phoneNumber,
                     password = password,
                     onSuccess = {
-                        context.startActivity(
-                            Intent(context, FoodIntakeScreen::class.java)
-                        )
+                        context.startActivity(Intent(context, LoginActivity::class.java))
                     },
                     onFailure = { msg ->
                         errorMessage = msg

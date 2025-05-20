@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 
 class PatientsRepository(private val context: Context) {
     private val patientDao: PatientDao
-    private val prefs = SharedPreferencesHelper(context).getSharedPreferences()
+    private val prefsHelper = SharedPreferencesHelper(context)
 
     init {
         val db = HospitalDatabase.getDatabase(context)
@@ -21,11 +21,10 @@ class PatientsRepository(private val context: Context) {
 
     /** Chỉ chạy 1 lần đầu: đọc CSV và lưu vào Room */
     suspend fun initializeIfFirstRun(context: Context) {
-        val firstRunKey = "is_first_run"
-        if (prefs.getBoolean(firstRunKey, true)) {
+        if (prefsHelper.isFirstRun()) {
             // truyền đúng context và dao vào processor
             CsvProcessor.processPatientsCsv(context, patientDao)
-            prefs.edit { putBoolean(firstRunKey, false) }
+            prefsHelper.setFirstRunCompleted()
         }
     }
 
@@ -38,18 +37,11 @@ class PatientsRepository(private val context: Context) {
     suspend fun isUserIdAvailable(id: String): Boolean = getPatientById(id) == null
 
     // ==== Login State ====
-    fun saveLoginState(userId: String) = prefs.edit {
-        putBoolean("is_logged_in", true)
-        putString("logged_in_user_id", userId)
-    }
+    fun saveLoginState(userId: String) = prefsHelper.saveLoginState(userId)
+    fun clearLoginState() = prefsHelper.clearLoginState()
+    fun isUserLoggedIn(): Boolean = prefsHelper.isUserLoggedIn()
+    fun getLoggedInUserId(): String? = prefsHelper.getLoggedInUserId()
 
-    fun clearLoginState() = prefs.edit {
-        putBoolean("is_logged_in", false)
-        remove("logged_in_user_id")
-    }
-
-    fun isUserLoggedIn(): Boolean = prefs.getBoolean("is_logged_in", false)
-    fun getLoggedInUserId(): String? = prefs.getString("logged_in_user_id", null)
     /** Hàm bổ sung: kiểm tra xem userId đã có trong DB hay chưa */
     suspend fun checkPatientExists(userId: String): Boolean {
         return patientDao.getPatientById(userId) != null

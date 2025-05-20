@@ -66,10 +66,12 @@ fun HomeTab(navController: NavController) {
 
     // load user data from CSV
     LaunchedEffect(Unit) {
-        // load the user data based on saved ID and phone number from SharedPreferences
-        val prefs = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-        val userId = prefs.getString("user_id", "") ?: ""
-        val phoneNumber = prefs.getString("phone_number", "") ?: ""
+        // Use prefsHelper instead of direct SharedPreferences access
+        val userId = prefsHelper.getLoggedInUserId() ?: ""
+        val phoneNumber = prefsHelper.getSharedPreferences().getString("phone_number", "") ?: ""
+        // ADDED: Print the values
+        println("DEBUG - User ID: $userId")
+        println("DEBUG - Phone Number: $phoneNumber")
 
         if (userId.isNotEmpty() && phoneNumber.isNotEmpty()) {
             val users = CsvReader.readPatientsFromCsv(context)
