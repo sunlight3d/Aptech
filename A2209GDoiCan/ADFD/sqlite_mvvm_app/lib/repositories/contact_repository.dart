@@ -7,18 +7,24 @@ class ContactRepository {
 
   Future<Database> get _db async => await _dbHelper.db;
 
-  // Create
+  // In ContactRepository
   Future<int> insertContact(Contact contact) async {
     final db = await _db;
+    print('Inserting contact: ${contact.toJson()}');  // Debug print
     return await db.insert(DBHelper.TABLE_CONTACT, contact.toJson());
   }
 
   // Read
   Future<List<Contact>> getContacts() async {
-    final db = await _db;
-    final List<Map<String, dynamic>> maps =
-    await db.query(DBHelper.TABLE_CONTACT);
-    return maps.map((map) => Contact.fromJson(map)).toList();
+    try {
+      final db = await _db;
+      final List<Map<String, dynamic>> maps = await db.query(DBHelper.TABLE_CONTACT);
+      print('Retrieved ${maps.length} contacts');  // Debug print
+      return maps.map((map) => Contact.fromJson(map)).toList();
+    } catch(e) {
+      print('Error getting contacts: $e');  // Debug print
+      return [];
+    }
   }
 
   Future<Contact?> getContactById(int id) async {

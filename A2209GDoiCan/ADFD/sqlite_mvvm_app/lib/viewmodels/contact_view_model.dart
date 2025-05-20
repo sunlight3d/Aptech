@@ -37,7 +37,7 @@ class ContactViewModel extends ViewModel {
   }
 
   /// Adds a new pet and refreshes the list
-  Future<void> insertPet(Contact newContact) async {
+  Future<void> insertContact(Contact newContact) async {
     await _performAsyncOperation(() async {
       await repository.insertContact(newContact);
       contacts = await repository.getContacts(); // Refresh the list

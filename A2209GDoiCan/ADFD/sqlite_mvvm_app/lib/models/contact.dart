@@ -14,16 +14,16 @@ class Contact {
     return {
       'id': id,
       'name': name,
-      'phone_number': phoneNumber,
+      'phoneNumber': phoneNumber,  // Changed from 'phone_number' to 'phoneNumber'
       'email': email
     };
   }
   factory Contact.fromJson(Map<String, dynamic> map) {
     return Contact(
-        id: int.parse(map['id']),
+        id: map['id'] as int? ?? int.tryParse(map['id'].toString()),
         name: map['name'] as String,
-        phoneNumber: map['phone_number'],
-        email: map['email']
+        phoneNumber: map['phoneNumber'] as String,  // Changed from 'phone_number'
+        email: map['email'] as String
     );
   }
 }

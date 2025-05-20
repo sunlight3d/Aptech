@@ -11,7 +11,6 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => MyApp()),
         ChangeNotifierProvider(create: (_) => ContactViewModel(ContactRepository())),
       ],
       child: MyApp(),
@@ -29,6 +28,7 @@ class MyApp extends StatelessWidget with ChangeNotifier, DiagnosticableTreeMixin
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: ContactList(),
+
     );
   }
 }
