@@ -4,6 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -56,6 +63,7 @@ import com.fit2081.irene33624658.viewmodels.LoginViewModel
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        LoggerService.info("LoginActivity onCreate", tag = this::class.java.simpleName)
         setContent {
             Assignment1Theme {
                 LoginScreen()
@@ -112,17 +120,24 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
             textAlign = TextAlign.Start,
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { expanded = true }
+                .clickable { expanded = true
+                    LoggerService.debug("ID dropdown opened", tag = "LoginScreen")
+                }
                 .padding(bottom = 4.dp)
         )
 
-        Box(modifier = Modifier.fillMaxWidth()) {
+        Box(modifier = Modifier.fillMaxWidth().animateContentSize()  ) {
             OutlinedTextField(
                 value = id,
                 onValueChange = {},
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { expanded = true }, // bấm vào khung cũng mở
+                    .clickable {
+                        expanded = true
+                        LoggerService.debug("ID field clicked to open dropdown", tag = "LoginScreen")
+                    }
+                    .animateContentSize()
+                , // bấm vào khung cũng mở
                 shape = RoundedCornerShape(12.dp),
                 readOnly = true,
                 trailingIcon = {
@@ -138,7 +153,9 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
             DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .animateContentSize()
             ) {
                 patientIds.forEach { patientId ->
                     DropdownMenuItem(
@@ -172,7 +189,13 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
             placeholder = { Text("Enter your password") }
         )
 
-        if (showError) {
+        AnimatedVisibility(
+            visible = showError,
+            enter = fadeIn(animationSpec = tween(durationMillis = 2000))
+                    + expandVertically(animationSpec = tween(durationMillis = 2000)),
+            exit = fadeOut(animationSpec = tween(durationMillis = 2200))
+                    + shrinkVertically(animationSpec = tween(durationMillis = 2200))
+        ) {
             Text(
                 text = errorMessage,
                 color = Color.Red,

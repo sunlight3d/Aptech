@@ -5,14 +5,21 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -27,6 +34,7 @@ import com.fit2081.irene33624658.utils.SharedPreferencesHelper
 import com.fit2081.irene33624658.views.food_intake.FoodIntakeScreen
 //import com.fit2081.irene33624658.ui.theme.Assignment1Theme
 import com.fit2081.irene33624658.viewmodels.WelcomeViewModel
+import kotlinx.coroutines.launch
 
 class WelcomeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,9 +65,109 @@ fun WelcomeScreen(
 ) {
     val context = LocalContext.current
 
+    // Spring animation for the logo
+    val scale = remember { Animatable(1f) }
+    val rotation = remember { Animatable(0f) }
+
+    // Animation for disclaimer text
+    val alpha = remember { Animatable(0f) }
+    val offsetY = remember { Animatable(20f) }
+
     LaunchedEffect(Unit) {
         viewModel.initRepository(context)
         viewModel.initializeAppData(context)
+
+        // Spring animation sequence
+        launch {
+            // Bounce effect
+            scale.animateTo(
+                targetValue = 1.2f,
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioLowBouncy,
+                    stiffness = Spring.StiffnessLow
+                )
+            )
+            scale.animateTo(
+                targetValue = 1f,
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioMediumBouncy,
+                    stiffness = Spring.StiffnessMedium
+                )
+            )
+
+            // Rotation effect
+            rotation.animateTo(
+                targetValue = 15f,
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioLowBouncy,
+                    stiffness = Spring.StiffnessLow
+                )
+            )
+            rotation.animateTo(
+                targetValue = -15f,
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioLowBouncy,
+                    stiffness = Spring.StiffnessLow
+                )
+            )
+            rotation.animateTo(
+                targetValue = 0f,
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioMediumBouncy,
+                    stiffness = Spring.StiffnessMedium
+                )
+            )
+            // Rotation effect
+            rotation.animateTo(
+                targetValue = 30f,
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioLowBouncy,
+                    stiffness = Spring.StiffnessLow
+                )
+            )
+            rotation.animateTo(
+                targetValue = -30f,
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioLowBouncy,
+                    stiffness = Spring.StiffnessLow
+                )
+            )
+            rotation.animateTo(
+                targetValue = 0f,
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioMediumBouncy,
+                    stiffness = Spring.StiffnessMedium
+                )
+            )
+
+            // Rotation effect
+            rotation.animateTo(
+                targetValue = 15f,
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioLowBouncy,
+                    stiffness = Spring.StiffnessLow
+                )
+            )
+            rotation.animateTo(
+                targetValue = -15f,
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioLowBouncy,
+                    stiffness = Spring.StiffnessLow
+                )
+            )
+            rotation.animateTo(
+                targetValue = 0f,
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioMediumBouncy,
+                    stiffness = Spring.StiffnessMedium
+                )
+            )
+        }
+        launch {
+            // Disclaimer text animation
+            alpha.animateTo(1f, animationSpec = spring(stiffness = Spring.StiffnessLow))
+            offsetY.animateTo(0f, animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy))
+        }
     }
 
     Column(
@@ -80,7 +188,10 @@ fun WelcomeScreen(
         Image(
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "App Logo",
-            modifier = Modifier.size(100.dp)
+            modifier = Modifier
+                .size(100.dp)
+                .scale(scale.value)
+                .rotate(rotation.value)
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -94,7 +205,10 @@ fun WelcomeScreen(
             fontSize = 12.sp,
             fontStyle = FontStyle.Italic,
             textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .alpha(alpha.value)
+                .offset(y = offsetY.value.dp)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
