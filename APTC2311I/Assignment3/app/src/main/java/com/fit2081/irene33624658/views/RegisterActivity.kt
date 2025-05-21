@@ -49,6 +49,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalDensity
+import com.fit2081.irene33624658.services.LoggerService
+import com.fit2081.irene33624658.services.ToastService
 import com.fit2081.irene33624658.views.food_intake.FoodIntakeScreen
 import com.fit2081.irene33624658.viewmodels.LoginViewModel
 
@@ -58,6 +60,9 @@ import com.fit2081.irene33624658.viewmodels.LoginViewModel
 class RegisterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Initialize services
+        LoggerService.debug("RegisterActivity created")
+        ToastService.init(applicationContext)
         setContent {
             Assignment1Theme {
                 RegisterScreen()
@@ -72,9 +77,19 @@ fun RegisterScreen(
     loginViewModel: LoginViewModel = viewModel()
 ) {
     val context = LocalContext.current
-    // Khởi tạo repository và load danh sách ID
-    loginViewModel.initRepository(context)
-    viewModel.initRepository(context)
+    LoggerService.debug("RegisterScreen composable launched")
+
+    // Initialize repositories
+    LaunchedEffect(Unit) {
+        try {
+            loginViewModel.initRepository(context)
+            viewModel.initRepository(context)
+            LoggerService.info("Repositories initialized successfully")
+        } catch (e: Exception) {
+            LoggerService.error("Failed to initialize repositories", throwable = e)
+            ToastService.showError("Initialization error. Please restart the app.")
+        }
+    }
     val scrollState = rememberScrollState()
     val isKeyboardVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
 
@@ -127,10 +142,14 @@ fun RegisterScreen(
                 supportingText = {
                     if (validationState.userIdError != null) {
                         Text(validationState.userIdError!!, color = Color.Red)
+                        LoggerService.debug("User ID validation error: ${validationState.userIdError}")
                     }
                 },
                 trailingIcon = {
-                    IconButton(onClick = { expanded = true }) {
+                    IconButton(onClick = {
+                        expanded = true
+                        LoggerService.debug("Clicked dropdown icon")
+                    }) {
                         Icon(
                             imageVector = Icons.Default.ArrowDropDown,
                             contentDescription = "Show IDs"
@@ -141,17 +160,29 @@ fun RegisterScreen(
 
             DropdownMenu(
                 expanded = expanded,
-                onDismissRequest = { expanded = false },
+                onDismissRequest = {
+                    expanded = false
+                    LoggerService.debug("ID dropdown dismissed")
+                },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                patientIds.forEach { pid ->
+                if (patientIds.isEmpty()) {
+                    LoggerService.warning("No patient IDs available in dropdown")
                     DropdownMenuItem(
-                        text = { Text(pid) },
-                        onClick = {
-                            userId = pid
-                            expanded = false
-                        }
+                        text = { Text("No IDs available") },
+                        onClick = {}
                     )
+                } else {
+                    patientIds.forEach { pid ->
+                        DropdownMenuItem(
+                            text = { Text(pid) },
+                            onClick = {
+                                userId = pid
+                                expanded = false
+                                LoggerService.debug("Selected patient ID: $pid")
+                            }
+                        )
+                    }
                 }
             }
         }
@@ -174,6 +205,7 @@ fun RegisterScreen(
             isError = validationState.phoneError != null,
             supportingText = {
                 if (validationState.phoneError != null) {
+                    LoggerService.debug("Phone validation error: ${validationState.phoneError}")
                     Text(validationState.phoneError!!, color = Color.Red)
                 }
             }
@@ -198,6 +230,7 @@ fun RegisterScreen(
             isError = validationState.passwordError != null,
             supportingText = {
                 if (validationState.passwordError != null) {
+                    LoggerService.debug("Password validation error: ${validationState.passwordError}")
                     Text(validationState.passwordError!!, color = Color.Red)
                 }
             }
@@ -222,6 +255,7 @@ fun RegisterScreen(
             isError = validationState.confirmPasswordError != null,
             supportingText = {
                 if (validationState.confirmPasswordError != null) {
+                    LoggerService.debug("Confirm password validation error: ${validationState.confirmPasswordError}")
                     Text(validationState.confirmPasswordError!!, color = Color.Red)
                 }
             }

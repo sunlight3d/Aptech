@@ -10,6 +10,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.fit2081.irene33624658.services.LoggerService
+import com.fit2081.irene33624658.services.ToastService
 import com.fit2081.irene33624658.viewmodels.ClinicianViewModel
 
 @Composable
@@ -20,6 +22,9 @@ fun ClinicianDashboard(
     val patientData by viewModel.patientData.collectAsState()
     val dataPatterns by viewModel.dataPatterns.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
+    LaunchedEffect(Unit) {
+        LoggerService.debug("ClinicianDashboard screen launched")
+    }
 
     Column(
         modifier = Modifier
@@ -34,7 +39,11 @@ fun ClinicianDashboard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text("Clinician Dashboard", style = MaterialTheme.typography.headlineMedium)
-            Button(onClick = onLogout) {
+            Button(onClick = {
+                LoggerService.debug("Clinician logging out")
+                ToastService.showShort("Logging out...")
+                onLogout()
+            }) {
                 Text("Logout")
             }
         }
@@ -43,6 +52,7 @@ fun ClinicianDashboard(
 
         // Stats Card
         patientData?.let { patient ->
+            LoggerService.debug("Displaying patient data: ${patient.userId}")
             Card {
                 Column(modifier = Modifier.padding(16.dp)) {
                     Text("Patient ID: ${patient.userId}", style = MaterialTheme.typography.titleMedium)
@@ -52,6 +62,8 @@ fun ClinicianDashboard(
                     // Add more patient details as needed
                 }
             }
+        }?: run {
+            LoggerService.warning("No patient data available")
         }
         Spacer(modifier = Modifier.height(24.dp))
 

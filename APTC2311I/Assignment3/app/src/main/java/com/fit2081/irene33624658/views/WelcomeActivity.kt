@@ -30,6 +30,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fit2081.assignment1.R
+import com.fit2081.irene33624658.services.LoggerService
+import com.fit2081.irene33624658.services.ToastService
 import com.fit2081.irene33624658.utils.SharedPreferencesHelper
 import com.fit2081.irene33624658.views.food_intake.FoodIntakeScreen
 //import com.fit2081.irene33624658.ui.theme.Assignment1Theme
@@ -39,18 +41,23 @@ import kotlinx.coroutines.launch
 class WelcomeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Initialize services
+        LoggerService.debug("WelcomeActivity created")
+        ToastService.init(applicationContext)
         // 1. Kiểm tra trạng thái login
         val prefsHelper = SharedPreferencesHelper(this)
         if (prefsHelper.isUserLoggedIn()) {              // :contentReference[oaicite:4]{index=4}:contentReference[oaicite:5]{index=5}
-            // Nếu đã login, khởi thẳng FoodIntakeScreen
+            LoggerService.info("User already logged in, redirecting to FoodIntakeScreen")
             startActivity(Intent(this, FoodIntakeScreen::class.java))
             finish()                                       // không cho back về Welcome
             return
         }
+        LoggerService.debug("Showing welcome screen for new/unauthenticated user")
         enableEdgeToEdge()
         setContent {
             WelcomeScreen(
                 onLoginClick = {
+                    LoggerService.debug("Login button clicked, navigating to LoginActivity")
                     startActivity(Intent(this, LoginActivity::class.java))
                 }
             )
@@ -74,11 +81,18 @@ fun WelcomeScreen(
     val offsetY = remember { Animatable(20f) }
 
     LaunchedEffect(Unit) {
-        viewModel.initRepository(context)
-        viewModel.initializeAppData(context)
-
+        LoggerService.debug("WelcomeScreen composable launched")
+        try {
+            viewModel.initRepository(context)
+            viewModel.initializeAppData(context)
+            LoggerService.info("App data initialized successfully")
+        } catch (e: Exception) {
+            LoggerService.error("Failed to initialize app data", throwable = e)
+            ToastService.showError("Initialization error. Please restart the app.")
+        }
         // Spring animation sequence
         launch {
+            LoggerService.debug("Starting welcome animations")
             // Bounce effect
             scale.animateTo(
                 targetValue = 1.2f,
@@ -224,7 +238,10 @@ fun WelcomeScreen(
         Spacer(modifier = Modifier.height(40.dp))
 
         Button(
-            onClick = onLoginClick,
+            onClick = {
+                LoggerService.debug("Login button pressed in WelcomeScreen")
+                onLoginClick()
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
