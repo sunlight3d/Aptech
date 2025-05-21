@@ -81,5 +81,7 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.generativeai)
     implementation(libs.coil.compose)
+    implementation(libs.firebase.auth.ktx)
+
 
 }

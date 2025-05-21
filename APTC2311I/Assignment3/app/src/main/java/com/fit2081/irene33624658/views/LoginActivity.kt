@@ -39,6 +39,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -56,6 +57,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.fit2081.irene33624658.services.LoggerService
+import com.fit2081.irene33624658.services.ToastService
 import com.fit2081.irene33624658.views.food_intake.FoodIntakeScreen
 import com.fit2081.irene33624658.views.theme.Assignment1Theme
 import com.fit2081.irene33624658.viewmodels.LoginViewModel
@@ -63,7 +66,9 @@ import com.fit2081.irene33624658.viewmodels.LoginViewModel
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        LoggerService.info("LoginActivity onCreate", tag = this::class.java.simpleName)
+        // Initialize services
+        LoggerService.debug("LoginActivity created")
+        ToastService.init(applicationContext)
         setContent {
             Assignment1Theme {
                 LoginScreen()
@@ -75,11 +80,23 @@ class LoginActivity : ComponentActivity() {
 @Composable
 fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
     val context = LocalContext.current
-    viewModel.initRepository(context)
+    // Initialize repository
+    LaunchedEffect(Unit) {
+        try {
+            viewModel.initRepository(context)
+            LoggerService.info("Login repository initialized successfully")
+        } catch (e: Exception) {
+            LoggerService.error("Failed to initialize login repository", throwable = e)
+            ToastService.showError("Initialization error. Please restart the app.")
+        }
+    }
+
+    LoggerService.debug("LoginScreen composable launched")
     val scrollState = rememberScrollState()
     val isKeyboardVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
 
     if (viewModel.isUserLoggedIn(context)) {
+        LoggerService.info("User already logged in, redirecting to FoodIntakeScreen")
         context.startActivity(Intent(context, FoodIntakeScreen::class.java))
         return
     }

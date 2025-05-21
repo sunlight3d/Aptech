@@ -21,12 +21,19 @@ import com.fit2081.irene33624658.repositories.GeminiRepository
 import com.fit2081.irene33624658.repositories.PatientsRepository
 import com.fit2081.irene33624658.viewmodels.FruitViewModel
 import com.fit2081.irene33624658.viewmodels.MotivationViewModel
+import com.fit2081.irene33624658.services.LoggerService
+import com.fit2081.irene33624658.services.ToastService
+
 
 @Composable
 fun NutriCoachTab(
     viewModel: FruitViewModel = viewModel(),
 ) {
     val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        LoggerService.debug("NutriCoachTab launched", tag = "NutriCoach")
+        ToastService.showShort("Welcome to NutriCoach!")
+    }
     val motivationViewModel = remember {
         val db = HospitalDatabase.getDatabase(context)
         val geminiRepo = GeminiRepository(context)
@@ -129,9 +136,12 @@ fun NutriCoachTab(
 
         Button(
             onClick = {
+                LoggerService.info("Generating motivational message", tag = "NutriCoach")
+                ToastService.showSuccess("Generating motivation...")
                 motivationViewModel.generateMotivationalMessage()
                 showMessageDialog = true
             },
+
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6C00FF)),
             shape = RoundedCornerShape(8.dp),
             enabled = !isMotivationLoading

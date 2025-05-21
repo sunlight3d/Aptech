@@ -271,6 +271,7 @@ fun RegisterScreen(
         )
 
         if (showError) {
+            LoggerService.warning("Showing error message to user: $errorMessage")
             Text(
                 text = errorMessage,
                 color = MaterialTheme.colorScheme.error,
@@ -285,7 +286,23 @@ fun RegisterScreen(
                     phoneNumber = phoneNumber,
                     password = password,
                     onSuccess = {
-                        context.startActivity(Intent(context, LoginActivity::class.java))
+                        LoggerService.debug("Register success in local DB, now creating Firebase account")
+                        /*
+                        val auth = com.google.firebase.auth.FirebaseAuth.getInstance()
+                        val email = "${phoneNumber}@fit2081.com" // fake email based on phone
+
+                        auth.createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    LoggerService.info("Firebase user created successfully: ${auth.currentUser?.uid}")
+                                    ToastService.showSuccess("Registered & synced with Firebase")
+                                    context.startActivity(Intent(context, LoginActivity::class.java))
+                                } else {
+                                    LoggerService.error("Firebase registration failed", throwable = task.exception)
+                                    ToastService.showError("Firebase registration failed: ${task.exception?.message}")
+                                }
+                            }
+                         */
                     },
                     onFailure = { msg ->
                         errorMessage = msg
@@ -309,6 +326,7 @@ fun RegisterScreen(
 
         TextButton(
             onClick = {
+                LoggerService.debug("Navigate to login clicked")
                 context.startActivity(Intent(context, LoginActivity::class.java))
             },
             modifier = Modifier.align(Alignment.CenterHorizontally)

@@ -32,17 +32,21 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.fit2081.irene33624658.services.LoggerService
+import com.fit2081.irene33624658.services.ToastService
 import com.fit2081.irene33624658.views.home.BottomNavItem
 
 // data to represent each food score item
@@ -54,6 +58,12 @@ data class FoodScoreItem(
 
 @Composable
 fun InsightsTab(navController: NavController) {
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        LoggerService.debug("InsightsTab launched", tag = "InsightsTab")
+        ToastService.showShort("You're now viewing Food Insights")
+    }
     // sample data (can be replaced with dynamic user data)
     val foodScores = listOf(
         FoodScoreItem("Vegetables", 10, 10),
@@ -162,6 +172,8 @@ fun InsightsTab(navController: NavController) {
                     // improve diet button
                     Button(
                         onClick = {
+                            LoggerService.info("Navigating to NutriCoach from InsightsTab", tag = "InsightsTab")
+                            ToastService.showSuccess("Loading NutriCoach tips...")
                             navController.navigate(BottomNavItem.NutriCoach.route) {
                                 popUpTo(navController.graph.startDestinationId)
                                 launchSingleTop = true

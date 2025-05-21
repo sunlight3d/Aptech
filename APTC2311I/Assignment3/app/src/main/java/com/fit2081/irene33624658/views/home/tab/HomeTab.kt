@@ -53,6 +53,8 @@ import com.fit2081.irene33624658.views.home.BottomNavItem
 import com.fit2081.assignment1.R
 import com.fit2081.irene33624658.utils.SharedPreferencesHelper
 import coil.compose.AsyncImage
+import com.fit2081.irene33624658.services.LoggerService
+import com.fit2081.irene33624658.services.ToastService
 
 
 @Composable
@@ -66,16 +68,26 @@ fun HomeTab(navController: NavController) {
 
     // load user data from CSV
     LaunchedEffect(Unit) {
+        LoggerService.debug("HomeTab screen loaded", tag = "HomeTab")
+        ToastService.showSuccess("Welcome to Home!")
         // Use prefsHelper instead of direct SharedPreferences access
         val userId = prefsHelper.getLoggedInUserId() ?: ""
         val phoneNumber = prefsHelper.getSharedPreferences().getString("phone_number", "") ?: ""
-        // ADDED: Print the values
-        println("DEBUG - User ID: $userId")
-        println("DEBUG - Phone Number: $phoneNumber")
+        LoggerService.info("User ID: $userId, Phone: $phoneNumber", tag = "HomeTab")
 
         if (userId.isNotEmpty() && phoneNumber.isNotEmpty()) {
             val users = CsvReader.readPatientsFromCsv(context)
             user = users.find { it.userId == userId && it.phoneNumber == phoneNumber }
+
+            if (user != null) {
+                LoggerService.debug("User found: ${user?.userId}", tag = "HomeTab")
+            } else {
+                LoggerService.warning("No user found with matching ID and phone", tag = "HomeTab")
+                ToastService.showError("User not found")
+            }
+        } else {
+            LoggerService.error("Missing userId or phone number", tag = "HomeTab")
+            ToastService.showError("Login info missing")
         }
         isLoading = false
         val randomId = (1..500).random()
@@ -103,6 +115,8 @@ fun HomeTab(navController: NavController) {
 
         // edit button to go back to the questionnaire
         Button(onClick = {
+            LoggerService.info("Navigating to Food Intake screen", tag = "HomeTab")
+            ToastService.showShort("Opening Food Intake form")
             val intent = Intent(context, FoodIntakeScreen::class.java)
             context.startActivity(intent)
         },
