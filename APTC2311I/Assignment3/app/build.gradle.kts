@@ -84,8 +84,8 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.firebase.auth.ktx)
     implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-auth-ktx")
-    implementation("com.google.firebase:firebase-database-ktx") // optional
+    implementation(libs.firebase.analytics)
+    implementation(libs.google.firebase.auth.ktx)
+    implementation(libs.firebase.database.ktx) // optional
 
 }

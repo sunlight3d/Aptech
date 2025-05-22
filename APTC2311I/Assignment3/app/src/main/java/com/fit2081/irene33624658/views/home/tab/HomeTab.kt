@@ -75,9 +75,9 @@ fun HomeTab(navController: NavController) {
         val phoneNumber = prefsHelper.getSharedPreferences().getString("phone_number", "") ?: ""
         LoggerService.info("User ID: $userId, Phone: $phoneNumber", tag = "HomeTab")
 
-        if (userId.isNotEmpty() && phoneNumber.isNotEmpty()) {
+        if (userId.isNotEmpty()) {
             val users = CsvReader.readPatientsFromCsv(context)
-            user = users.find { it.userId == userId && it.phoneNumber == phoneNumber }
+            user = users.find { it.userId == userId }
 
             if (user != null) {
                 LoggerService.debug("User found: ${user?.userId}", tag = "HomeTab")

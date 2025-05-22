@@ -12,7 +12,7 @@ import java.util.Date
 class GeminiRepository(private val context: Context) {
     private val patientDao: PatientDao
     private val generativeModel = GenerativeModel(
-        modelName = "gemini-pro",
+        modelName = "gemini-2.0-flash",
         apiKey = "AIzaSyBNMemiPu2X2NX4VqV0xKTbYPDrAmn4pZU"
     )
 

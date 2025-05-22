@@ -1,5 +1,6 @@
 package com.fit2081.irene33624658.views.home.tab
 
+import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -145,9 +146,19 @@ fun InsightsTab(navController: NavController) {
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     horizontalAlignment = Alignment.CenterHorizontally // Căn giữa theo chiều ngang
                 ) {
-                    // share button
+                    val shareMessage = "Check out my food score: $totalScore / $maxTotalScore in the Nutrition Tracker App!"
                     Button(
-                        onClick = {},
+                        onClick = {
+                            val intent = Intent().apply {
+                                action = Intent.ACTION_SEND
+                                putExtra(Intent.EXTRA_TEXT, shareMessage)
+                                type = "text/plain"
+                            }
+                            val shareIntent = Intent.createChooser(intent, "Share via")
+                            context.startActivity(shareIntent)
+
+                            LoggerService.info("User shared their score: $totalScore", tag = "InsightsTab")
+                        },
                         shape = RoundedCornerShape(10.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6EC9D5)),
                         modifier = Modifier

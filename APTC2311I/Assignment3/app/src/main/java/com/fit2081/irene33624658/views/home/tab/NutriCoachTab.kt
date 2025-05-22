@@ -137,7 +137,6 @@ fun NutriCoachTab(
         Button(
             onClick = {
                 LoggerService.info("Generating motivational message", tag = "NutriCoach")
-                ToastService.showSuccess("Generating motivation...")
                 motivationViewModel.generateMotivationalMessage()
                 showMessageDialog = true
             },
