@@ -85,7 +85,11 @@ fun NutriCoachTab(
                     }
                 },
                 enabled = text.isNotBlank() && !isLoading,
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6C00FF))
+                shape = RoundedCornerShape(10.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF67CFDC),
+                    contentColor = Color.White
+                ),
             ) {
                 if (isLoading) {
                     CircularProgressIndicator(
@@ -154,8 +158,11 @@ fun NutriCoachTab(
                 showMessageDialog = true
             },
 
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6C00FF)),
-            shape = RoundedCornerShape(8.dp),
+            shape = RoundedCornerShape(10.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF67CFDC),
+                contentColor = Color.White
+            ),
             enabled = !isMotivationLoading
         ) {
             if (isMotivationLoading) {
@@ -164,7 +171,8 @@ fun NutriCoachTab(
                     color = Color.White
                 )
             } else {
-                Icon(Icons.Default.Favorite, contentDescription = null)
+//                Icon(Icons.Default.Favorite, contentDescription = null)
+                Text("\u2661", fontSize = 28.sp, color = Color.White) // ♡
                 Spacer(Modifier.width(4.dp))
                 Text("Motivational Message (AI)")
             }

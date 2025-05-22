@@ -3,11 +3,13 @@ package com.fit2081.irene33624658.views.clinician
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fit2081.irene33624658.services.LoggerService
@@ -70,7 +72,12 @@ fun ClinicianDashboard(
         Button(
             onClick = { viewModel.findDataPatterns() },
             enabled = !isLoading && patientData != null,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(10.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF67CFDC),
+                contentColor = Color.White
+            ),
         ) {
             Text("Analyze Nutrition Patterns")
         }

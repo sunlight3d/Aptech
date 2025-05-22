@@ -87,5 +87,7 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.google.firebase.auth.ktx)
     implementation(libs.firebase.database.ktx) // optional
+    implementation(libs.androidx.ui.text.google.fonts) // Or latest
+
 
 }
