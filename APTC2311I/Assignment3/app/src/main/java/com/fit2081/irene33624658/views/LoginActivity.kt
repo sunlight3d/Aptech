@@ -44,6 +44,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,6 +63,8 @@ import com.fit2081.irene33624658.services.ToastService
 import com.fit2081.irene33624658.views.food_intake.FoodIntakeScreen
 import com.fit2081.irene33624658.views.theme.Assignment1Theme
 import com.fit2081.irene33624658.viewmodels.LoginViewModel
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.launch
 
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,11 +83,14 @@ class LoginActivity : ComponentActivity() {
 @Composable
 fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
     val context = LocalContext.current
+    // Track initialization state
+    var isInitialized by remember { mutableStateOf(false) }
     // Initialize repository
     LaunchedEffect(Unit) {
         try {
             viewModel.initRepository(context)
             LoggerService.info("Login repository initialized successfully")
+            isInitialized = true
         } catch (e: Exception) {
             LoggerService.error("Failed to initialize login repository", throwable = e)
             ToastService.showError("Initialization error. Please restart the app.")
@@ -95,7 +101,7 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
     val scrollState = rememberScrollState()
     val isKeyboardVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
 
-    if (viewModel.isUserLoggedIn(context)) {
+    if (isInitialized && viewModel.isUserLoggedIn(context)) {
         LoggerService.info("User already logged in, redirecting to FoodIntakeScreen")
         context.startActivity(Intent(context, FoodIntakeScreen::class.java))
         return
@@ -107,6 +113,7 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
     var errorMessage by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
     val patientIds by viewModel.patientIds.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
@@ -239,17 +246,29 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
                     errorMessage = "Please enter both user ID and password"
                     showError = true
                 } else {
-                    viewModel.login(
-                        userId = id,
-                        password = password,
-                        onSuccess = {
-                            context.startActivity(Intent(context, FoodIntakeScreen::class.java))
-                        },
-                        onFailure = { message ->
-                            errorMessage = message
-                            showError = true
+                    coroutineScope.launch {
+                        val phoneNumber = viewModel.getPhoneNumberByUserId(id)
+
+                        if (phoneNumber != null) {
+                            val email = "${phoneNumber}@fit2081.com"
+                            val auth = FirebaseAuth.getInstance()
+
+                            auth.signInWithEmailAndPassword(email, password)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        LoggerService.info("Firebase login successful: ${auth.currentUser?.uid}")
+                                        ToastService.showSuccess("Logged in with Firebase")
+                                        context.startActivity(Intent(context, FoodIntakeScreen::class.java))
+                                    } else {
+                                        LoggerService.error("Firebase login failed", throwable = task.exception)
+                                        ToastService.showError("Firebase login failed: ${task.exception?.message}")
+                                    }
+                                }
+                        } else {
+                            ToastService.showError("Unable to get phone number for this user")
                         }
-                    )
+                    }
+
                 }
             },
             modifier = Modifier

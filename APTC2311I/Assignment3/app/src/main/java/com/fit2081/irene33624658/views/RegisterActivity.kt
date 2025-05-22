@@ -53,6 +53,7 @@ import com.fit2081.irene33624658.services.LoggerService
 import com.fit2081.irene33624658.services.ToastService
 import com.fit2081.irene33624658.views.food_intake.FoodIntakeScreen
 import com.fit2081.irene33624658.viewmodels.LoginViewModel
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 
 /*
 61436567330,4
@@ -297,8 +298,14 @@ fun RegisterScreen(
                                     ToastService.showSuccess("Registered & synced with Firebase")
                                     context.startActivity(Intent(context, LoginActivity::class.java))
                                 } else {
-                                    LoggerService.error("Firebase registration failed", throwable = task.exception)
-                                    ToastService.showError("Firebase registration failed: ${task.exception?.message}")
+                                    val exception = task.exception
+                                    LoggerService.error("Firebase registration failed", throwable = exception)
+
+                                    if (exception is FirebaseAuthUserCollisionException) {
+                                        ToastService.showError("Account already exists for this phone number")
+                                    } else {
+                                        ToastService.showError("Firebase registration failed: ${exception?.message}")
+                                    }
                                 }
                             }
                     },

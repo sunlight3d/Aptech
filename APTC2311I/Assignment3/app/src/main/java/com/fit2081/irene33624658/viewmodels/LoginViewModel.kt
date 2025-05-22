@@ -36,6 +36,11 @@ class LoginViewModel : ViewModel() {
             }
         }
     }
+    suspend fun getPhoneNumberByUserId(userId: String): String? {
+        val patient = repository.getPatientById(userId)
+        return patient?.phoneNumber
+    }
+
 
     fun isUserLoggedIn(context: Context): Boolean {
         return repository.isUserLoggedIn()
