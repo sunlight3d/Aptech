@@ -36,6 +36,7 @@ import com.fit2081.irene33624658.utils.SharedPreferencesHelper
 import com.fit2081.irene33624658.views.food_intake.FoodIntakeScreen
 //import com.fit2081.irene33624658.ui.theme.Assignment1Theme
 import com.fit2081.irene33624658.viewmodels.WelcomeViewModel
+import com.fit2081.irene33624658.views.home.HomeActivity
 import kotlinx.coroutines.launch
 
 class WelcomeActivity : ComponentActivity() {
@@ -47,8 +48,9 @@ class WelcomeActivity : ComponentActivity() {
         // 1. Kiểm tra trạng thái login
         val prefsHelper = SharedPreferencesHelper(this)
         if (prefsHelper.isUserLoggedIn()) {              // :contentReference[oaicite:4]{index=4}:contentReference[oaicite:5]{index=5}
-            LoggerService.info("User already logged in, redirecting to FoodIntakeScreen")
-            startActivity(Intent(this, FoodIntakeScreen::class.java))
+            //LoggerService.info("User already logged in, redirecting to FoodIntakeScreen")
+            //startActivity(Intent(this, FoodIntakeScreen::class.java))
+            startActivity(Intent(this, HomeActivity::class.java))
             finish()                                       // không cho back về Welcome
             return
         }
