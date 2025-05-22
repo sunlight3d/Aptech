@@ -44,3 +44,13 @@ có kiến thức AI => làm đc những sản phẩm: Text-to-speed(VD: elevenl
 
 có kiến thức AI => làm đc những sản phẩm: expand image, scale image(VD: pixelcut,), tạo video từ prompt,...
 RAG, vector db,..=> chatbot 
+
+Ý tưởng đồ án kỳ 3:
+Technical:
++Backend(asp dotnet core api + SQL Server db) + FrontEnd(NextJS, ReactJS, VueJS) + Mobile(Flutter, React Native,Xamarin, Kotlin, Swift,...kỳ 3 chưa cần)
++Backend + FrontEnd = asp dotnet MVC
+
+Ý tưởng:
++Ứng dụng tập tành thi TOEIC: dữ liệu lấy từ thi toeic cũ, tài khoản free được thi một số hữu hạn lần. Tài khoản có phí: thi nhiều lần + random đề thi mới(Google GenAI). 
++App bán hàng => cũ => nên nghĩ ý tưởng mới
+
