@@ -23,6 +23,7 @@ import com.fit2081.irene33624658.viewmodels.FruitViewModel
 import com.fit2081.irene33624658.viewmodels.MotivationViewModel
 import com.fit2081.irene33624658.services.LoggerService
 import com.fit2081.irene33624658.services.ToastService
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -69,8 +70,20 @@ fun NutriCoachTab(
                 )
             )
 
+            val coroutineScope = rememberCoroutineScope()
+
             Button(
-                onClick = { viewModel.fetchDetail(text) },
+                onClick = {
+                    coroutineScope.launch {
+                        try {
+                            LoggerService.debug("Fetching fruit detail for: $text", tag = "NutriCoach")
+                            viewModel.fetchDetail(text)
+                        } catch (e: Exception) {
+                            LoggerService.error("Error fetching detail", throwable = e, tag = "NutriCoach")
+                            ToastService.showError("Failed to fetch details. Please try again.")
+                        }
+                    }
+                },
                 enabled = text.isNotBlank() && !isLoading,
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6C00FF))
             ) {

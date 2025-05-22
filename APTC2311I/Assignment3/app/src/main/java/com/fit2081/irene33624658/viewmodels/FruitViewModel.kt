@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fit2081.irene33624658.models.Fruit
 import com.fit2081.irene33624658.repositories.FruitRepository
+import com.fit2081.irene33624658.services.LoggerService
+import com.fit2081.irene33624658.services.ToastService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -54,6 +56,14 @@ class FruitViewModel : ViewModel() {
             _isLoading.value = true
             try {
                 _detail.value = repository.loadDetail(name)
+            } catch (e: retrofit2.HttpException) {
+                LoggerService.error("HTTP error while fetching detail", throwable = e)
+                ToastService.showError("Fruit not found: $name")
+                _detail.value = null
+            } catch (e: Exception) {
+                LoggerService.error("Unexpected error while fetching detail", throwable = e)
+                ToastService.showError("Failed to fetch detail")
+                _detail.value = null
             } finally {
                 _isLoading.value = false
             }
