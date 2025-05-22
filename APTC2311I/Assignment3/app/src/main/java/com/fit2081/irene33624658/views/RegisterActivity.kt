@@ -287,7 +287,6 @@ fun RegisterScreen(
                     password = password,
                     onSuccess = {
                         LoggerService.debug("Register success in local DB, now creating Firebase account")
-                        /*
                         val auth = com.google.firebase.auth.FirebaseAuth.getInstance()
                         val email = "${phoneNumber}@fit2081.com" // fake email based on phone
 
@@ -302,7 +301,6 @@ fun RegisterScreen(
                                     ToastService.showError("Firebase registration failed: ${task.exception?.message}")
                                 }
                             }
-                         */
                     },
                     onFailure = { msg ->
                         errorMessage = msg
