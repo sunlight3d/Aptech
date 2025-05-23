@@ -3,11 +3,11 @@ package com.fit2081.irene33624658.repositories
 import android.content.Context
 import com.fit2081.irene33624658.dao.HospitalDatabase
 import com.fit2081.irene33624658.dao.PatientDao
-import com.fit2081.irene33624658.models.MotivationalMessage
+import com.fit2081.irene33624658.models.NutriCoachTip
 import com.google.ai.client.generativeai.GenerativeModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import java.util.Date
 
 class GeminiRepository(private val context: Context) {
     private val patientDao: PatientDao
@@ -20,6 +20,15 @@ class GeminiRepository(private val context: Context) {
         val db = HospitalDatabase.getDatabase(context)
         patientDao = db.patientDao()
     }
+    suspend fun insertMotivationalTip(tip: NutriCoachTip) {
+        val db = HospitalDatabase.getDatabase(context)
+        db.nutriCoachTipDao().insertTip(tip)
+    }
+    fun getTipsForUser(userId: String): Flow<List<NutriCoachTip>> {
+        val db = HospitalDatabase.getDatabase(context)
+        return db.nutriCoachTipDao().getTipsForUser(userId)
+    }
+
     suspend fun generateMotivationalMessage(userId: String): String {
         return withContext(Dispatchers.IO) {
             try {
@@ -29,7 +38,7 @@ class GeminiRepository(private val context: Context) {
 
                 // Save to database
                 patientDao.insertMotivationalMessage(
-                    MotivationalMessage(
+                    NutriCoachTip(
                         userId = userId,
                         message = message
                     )

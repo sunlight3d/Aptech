@@ -2,7 +2,7 @@ package com.fit2081.irene33624658.dao
 
 import androidx.room.*
 import com.fit2081.irene33624658.models.FoodIntake
-import com.fit2081.irene33624658.models.MotivationalMessage
+import com.fit2081.irene33624658.models.NutriCoachTip
 import com.fit2081.irene33624658.models.Patient
 import kotlinx.coroutines.flow.Flow
 
@@ -54,10 +54,10 @@ interface PatientDao {
 
     // Add these to PatientDao.kt
     @Insert
-    suspend fun insertMotivationalMessage(message: MotivationalMessage)
+    suspend fun insertMotivationalMessage(message: NutriCoachTip)
 
     @Query("SELECT * FROM motivational_messages WHERE userId = :userId ORDER BY createdAt DESC")
-    fun getMotivationalMessagesForUser(userId: String): Flow<List<MotivationalMessage>>
+    fun getMotivationalMessagesForUser(userId: String): Flow<List<NutriCoachTip>>
 
     @Query("DELETE FROM motivational_messages WHERE userId = :userId")
     suspend fun deleteMotivationalMessagesForUser(userId: String)

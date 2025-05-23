@@ -9,21 +9,22 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.fit2081.irene33624658.converters.DateConverter
 import com.fit2081.irene33624658.models.FoodIntake
-import com.fit2081.irene33624658.models.MotivationalMessage
+import com.fit2081.irene33624658.models.NutriCoachTip
 import com.fit2081.irene33624658.models.Patient
 @Database(
     entities = [
         Patient::class,
         FoodIntake::class,
-        MotivationalMessage::class  // Thêm dòng này
+        NutriCoachTip::class  // Thêm dòng này
     ],
-    version = 6,  // Incremented version
+    version = 7,  // Incremented version
     exportSchema = false
 )
 @TypeConverters(DateConverter::class)
 abstract class HospitalDatabase : RoomDatabase() {
     abstract fun patientDao(): PatientDao
     abstract fun foodIntakeDao(): FoodIntakeDao
+    abstract fun nutriCoachTipDao(): NutriCoachTipDao
 
     companion object {
         @Volatile
@@ -32,7 +33,7 @@ abstract class HospitalDatabase : RoomDatabase() {
         private val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL("""
-                    CREATE TABLE motivational_messages (
+                    CREATE TABLE nutri_coach_tips (
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         userId TEXT NOT NULL,
                         message TEXT NOT NULL,

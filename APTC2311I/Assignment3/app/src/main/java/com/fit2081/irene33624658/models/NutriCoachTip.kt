@@ -4,8 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.Date
 
-@Entity(tableName = "motivational_messages")
-data class MotivationalMessage(
+@Entity(tableName = "nutri_coach_tips")
+data class NutriCoachTip(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val userId: String,

@@ -23,6 +23,7 @@ import com.fit2081.irene33624658.viewmodels.FruitViewModel
 import com.fit2081.irene33624658.viewmodels.MotivationViewModel
 import com.fit2081.irene33624658.services.LoggerService
 import com.fit2081.irene33624658.services.ToastService
+import com.fit2081.irene33624658.utils.SharedPreferencesHelper
 import kotlinx.coroutines.launch
 
 @Composable
@@ -48,6 +49,10 @@ fun NutriCoachTab(
 
     var text by remember { mutableStateOf("") }
     var showMotivationalText by remember { mutableStateOf(false) }
+
+    var showTipsDialog by remember { mutableStateOf(false) }
+    var tipsText by remember { mutableStateOf("") }
+
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
@@ -202,7 +207,23 @@ fun NutriCoachTab(
 
         FloatingActionButton(
             onClick = {
-                ToastService.showShort("Feature: Show All Tips")
+                val userId = SharedPreferencesHelper(context).getLoggedInUserId()
+                if (userId != null) {
+                    val tipsFlow = motivationViewModel.getTipsForUser(userId)
+                    val coroutineScope = rememberCoroutineScope()
+                    coroutineScope.launch {
+                        tipsFlow.collectLatest { tips ->
+                            if (tips.isNotEmpty()) {
+                                tipsText = tips.joinToString("\n\n") { "• ${it.message}" }
+                                showTipsDialog = true
+                            } else {
+                                ToastService.showShort("No tips found.")
+                            }
+                        }
+                    }
+                } else {
+                    ToastService.showError("User not logged in")
+                }
             },
             containerColor = Color(0xFF67CFDC),
             contentColor = Color.White,
@@ -215,6 +236,28 @@ fun NutriCoachTab(
                 Text("Show All Tips")
             }
         }
+        if (showTipsDialog) {
+            AlertDialog(
+                onDismissRequest = { showTipsDialog = false },
+                title = { Text("All Motivational Tips") },
+                text = {
+                    Text(
+                        text = tipsText,
+                        fontSize = 14.sp,
+                        lineHeight = 20.sp
+                    )
+                },
+                confirmButton = {
+                    Button(
+                        onClick = { showTipsDialog = false },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6C00FF))
+                    ) {
+                        Text("OK")
+                    }
+                }
+            )
+        }
+
 
 
     }
