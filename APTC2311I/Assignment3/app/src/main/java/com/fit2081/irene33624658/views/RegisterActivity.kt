@@ -19,7 +19,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.fit2081.irene33624658.views.theme.Assignment1Theme
+import com.fit2081.irene33624658.views.theme.Assignment3Theme
 import com.fit2081.irene33624658.viewmodels.RegisterViewModel
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -52,7 +52,6 @@ import androidx.compose.ui.platform.LocalDensity
 import com.fit2081.irene33624658.services.LoggerService
 import com.fit2081.irene33624658.services.ToastService
 import com.fit2081.irene33624658.utils.SharedPreferencesHelper
-import com.fit2081.irene33624658.views.food_intake.FoodIntakeScreen
 import com.fit2081.irene33624658.viewmodels.LoginViewModel
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 
@@ -66,7 +65,7 @@ class RegisterActivity : ComponentActivity() {
         LoggerService.debug("RegisterActivity created")
         ToastService.init(applicationContext)
         setContent {
-            Assignment1Theme {
+            Assignment3Theme {
                 RegisterScreen()
             }
         }
@@ -345,7 +344,7 @@ fun RegisterScreen(
                 .height(48.dp),
             shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF67CFDC),
+                containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = Color.White
             )
         ) {

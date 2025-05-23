@@ -56,10 +56,10 @@ interface PatientDao {
     @Insert
     suspend fun insertMotivationalMessage(message: NutriCoachTip)
 
-    @Query("SELECT * FROM motivational_messages WHERE userId = :userId ORDER BY createdAt DESC")
+    @Query("SELECT * FROM nutri_coach_tips WHERE userId = :userId ORDER BY createdAt DESC")
     fun getMotivationalMessagesForUser(userId: String): Flow<List<NutriCoachTip>>
 
-    @Query("DELETE FROM motivational_messages WHERE userId = :userId")
+    @Query("DELETE FROM nutri_coach_tips WHERE userId = :userId")
     suspend fun deleteMotivationalMessagesForUser(userId: String)
 
 }

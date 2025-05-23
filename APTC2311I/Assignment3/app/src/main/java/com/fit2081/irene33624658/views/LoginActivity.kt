@@ -36,6 +36,7 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -61,7 +62,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fit2081.irene33624658.services.LoggerService
 import com.fit2081.irene33624658.services.ToastService
 import com.fit2081.irene33624658.views.food_intake.FoodIntakeScreen
-import com.fit2081.irene33624658.views.theme.Assignment1Theme
+import com.fit2081.irene33624658.views.theme.Assignment3Theme
 import com.fit2081.irene33624658.viewmodels.LoginViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
@@ -73,7 +74,7 @@ class LoginActivity : ComponentActivity() {
         LoggerService.debug("LoginActivity created")
         ToastService.init(applicationContext)
         setContent {
-            Assignment1Theme {
+            Assignment3Theme {
                 LoginScreen()
             }
         }
@@ -276,7 +277,7 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
                 .height(48.dp),
             shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF67CFDC),
+                containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = Color.White
             )
         ) {
@@ -294,7 +295,7 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
                 .height(48.dp),
             shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF67CFDC),
+                containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = Color.White
             )
         ) {

@@ -33,10 +33,10 @@ import com.fit2081.assignment1.R
 import com.fit2081.irene33624658.services.LoggerService
 import com.fit2081.irene33624658.services.ToastService
 import com.fit2081.irene33624658.utils.SharedPreferencesHelper
-import com.fit2081.irene33624658.views.food_intake.FoodIntakeScreen
 //import com.fit2081.irene33624658.ui.theme.Assignment1Theme
 import com.fit2081.irene33624658.viewmodels.WelcomeViewModel
 import com.fit2081.irene33624658.views.home.HomeActivity
+import com.fit2081.irene33624658.views.theme.Assignment3Theme
 import kotlinx.coroutines.launch
 
 class WelcomeActivity : ComponentActivity() {
@@ -57,12 +57,14 @@ class WelcomeActivity : ComponentActivity() {
         LoggerService.debug("Showing welcome screen for new/unauthenticated user")
         enableEdgeToEdge()
         setContent {
-            WelcomeScreen(
-                onLoginClick = {
-                    LoggerService.debug("Login button clicked, navigating to LoginActivity")
-                    startActivity(Intent(this, LoginActivity::class.java))
-                }
-            )
+            Assignment3Theme {
+                WelcomeScreen(
+                    onLoginClick = {
+                        LoggerService.debug("Login button clicked, navigating to LoginActivity")
+                        startActivity(Intent(this, LoginActivity::class.java))
+                    }
+                )
+            }
         }
     }
 }
@@ -249,7 +251,7 @@ fun WelcomeScreen(
                 .height(50.dp),
             shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF67CFDC),
+                containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = Color.White
             )
         ) {

@@ -49,7 +49,7 @@ fun ClinicianDashboard(
                 },
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF67CFDC),
+                    containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = Color.White
                 )
             ) {
@@ -81,7 +81,7 @@ fun ClinicianDashboard(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF67CFDC),
+                containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = Color.White
             ),
         ) {

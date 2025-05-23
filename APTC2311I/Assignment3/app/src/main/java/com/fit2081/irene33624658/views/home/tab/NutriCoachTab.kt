@@ -24,6 +24,7 @@ import com.fit2081.irene33624658.viewmodels.MotivationViewModel
 import com.fit2081.irene33624658.services.LoggerService
 import com.fit2081.irene33624658.services.ToastService
 import com.fit2081.irene33624658.utils.SharedPreferencesHelper
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @Composable
@@ -94,7 +95,7 @@ fun NutriCoachTab(
                     enabled = text.isNotBlank() && !isLoading,
                     shape = RoundedCornerShape(10.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFF67CFDC),
+                        containerColor = MaterialTheme.colorScheme.primary,
                         contentColor = Color.White
                     ),
                 ) {
@@ -177,7 +178,7 @@ fun NutriCoachTab(
                 },
                 shape = RoundedCornerShape(10.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF67CFDC),
+                    containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = Color.White
                 ),
                 enabled = !isMotivationLoading
@@ -205,12 +206,14 @@ fun NutriCoachTab(
             }
         }
 
+        val coroutineScope = rememberCoroutineScope() // ✅ Di chuyển ra ngoài FloatingActionButton
+
         FloatingActionButton(
             onClick = {
                 val userId = SharedPreferencesHelper(context).getLoggedInUserId()
                 if (userId != null) {
                     val tipsFlow = motivationViewModel.getTipsForUser(userId)
-                    val coroutineScope = rememberCoroutineScope()
+
                     coroutineScope.launch {
                         tipsFlow.collectLatest { tips ->
                             if (tips.isNotEmpty()) {
@@ -225,8 +228,8 @@ fun NutriCoachTab(
                     ToastService.showError("User not logged in")
                 }
             },
-            containerColor = Color(0xFF67CFDC),
-            contentColor = Color.White,
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary,
             shape = RoundedCornerShape(10.dp),
             modifier = Modifier
                 .align(Alignment.BottomEnd)

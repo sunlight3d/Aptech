@@ -54,7 +54,7 @@ fun ClinicianLogin(
             },
             shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF67CFDC),
+                containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = Color.White
             ),
             modifier = Modifier.fillMaxWidth()
