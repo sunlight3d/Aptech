@@ -22,7 +22,8 @@ class RegisterViewModel : ViewModel() {
         val userIdError: String? = null,
         val phoneError: String? = null,
         val passwordError: String? = null,
-        val confirmPasswordError: String? = null
+        val confirmPasswordError: String? = null,
+        val nameError: String? = null
     )
 
     fun initRepository(context: Context) {

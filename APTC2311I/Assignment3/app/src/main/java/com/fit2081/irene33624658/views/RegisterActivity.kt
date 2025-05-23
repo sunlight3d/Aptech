@@ -49,6 +49,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.style.TextAlign
 import com.fit2081.irene33624658.services.LoggerService
 import com.fit2081.irene33624658.services.ToastService
 import com.fit2081.irene33624658.utils.SharedPreferencesHelper
@@ -80,6 +81,7 @@ fun RegisterScreen(
     val context = LocalContext.current
     LoggerService.debug("RegisterScreen composable launched")
 
+
     // Initialize repositories
     LaunchedEffect(Unit) {
         try {
@@ -96,6 +98,7 @@ fun RegisterScreen(
 
     val patientIds by loginViewModel.patientIds.collectAsState()
     var userId by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf("") }
     var phoneNumber by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
@@ -117,7 +120,10 @@ fun RegisterScreen(
         Text(
             text = "Register",
             style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(bottom = 32.dp)
+            textAlign = TextAlign.Center,            // 👈 căn giữa chữ
+            modifier = Modifier
+                .fillMaxWidth()                      // 👈 cho phép Text chiếm toàn bộ chiều ngang
+                .padding(bottom = 32.dp)
         )
 
         // === My ID with dropdown ===
@@ -258,6 +264,28 @@ fun RegisterScreen(
                 if (validationState.confirmPasswordError != null) {
                     LoggerService.debug("Confirm password validation error: ${validationState.confirmPasswordError}")
                     Text(validationState.confirmPasswordError!!, color = Color.Red)
+                }
+            }
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = "Name",
+            style = MaterialTheme.typography.bodySmall,
+            color = Color.Gray
+        )
+        OutlinedTextField(
+            value = name,
+            onValueChange = { name = it },
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp),
+            placeholder = { Text("Enter your full name") },
+            isError = validationState.nameError != null,
+            supportingText = {
+                if (validationState.nameError != null) {
+                    LoggerService.debug("Name validation error: ${validationState.nameError}")
+                    Text(validationState.nameError!!, color = Color.Red)
                 }
             }
         )
