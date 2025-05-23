@@ -83,29 +83,80 @@ class RegisterViewModel : ViewModel() {
     }
     fun register(
         userId: String,
+        name: String,
         phoneNumber: String,
         password: String,
+        confirmPassword: String,
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit
     ) {
+        // Reset lỗi
+        validationState.value = ValidationState()
+
         viewModelScope.launch {
             try {
-                // Lúc này userId đã được valid trước rồi
-                val patient = repository.getPatientById(userId)
-                if (patient == null) {
-                    onFailure("User not found")
+                // Validate User ID
+                if (userId.isBlank()) {
+                    validationState.value = validationState.value.copy(
+                        userIdError = "User ID cannot be empty"
+                    )
+                    onFailure("Please enter a valid User ID")
                     return@launch
                 }
-                // Verify phone
+
+                val exists = repository.checkPatientExists(userId)
+                if (!exists) {
+                    validationState.value = validationState.value.copy(
+                        userIdError = "User ID not found in system"
+                    )
+                    onFailure("User ID not found")
+                    return@launch
+                }
+
+                // Validate name
+                if (name.isBlank()) {
+                    validationState.value = validationState.value.copy(
+                        nameError = "Name cannot be empty"
+                    )
+                    onFailure("Please enter your name")
+                    return@launch
+                }
+
+                // Validate phone
+                if (!validatePhone(phoneNumber)) {
+                    onFailure("Invalid phone number")
+                    return@launch
+                }
+
+                // Validate password + confirm password
+                val passwordValid = validatePassword(password, confirmPassword)
+                if (!passwordValid) {
+                    onFailure("Password validation failed")
+                    return@launch
+                }
+
+                // Lấy thông tin bệnh nhân từ hệ thống
+                val patient = repository.getPatientById(userId)
+                if (patient == null) {
+                    onFailure("User not found in repository")
+                    return@launch
+                }
+
+                // Kiểm tra số điện thoại có trùng
                 if (patient.phoneNumber != phoneNumber) {
                     validationState.value = validationState.value.copy(
-                        phoneError = "Phone number does not match"
+                        phoneError = "Phone number does not match our record"
                     )
                     onFailure("Phone mismatch")
                     return@launch
                 }
-                // Update password
-                repository.updatePatient(patient.copy(password = password))
+
+                // Cập nhật mật khẩu và tên
+                val updatedPatient = patient.copy(
+                    password = password,
+                    name = name
+                )
+                repository.updatePatient(updatedPatient)
                 repository.saveLoginState(userId)
                 onSuccess()
             } catch (e: Exception) {

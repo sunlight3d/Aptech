@@ -12,6 +12,7 @@ object CsvProcessor {
             Patient(
                 userId = user.userId,
                 phoneNumber = user.phoneNumber,
+                name = "",
                 sex = user.sex,
                 heifaTotalScoreMale = user.heifaTotalScoreMale,
                 heifaTotalScoreFemale = user.heifaTotalScoreFemale,

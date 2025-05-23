@@ -146,22 +146,22 @@ fun FoodIntake() {
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Button(
-                onClick = {
-                    // Finish current activity to go back
-                    (context as Activity).finish()
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Transparent,
-                    contentColor = primaryColor)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_back),
-                    contentDescription = "Back",
-                    tint = Color(0xFF6EC9D5),
-                    modifier = Modifier.size(24.dp)
-                )
-            }
+//            Button(
+//                onClick = {
+//                    // Finish current activity to go back
+//                    (context as Activity).finish()
+//                },
+//                colors = ButtonDefaults.buttonColors(
+//                    containerColor = Color.Transparent,
+//                    contentColor = primaryColor)
+//            ) {
+//                Icon(
+//                    painter = painterResource(id = R.drawable.ic_back),
+//                    contentDescription = "Back",
+//                    tint = Color(0xFF6EC9D5),
+//                    modifier = Modifier.size(24.dp)
+//                )
+//            }
             Text(
                 text = "Food Intake Questionnaire",
                 fontSize = 24.sp,
@@ -284,42 +284,18 @@ fun FoodIntake() {
             )
         )
 
-        // persona buttons
-        personas.chunked(2).forEach { rowItems ->
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                rowItems.forEach { persona ->
-                    Button(
-                        onClick = {
-                            selectedPersona = persona
-                            showDialog = true
-                        },
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(4.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6EC9D5)),
-                        shape = RoundedCornerShape(4.dp)
-                    ) {
-                        Text(
-                            text = persona["name"] ?: "",
-                            color = Color.White,
-                            fontSize = 12.sp)
-                    }
-                }
-            }
-        }
-
 //        Persona Info Dialog
-        selectedPersona?.let { persona ->
-            PersonaDialog(
-                showDialog = showDialog,
-                onDismiss = { showDialog = false },
-                imageRes = persona["image"]?.toIntOrNull() ?: 0,
-                title = persona["name"] ?: "",
-                description = persona["description"] ?: ""
-            )
-        }
+                selectedPersona?.let { persona ->
+                    PersonaDialog(
+                        showDialog = showDialog,
+                        onDismiss = { showDialog = false },
+                        imageRes = persona["image"]?.toIntOrNull() ?: 0,
+                        title = persona["name"] ?: "",
+                        description = persona["description"] ?: ""
+                    )
+                }
 
-        Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
         // dropdown for persona selection
         Text(
@@ -333,7 +309,14 @@ fun FoodIntake() {
         DropdownPersonaSelector(
             personas = personas.map { it["name"] ?: "" },
             selectedPersona = selectedPersonaName,
-            onPersonaSelected = { selectedPersonaName = it }
+            onPersonaSelected = {
+                selectedPersonaName = it
+                val matchedPersona = personas.find { persona -> persona["name"] == it }
+                if (matchedPersona != null) {
+                    selectedPersona = matchedPersona
+                    showDialog = true
+                }
+            }
         )
 
         Spacer(modifier = Modifier.height(20.dp))

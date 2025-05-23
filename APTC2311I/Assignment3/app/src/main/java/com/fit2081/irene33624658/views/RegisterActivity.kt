@@ -280,7 +280,7 @@ fun RegisterScreen(
             onValueChange = { name = it },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp),
-            placeholder = { Text("Enter your full name") },
+            placeholder = { Text("Enter your name") },
             isError = validationState.nameError != null,
             supportingText = {
                 if (validationState.nameError != null) {
@@ -328,8 +328,10 @@ fun RegisterScreen(
                         // If all validations passed, proceed to register
                         viewModel.register(
                             userId = userId,
+                            name = name,
                             phoneNumber = phoneNumber,
                             password = password,
+                            confirmPassword = confirmPassword,
                             onSuccess = {
                                 LoggerService.debug("Register success in local DB, now creating Firebase account")
                                 val sharedPrefsHelper = SharedPreferencesHelper(context)
@@ -349,7 +351,7 @@ fun RegisterScreen(
                                             LoggerService.error("Firebase registration failed", throwable = exception)
 
                                             if (exception is FirebaseAuthUserCollisionException) {
-                                                ToastService.showError("Account already exists for this phone number")
+                                                ToastService.showError("Account already exists for this phone number in Firebase !.")
                                             } else {
                                                 ToastService.showError("Firebase registration failed: ${exception?.message}")
                                             }

@@ -48,6 +48,7 @@ object CsvReader {
             Patient(
                 phoneNumber = tokens[0],
                 userId = tokens[1],
+                name = "",
                 sex = tokens[2],
                 heifaTotalScoreMale = tokens[3].toDouble(),
                 heifaTotalScoreFemale = tokens[4].toDouble(),
