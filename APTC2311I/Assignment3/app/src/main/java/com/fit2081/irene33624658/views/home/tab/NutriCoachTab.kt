@@ -51,7 +51,9 @@ fun NutriCoachTab(
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-            Text("NutriCoach", style = MaterialTheme.typography.headlineSmall)
+            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Text("NutriCoach", style = MaterialTheme.typography.headlineSmall)
+            }
 
             Spacer(Modifier.height(16.dp))
 
