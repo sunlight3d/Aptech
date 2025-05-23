@@ -153,11 +153,21 @@ fun NutriCoachTab(
 
         Button(
             onClick = {
-                LoggerService.info("Generating motivational message", tag = "NutriCoach")
-                motivationViewModel.generateMotivationalMessage()
-                showMessageDialog = true
+                if (detail?.family != null &&
+                    detail?.nutritions?.calories != null &&
+                    detail?.nutritions?.fat != null &&
+                    detail?.nutritions?.sugar != null &&
+                    detail?.nutritions?.carbohydrates != null &&
+                    detail?.nutritions?.protein != null
+                ) {
+                    LoggerService.info("Generating motivational message", tag = "NutriCoach")
+                    motivationViewModel.generateMotivationalMessage()
+                    showMessageDialog = true
+                } else {
+                    LoggerService.warning("Detail info is incomplete or missing", tag = "NutriCoach")
+                    ToastService.showError("Please fetch fruit details first before generating a message.")
+                }
             },
-
             shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF67CFDC),
