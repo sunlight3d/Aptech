@@ -292,7 +292,7 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp),
-            shape = RoundedCornerShape(12.dp),
+            shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF67CFDC),
                 contentColor = Color.White

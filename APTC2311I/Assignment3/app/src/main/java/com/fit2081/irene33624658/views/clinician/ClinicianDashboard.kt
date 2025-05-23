@@ -41,17 +41,23 @@ fun ClinicianDashboard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text("Clinician Dashboard", style = MaterialTheme.typography.headlineMedium)
-            Button(onClick = {
-                LoggerService.debug("Clinician logging out")
-                ToastService.showShort("Logging out...")
-                onLogout()
-            }) {
+            Button(
+                onClick = {
+                    LoggerService.debug("Clinician logging out")
+                    ToastService.showShort("Logging out...")
+                    onLogout()
+                },
+                shape = RoundedCornerShape(10.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF67CFDC),
+                    contentColor = Color.White
+                )
+            ) {
                 Text("Logout")
             }
         }
 
         Spacer(modifier = Modifier.height(24.dp))
-
         // Stats Card
         patientData?.let { patient ->
             LoggerService.debug("Displaying patient data: ${patient.userId}")
