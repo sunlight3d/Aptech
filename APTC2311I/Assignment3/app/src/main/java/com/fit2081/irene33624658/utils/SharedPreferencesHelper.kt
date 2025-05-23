@@ -14,7 +14,7 @@ class SharedPreferencesHelper(context: Context) {
 
     // For first run check
     fun setFirstRunCompleted() {
-        sharedPref.edit().putBoolean("is_first_run", false).apply()
+        sharedPref.edit() { putBoolean("is_first_run", false) }
     }
 
     fun isFirstRun(): Boolean {
@@ -23,13 +23,13 @@ class SharedPreferencesHelper(context: Context) {
 
     // Existing food intake preferences methods
     fun saveFoodPreferences(selectedFoods: List<String>) {
-        val editor = sharedPref.edit()
-        editor.putStringSet("selected_foods", selectedFoods.toSet())
-        editor.apply()
+        sharedPref.edit() {
+            putStringSet("selected_foods", selectedFoods.toSet())
+        }
     }
 
     fun savePersona(persona: String) {
-        sharedPref.edit().putString("selected_persona", persona).apply()
+        sharedPref.edit() { putString("selected_persona", persona) }
     }
 
     fun saveTimings(biggestMeal: String, sleepTime: String, wakeUpTime: String) {
@@ -54,7 +54,7 @@ class SharedPreferencesHelper(context: Context) {
     }
 
     fun clearAllData() {
-        sharedPref.edit().clear().apply()
+        sharedPref.edit() { clear() }
     }
 
     fun getFoodPreferences(): List<String> {

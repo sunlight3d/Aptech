@@ -51,6 +51,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalDensity
 import com.fit2081.irene33624658.services.LoggerService
 import com.fit2081.irene33624658.services.ToastService
+import com.fit2081.irene33624658.utils.SharedPreferencesHelper
 import com.fit2081.irene33624658.views.food_intake.FoodIntakeScreen
 import com.fit2081.irene33624658.viewmodels.LoginViewModel
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
@@ -282,38 +283,62 @@ fun RegisterScreen(
 
         Button(
             onClick = {
-                viewModel.register(
-                    userId = userId,
-                    phoneNumber = phoneNumber,
-                    password = password,
-                    onSuccess = {
-                        LoggerService.debug("Register success in local DB, now creating Firebase account")
-                        val auth = com.google.firebase.auth.FirebaseAuth.getInstance()
-                        val email = "${phoneNumber}@fit2081.com" // fake email based on phone
+                showError = false
 
-                        auth.createUserWithEmailAndPassword(email, password)
-                            .addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    LoggerService.info("Firebase user created successfully: ${auth.currentUser?.uid}")
-                                    ToastService.showSuccess("Registered & synced with Firebase")
-                                    context.startActivity(Intent(context, LoginActivity::class.java))
-                                } else {
-                                    val exception = task.exception
-                                    LoggerService.error("Firebase registration failed", throwable = exception)
+                // Run validations first
+                val isPhoneValid = viewModel.validatePhone(phoneNumber)
+                val isPasswordValid = viewModel.validatePassword(password, confirmPassword)
 
-                                    if (exception is FirebaseAuthUserCollisionException) {
-                                        ToastService.showError("Account already exists for this phone number")
-                                    } else {
-                                        ToastService.showError("Firebase registration failed: ${exception?.message}")
+                // Now check userId via async call
+                if (isPhoneValid && isPasswordValid) {
+                    viewModel.validateUserId(userId) { isUserIdValid ->
+                        if (!isUserIdValid) {
+                            showError = true
+                            errorMessage = "Invalid User ID"
+                            return@validateUserId
+                        }
+
+                        // If all validations passed, proceed to register
+                        viewModel.register(
+                            userId = userId,
+                            phoneNumber = phoneNumber,
+                            password = password,
+                            onSuccess = {
+                                LoggerService.debug("Register success in local DB, now creating Firebase account")
+                                val sharedPrefsHelper = SharedPreferencesHelper(context)
+                                sharedPrefsHelper.clearAllData()
+
+                                val auth = com.google.firebase.auth.FirebaseAuth.getInstance()
+                                val email = "${phoneNumber}@fit2081.com"
+
+                                auth.createUserWithEmailAndPassword(email, password)
+                                    .addOnCompleteListener { task ->
+                                        if (task.isSuccessful) {
+                                            LoggerService.info("Firebase user created successfully: ${auth.currentUser?.uid}")
+                                            ToastService.showSuccess("Registered & synced with Firebase")
+                                            context.startActivity(Intent(context, LoginActivity::class.java))
+                                        } else {
+                                            val exception = task.exception
+                                            LoggerService.error("Firebase registration failed", throwable = exception)
+
+                                            if (exception is FirebaseAuthUserCollisionException) {
+                                                ToastService.showError("Account already exists for this phone number")
+                                            } else {
+                                                ToastService.showError("Firebase registration failed: ${exception?.message}")
+                                            }
+                                        }
                                     }
-                                }
+                            },
+                            onFailure = { msg ->
+                                errorMessage = msg
+                                showError = true
                             }
-                    },
-                    onFailure = { msg ->
-                        errorMessage = msg
-                        showError = true
+                        )
                     }
-                )
+                } else {
+                    showError = true
+                    errorMessage = "Please fix the validation errors"
+                }
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -326,6 +351,7 @@ fun RegisterScreen(
         ) {
             Text("Register", fontSize = 16.sp)
         }
+
 
         Spacer(modifier = Modifier.height(16.dp))
 

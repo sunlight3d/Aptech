@@ -38,6 +38,7 @@ fun ClinicianLogin(
             value = clinicianKey,
             onValueChange = { clinicianKey = it },
             label = { Text("Clinician Key") },
+            placeholder = { Text("Type dollar-entry-apples for testing") },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier
                 .fillMaxWidth()
