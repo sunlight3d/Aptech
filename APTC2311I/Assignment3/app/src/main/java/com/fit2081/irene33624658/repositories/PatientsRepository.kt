@@ -48,4 +48,11 @@ class PatientsRepository(private val context: Context) {
     suspend fun checkPatientExists(userId: String): Boolean {
         return patientDao.getPatientById(userId) != null
     }
+    suspend fun getAverageHeifaMale(): Double {
+        return patientDao.getAverageHeifaMale() ?: 0.0
+    }
+
+    suspend fun getAverageHeifaFemale(): Double {
+        return patientDao.getAverageHeifaFemale() ?: 0.0
+    }
 }

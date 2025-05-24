@@ -27,14 +27,6 @@ class MotivationViewModel(
             try {
                 val generatedMessage = geminiRepository.generateMotivationalMessage(userId)
                 _message.value = generatedMessage
-
-                // ✅ Insert message vào bảng NutriCoachTip
-                val tip = NutriCoachTip(
-                    userId = userId,
-                    message = generatedMessage
-                )
-                geminiRepository.insertMotivationalTip(tip)
-
             } catch (e: Exception) {
                 LoggerService.error("Failed to generate motivational message", throwable = e)
             } finally {

@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.fit2081.irene33624658.services.ToastService
 import com.fit2081.irene33624658.viewmodels.ClinicianViewModel
 
 @Composable
@@ -49,8 +50,12 @@ fun ClinicianLogin(
 
         Button(
             onClick = {
-                viewModel.authenticateClinician(clinicianKey)
-                onAuthenticated()
+                val success = viewModel.authenticateClinician(clinicianKey)
+                if (success) {
+                    onAuthenticated()
+                } else {
+                    ToastService.showError("Invalid clinician key. Please try again.")
+                }
             },
             shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.buttonColors(

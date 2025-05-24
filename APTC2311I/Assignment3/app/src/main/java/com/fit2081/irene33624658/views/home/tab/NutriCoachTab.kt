@@ -1,7 +1,9 @@
 package com.fit2081.irene33624658.views.home.tab
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
@@ -244,16 +246,23 @@ fun NutriCoachTab(
                 onDismissRequest = { showTipsDialog = false },
                 title = { Text("All Motivational Tips") },
                 text = {
-                    Text(
-                        text = tipsText,
-                        fontSize = 14.sp,
-                        lineHeight = 20.sp
-                    )
+                    Column(
+                        modifier = Modifier
+                            .heightIn(min = 100.dp, max = 400.dp)
+                            .verticalScroll(rememberScrollState())
+                    ) {
+                        Text(
+                            text = tipsText,
+                            fontSize = 14.sp,
+                            lineHeight = 20.sp
+                        )
+                    }
                 },
                 confirmButton = {
                     Button(
                         onClick = { showTipsDialog = false },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF6C00FF))
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary)
                     ) {
                         Text("OK")
                     }

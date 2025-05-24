@@ -21,6 +21,8 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import com.fit2081.irene33624658.viewmodels.ClinicianViewModel
 import com.fit2081.irene33624658.views.LoginActivity
 import com.fit2081.irene33624658.views.clinician.ClinicianDashboard
@@ -59,7 +61,14 @@ fun SettingsTab(
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            Text("Settings", style = MaterialTheme.typography.headlineSmall)
+            Text(
+                text = "Settings",
+                style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
+                textAlign = TextAlign.Center
+            )
 
             Spacer(modifier = Modifier.height(24.dp))
             Text("ACCOUNT", style = MaterialTheme.typography.labelSmall)
@@ -70,7 +79,7 @@ fun SettingsTab(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(Icons.Default.Person, contentDescription = null)
                     Spacer(Modifier.width(16.dp))
-                    Text("Irene Nguyen", fontSize = 16.sp)
+                    Text(patient!!.name, fontSize = 16.sp)
                 }
                 Spacer(Modifier.height(8.dp))
                 // Phone

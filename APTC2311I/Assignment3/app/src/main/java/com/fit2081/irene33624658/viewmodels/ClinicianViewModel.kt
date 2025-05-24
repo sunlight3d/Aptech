@@ -37,11 +37,28 @@ class ClinicianViewModel(
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
 
-    fun authenticateClinician(key: String) {
-        _isAuthenticated.value = key == validClinicianKey
-        if (_isAuthenticated.value) {
-            loadPatientData()
+    private val _avgHeifaMale = MutableStateFlow(0.0)
+    val avgHeifaMale: StateFlow<Double> = _avgHeifaMale
+
+    private val _avgHeifaFemale = MutableStateFlow(0.0)
+    val avgHeifaFemale: StateFlow<Double> = _avgHeifaFemale
+
+    fun loadAverageHeifaScores() {
+        viewModelScope.launch {
+            _avgHeifaMale.value = repository.getAverageHeifaMale()
+            _avgHeifaFemale.value = repository.getAverageHeifaFemale()
         }
+    }
+
+
+    fun authenticateClinician(key: String): Boolean {
+        val isValid = key == validClinicianKey
+        _isAuthenticated.value = isValid
+        if (isValid) {
+            loadPatientData()
+            loadAverageHeifaScores()
+        }
+        return isValid
     }
 
     private fun loadPatientData() {
@@ -67,8 +84,16 @@ class ClinicianViewModel(
 
                 // Prepare prompt for Gemini using the specific patient's data
                 val prompt = """
-                    Analyze this patient's nutrition scores and identify 3 significant data patterns:
-                    Patient ${patient.userId}:
+                    Please analyze this patient's nutrition scores and return exactly 3 insights as bullet points.
+                    
+                    Each bullet should have a short bolded **title**, followed by a colon and a clear explanation.
+                    
+                    Use the following format:
+                    Title 1: Description...
+                    Title 2: Description...
+                    Title 3: Description...
+                    
+                    Here is the patient data:
                     - HEIFA Score: ${patient.heifaTotalScore}
                     - Vegetables: ${patient.vegetablesHeifaScoreMale}
                     - Fruits: ${patient.fruitHeifaScoreMale}
@@ -76,8 +101,9 @@ class ClinicianViewModel(
                     - Protein: ${patient.meatAndAlternativesHeifaScoreMale}
                     - Dairy: ${patient.dairyAndAlternativesHeifaScoreMale}
                     
-                    Provide the response as 3 bullet points with clear insights and recommendations.
-                """.trimIndent()
+                    Only include 3 insights. Do not use markdown bullet points or numbered lists.
+                    """.trimIndent()
+
 
                 // Call Gemini API
                 val response = withContext(Dispatchers.IO) {
@@ -86,8 +112,16 @@ class ClinicianViewModel(
 
                 // Parse response into 3 points
                 _dataPatterns.value = response.split("\n")
-                    .take(3)
-                    .map { it.replace("- ", "").trim() }
+                    .filter { it.contains(":") }
+                    .map {
+                        val parts = it.split(":", limit = 2)
+                        val title = parts[0].removePrefix("**").removeSuffix("**").trim()
+                        val description = parts.getOrElse(1) { "" }.trim()
+                        "$title: $description"
+                    }
+
+                print("test")
+
             } finally {
                 _isLoading.value = false
             }

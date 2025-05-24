@@ -70,4 +70,10 @@ interface PatientDao {
     @Query("DELETE FROM nutri_coach_tips WHERE userId = :userId")
     suspend fun deleteMotivationalMessagesForUser(userId: String)
 
+    @Query("SELECT AVG(heifaTotalScoreMale) FROM patients WHERE sex = 'Male'")
+    suspend fun getAverageHeifaMale(): Double?
+
+    @Query("SELECT AVG(heifaTotalScoreFemale) FROM patients WHERE sex = 'Female'")
+    suspend fun getAverageHeifaFemale(): Double?
+
 }

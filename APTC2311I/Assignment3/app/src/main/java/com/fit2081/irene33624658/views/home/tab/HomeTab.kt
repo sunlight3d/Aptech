@@ -109,7 +109,7 @@ fun HomeTab(navController: NavController) {
                 val intent = Intent(context, FoodIntakeScreen::class.java)
                 context.startActivity(intent)
             },
-            modifier = Modifier.fillMaxWidth(0.25f).height(48.dp),
+            modifier = Modifier.fillMaxWidth(0.33f).height(48.dp),
             shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.buttonColors(Color(0xFF54DDEE))
         ) {
