@@ -153,8 +153,8 @@ class RegisterViewModel : ViewModel() {
 
                 // Cập nhật mật khẩu và tên
                 val updatedPatient = patient.copy(
-                    password = password,
-                    name = name
+                    name = name,
+                    password = if (password.isNotBlank()) password else patient.password
                 )
                 repository.updatePatient(updatedPatient)
                 repository.saveLoginState(userId)

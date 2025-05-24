@@ -30,7 +30,10 @@ class PatientsRepository(private val context: Context) {
 
     // ==== Patient CRUD ====
     suspend fun registerPatient(patient: Patient) = patientDao.insert(patient)
-    suspend fun updatePatient(patient: Patient) = patientDao.update(patient)
+    suspend fun updatePatient(patient: Patient) {
+        print("tressst")
+        patientDao.update(patient)
+    }
     suspend fun deletePatient(patient: Patient) = patientDao.delete(patient)
     fun getAllPatients(): Flow<List<Patient>> = patientDao.getAllPatients()
     suspend fun getPatientById(userId: String): Patient? {

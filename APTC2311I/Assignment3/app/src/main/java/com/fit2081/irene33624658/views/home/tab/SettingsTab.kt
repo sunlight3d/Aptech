@@ -29,6 +29,7 @@ import com.fit2081.irene33624658.views.clinician.ClinicianDashboard
 import com.fit2081.irene33624658.views.clinician.ClinicianLogin
 import com.fit2081.irene33624658.services.LoggerService
 import com.fit2081.irene33624658.services.ToastService
+import com.fit2081.irene33624658.views.WelcomeActivity
 
 
 @Composable
@@ -104,13 +105,14 @@ fun SettingsTab(
 
             // Logout
             Row(
+
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable {
                         settingsViewModel.logout {
                             LoggerService.info("User logged out", tag = "SettingsTab")
                             ToastService.showSuccess("Logged out successfully")
-                            val intent = Intent(context, LoginActivity::class.java).apply {
+                            val intent = Intent(context, WelcomeActivity::class.java).apply {
                                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             }
                             context.startActivity(intent)

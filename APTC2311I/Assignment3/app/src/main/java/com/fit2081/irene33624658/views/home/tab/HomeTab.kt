@@ -78,11 +78,6 @@ fun HomeTab(navController: NavController) {
     val isLoading by viewModel.isLoading.collectAsState()
     val scrollState = rememberScrollState()
 
-    val imageUrl = remember {
-        val randomId = (1..500).random()
-        mutableStateOf("https://picsum.photos/id/$randomId/300")
-    }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -152,9 +147,9 @@ fun HomeTab(navController: NavController) {
                     .aspectRatio(1f)
                     .background(Color.LightGray)
             ) {
-                AsyncImage(
-                    model = imageUrl.value,
-                    contentDescription = "Random image",
+                Image(
+                    painter = painterResource(id = R.drawable.food_dish),
+                    contentDescription = "Food Dish",
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
                 )

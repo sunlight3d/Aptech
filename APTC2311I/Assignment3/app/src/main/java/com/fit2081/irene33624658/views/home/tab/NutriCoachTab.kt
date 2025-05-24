@@ -12,12 +12,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
+import coil.compose.AsyncImage
 import com.fit2081.irene33624658.dao.HospitalDatabase
 import com.fit2081.irene33624658.repositories.GeminiRepository
 import com.fit2081.irene33624658.repositories.PatientsRepository
@@ -34,10 +36,31 @@ fun NutriCoachTab(
     viewModel: FruitViewModel = viewModel(),
 ) {
     val context = LocalContext.current
-    LaunchedEffect(Unit) {
-        LoggerService.debug("NutriCoachTab launched", tag = "NutriCoach")
-        ToastService.showShort("Welcome to NutriCoach!")
+    val showImage = remember { mutableStateOf(false) }
+    val imageUrl = remember {
+        val randomId = (1..500).random()
+        mutableStateOf("https://picsum.photos/id/$randomId/300")
     }
+
+// Load once to check patient data
+    LaunchedEffect(Unit) {
+        val userId = SharedPreferencesHelper(context).getLoggedInUserId()
+        if (userId != null) {
+            val patientRepo = PatientsRepository(context)
+            val patient = patientRepo.getPatientById(userId)
+
+            val variationScore = patient?.fruitVariationsScore ?: 0.0
+            val serveSize = patient?.fruitServeSize ?: 0.0
+            LoggerService.debug("fruitVariationsScore=$variationScore, fruitServeSize=$serveSize", tag = "NutriCoach")
+
+            showImage.value = true
+            if (variationScore >= 2 && serveSize >= 2) {
+
+                showImage.value = true
+            }
+        }
+    }
+
     val motivationViewModel = remember {
         val db = HospitalDatabase.getDatabase(context)
         val geminiRepo = GeminiRepository(context)
@@ -206,6 +229,23 @@ fun NutriCoachTab(
                     modifier = Modifier.padding(8.dp)
                 )
             }
+            if (showImage.value) {
+                Spacer(modifier = Modifier.height(12.dp))
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFFEFEFEF))
+                ) {
+                    AsyncImage(
+                        model = imageUrl.value,
+                        contentDescription = "Random image",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+            }
+
         }
 
         val coroutineScope = rememberCoroutineScope() // ✅ Di chuyển ra ngoài FloatingActionButton
