@@ -92,7 +92,7 @@ fun HomeTab(navController: NavController) {
         // greeting and user ID
         Text("Hello,", fontSize = 24.sp)
         Text(
-            text = user?.userId ?: "User",
+            text = user?.name ?: "User",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold
         )
@@ -109,11 +109,11 @@ fun HomeTab(navController: NavController) {
                 val intent = Intent(context, FoodIntakeScreen::class.java)
                 context.startActivity(intent)
             },
-            modifier = Modifier.fillMaxWidth(0.33f).height(48.dp),
+            modifier = Modifier.fillMaxWidth(0.25f).height(48.dp),
             shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.buttonColors(Color(0xFF54DDEE))
         ) {
-            Icon(Icons.Filled.Edit, contentDescription = "Edit", modifier = Modifier.size(18.dp))
+            Icon(Icons.Filled.Edit, contentDescription = "Edit", modifier = Modifier.size(20.dp))
             Spacer(modifier = Modifier.width(8.dp))
             Text("Edit")
         }

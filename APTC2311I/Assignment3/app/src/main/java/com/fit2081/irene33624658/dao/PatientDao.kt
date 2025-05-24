@@ -52,9 +52,17 @@ interface PatientDao {
     @Query("SELECT userId FROM patients")
     suspend fun getAllPatientIds(): List<String>
 
-    // Add these to PatientDao.kt
+    @Query("SELECT COUNT(*) FROM nutri_coach_tips WHERE userId = :userId AND message = :message")
+    suspend fun countMessageForUser(userId: String, message: String): Int
+
+    suspend fun insertMotivationalMessageIfNotExists(message: NutriCoachTip) {
+        val exists = countMessageForUser(message.userId, message.message)
+        if (exists == 0) {
+            insertMotivationalMessageInternal(message)
+        }
+    }
     @Insert
-    suspend fun insertMotivationalMessage(message: NutriCoachTip)
+    suspend fun insertMotivationalMessageInternal(message: NutriCoachTip)
 
     @Query("SELECT * FROM nutri_coach_tips WHERE userId = :userId ORDER BY createdAt DESC")
     fun getMotivationalMessagesForUser(userId: String): Flow<List<NutriCoachTip>>

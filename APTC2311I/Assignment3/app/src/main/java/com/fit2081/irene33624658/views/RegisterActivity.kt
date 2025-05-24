@@ -106,7 +106,6 @@ fun RegisterScreen(
     var errorMessage by remember { mutableStateOf("") }
     var expanded by remember { mutableStateOf(false) }
     val validationState by viewModel.validationState
-    val coroutineScope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier
