@@ -52,12 +52,8 @@ fun NutriCoachTab(
             val variationScore = patient?.fruitVariationsScore ?: 0.0
             val serveSize = patient?.fruitServeSize ?: 0.0
             LoggerService.debug("fruitVariationsScore=$variationScore, fruitServeSize=$serveSize", tag = "NutriCoach")
+            showImage.value = if (variationScore >= 2 && serveSize >= 2) true else false
 
-            showImage.value = true
-            if (variationScore >= 2 && serveSize >= 2) {
-
-                showImage.value = true
-            }
         }
     }
 
