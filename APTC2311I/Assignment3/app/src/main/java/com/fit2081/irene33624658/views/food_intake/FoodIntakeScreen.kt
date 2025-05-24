@@ -162,12 +162,21 @@ fun FoodIntake() {
 //                    modifier = Modifier.size(24.dp)
 //                )
 //            }
-            Text(
-                text = "Food Intake Questionnaire",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                color = textColor
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 12.dp), // 👈 Dịch xuống 1 chút
+                horizontalArrangement = Arrangement.Center, // 👈 Căn giữa ngang
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Food Intake Questionnaire",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = textColor,
+                    textAlign = TextAlign.Center // 👈 Đảm bảo text được căn giữa nếu có nhiều dòng
+                )
+            }
         }
 
         // Food Categories - Just add Card and colors
@@ -294,6 +303,7 @@ fun FoodIntake() {
                         description = persona["description"] ?: ""
                     )
                 }
+
 
                 Spacer(modifier = Modifier.height(20.dp))
 

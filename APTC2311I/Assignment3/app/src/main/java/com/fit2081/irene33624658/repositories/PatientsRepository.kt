@@ -33,7 +33,9 @@ class PatientsRepository(private val context: Context) {
     suspend fun updatePatient(patient: Patient) = patientDao.update(patient)
     suspend fun deletePatient(patient: Patient) = patientDao.delete(patient)
     fun getAllPatients(): Flow<List<Patient>> = patientDao.getAllPatients()
-    suspend fun getPatientById(id: String): Patient? = patientDao.getPatientById(id)
+    suspend fun getPatientById(userId: String): Patient? {
+        return patientDao.getPatientById(userId) // phải là suspend fun từ Room DAO
+    }
     suspend fun isUserIdAvailable(id: String): Boolean = getPatientById(id) == null
 
     // ==== Login State ====

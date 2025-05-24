@@ -64,6 +64,7 @@ import com.fit2081.irene33624658.services.ToastService
 import com.fit2081.irene33624658.views.food_intake.FoodIntakeScreen
 import com.fit2081.irene33624658.views.theme.Assignment3Theme
 import com.fit2081.irene33624658.viewmodels.LoginViewModel
+import com.fit2081.irene33624658.views.home.HomeActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 
@@ -259,7 +260,17 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
                                     if (task.isSuccessful) {
                                         LoggerService.info("Firebase login successful: ${auth.currentUser?.uid}")
                                         ToastService.showSuccess("Logged in with Firebase")
-                                        context.startActivity(Intent(context, FoodIntakeScreen::class.java))
+
+                                        viewModel.login(
+                                            userId = id,
+                                            password = password,
+                                            onSuccess = {
+                                                context.startActivity(Intent(context, HomeActivity::class.java))
+                                            },
+                                            onFailure = {
+                                                ToastService.showError("Login succeeded on Firebase, but local auth failed.")
+                                            }
+                                        )
                                     } else {
                                         LoggerService.error("Firebase login failed", throwable = task.exception)
                                         ToastService.showError("Firebase login failed: ${task.exception?.message}")

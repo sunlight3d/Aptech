@@ -45,9 +45,11 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.fit2081.irene33624658.views.home.BottomNavItem
 import com.fit2081.assignment1.R
@@ -55,43 +57,30 @@ import com.fit2081.irene33624658.utils.SharedPreferencesHelper
 import coil.compose.AsyncImage
 import com.fit2081.irene33624658.services.LoggerService
 import com.fit2081.irene33624658.services.ToastService
+import com.fit2081.irene33624658.viewmodels.HomeViewModel
 
 
 @Composable
 fun HomeTab(navController: NavController) {
     val context = LocalContext.current
-    var user by remember { mutableStateOf<Patient?>(null) }
-    var isLoading by remember { mutableStateOf(true) }
-    val scrollState = rememberScrollState()
-    val prefsHelper = remember { SharedPreferencesHelper(context) }
-    var imageUrl by remember { mutableStateOf("") }
+    val viewModel: HomeViewModel = viewModel()
 
-    // load user data from CSV
+    // Init repository và load user 1 lần
     LaunchedEffect(Unit) {
-        LoggerService.debug("HomeTab screen loaded", tag = "HomeTab")
+        viewModel.initRepository(context)
+        viewModel.loadUser(context)
         ToastService.showSuccess("Welcome to Home!")
-        // Use prefsHelper instead of direct SharedPreferences access
-        val userId = prefsHelper.getLoggedInUserId() ?: ""
-        val phoneNumber = prefsHelper.getSharedPreferences().getString("phone_number", "") ?: ""
-        LoggerService.info("User ID: $userId, Phone: $phoneNumber", tag = "HomeTab")
+        LoggerService.debug("HomeTab screen loaded", tag = "HomeTab")
+    }
 
-        if (userId.isNotEmpty()) {
-            val users = CsvReader.readPatientsFromCsv(context)
-            user = users.find { it.userId == userId }
+    // State từ ViewModel
+    val user by viewModel.user.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
+    val scrollState = rememberScrollState()
 
-            if (user != null) {
-                LoggerService.debug("User found: ${user?.userId}", tag = "HomeTab")
-            } else {
-                LoggerService.warning("No user found with matching ID and phone", tag = "HomeTab")
-                ToastService.showError("User not found")
-            }
-        } else {
-            LoggerService.error("Missing userId or phone number", tag = "HomeTab")
-            ToastService.showError("Login info missing")
-        }
-        isLoading = false
+    val imageUrl = remember {
         val randomId = (1..500).random()
-        imageUrl = "https://picsum.photos/id/$randomId/300"
+        mutableStateOf("https://picsum.photos/id/$randomId/300")
     }
 
     Column(
@@ -105,36 +94,32 @@ fun HomeTab(navController: NavController) {
         Text(
             text = user?.userId ?: "User",
             fontSize = 24.sp,
-            fontWeight = FontWeight.Bold)
+            fontWeight = FontWeight.Bold
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Text("You've already filled in your Food Intake Questionnaire, but you can change details here:")
-
         Spacer(modifier = Modifier.height(8.dp))
 
-        // edit button to go back to the questionnaire
-        Button(onClick = {
-            LoggerService.info("Navigating to Food Intake screen", tag = "HomeTab")
-            ToastService.showShort("Opening Food Intake form")
-            val intent = Intent(context, FoodIntakeScreen::class.java)
-            context.startActivity(intent)
-        },
-            modifier = Modifier.wrapContentWidth(),
-            contentPadding = PaddingValues(horizontal = 20.dp, vertical = 10.dp),
+        Button(
+            onClick = {
+                LoggerService.info("Navigating to Food Intake screen", tag = "HomeTab")
+                ToastService.showShort("Opening Food Intake form")
+                val intent = Intent(context, FoodIntakeScreen::class.java)
+                context.startActivity(intent)
+            },
+            modifier = Modifier.fillMaxWidth(0.33f).height(48.dp),
             shape = RoundedCornerShape(10.dp),
-            colors = ButtonDefaults.buttonColors(Color(0xFF54DDEE)))
-        {
-            Icon(
-                Icons.Filled.Edit, contentDescription = "Edit",
-                modifier = Modifier.size(18.dp))
-            Spacer(modifier = Modifier.width(4.dp))
-            Text("Edit",)
+            colors = ButtonDefaults.buttonColors(Color(0xFF54DDEE))
+        ) {
+            Icon(Icons.Filled.Edit, contentDescription = "Edit", modifier = Modifier.size(18.dp))
+            Spacer(modifier = Modifier.width(8.dp))
+            Text("Edit")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // title and link to Insights screen
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -143,28 +128,20 @@ fun HomeTab(navController: NavController) {
             Text("My Score", fontSize = 20.sp, fontWeight = FontWeight.Bold)
             TextButton(
                 onClick = {
-                    // navigate to the insights tab
                     navController.navigate(BottomNavItem.Insights.route) {
-                        // Xóa stack navigation để không quay lại Home khi bấm back
-                        popUpTo(navController.graph.startDestinationId) {
-                            saveState = true
-                        }
+                        popUpTo(navController.graph.startDestinationId) { saveState = true }
                         launchSingleTop = true
                         restoreState = true
                     }
-                },
-                modifier = Modifier.wrapContentWidth(),
+                }
             ) {
-                Text(
-                    "See all scores",
-                    color = Color(0xFF4CAF51),
-                    fontWeight = FontWeight.Medium)
+                Text("See all scores", color = Color(0xFF4CAF51), fontWeight = FontWeight.Medium)
             }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // placeholder image for food score visual
+        // Image
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
@@ -176,20 +153,20 @@ fun HomeTab(navController: NavController) {
                     .background(Color.LightGray)
             ) {
                 AsyncImage(
-                    model = imageUrl,
-                    contentDescription = "Random image from Picsum",
+                    model = imageUrl.value,
+                    contentDescription = "Random image",
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
                 )
             }
         }
 
-        // display loading message or score information
+        Spacer(modifier = Modifier.height(16.dp))
+
         if (isLoading) {
             Text("Loading scores...", fontSize = 16.sp)
         } else {
             user?.let {
-                // Row for Food Quality score with icon and value
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
@@ -197,37 +174,26 @@ fun HomeTab(navController: NavController) {
                     Box(
                         modifier = Modifier
                             .size(40.dp)
-                            .background(
-                                color = Color.LightGray.copy(alpha = 0.2f),
-                                shape = CircleShape
-                            ),
+                            .background(Color.LightGray.copy(alpha = 0.2f), shape = CircleShape),
                         contentAlignment = Alignment.Center
                     ) {
-                        Icon(
-                            Icons.Outlined.KeyboardArrowUp,
-                            contentDescription = "Score",
-                            tint = Color.DarkGray,
-                            modifier = Modifier.size(24.dp)
-                        )
+                        Icon(Icons.Outlined.KeyboardArrowUp, contentDescription = "Score", tint = Color.DarkGray)
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         "Your Food Quality score",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
-                        modifier = Modifier.weight(1f) // Thêm weight để chiếm không gian còn lại
+                        modifier = Modifier.weight(1f)
                     )
                     Text(
-                        "${user?.heifaTotalScore ?: 0}/100".format(it.heifaTotalScore),
+                        "${it.heifaTotalScore}/100",
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFF4CAF51)
                     )
                 }
-
-                // Other user info
                 Spacer(modifier = Modifier.height(8.dp))
-
             } ?: run {
                 Text("No user data found", fontSize = 16.sp)
             }
@@ -235,18 +201,14 @@ fun HomeTab(navController: NavController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // explanation of score
         Text("What is the Food Quality Score?", fontSize = 20.sp, fontWeight = FontWeight.Bold)
-
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
             "Your Food Quality Score provides a snapshot of how well your eating patterns align with established food guidelines, helping you identify both strengths and opportunities for improvement in your diet.",
             fontSize = 16.sp
         )
-
         Spacer(modifier = Modifier.height(8.dp))
-
         Text(
             "This personalized measurement considers various food groups including vegetables, fruits, whole grains, and proteins to give you practical insights for making healthier food choices.",
             fontSize = 16.sp
