@@ -25,6 +25,8 @@ class LoginViewModel : ViewModel() {
         }
     }
 
+    /*
+    //Not necessary, we authenticate using Google Auth
     fun login(userId: String, password: String, onSuccess: () -> Unit, onFailure: (String) -> Unit) {
         viewModelScope.launch {
             val patient = repository.getPatientById(userId)
@@ -36,6 +38,8 @@ class LoginViewModel : ViewModel() {
             }
         }
     }
+
+     */
     suspend fun getPhoneNumberByUserId(userId: String): String? {
         val patient = repository.getPatientById(userId)
         return patient?.phoneNumber

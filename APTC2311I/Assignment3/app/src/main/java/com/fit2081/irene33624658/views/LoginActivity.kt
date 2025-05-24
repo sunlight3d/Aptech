@@ -259,18 +259,8 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
                                 .addOnCompleteListener { task ->
                                     if (task.isSuccessful) {
                                         LoggerService.info("Firebase login successful: ${auth.currentUser?.uid}")
-                                        ToastService.showSuccess("Logged in with Firebase")
-
-                                        viewModel.login(
-                                            userId = id,
-                                            password = password,
-                                            onSuccess = {
-                                                context.startActivity(Intent(context, HomeActivity::class.java))
-                                            },
-                                            onFailure = {
-                                                ToastService.showError("Login succeeded on Firebase, but local auth failed.")
-                                            }
-                                        )
+                                        ToastService.showSuccess("Logged in with Firebase successfully")
+                                        context.startActivity(Intent(context, HomeActivity::class.java))
                                     } else {
                                         LoggerService.error("Firebase login failed", throwable = task.exception)
                                         ToastService.showError("Firebase login failed: ${task.exception?.message}")

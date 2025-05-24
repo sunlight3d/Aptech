@@ -329,7 +329,7 @@ fun RegisterScreen(
                             userId = userId,
                             name = name,
                             phoneNumber = phoneNumber,
-                            password = password,
+                            password = "",//password saved to Firebase Authentication for more secure !
                             confirmPassword = confirmPassword,
                             onSuccess = {
                                 LoggerService.debug("Register success in local DB, now creating Firebase account")
