@@ -112,7 +112,7 @@ fun SettingsTab(
                         settingsViewModel.logout {
                             LoggerService.info("User logged out", tag = "SettingsTab")
                             ToastService.showSuccess("Logged out successfully")
-                            val intent = Intent(context, WelcomeActivity::class.java).apply {
+                            val intent = Intent(context, LoginActivity::class.java).apply {
                                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             }
                             context.startActivity(intent)

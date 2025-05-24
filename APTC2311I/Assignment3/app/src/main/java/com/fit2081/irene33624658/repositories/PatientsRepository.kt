@@ -45,10 +45,6 @@ class PatientsRepository(private val context: Context) {
     fun saveLoginState(userId: String) {
         prefsHelper.saveLoginState(userId)
         prefsHelper.setFirstRunCompleted()
-        prefsHelper.saveFoodPreferences(listOf("Fruit", "Meat"))
-        prefsHelper.savePersona("Active")
-        prefsHelper.saveTimings("12:00", "22:30", "06:30")
-
     }
     fun clearLoginState() = prefsHelper.clearLoginState()
     fun isUserLoggedIn(): Boolean = prefsHelper.isUserLoggedIn()
