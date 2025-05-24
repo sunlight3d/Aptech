@@ -17,7 +17,7 @@ import com.fit2081.irene33624658.models.Patient
         FoodIntake::class,
         NutriCoachTip::class  // Thêm dòng này
     ],
-    version = 7,  // Incremented version
+    version = 8,  // Incremented version
     exportSchema = false
 )
 @TypeConverters(DateConverter::class)
