@@ -334,7 +334,6 @@ fun RegisterScreen(
                             onSuccess = {
                                 LoggerService.debug("Register success in local DB, now creating Firebase account")
                                 val sharedPrefsHelper = SharedPreferencesHelper(context)
-                                sharedPrefsHelper.clearAllData()
 
                                 val auth = com.google.firebase.auth.FirebaseAuth.getInstance()
                                 val email = "${phoneNumber}@fit2081.com"

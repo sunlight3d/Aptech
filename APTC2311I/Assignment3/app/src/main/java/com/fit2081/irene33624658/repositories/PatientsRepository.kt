@@ -42,7 +42,14 @@ class PatientsRepository(private val context: Context) {
     suspend fun isUserIdAvailable(id: String): Boolean = getPatientById(id) == null
 
     // ==== Login State ====
-    fun saveLoginState(userId: String) = prefsHelper.saveLoginState(userId)
+    fun saveLoginState(userId: String) {
+        prefsHelper.saveLoginState(userId)
+        prefsHelper.setFirstRunCompleted()
+        prefsHelper.saveFoodPreferences(listOf("Fruit", "Meat"))
+        prefsHelper.savePersona("Active")
+        prefsHelper.saveTimings("12:00", "22:30", "06:30")
+
+    }
     fun clearLoginState() = prefsHelper.clearLoginState()
     fun isUserLoggedIn(): Boolean = prefsHelper.isUserLoggedIn()
     fun getLoggedInUserId(): String? = prefsHelper.getLoggedInUserId()
@@ -58,4 +65,5 @@ class PatientsRepository(private val context: Context) {
     suspend fun getAverageHeifaFemale(): Double {
         return patientDao.getAverageHeifaFemale() ?: 0.0
     }
+
 }

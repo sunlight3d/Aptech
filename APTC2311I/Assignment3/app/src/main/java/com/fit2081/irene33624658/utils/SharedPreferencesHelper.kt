@@ -8,63 +8,8 @@ class SharedPreferencesHelper(context: Context) {
     private val sharedPref: SharedPreferences =
         context.getSharedPreferences("AppPreferences", Context.MODE_PRIVATE)
 
-    fun getSharedPreferences(): SharedPreferences {
-        return sharedPref
-    }
+    fun getSharedPreferences(): SharedPreferences = sharedPref
 
-    // For first run check
-    fun setFirstRunCompleted() {
-        sharedPref.edit() { putBoolean("is_first_run", false) }
-    }
-
-    fun isFirstRun(): Boolean {
-        return sharedPref.getBoolean("is_first_run", true)
-    }
-
-    // Existing food intake preferences methods
-    fun saveFoodPreferences(selectedFoods: List<String>) {
-        sharedPref.edit() {
-            putStringSet("selected_foods", selectedFoods.toSet())
-        }
-    }
-
-    fun savePersona(persona: String) {
-        sharedPref.edit() { putString("selected_persona", persona) }
-    }
-
-    fun saveTimings(biggestMeal: String, sleepTime: String, wakeUpTime: String) {
-        sharedPref.edit().apply {
-            putString("biggest_meal_time", biggestMeal)
-            putString("sleep_time", sleepTime)
-            putString("wake_up_time", wakeUpTime)
-            apply()
-        }
-    }
-
-    fun getBiggestMealTime(): String {
-        return sharedPref.getString("biggest_meal_time", "00:00") ?: "00:00"
-    }
-
-    fun getSleepTime(): String {
-        return sharedPref.getString("sleep_time", "00:00") ?: "00:00"
-    }
-
-    fun getWakeUpTime(): String {
-        return sharedPref.getString("wake_up_time", "00:00") ?: "00:00"
-    }
-
-    fun clearAllData() {
-        sharedPref.edit() { clear() }
-    }
-
-    fun getFoodPreferences(): List<String> {
-        return sharedPref.getStringSet("selected_foods", emptySet())?.toList() ?: emptyList()
-    }
-
-    fun getPersona(): String {
-        return sharedPref.getString("selected_persona", "") ?: ""
-    }
-    //Login
     fun saveLoginState(userId: String) {
         sharedPref.edit {
             putString("logged_in_user_id", userId)
@@ -81,11 +26,69 @@ class SharedPreferencesHelper(context: Context) {
         }
     }
 
-    fun isUserLoggedIn(): Boolean {
-        return sharedPref.getBoolean("is_logged_in", false)
+    fun isUserLoggedIn(): Boolean =
+        sharedPref.getBoolean("is_logged_in", false)
+
+    fun getLoggedInUserId(): String? =
+        sharedPref.getString("logged_in_user_id", null)
+
+    // === Modified user-based data ===
+    fun setFirstRunCompleted() {
+        val userId = getLoggedInUserId() ?: return
+        sharedPref.edit { putBoolean("${userId}_is_first_run", false) }
     }
 
-    fun getLoggedInUserId(): String? {
-        return sharedPref.getString("logged_in_user_id", null)
+    fun isFirstRun(): Boolean {
+        val userId = getLoggedInUserId() ?: return true
+        return sharedPref.getBoolean("${userId}_is_first_run", true)
+    }
+
+    fun saveFoodPreferences(selectedFoods: List<String>) {
+        val userId = getLoggedInUserId() ?: return
+        sharedPref.edit {
+            putStringSet("${userId}_selected_foods", selectedFoods.toSet())
+        }
+    }
+
+    fun getFoodPreferences(): List<String> {
+        val userId = getLoggedInUserId() ?: return emptyList()
+        return sharedPref.getStringSet("${userId}_selected_foods", emptySet())?.toList() ?: emptyList()
+    }
+
+    fun savePersona(persona: String) {
+        val userId = getLoggedInUserId() ?: return
+        sharedPref.edit {
+            putString("${userId}_selected_persona", persona)
+        }
+    }
+
+    fun getPersona(): String {
+        val userId = getLoggedInUserId() ?: return ""
+        return sharedPref.getString("${userId}_selected_persona", "") ?: ""
+    }
+
+    fun saveTimings(biggestMeal: String, sleepTime: String, wakeUpTime: String) {
+        val userId = getLoggedInUserId() ?: return
+        sharedPref.edit().apply {
+            putString("${userId}_biggest_meal_time", biggestMeal)
+            putString("${userId}_sleep_time", sleepTime)
+            putString("${userId}_wake_up_time", wakeUpTime)
+            apply()
+        }
+    }
+
+    fun getBiggestMealTime(): String {
+        val userId = getLoggedInUserId() ?: return "00:00"
+        return sharedPref.getString("${userId}_biggest_meal_time", "00:00") ?: "00:00"
+    }
+
+    fun getSleepTime(): String {
+        val userId = getLoggedInUserId() ?: return "00:00"
+        return sharedPref.getString("${userId}_sleep_time", "00:00") ?: "00:00"
+    }
+
+    fun getWakeUpTime(): String {
+        val userId = getLoggedInUserId() ?: return "00:00"
+        return sharedPref.getString("${userId}_wake_up_time", "00:00") ?: "00:00"
     }
 }
