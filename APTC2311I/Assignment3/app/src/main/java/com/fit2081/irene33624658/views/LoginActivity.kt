@@ -260,6 +260,7 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
                                     if (task.isSuccessful) {
                                         LoggerService.info("Firebase login successful: ${auth.currentUser?.uid}")
                                         ToastService.showSuccess("Logged in with Firebase successfully")
+                                        viewModel.saveLoginState(userId = id)
                                         context.startActivity(Intent(context, HomeActivity::class.java))
                                     } else {
                                         LoggerService.error("Firebase login failed", throwable = task.exception)

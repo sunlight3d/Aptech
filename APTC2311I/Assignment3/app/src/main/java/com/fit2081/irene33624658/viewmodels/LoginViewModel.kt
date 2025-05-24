@@ -24,7 +24,11 @@ class LoginViewModel : ViewModel() {
                 }
         }
     }
-
+    fun saveLoginState(userId: String) {
+        viewModelScope.launch {
+            repository.saveLoginState(userId)
+        }
+    }
     /*
     //Not necessary, we authenticate using Google Auth
     fun login(userId: String, password: String, onSuccess: () -> Unit, onFailure: (String) -> Unit) {
