@@ -49,10 +49,16 @@ fun NutriCoachTab(
             val patientRepo = PatientsRepository(context)
             val patient = patientRepo.getPatientById(userId)
 
-            val variationScore = patient?.fruitVariationsScore ?: 0.0
-            val serveSize = patient?.fruitServeSize ?: 0.0
+            var variationScore = patient?.fruitVariationsScore ?: 0.0
+            var serveSize = patient?.fruitServeSize ?: 0.0
             LoggerService.debug("fruitVariationsScore=$variationScore, fruitServeSize=$serveSize", tag = "NutriCoach")
-            showImage.value = variationScore < 2 && serveSize >= 2
+
+            /*
+            variationScore = 1.0
+            serveSize = 1.0
+             */
+            ToastService.show("variationScore = $variationScore, serveSize = $serveSize")
+            showImage.value = variationScore >= 2 && serveSize >= 2
 
         }
     }
@@ -74,7 +80,7 @@ fun NutriCoachTab(
 
     var showTipsDialog by remember { mutableStateOf(false) }
     var tipsText by remember { mutableStateOf("") }
-
+    val coroutineScope = rememberCoroutineScope() // ✅ Di chuyển ra ngoài FloatingActionButton
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
@@ -84,147 +90,6 @@ fun NutriCoachTab(
 
             Spacer(Modifier.height(16.dp))
 
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                TextField(
-                    value = text,
-                    onValueChange = {
-                        text = it
-                        viewModel.filterBy(it)
-                    },
-                    label = { Text("Fruit Name") },
-                    modifier = Modifier.weight(1f),
-                    colors = TextFieldDefaults.colors(
-                        focusedContainerColor = Color.White,
-                        unfocusedContainerColor = Color.White
-                    )
-                )
-
-                val coroutineScope = rememberCoroutineScope()
-
-                Button(
-                    onClick = {
-                        coroutineScope.launch {
-                            try {
-                                LoggerService.debug("Fetching fruit detail for: $text", tag = "NutriCoach")
-                                viewModel.fetchDetail(text)
-                            } catch (e: Exception) {
-                                LoggerService.error("Error fetching detail", throwable = e, tag = "NutriCoach")
-                                ToastService.showError("Failed to fetch details. Please try again.")
-                            }
-                        }
-                    },
-                    enabled = text.isNotBlank() && !isLoading,
-                    shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = Color.White
-                    ),
-                ) {
-                    if (isLoading) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(20.dp),
-                            color = Color.White
-                        )
-                    } else {
-                        Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = null
-                        )
-                    }
-                    Spacer(Modifier.width(4.dp))
-                    Text("Details")
-                }
-            }
-
-            Spacer(Modifier.height(16.dp))
-
-            // Detail card
-            if (isLoading) {
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            } else {
-                detail?.let { f ->
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = CardDefaults.cardColors(containerColor = Color.White)
-                    ) {
-                        Column(
-                            modifier = Modifier.padding(12.dp),
-                            verticalArrangement = Arrangement.spacedBy(4.dp)
-                        ) {
-                            listOf(
-                                "family" to f.family,
-                                "calories" to f.nutritions.calories.toString(),
-                                "fat" to f.nutritions.fat.toString(),
-                                "sugar" to f.nutritions.sugar.toString(),
-                                "carbohydrates" to f.nutritions.carbohydrates.toString(),
-                                "protein" to f.nutritions.protein.toString()
-                            ).forEach { (label, value) ->
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.SpaceBetween
-                                ) {
-                                    Text(label, fontSize = 14.sp)
-                                    Text(value, fontSize = 14.sp)
-                                }
-                                HorizontalDivider()
-                            }
-                        }
-                    }
-                }
-            }
-
-            Spacer(Modifier.height(16.dp))
-
-            Button(
-                onClick = {
-                    if (detail?.family != null &&
-                        detail?.nutritions?.calories != null &&
-                        detail?.nutritions?.fat != null &&
-                        detail?.nutritions?.sugar != null &&
-                        detail?.nutritions?.carbohydrates != null &&
-                        detail?.nutritions?.protein != null
-                    ) {
-                        LoggerService.info("Generating motivational message", tag = "NutriCoach")
-                        motivationViewModel.generateMotivationalMessage()
-                        showMotivationalText = true
-                    } else {
-                        LoggerService.warning("Detail info is incomplete or missing", tag = "NutriCoach")
-                        ToastService.showError("Please fetch fruit details first before generating a message.")
-                    }
-                },
-                shape = RoundedCornerShape(10.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = Color.White
-                ),
-                enabled = !isMotivationLoading
-            ) {
-                if (isMotivationLoading) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(20.dp),
-                        color = Color.White
-                    )
-                } else {
-                    Text("\u2661", fontSize = 28.sp, color = Color.White)
-                    Spacer(Modifier.width(4.dp))
-                    Text("Motivational Message (AI)")
-                }
-            }
-
-            if (showMotivationalText && motivationMessage.isNotBlank()) {
-                Spacer(Modifier.height(12.dp))
-                Text(
-                    text = motivationMessage,
-                    fontSize = 16.sp,
-                    lineHeight = 22.sp,
-                    modifier = Modifier.padding(8.dp)
-                )
-            }
             if (showImage.value) {
                 Spacer(modifier = Modifier.height(12.dp))
                 Card(
@@ -240,41 +105,181 @@ fun NutriCoachTab(
                         modifier = Modifier.fillMaxSize()
                     )
                 }
-            }
+            } else {
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    TextField(
+                        value = text,
+                        onValueChange = {
+                            text = it
+                            viewModel.filterBy(it)
+                        },
+                        label = { Text("Fruit Name") },
+                        modifier = Modifier.weight(1f),
+                        colors = TextFieldDefaults.colors(
+                            focusedContainerColor = Color.White,
+                            unfocusedContainerColor = Color.White
+                        )
+                    )
 
-        }
+                    val coroutineScope = rememberCoroutineScope()
 
-        val coroutineScope = rememberCoroutineScope() // ✅ Di chuyển ra ngoài FloatingActionButton
+                    Button(
+                        onClick = {
+                            coroutineScope.launch {
+                                try {
+                                    LoggerService.debug("Fetching fruit detail for: $text", tag = "NutriCoach")
+                                    viewModel.fetchDetail(text)
+                                } catch (e: Exception) {
+                                    LoggerService.error("Error fetching detail", throwable = e, tag = "NutriCoach")
+                                    ToastService.showError("Failed to fetch details. Please try again.")
+                                }
+                            }
+                        },
+                        enabled = text.isNotBlank() && !isLoading,
+                        shape = RoundedCornerShape(10.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = Color.White
+                        ),
+                    ) {
+                        if (isLoading) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(20.dp),
+                                color = Color.White
+                            )
+                        } else {
+                            Icon(
+                                imageVector = Icons.Default.Search,
+                                contentDescription = null
+                            )
+                        }
+                        Spacer(Modifier.width(4.dp))
+                        Text("Details")
+                    }
+                }
+                Spacer(Modifier.height(16.dp))
 
-        FloatingActionButton(
-            onClick = {
-                val userId = SharedPreferencesHelper(context).getLoggedInUserId()
-                if (userId != null) {
-                    val tipsFlow = motivationViewModel.getTipsForUser(userId)
-
-                    coroutineScope.launch {
-                        tipsFlow.collectLatest { tips ->
-                            if (tips.isNotEmpty()) {
-                                tipsText = tips.joinToString("\n\n") { "• ${it.message}" }
-                                showTipsDialog = true
-                            } else {
-                                ToastService.showShort("No tips found.")
+                // Detail card
+                if (isLoading) {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                } else {
+                    detail?.let { f ->
+                        Card(
+                            modifier = Modifier.fillMaxWidth(),
+                            colors = CardDefaults.cardColors(containerColor = Color.White)
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(12.dp),
+                                verticalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                listOf(
+                                    "family" to f.family,
+                                    "calories" to f.nutritions.calories.toString(),
+                                    "fat" to f.nutritions.fat.toString(),
+                                    "sugar" to f.nutritions.sugar.toString(),
+                                    "carbohydrates" to f.nutritions.carbohydrates.toString(),
+                                    "protein" to f.nutritions.protein.toString()
+                                ).forEach { (label, value) ->
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        horizontalArrangement = Arrangement.SpaceBetween
+                                    ) {
+                                        Text(label, fontSize = 14.sp)
+                                        Text(value, fontSize = 14.sp)
+                                    }
+                                    HorizontalDivider()
+                                }
                             }
                         }
                     }
-                } else {
-                    ToastService.showError("User not logged in")
                 }
-            },
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
-            shape = RoundedCornerShape(10.dp),
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(10.dp)
-        ) {
-            Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
-                Text("Show All Tips")
+
+                Spacer(Modifier.height(16.dp))
+
+                Button(
+                    onClick = {
+                        if (detail?.family != null &&
+                            detail?.nutritions?.calories != null &&
+                            detail?.nutritions?.fat != null &&
+                            detail?.nutritions?.sugar != null &&
+                            detail?.nutritions?.carbohydrates != null &&
+                            detail?.nutritions?.protein != null
+                        ) {
+                            LoggerService.info("Generating motivational message", tag = "NutriCoach")
+                            motivationViewModel.generateMotivationalMessage()
+                            showMotivationalText = true
+                        } else {
+                            LoggerService.warning("Detail info is incomplete or missing", tag = "NutriCoach")
+                            ToastService.showError("Please fetch fruit details first before generating a message.")
+                        }
+                    },
+                    shape = RoundedCornerShape(10.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = Color.White
+                    ),
+                    enabled = !isMotivationLoading
+                ) {
+                    if (isMotivationLoading) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(20.dp),
+                            color = Color.White
+                        )
+                    } else {
+                        Text("\u2661", fontSize = 28.sp, color = Color.White)
+                        Spacer(Modifier.width(4.dp))
+                        Text("Motivational Message (AI)")
+                    }
+                }
+
+                if (showMotivationalText && motivationMessage.isNotBlank()) {
+                    Spacer(Modifier.height(12.dp))
+                    Text(
+                        text = motivationMessage,
+                        fontSize = 16.sp,
+                        lineHeight = 22.sp,
+                        modifier = Modifier.padding(8.dp)
+                    )
+                }
+            }
+        }
+
+        if (!showImage.value) {
+            FloatingActionButton(
+                onClick = {
+                    val userId = SharedPreferencesHelper(context).getLoggedInUserId()
+                    if (userId != null) {
+                        val tipsFlow = motivationViewModel.getTipsForUser(userId)
+
+                        coroutineScope.launch {
+                            tipsFlow.collectLatest { tips ->
+                                if (tips.isNotEmpty()) {
+                                    tipsText = tips.joinToString("\n\n") { "• ${it.message}" }
+                                    showTipsDialog = true
+                                } else {
+                                    ToastService.showShort("No tips found.")
+                                }
+                            }
+                        }
+                    } else {
+                        ToastService.showError("User not logged in")
+                    }
+                },
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+                shape = RoundedCornerShape(10.dp),
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(10.dp)
+            ) {
+                Box(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+                    Text("Show All Tips")
+                }
             }
         }
         if (showTipsDialog) {
@@ -305,9 +310,6 @@ fun NutriCoachTab(
                 }
             )
         }
-
-
-
     }
 }
 

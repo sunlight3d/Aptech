@@ -342,7 +342,7 @@ fun RegisterScreen(
                                     .addOnCompleteListener { task ->
                                         if (task.isSuccessful) {
                                             LoggerService.info("Firebase user created successfully: ${auth.currentUser?.uid}")
-                                            ToastService.showSuccess("Registered & synced with Firebase")
+                                            ToastService.showSuccess("Firebase user created successfully")
                                             context.startActivity(Intent(context, LoginActivity::class.java))
                                         } else {
                                             val exception = task.exception

@@ -103,12 +103,6 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
     val scrollState = rememberScrollState()
     val isKeyboardVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
 
-    if (isInitialized && viewModel.isUserLoggedIn(context)) {
-        LoggerService.info("User already logged in, redirecting to FoodIntakeScreen")
-        context.startActivity(Intent(context, FoodIntakeScreen::class.java))
-        return
-    }
-
     var id by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var showError by remember { mutableStateOf(false) }
@@ -259,14 +253,16 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
                                 .addOnCompleteListener { task ->
                                     if (task.isSuccessful) {
                                         LoggerService.info("Firebase login successful: ${auth.currentUser?.uid}")
-                                        ToastService.showSuccess("Logged in with Firebase successfully")
+                                        ToastService.showSuccess("Login successfully")
                                         viewModel.saveLoginState(userId = id)
                                         context.startActivity(Intent(context, FoodIntakeScreen::class.java))
                                     } else {
+                                        // Ghi log lỗi bằng tiếng Anh (để debug)
                                         LoggerService.error("Firebase login failed", throwable = task.exception)
-                                        ToastService.showError("Firebase login failed: ${task.exception?.message}")
+                                        ToastService.showError("Wrong id or password, please login again")
                                     }
                                 }
+
                         } else {
                             ToastService.showError("Unable to get phone number for this user")
                         }
@@ -283,7 +279,12 @@ fun LoginScreen(viewModel: LoginViewModel = viewModel()) {
                 contentColor = Color.White
             )
         ) {
+            /*
+            phone:61436567336	id:24	2.5	3.75
+            phone: 61436567335	id:17	1.67	1.59
+            * */
             Text("Continue", fontSize = 16.sp)
+
         }
 
         Spacer(modifier = Modifier.height(16.dp))

@@ -16,14 +16,16 @@ class LoginViewModel : ViewModel() {
     fun initRepository(context: Context) {
         repository = PatientsRepository(context)
         viewModelScope.launch {
-            // collect flow Patients rồi map sang userId
             repository
                 .getAllPatients()
                 .collect { listOfPatients ->
-                    _patientIds.value = listOfPatients.map { it.userId }
+                    _patientIds.value = listOfPatients
+                        .map { it.userId }
+                        .sortedBy { it.toIntOrNull() ?: Int.MAX_VALUE } // sắp xếp theo số
                 }
         }
     }
+
     fun saveLoginState(userId: String) {
         viewModelScope.launch {
             repository.saveLoginState(userId)

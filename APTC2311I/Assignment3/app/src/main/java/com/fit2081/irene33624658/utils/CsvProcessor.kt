@@ -9,6 +9,7 @@ object CsvProcessor {
         //call 1 time, first time !
         //read csv file, then insert to RoomDB
         val patients = CsvReader.readPatientsFromCsv(context).map { user ->
+            print("test");
             Patient(
                 userId = user.userId,
                 phoneNumber = user.phoneNumber,

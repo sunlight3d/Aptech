@@ -31,7 +31,6 @@ class PatientsRepository(private val context: Context) {
     // ==== Patient CRUD ====
     suspend fun registerPatient(patient: Patient) = patientDao.insert(patient)
     suspend fun updatePatient(patient: Patient) {
-        print("tressst")
         patientDao.update(patient)
     }
     suspend fun deletePatient(patient: Patient) = patientDao.delete(patient)
