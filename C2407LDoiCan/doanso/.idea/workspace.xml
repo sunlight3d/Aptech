@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f819258b-3e34-4ca4-9807-52956a014823" name="Changes" comment="" />
+    <list default="true" id="f819258b-3e34-4ca4-9807-52956a014823" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,7 +32,10 @@
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "master",
     "onboarding.tips.debug.path": "C:/code/Aptech/C2407LDoiCan/doanso/src/main/java/com/aptech/doanso/Main.java",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "editor.preferences.fonts.default"
   }
 }]]></component>
   <component name="RunManager">
