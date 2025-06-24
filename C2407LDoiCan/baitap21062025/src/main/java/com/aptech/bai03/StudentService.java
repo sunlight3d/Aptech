@@ -47,4 +47,46 @@ public class StudentService {
     public void addStudent() {
         students.add(Student.input());
     }
+    public void showAllStudents() {
+        for(Student student: students) {
+            student.displayInfo();
+        }
+    }
+    public void showMaxGpaStudent() {
+        double maxGPA = Double.MIN_VALUE;
+        Student studentWithMaxGpa = null;
+        for(Student student: students) {
+            maxGPA = student.getGpa() > maxGPA ? student.getGpa() : maxGPA;
+            studentWithMaxGpa = student.getGpa() == maxGPA ? student:studentWithMaxGpa;
+        }
+        if(studentWithMaxGpa != null) {
+            System.out.println("Student with max gpa: ");
+            studentWithMaxGpa.displayInfo();
+        }
+    }
+    public void filterStudents() {
+        System.out.println("Enter gpa to filter: ");
+        double desiredGPA = (new Scanner(System.in)).nextDouble();
+        ArrayList<Student> filteredStudents = new ArrayList<>();
+        for(Student student: students) {
+            if(student.getGpa() >= desiredGPA) {
+                filteredStudents.add(student);
+                student.displayInfo();
+            }
+        }
+    }
+    public void sortStudents() {
+        for(int i = 0; i < students.size(); i++) {
+            for(int j = i + 1; j < students.size(); j++) {
+                Student studentA = students.get(i);
+                Student studentB = students.get(j);
+                if(studentA.getGpa() < studentB.getGpa()) {
+                    Student studentX = studentA;
+                    studentA = studentB;
+                    studentB = studentX;
+                }
+            }
+        }
+        showAllStudents();
+    }
 }
