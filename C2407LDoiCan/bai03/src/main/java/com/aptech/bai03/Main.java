@@ -27,6 +27,8 @@ public class Main {
         Database db1 = Database.getInstance();
         Database db2 = Database.getInstance();
         Database db3 = Database.getInstance();
+        //Customer mrC = new Customer().builder().id(1).name("hoang").address("ddee").build()
+        //lombok
 
     }
 }

@@ -12,6 +12,13 @@ public class Customer {
         this.address = address;
         this.age = age;
     }
+    public Customer(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    //100 fields =
+    //Builder pattern
     //methods
 
     public Integer getId() {
