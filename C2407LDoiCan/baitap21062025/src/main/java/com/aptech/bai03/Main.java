@@ -8,6 +8,13 @@ import java.util.Scanner;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
+        final Student studentA = new Student();
+        //volatile x ..
+        studentA.setFullName("nguyen van a");
+        //if(x == x) {}
+
+        studentA.setFullName("nguyen van b");
+        //studentA = new Student();//final = "not re-assign, but mutable"
 
         int choice = 0;
         StudentService studentService = new StudentService();
