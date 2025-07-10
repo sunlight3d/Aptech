@@ -1,10 +1,38 @@
 package com.aptech.myapp;
 
+import com.aptech.myapp.models.Customer;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static final String BASE_URL = "http://localhost:3000";
     public static void main(String[] args) {
+        Customer customerA = new Customer();//default constructor
+        //customerA.name = "Nguyen Van A";//private
+        /*
+        customerA.setName("Nguyen Van A");
+        customerA.setAge(18);
+        customerA.setAddress("Nha a ngo b");
+        */
+        Customer customerB = new Customer(2,"Nguyen Van B", 20, "nha x ngo y");
+        Customer customerX = customerB;
+        customerB.setName("nguyen van x");
+        //customerX.getName() => nguyen van x
+        System.out.println(customerB);
+        /*
+        Builder pattern su dung Lombok
+        Customer customerC = Customer.builder()
+                                     .id(3)
+                                    .address("nha a ngo bcee")
+                                     .name("Nguyen Van C")
+                                     .build();
+         */
+
+
+        //...
+        //all arguments constructor
+    }
+    public static void bai01() {
         int x = 1;
         int y = 2;
         int sum = x + y;
