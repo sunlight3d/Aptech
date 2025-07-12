@@ -1,12 +1,67 @@
 package com.aptech.myapp;
 
 import com.aptech.myapp.models.Customer;
+import com.aptech.myapp.models.Point;
+
+import java.util.ArrayList;
+import java.util.function.Consumer;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static final String BASE_URL = "http://localhost:3000";
     public static void main(String[] args) {
+        int[] someNumbers = new int[4];
+        someNumbers[0] = 7;
+        someNumbers[1] = 8;
+        someNumbers[2] = 10;
+        someNumbers[3] = 9;
+        //someNumbers[10] = 100;
+        //System.out.println(someNumbers[5]);
+        System.out.println("haha");
+        float[] someFloats = {};
+        //someFloats[0] = 100;
+        int sum = 0;
+        final int MATRIX_SIZE = 10;
+        double[][] someDoubles = new double[MATRIX_SIZE][MATRIX_SIZE];
+        for(int i = 0; i < someDoubles.length; i++) {
+            for(int j = 0; j < someDoubles.length; j++) {
+                sum += 1;
+                //someDoubles[i][j] = sum;
+                //someDoubles[i][j] = i + j;
+                someDoubles[i][j] = (i == ((MATRIX_SIZE -1 -j)) || (i == j)) ? 1 : 0;
+
+            }
+        }
+        System.out.println("Ouput: ");
+        for(int i = 0; i < someDoubles.length; i++) {
+            System.out.println();
+            for(int j = 0; j < someDoubles.length; j++) {
+                //System.out.printf("Item[%d, %d] = %d \n", i, j, (int)someDoubles[i][j]);
+                //System.out.printf("%d ", (int)someDoubles[i][j]);
+                System.out.printf("%d%d  ", i,j);
+            }
+        }
+        ArrayList<Point> points = new ArrayList<>();
+        points.add(new Point(1,3));
+        points.add(new Point(2,7));
+        points.add(new Point(4,8));
+        points.add(new Point(7,9));
+        /*
+        for(int i = 0; i < points.size(); i++) {
+            System.out.println(points.get(i));
+        }*/
+        /*
+        for(Point point: points){
+            System.out.println(point);
+        }
+         */
+        points.forEach((Point point) -> {
+            System.out.println(point);
+        });
+    }
+
+    public static void bai03() {
         Customer customerA = new Customer();//default constructor
         //customerA.name = "Nguyen Van A";//private
         /*
