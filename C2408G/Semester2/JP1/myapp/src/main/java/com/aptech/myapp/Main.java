@@ -2,6 +2,7 @@ package com.aptech.myapp;
 
 import com.aptech.myapp.models.Customer;
 import com.aptech.myapp.models.Point;
+import com.aptech.myapp.models.Product;
 
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -11,6 +12,13 @@ import java.util.function.Consumer;
 public class Main {
     public static final String BASE_URL = "http://localhost:3000";
     public static void main(String[] args) {
+        //bai04();
+        Product product = new Product();
+        //product.name
+    }
+
+
+    public static void bai04() {
         int[] someNumbers = new int[4];
         someNumbers[0] = 7;
         someNumbers[1] = 8;
@@ -60,7 +68,6 @@ public class Main {
             System.out.println(point);
         });
     }
-
     public static void bai03() {
         Customer customerA = new Customer();//default constructor
         //customerA.name = "Nguyen Van A";//private
