@@ -1,5 +1,6 @@
 package com.aptech.myapp;
 
+import com.aptech.myapp.interfaces.ICalculation;
 import com.aptech.myapp.models.Customer;
 import com.aptech.myapp.models.Point;
 import com.aptech.myapp.models.Product;
@@ -15,6 +16,18 @@ public class Main {
         //bai04();
         Product product = new Product();
         //product.name
+        //ICalculation xx = new ICalculation();//error
+        ICalculation xx = new ICalculation() {
+            @Override
+            public int sum(int x, int y) {
+                return 0;
+            }
+
+            @Override
+            public int multiply(int x, int y, int z) {
+                return 0;
+            }
+        };
     }
 
 
