@@ -13,11 +13,18 @@ public class ElectronicProduct extends Product{
     @Override
     public void input() {
         super.input();
+    }
+
+    @Override
+    public void update() {
+        super.update();
         System.out.println("Enter warrantyMonths: ");
         int warrantyMonths = (new Scanner(System.in)).nextInt();
 
         System.out.println("Enter brand: ");
         String brand = (new Scanner(System.in)).next();
+        setWarrantyMonths(warrantyMonths);
+        setBrand(brand);
     }
 
     public ElectronicProduct() {}
@@ -46,5 +53,13 @@ public class ElectronicProduct extends Product{
 
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+                "warrantyMonths=" + warrantyMonths +
+                ", brand='" + brand;
+
     }
 }

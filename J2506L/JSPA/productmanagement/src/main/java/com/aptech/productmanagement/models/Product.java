@@ -2,7 +2,7 @@ package com.aptech.productmanagement.models;
 
 import java.util.Scanner;
 
-public abstract class Product {
+public abstract class Product{
     protected String id;
     protected String name;
     protected double price;
@@ -17,16 +17,22 @@ public abstract class Product {
         this.name = name;
         this.price = price;
     }
+    private Scanner getScanner() {
+        return new Scanner(System.in);
+    }
     public void input() {
         System.out.println("Enter id: ");
-        String id = (new Scanner(System.in)).next();
+        String id = getScanner().next();
+        this.setId(id);
+        update();
+    }
+    public void update() {
 
         System.out.println("Enter name: ");
-        String name = (new Scanner(System.in)).next();
+        String name = getScanner().next();
 
         System.out.println("Enter price: ");
         double price = (new Scanner(System.in)).nextDouble();
-        this.setId(id);
         this.setName(name);
         this.setPrice(price);
     }
@@ -52,5 +58,14 @@ public abstract class Product {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return
+                "id='" + id +
+                ", name='" + name +
+                ", price=" + price + " ";
+
     }
 }

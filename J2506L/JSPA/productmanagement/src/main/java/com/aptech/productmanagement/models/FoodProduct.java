@@ -14,9 +14,12 @@ public class FoodProduct extends Product {
         super.input();
         System.out.println("Enter expiryDate(mm-dd-YYYY):");
         String expiryDate = (new Scanner(System.in)).next();
-        
-        System.out.println("Enter brand: ");
-        String brand = (new Scanner(System.in)).next();
+
+        System.out.println("Enter weight: ");
+        double weight = (new Scanner(System.in)).nextDouble();
+
+        setExpiryDate(expiryDate);
+        setWeight(weight);
     }
     public FoodProduct() {}
     public FoodProduct(String id,
@@ -44,5 +47,13 @@ public class FoodProduct extends Product {
 
     public void setWeight(double weight) {
         this.weight = weight;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString()+
+                ",expiryDate='" + expiryDate +
+                ", weight=" + weight;
+
     }
 }
