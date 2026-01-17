@@ -8,11 +8,11 @@
 		<version>4.0.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.aptech</groupId>
-	<artifactId>projectA</artifactId>
+	<groupId>com.projecta</groupId>
+	<artifactId>projecta</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>projectA</name>
-	<description>Aptech project for training</description>
+	<name>projecta</name>
+	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
 		<license/>

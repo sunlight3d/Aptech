@@ -141,7 +141,7 @@ public class Main {
                     }
                      */
                     //GOOD !
-                    
+
                     ArrayList<Product> filteredProducts =  products.stream()
                             .filter((Product product) -> {
                                 return product.getName().toLowerCase().contains(filteredText.trim().toLowerCase());

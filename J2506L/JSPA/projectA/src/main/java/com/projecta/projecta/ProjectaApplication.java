@@ -1,13 +1,13 @@
-package com.aptech.projectA;
+package com.projecta.projecta;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ProjectAApplication {
+public class ProjectaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ProjectAApplication.class, args);
-
+		SpringApplication.run(ProjectaApplication.class, args);
 	}
+
 }
