@@ -19,19 +19,20 @@ public class ProductController {
 
     @GetMapping("show_all")
     //http://localhost:8086/products/show_all?page=1&size=10
-    public ArrayList getAllProducts(
+    public String getAllProducts(
             @RequestParam int page,
             @RequestParam int size
     ) {
         //tra ve 1 array co 2 san pham
-        ArrayList products = new ArrayList<>();
-        products.add(Product.builder()
-                .name("iphone 16")
-                .price(123.0)
-                .id(1)
-                .build());
-        products.add(new Product(2,"laptop xiaomi", 236));
-        return products;
+//        ArrayList products = new ArrayList<>();
+//        products.add(Product.builder()
+//                .name("iphone 16")
+//                .price(123.0)
+//                .id(1)
+//                .build());
+//        products.add(new Product(2,"laptop xiaomi", 236));
+//        return products;
+        return "ok";
     }
     @PostMapping("")
     public String insert() {

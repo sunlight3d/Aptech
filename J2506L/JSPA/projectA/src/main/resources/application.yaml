@@ -1,5 +1,21 @@
 server:
   port: 8086
+
 spring:
   application:
     name: projecta
+
+  datasource:
+    url: jdbc:mysql://localhost:3307/j2506l?useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: Abc123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+#        dialect: org.hibernate.dialect.MySQLDialect
