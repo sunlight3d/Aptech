@@ -1,6 +1,6 @@
 package com.projecta.projecta.validations;
 
-import com.projecta.projecta.dtos.requests.UserRegisterRequest;
+import com.projecta.projecta.dtos.requests.user.UserRegisterRequest;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 

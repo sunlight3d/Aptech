@@ -1,9 +1,8 @@
 package com.projecta.projecta.controllers;
 
-import com.projecta.projecta.dtos.requests.UserRegisterRequest;
+import com.projecta.projecta.dtos.requests.user.UserRegisterRequest;
 import com.projecta.projecta.models.User;
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

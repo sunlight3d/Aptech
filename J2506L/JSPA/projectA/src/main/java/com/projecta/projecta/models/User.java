@@ -1,6 +1,6 @@
 package com.projecta.projecta.models;
 
-import com.projecta.projecta.dtos.requests.UserRegisterRequest;
+import com.projecta.projecta.dtos.requests.user.UserRegisterRequest;
 import lombok.*;
 
 @Getter

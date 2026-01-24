@@ -1,4 +1,4 @@
-package com.projecta.projecta.dtos.requests;
+package com.projecta.projecta.dtos.requests.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.projecta.projecta.validations.PasswordMatches;
@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.hibernate.validator.constraints.Length;
 
 @AllArgsConstructor
 @NoArgsConstructor

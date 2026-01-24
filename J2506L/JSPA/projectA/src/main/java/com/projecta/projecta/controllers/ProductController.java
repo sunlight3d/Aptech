@@ -1,42 +1,65 @@
 package com.projecta.projecta.controllers;
 
+import com.projecta.projecta.dtos.requests.product.ProductRequestDTO;
 import com.projecta.projecta.models.Product;
+import com.projecta.projecta.services.ProductService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
-@RequestMapping("/products")
-
+@RequestMapping("/api/products")
+@RequiredArgsConstructor
 public class ProductController {
-    //Client gui request => server tra ve text
-    //http://localhost:8086/products/10
-    @GetMapping("{id}")
-    public String getProductWithId(@PathVariable Integer id) {
-        return "chao ban, toi chua lam gi ca";
-    }
-
-    @GetMapping("show_all")
-    //http://localhost:8086/products/show_all?page=1&size=10
-    public String getAllProducts(
-            @RequestParam int page,
-            @RequestParam int size
+    private final ProductService service;
+    @PostMapping()
+    //http://localhost:8086/api/products
+    public ResponseEntity<Product> create(
+            @Valid @RequestBody ProductRequestDTO dto
     ) {
-        //tra ve 1 array co 2 san pham
-//        ArrayList products = new ArrayList<>();
-//        products.add(Product.builder()
-//                .name("iphone 16")
-//                .price(123.0)
-//                .id(1)
-//                .build());
-//        products.add(new Product(2,"laptop xiaomi", 236));
-//        return products;
-        return "ok";
+        Product product = new Product();
+        product.setName(dto.getName());
+        product.setQuantity(dto.getQuantity());
+        product.setPrice(dto.getPrice());
+        product.setStatus(dto.getStatus());
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(service.save(product));
     }
-    @PostMapping("")
-    public String insert() {
-        return "insert product";
+    // 200 OK
+    @GetMapping
+    public ResponseEntity<List<Product>> getAll() {
+        return ResponseEntity.ok(service.findAll());
     }
-    //Client gui request => server tra ve danh sach san pham
+    // 200 / 404
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.findById(id));
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> update(
+            @PathVariable Long id,
+            @Valid @RequestBody ProductRequestDTO dto
+    ) {
+        Product product = service.findById(id);
+        product.setName(dto.getName());
+        product.setQuantity(dto.getQuantity());
+        product.setPrice(dto.getPrice());
+        product.setStatus(dto.getStatus());
+
+        return ResponseEntity.ok(service.save(product));
+    }
+    // 204 NO CONTENT
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
