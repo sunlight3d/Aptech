@@ -18,14 +18,14 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "name", nullable = false, length = 150, unique = true)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @Min(0)
     @Column(nullable = false)
     private int quantity;
 
-    @Enumerated(EnumType.STRING)
+    //@Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
     private String status = Status.ACTIVE;
 

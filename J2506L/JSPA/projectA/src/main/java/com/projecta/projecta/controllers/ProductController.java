@@ -18,8 +18,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService service;
-    @PostMapping()
     //http://localhost:8086/api/products
+    @PostMapping
     public ResponseEntity<Product> create(
             @Valid @RequestBody ProductRequestDTO dto
     ) {
@@ -31,8 +31,9 @@ public class ProductController {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(service.save(product));
+                .body(service.create(product));
     }
+
     // 200 OK
     @GetMapping
     public ResponseEntity<List<Product>> getAll() {
@@ -48,14 +49,15 @@ public class ProductController {
             @PathVariable Long id,
             @Valid @RequestBody ProductRequestDTO dto
     ) {
-        Product product = service.findById(id);
+        Product product = new Product();
         product.setName(dto.getName());
         product.setQuantity(dto.getQuantity());
         product.setPrice(dto.getPrice());
         product.setStatus(dto.getStatus());
 
-        return ResponseEntity.ok(service.save(product));
+        return ResponseEntity.ok(service.update(id, product));
     }
+
     // 204 NO CONTENT
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
@@ -63,3 +65,38 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 }
+/*
+curl -i -X POST http://localhost:8086/api/products \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Iphone 15",
+    "quantity": 10,
+    "status": "ACTIVE",
+    "price": 25000000
+  }'
+
+curl -i -X POST http://localhost:8086/api/products \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "",
+    "quantity": -1,
+    "status": "ENABLE",
+    "price": null
+  }'
+
+curl -i -X GET http://localhost:8086/api/products
+
+curl -X GET http://localhost:8086/api/products/1
+
+curl -X PUT http://localhost:8086/api/products/1 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Iphone 15 Pro",
+    "quantity": 20,
+    "status": "INACTIVE",
+    "price": 30000000
+  }'
+
+curl -X DELETE http://localhost:8086/api/products/2
+
+* */
