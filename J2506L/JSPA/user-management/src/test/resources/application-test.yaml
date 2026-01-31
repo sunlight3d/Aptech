@@ -1,0 +1,26 @@
+server:
+  port: 0   # random port khi chạy test
+
+spring:
+  application:
+    name: user-management-test
+
+  datasource:
+    url: jdbc:h2:mem:user_management_test;DB_CLOSE_DELAY=-1;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop   # mỗi test tạo DB mới, xong là xoá
+    show-sql: false
+
+  h2:
+    console:
+      enabled: false
+
+  output:
+    ansi:
+      enabled: NEVER

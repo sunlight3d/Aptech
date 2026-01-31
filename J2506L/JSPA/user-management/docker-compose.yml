@@ -1,0 +1,52 @@
+services:
+  mysql:
+    image: mysql:9.6.0
+    container_name: mysql-user-management
+    restart: always
+
+    environment:
+      MYSQL_ROOT_PASSWORD: Abc123456789
+      MYSQL_DATABASE: user_management
+    command:
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci  
+    ports:
+      - "3309:3306"
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -p$$MYSQL_ROOT_PASSWORD"]
+      interval: 10s #👉 Cứ 10 giây Docker chạy healthcheck 1 lần
+      timeout: 5s #Nếu lệnh healthcheck chạy quá 5 giây → Docker coi là FAILED
+      retries: 5 #Nếu 5 lần liên tiếp FAILED → Container bị đánh dấu UNHEALTHY
+      start_period: 30s #Trong 30 giây đầu: Dù healthcheck FAIL, Docker KHÔNG tính là lỗi
+    volumes:
+      - mysql_user_management:/var/lib/mysql    
+  spring-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    #image: sunlight4d/user-management:latest #khi nào build CI/CD thì nhớ bật dòng này lên và xóa "build" đi
+    container_name: user-management-app
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+    ports:
+      - "7080:8080"
+
+    environment:
+      SERVER_PORT: ${SERVER_PORT}
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+
+
+volumes:
+  mysql_user_management:
+#Chạy thử intelliJ, chỉ cần bật mysql service:
+#docker compose -f docker-compose.yml up -d --build mysql
+
+#Khi cần chạy toàn bộ(spring_app + mysql) trên Docker mới cần:
+#docker compose --env-file .env.docker -f docker-compose.yml up -d --build
+
+#docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Ports}}"
