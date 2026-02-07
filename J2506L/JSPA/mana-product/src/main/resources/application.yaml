@@ -1,0 +1,14 @@
+server:
+  port: 8099
+spring:
+  application:
+    name: mana-product
+  datasource:
+    url: jdbc:mysql://localhost:4306/mana_product #Java Database Connectivity
+    username: root
+    password: #máy ở trường pass có thể trống
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa: #Java Persistence Api
+    hibernate:
+      #ddl = Data Definition Language
+      ddl-auto: update #only exam
